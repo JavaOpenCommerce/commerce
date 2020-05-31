@@ -1,0 +1,2 @@
+# model
+Core domain model
