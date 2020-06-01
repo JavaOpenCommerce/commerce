@@ -1,7 +1,7 @@
 ## Gradle build directory:
 build
 ## Gradle wrapper directory. Shouldn't be need to update it on the daily basis
-.gradle
+/.gradle/
 
 ## IDE config file/directory:
 .idea
