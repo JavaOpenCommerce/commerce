@@ -1,0 +1,3 @@
+[submodule "core"]
+	path = model
+	url = git@github.com:JavaOpenCommerce/model.git
