@@ -17,5 +17,6 @@ include 'services:webservice'
 include 'model'
 include 'core'
 include 'boot'
+include 'quarkus'
 rootProject.name = 'jcc'
 
