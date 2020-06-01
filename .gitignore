@@ -1,3 +1,10 @@
+## Gradle build directory:
+build
+
+## IDE config file/directory:
+.idea
+*.iml
+
 # Compiled class file
 *.class
 
