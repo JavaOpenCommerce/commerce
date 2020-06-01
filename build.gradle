@@ -1,6 +1,6 @@
 plugins {
     id 'scala'
-    id 'io.quarkus'
+    id 'io.quarkus' version '1.4.2.Final'
 }
 
 repositories {
@@ -23,7 +23,7 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
 }
 
-group 'pl.kochamkoty.jcc'
+group 'pl.kochamkoty.jcc.quarkus'
 version '1.0.0-SNAPSHOT'
 
 compileScala {
