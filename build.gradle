@@ -1,13 +1,7 @@
 plugins {
-    id 'scala'
+    id 'java'
     id 'io.quarkus' version '1.4.2.Final'
 }
-
-repositories {
-     mavenLocal()
-     mavenCentral()
-}
-
 dependencies {
     implementation 'io.quarkus:quarkus-reactive-pg-client'
     implementation 'io.quarkus:quarkus-oidc'
@@ -23,19 +17,18 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
 }
 
-group 'pl.kochamkoty.jcc.quarkus'
+group 'com.example.jcc.quarkus'
 version '1.0.0-SNAPSHOT'
-
-compileScala {
-    scalaCompileOptions.encoding = 'UTF-8'
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
+dependencies {
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+}
+
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
