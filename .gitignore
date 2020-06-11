@@ -4,12 +4,13 @@ build
 /.gradle/
 
 ## IDE config file/directory:
+http
 .idea
 *.iml
 
 # Compiled class file
 *.class
-
+lombok.config
 # Log file
 *.log
 

@@ -1,0 +1,30 @@
+= Purpose
+:diagramsdir: diagrams
+:imagesdir: images
+:author: Augustyn
+:docdate: 2020-06-11
+
+Aim of the project is to create an easy to use commerce application, as well as teach programming alongside.
+
+== Documentation requirements
+- graphviz
+
+=== Linux, debian like
+
+In order to install `graphviz` on Debian based distributions, execute:
+
+[source]
+----
+sudo apt install graphviz
+----
+
+=== Windows
+
+TBD... or use Linux.
+
+== Readme
+include::../README.md[]
+
+== Database
+
+include::{diagramsdir}/database.model.adoc[]

@@ -1,7 +1,9 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'io.freefair.lombok' version "5.1.0"
+    id 'io.freefair.lombok' version '5.1.0'
+    id 'org.asciidoctor.jvm.convert' version '3.1.0'
+    id 'org.asciidoctor.jvm.gems' version '3.1.0'
 }
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
@@ -31,3 +33,48 @@ subprojects {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+asciidoctor {
+    sourceDir file("docs")
+
+    baseDirFollowsSourceFile()
+
+    resources {
+        from("${sourceDir}/images") {
+            include '**'
+            into 'images'
+        }
+    }
+    outputDir file("build/docs")
+    attributes 'build-gradle': file('build.gradle'),
+            'endpoint-url': 'http://example.org',
+            'source-highlighter': 'coderay',
+            'coderay-css': 'style',
+            'imagesdir': './images',
+            'toc': 'left',
+            'icons': 'font',
+            'setanchors': '',
+            'idprefix': 'slide-',
+            'idseparator': '-',
+            'docinfo': 'shared'
+}
+
+/**
+ * AsciidoctorJ, enables diagrams in asciidoctor documentation.
+ */
+asciidoctorj {
+    modules {
+        diagram.use()
+        diagram.version '1.5.16'
+    }
+}
+/**
+ * OpenJDK 9/10 Mac issue:
+ * Caused by: java.lang.UnsatisfiedLinkError: /path/to/openjdk10/lib/libfontmanager.dylib: dlopen(/path/to/openjdk10/lib/libfontmanager.dylib, 1): Library not loaded: /Users/jenkins/workspace/openjdk10_build_x86-64_macos/openjdk/installedfreetype/lib/libfreetype.6.dylib
+ *   Referenced from: /path/to/openjdk10/lib/libfontmanager.dylib
+ *   Reason: image not found
+ * The solution is to install freetype via HomeBrew or MacPorts. You might also need to do something (ridiculous) such as
+ *
+ * $ sudo mkdir -p /Users/jenkins/workspace/openjdk10_build_x86-64_macos/openjdk/installedfreetype
+ * $ sudo ln -s /opt/local/lib /Users/jenkins/workspace/openjdk10_build_x86-64_macos/openjdk/installedfreetype/lib
+ */
