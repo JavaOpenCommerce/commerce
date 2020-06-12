@@ -15,7 +15,6 @@ public class User extends BaseEntity {
     private String lastName;
     private String email;
     private Set<Address> addresses = new HashSet<>();
-    private Order currentOrder = new Order();
     private UserType userType;
 
 }
