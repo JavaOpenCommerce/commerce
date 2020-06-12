@@ -1,4 +1,4 @@
-package com.example.quarkus.app.entites;
+package com.example.database.entity;
 
 import lombok.Getter;
 import lombok.Setter;
