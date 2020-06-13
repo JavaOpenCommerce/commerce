@@ -1,20 +1,35 @@
 package com.example.database.entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.Email;
 import java.util.Set;
 
+@Entity
 @Getter
-@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 
     private String firstName;
     private String lastName;
+
+    @Email
     private String email;
-    private Set<Address> addresses = new HashSet<>();
-    private UserType userType;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<UserType> permissions;
 
 }
