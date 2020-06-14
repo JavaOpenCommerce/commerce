@@ -11,7 +11,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.Email;
 import java.util.Set;
 
 @Entity
@@ -25,7 +24,6 @@ public class User extends BaseEntity {
     private String firstName;
     private String lastName;
 
-    @Email
     private String email;
 
     @ElementCollection
