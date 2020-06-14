@@ -29,15 +29,17 @@ public class User extends BaseEntity {
 
     private String email;
 
+    @Builder.Default
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private Set<UserType> permissions = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.DETACH,
             CascadeType.MERGE,
-            CascadeType.REFRESH})
+            CascadeType.REFRESH}, mappedBy = "user")
     private Set<Address> addresses = new HashSet<>();
 
 }

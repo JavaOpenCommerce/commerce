@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -15,9 +14,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ShippingMethod extends BaseEntity {
+public class Producer extends BaseEntity {
 
     private String name;
-    private BigDecimal price;
-    private int waitPeriod;
+    private String description;
+    private String logoUrl;
 }

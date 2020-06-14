@@ -12,6 +12,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import static com.example.database.entity.OrderStatus.NEW;
+import static com.example.database.entity.PaymentStatus.BEFORE_PAYMENT;
+
 @Entity
 @Getter
 @Builder
@@ -24,20 +27,16 @@ public class OrderDetails extends BaseEntity {
     @JoinColumn(name = "address_id")
     private Address shippingAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "shippingmethod_id")
-    private ShippingMethod shippingMethod;
-
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus = PaymentStatus.BEFORE_PAYMENT;
+    private PaymentStatus paymentStatus = BEFORE_PAYMENT;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus = OrderStatus.NEW;
+    private OrderStatus orderStatus = NEW;
 
     @ManyToOne
     private User user;

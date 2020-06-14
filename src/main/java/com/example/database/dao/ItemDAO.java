@@ -2,54 +2,27 @@ package com.example.database.dao;
 
 import com.example.database.entity.Item;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Optional.ofNullable;
+public interface ItemDAO {
+    Optional<Item> getById(Long id);
 
-@ApplicationScoped
-public class ItemDAO implements DAO<Item> {
+    List<Item> getAll();
 
-    private final EntityManager em;
+    Item save(Item item);
 
-    public ItemDAO(EntityManager em) {this.em = em;}
+    void delete(Item item);
 
-    @Override
-    public Optional<Item> getById(Long id) {
-        Item item = em.find(Item.class, id);
-        return ofNullable(item);
-    }
+    void deleteById(Long id);
 
-    @Override
-    public List<Item> getAll() {
-        return em.createQuery("SELECT i FROM Item i")
-                .getResultList();
-    }
+    List<Item> searchItemByName(String query);
 
-    @Override
-    public Item save(Item item) {
-        if (item.getId() == null) {
-            em.persist(item);
-            em.flush();
-            return item;
-        } else {
-            return em.merge(item);
-        }
-    }
+    List<Item> listItemByCategoryId(Long categoryId);
 
-    @Override
-    public void delete(Item item) {
-        if (em.contains(item)) {
-            em.remove(item);
-        }
-    }
+    List<Item> listItemByProducerId(Long producerId);
 
-    @Override
-    public void deleteById(Long id) {
-        em.createQuery("DELETE FROM Item i WHERE i.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
-    }
+    int getItemStock(Long id);
+
+    boolean exists(Long id);
 }

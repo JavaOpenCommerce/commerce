@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -16,14 +14,9 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Address extends BaseEntity {
+public class Category extends BaseEntity {
 
-    private String street;
-    private String local;
-    private String city;
-    private String zip;
+    private String categoryName;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }
