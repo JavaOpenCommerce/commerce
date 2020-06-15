@@ -10,10 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -29,12 +26,8 @@ public class OrderDetails extends BaseEntity {
     private Address shippingAddress;
 
     @ManyToOne
-    @JoinColumn(name = "shipping_method_id")
+    @JoinColumn(name = "shippingmethod_id")
     private ShippingMethod shippingMethod;
-
-    @Builder.Default
-    @ManyToMany
-    private Set<Item> items = new HashSet<>();
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
