@@ -20,7 +20,6 @@ import javax.persistence.ManyToOne;
 @EqualsAndHashCode(callSuper = true)
 public class OrderDetails extends BaseEntity {
 
-
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address shippingAddress;

@@ -7,10 +7,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +31,13 @@ public class User extends BaseEntity {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private Set<UserType> permissions;
+    private Set<UserType> permissions = new HashSet<>();
+
+    @OneToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH})
+    private Set<Address> addresses = new HashSet<>();
 
 }
