@@ -1,15 +1,13 @@
-package com.example.business.models;
+package com.example.rest.dtos;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 @Builder
-@ToString
 @EqualsAndHashCode
-public class CategoryModel {
+public class CategoryDto {
 
     private Long id;
     private String categoryName;

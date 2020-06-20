@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -33,7 +34,7 @@ public class Item extends BaseEntity {
     @Lob
     private String description;
     private BigDecimal valueGross;
-    private BigDecimal vat;
+    private double vat;
     private int stock;
 
     @ManyToOne
@@ -41,9 +42,10 @@ public class Item extends BaseEntity {
     private Producer producer;
 
     @Builder.Default
-    @ManyToMany(cascade = {REFRESH, DETACH, MERGE})
+    @ManyToMany(cascade = {REFRESH, DETACH, MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "item_category",
             joinColumns = @JoinColumn(name = "item_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> category = new HashSet<>();
+
 }

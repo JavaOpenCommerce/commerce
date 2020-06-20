@@ -5,12 +5,15 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import java.time.LocalDate;
 
 import static com.example.database.entity.OrderStatus.NEW;
 import static com.example.database.entity.PaymentStatus.BEFORE_PAYMENT;
@@ -22,6 +25,9 @@ import static com.example.database.entity.PaymentStatus.BEFORE_PAYMENT;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class OrderDetails extends BaseEntity {
+
+    @CreationTimestamp
+    private LocalDate creationDate;
 
     @ManyToOne
     @JoinColumn(name = "address_id")

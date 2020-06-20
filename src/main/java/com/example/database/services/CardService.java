@@ -1,11 +1,11 @@
-package com.example.business.services;
+package com.example.database.services;
 
-import com.example.business.converters.AddressConverter;
-import com.example.business.converters.ItemConverter;
+import com.example.utils.converters.AddressConverter;
+import com.example.utils.converters.ItemConverter;
 import com.example.business.models.AddressModel;
 import com.example.business.models.ItemModel;
-import com.example.database.dao.AddressDAO;
-import com.example.database.dao.ItemDAO;
+import com.example.database.repositories.AddressRepository;
+import com.example.database.repositories.ItemRepository;
 import com.example.database.entity.Address;
 import com.example.database.entity.Item;
 
@@ -16,16 +16,17 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class CardService {
 
-    private final ItemDAO itemDAO;
-    private final AddressDAO addressDAO;
+    private final ItemRepository itemRepository;
+    private final AddressRepository addressRepository;
 
-
-    public CardService(ItemDAO itemDAO, AddressDAO addressDAO) {this.itemDAO = itemDAO;
-        this.addressDAO = addressDAO;
+    public CardService(ItemRepository itemRepository,
+            AddressRepository addressRepository) {
+        this.itemRepository = itemRepository;
+        this.addressRepository = addressRepository;
     }
 
     public ItemModel getItemModel(Long id) {
-        Item item = itemDAO.getById(id)
+        Item item = itemRepository.findByIdOptional(id)
                 .orElseThrow(() ->
                         new WebApplicationException("Item with id " + id + " not found", Response.Status.NOT_FOUND));
 
@@ -37,15 +38,15 @@ public class CardService {
     }
 
     public int checkItemStock(Long id) {
-        if (itemDAO.exists(id)) {
-            return itemDAO.getItemStock(id);
-        } else {
-            throw new WebApplicationException("Item with id " + id + " not found", Response.Status.NOT_FOUND);
-        }
+        Item item = itemRepository.findByIdOptional(id)
+                .orElseThrow(() ->
+                        new WebApplicationException("Item with id " + id + " not found", Response.Status.NOT_FOUND));
+
+        return item.getStock();
     }
 
     public AddressModel getAddressModel(Long id) {
-        Address address = addressDAO.getById(id)
+        Address address = addressRepository.findByIdOptional(id)
                 .orElseThrow(() ->
                         new WebApplicationException("Address with id " + id + " not found", Response.Status.NOT_FOUND));
 

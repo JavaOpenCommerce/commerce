@@ -17,6 +17,7 @@ dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'org.scala-lang:scala-library:2.12.8'
     implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-jdbc-h2'
 
     testImplementation 'io.quarkus:quarkus-junit5'

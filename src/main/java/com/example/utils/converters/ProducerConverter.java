@@ -1,4 +1,4 @@
-package com.example.business.converters;
+package com.example.utils.converters;
 
 import com.example.business.models.ProducerModel;
 import com.example.database.entity.Producer;
