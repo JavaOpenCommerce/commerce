@@ -1,7 +1,7 @@
 package com.example.business;
 
 import com.example.business.models.AddressModel;
-import com.example.business.services.CardService;
+import com.example.database.services.CardService;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -15,8 +15,8 @@ public final class Card {
 
     private final Map<Long, Product> products = new HashMap<>();
     private AddressModel deliveryAddress;
-    private BigDecimal cardValueNett = ZERO;
-    private BigDecimal cardValueGross = ZERO;
+    private Value cardValueNett = Value.of(ZERO);
+    private Value cardValueGross = Value.of(ZERO);
 
     private final CardService cardService;
 
@@ -27,7 +27,7 @@ public final class Card {
 
     public void addProductToCard(Long id) {
         if (products.containsKey(id)) {
-            updateProductAmount(id, products.get(id).getAmount() + 1);
+            updateProductAmount(id, products.get(id).getAmount().asInteger() + 1);
         } else {
             Product product = Product.getProduct(cardService.getItemModel(id));
             products.put(id, product);
@@ -40,11 +40,11 @@ public final class Card {
 
     public void updateProductAmount(Long productId, int amount) {
         Product product = products.get(productId);
-        if (checkStock(productId, amount)) {
+        int stock = cardService.checkItemStock(productId);
+        if (amount <= stock) {
            product.setAmount(amount);
         } else {
-            //todo handling, exception, message?
-            product.setAmount(cardService.checkItemStock(productId));
+            product.setAmount(stock);
         }
         if (amount <= 0) {
             products.remove(productId);
@@ -53,24 +53,15 @@ public final class Card {
     }
 
     public void calculateCardValue() {
-        this.cardValueGross = products.values()
+        this.cardValueGross = Value.of(products.values()
                 .stream()
-                .map(Product::getValueGross)
-                .reduce(ZERO, BigDecimal::add);
+                .map(p -> p.getValueGross().asDecimal())
+                .reduce(ZERO, BigDecimal::add));
 
-        this.cardValueNett = products.values()
+        this.cardValueNett = Value.of(products.values()
                 .stream()
-                .map(Product::getValueNett)
-                .reduce(ZERO, BigDecimal::add);
-    }
-
-    private boolean checkStock(Long id, int amount) {
-        int itemStock = cardService.checkItemStock(id);
-        return itemStock >= amount;
-    }
-
-    public void addShippingMethod(Long id) {
-
+                .map(p -> p.getValueNett().asDecimal())
+                .reduce(ZERO, BigDecimal::add));
     }
 
     public void setDeliveryAddress(Long id) {

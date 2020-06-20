@@ -4,23 +4,28 @@ import com.example.business.models.ItemModel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.valueOf;
 
 @Getter
 @EqualsAndHashCode
 public final class Product {
 
     private final ItemModel itemModel;
-    private BigDecimal valueNett;
-    private BigDecimal valueGross;
-    private int amount = 1;
+    private Value valueNett;
+    private Value valueGross;
+    private Amount amount;
 
 
     private Product(ItemModel itemModel) {
+        this(itemModel, 1);
+    }
+
+    private Product(ItemModel itemModel, int amount) {
         this.itemModel = itemModel;
+        this.amount = Amount.of(amount);
         calculateSumValue();
     }
 
@@ -28,13 +33,17 @@ public final class Product {
         return new Product(itemModel);
     }
 
+    public static Product getProduct(ItemModel itemModel, int amount) {
+        return new Product(itemModel, amount);
+    }
+
     public void setAmount(int amount) {
-        this.amount = amount;
+        this.amount = Amount.of(amount);
         calculateSumValue();
     }
 
     private void calculateSumValue() {
-        valueGross = itemModel.getValueGross().multiply(valueOf(amount));
-        valueNett = valueGross.divide(itemModel.getVat().add(ONE));
+        valueGross = Value.of(itemModel.getValueGross().asDecimal().multiply(amount.asDecimal(), MathContext.DECIMAL32));
+        valueNett = Value.of(valueGross.asDecimal().divide(itemModel.getVat().asDecimal().add(ONE), 2, RoundingMode.HALF_UP));
     }
 }
