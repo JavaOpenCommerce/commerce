@@ -1,17 +1,19 @@
 package com.example.database.services;
 
-import com.example.utils.converters.AddressConverter;
-import com.example.utils.converters.ItemConverter;
 import com.example.business.models.AddressModel;
 import com.example.business.models.ItemModel;
-import com.example.database.repositories.AddressRepository;
-import com.example.database.repositories.ItemRepository;
 import com.example.database.entity.Address;
 import com.example.database.entity.Item;
+import com.example.database.repositories.AddressRepository;
+import com.example.database.repositories.ItemRepository;
+import com.example.utils.converters.AddressConverter;
+import com.example.utils.converters.ItemConverter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class CardService {
@@ -30,9 +32,6 @@ public class CardService {
                 .orElseThrow(() ->
                         new WebApplicationException("Item with id " + id + " not found", Response.Status.NOT_FOUND));
 
-        if (item.getStock() < 1) {
-            //todo handling
-        }
         return ItemConverter
                 .convertToModel(item);
     }
@@ -41,6 +40,10 @@ public class CardService {
         Item item = itemRepository.findByIdOptional(id)
                 .orElseThrow(() ->
                         new WebApplicationException("Item with id " + id + " not found", Response.Status.NOT_FOUND));
+
+        if (item.getStock() < 1) {
+            //todo handling, issue #6
+        }
 
         return item.getStock();
     }
@@ -52,5 +55,12 @@ public class CardService {
 
         return AddressConverter
                 .convertToModel(address);
+    }
+
+    public List<ItemModel> getShippingMethods() {
+        return itemRepository.getShippingMethodList().stream()
+                .map(i -> ItemConverter.convertToModel(i))
+                .collect(Collectors.toList());
+
     }
 }

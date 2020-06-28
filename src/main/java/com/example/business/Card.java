@@ -2,6 +2,7 @@ package com.example.business;
 
 import com.example.business.models.AddressModel;
 import com.example.database.services.CardService;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -11,10 +12,12 @@ import java.util.Map;
 import static java.math.BigDecimal.ZERO;
 
 @Getter
+@EqualsAndHashCode
 public final class Card {
 
     private final Map<Long, Product> products = new HashMap<>();
     private AddressModel deliveryAddress;
+    private Payment payment;
     private Value cardValueNett = Value.of(ZERO);
     private Value cardValueGross = Value.of(ZERO);
 

@@ -4,15 +4,14 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Locale;
-
 @Getter
 @Builder
 @EqualsAndHashCode
-public class CategoryDto {
+public class AddressDto {
 
     private Long id;
-    private String categoryName;
-    private String description;
-    private Locale lang;
+    private String street;
+    private String local;
+    private String city;
+    private String zip;
 }

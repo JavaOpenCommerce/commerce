@@ -1,0 +1,69 @@
+# Configuration file
+# key = value
+
+
+  quarkus:
+
+    #datasource settings
+    datasource:
+      db-kind: postgresql
+      jdbc:
+        url: jdbc:postgresql://localhost:5432/main_postgres_db
+      username: ${QUARKUS_DATASOURCE_USERNAME}
+      password: ${QUARKUS_DATASOURCE_PASSWORD}
+
+    #hibernate settings
+    hibernate-orm:
+      database:
+        generation: drop-and-create
+      sql-load-script: data.sql
+      log:
+        sql: true
+
+    #Elastic search properties
+    hibernate-search:
+      automatic-indexing:
+        synchronization:
+          strategy: sync
+      schema-management:
+        strategy: drop-and-create
+      elasticsearch:
+        version: 7
+        index-defaults:
+          schema-management:
+            required-status: yellow
+        analysis:
+          configurer: com.example.elasticsearch.AnalysisConfigurer
+
+    #locale
+    default-locale: pl-PL
+
+  com:
+    example:
+      default-locale: pl
+      elasticsearch-host: localhost
+      elasticsearch-port: 9200
+
+
+
+
+
+# %dev.quarkus.hibernate-orm.database.generation=drop-and-create
+# %dev.quarkus.hibernate-orm.sql-load-script=data.sql
+# %dev.quarkus.hibernate-orm.log.sql=true
+#
+# %prod.quarkus.hibernate-orm.database.generation = none
+# %prod.quarkus.hibernate-orm.sql-load-script = no-file
+
+#locale settings
+# quarkus.default-locale=pl-PL
+# com.example.default-locale=pl
+
+#h2 settings
+# quarkus.datasource.db-kind=h2
+# %dev.quarkus.datasource.username=test
+# %dev.quarkus.datasource.jdbc.url=jdbc:h2:file:./testh2db;mv_store=false;FILE_LOCK=NO
+
+# %dev.quarkus.datasource.db-kind=h2
+# %dev.quarkus.datasource.username=sa
+# %dev.quarkus.datasource.jdbc.url=jdbc:h2:mem:default

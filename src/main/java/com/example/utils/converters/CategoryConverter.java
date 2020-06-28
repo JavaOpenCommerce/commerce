@@ -11,6 +11,7 @@ public interface CategoryConverter {
                 .id(category.getId())
                 .categoryName(category.getCategoryName())
                 .description(category.getDescription())
+                .lang(category.getLang())
                 .build();
     }
 
@@ -19,6 +20,7 @@ public interface CategoryConverter {
                 .id(category.getId())
                 .categoryName(category.getCategoryName())
                 .description(category.getDescription())
+                .lang(category.getLang())
                 .build();
     }
 }

@@ -12,7 +12,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import java.time.LocalDate;
 
 import static com.example.database.entity.OrderStatus.NEW;
@@ -45,5 +44,5 @@ public class OrderDetails extends BaseEntity {
     private OrderStatus orderStatus = NEW;
 
     @ManyToOne
-    private User user;
+    private UserEntity userEntity;
 }

@@ -1,4 +1,4 @@
-package com.example.rest.dtos;
+package com.example.elasticsearch;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,10 +9,9 @@ import java.util.Locale;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class CategoryDto {
+public class SearchDetails {
 
-    private Long id;
-    private String categoryName;
-    private String description;
     private Locale lang;
+    private String name;
+    private String description;
 }

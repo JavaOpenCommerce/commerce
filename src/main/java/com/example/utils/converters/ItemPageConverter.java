@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 
 public interface ItemPageConverter {
 
-    static PageDto<ItemDto> convertToDto(PageModel<ItemModel> model) {
+    static PageDto<ItemDto> convertToDto(PageModel<ItemModel> model, String lang, String defaultLang) {
 
         List<ItemDto> items = model.getItems().stream()
-                .map(ItemConverter::convertToDto)
+                .map(i -> ItemConverter.convertToDto(i, lang, defaultLang))
                 .collect(Collectors.toList());
 
         return PageDto.<ItemDto>builder()

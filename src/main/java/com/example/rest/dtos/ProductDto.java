@@ -9,13 +9,10 @@ import java.math.BigDecimal;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class ItemDto {
+public class ProductDto {
 
-    private final Long id;
-    private final String name;
+    private ItemDto item;
+    private BigDecimal valueNett;
     private BigDecimal valueGross;
-    private ImageDto image;
-    private double vat;
-    private ProducerDto producer;
-
+    private int amount;
 }

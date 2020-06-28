@@ -3,16 +3,15 @@ package com.example.rest.dtos;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.Locale;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 @EqualsAndHashCode
-public class CategoryDto {
+public class ImageDto {
 
     private Long id;
-    private String categoryName;
-    private String description;
-    private Locale lang;
+    private String alt;
+    private String url;
 }

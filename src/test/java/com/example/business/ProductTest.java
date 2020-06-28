@@ -42,6 +42,7 @@ class ProductTest {
         //when
         product.setAmount(amount);
 
+        //then
         assertEquals(gross, product.getValueGross().asDecimal());
         assertEquals(nett, product.getValueNett().asDecimal());
     }
