@@ -1,6 +1,8 @@
 package com.example.business;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public final class Value {
 
@@ -21,5 +23,13 @@ public final class Value {
 
     public Value asObject() {
         return this;
+    }
+
+    public Value multiply(BigDecimal multiplier) {
+        return Value.of(this.value.multiply(multiplier, MathContext.DECIMAL32));
+    }
+
+    public Value divide(BigDecimal divider) {
+        return Value.of(value.divide(divider, 2, RoundingMode.HALF_UP));
     }
 }

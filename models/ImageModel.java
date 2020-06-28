@@ -5,16 +5,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Locale;
-
 @Getter
 @Builder
 @ToString
 @EqualsAndHashCode
-public class CategoryModel {
+public class ImageModel {
 
     private Long id;
-    private String categoryName;
-    private String description;
-    private Locale lang;
+    private String alt;
+    private String url;
 }
