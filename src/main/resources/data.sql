@@ -20,7 +20,7 @@ INSERT INTO CATEGORY VALUES ('4', 'Category4', 'testCategory', 'pl-PL');
 
 INSERT INTO ITEM VALUES ('1', '1', '0.0', '0.23', '1');
 
-INSERT INTO ITEM VALUES ('2', '3', '11.55', '0.23', '2');
+INSERT INTO ITEM VALUES ('2', '3', '11.56', '0.23', '2');
 INSERT INTO ITEM VALUES ('3', '0', '12.33', '0.23', '3');
 INSERT INTO ITEM VALUES ('4', '2', '1.45', '0.23', '4');
 INSERT INTO ITEM VALUES ('5', '2', '0.99', '0.23', '5');

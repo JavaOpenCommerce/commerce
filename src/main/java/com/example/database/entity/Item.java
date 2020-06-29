@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,7 +23,6 @@ import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.REFRESH;
 
 @Entity
-@Indexed
 @Getter
 @Builder
 @NoArgsConstructor
@@ -42,7 +39,6 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @IndexedEmbedded
     @ManyToMany(cascade = {REFRESH, DETACH, MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "item_producer",
             joinColumns = @JoinColumn(name = "item_id"),
@@ -50,7 +46,6 @@ public class Item extends BaseEntity {
     private Set<Producer> producer;
 
     @Builder.Default
-    @IndexedEmbedded
     @ManyToMany(cascade = {REFRESH, DETACH, MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "item_category",
             joinColumns = @JoinColumn(name = "item_id"),
@@ -58,7 +53,6 @@ public class Item extends BaseEntity {
     private Set<Category> category = new HashSet<>();
 
     @Builder.Default
-    @IndexedEmbedded
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "item", cascade = CascadeType.ALL)
     private Set<ItemDetails> details = new HashSet<>();
 

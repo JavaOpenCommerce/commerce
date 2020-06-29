@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -17,7 +15,6 @@ import java.util.Locale;
 import java.util.Set;
 
 @Entity
-@Indexed
 @Getter
 @Builder
 @NoArgsConstructor
@@ -25,7 +22,7 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true, exclude = "items")
 public class Category extends BaseEntity {
 
-    @FullTextField(analyzer = "item")
+
     private String categoryName;
     private String description;
 

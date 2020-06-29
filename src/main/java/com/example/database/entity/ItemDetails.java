@@ -7,10 +7,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.search.engine.backend.types.Sortable;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,7 +21,6 @@ import java.util.Locale;
 import java.util.Set;
 
 @Entity
-@Indexed
 @Getter
 @Builder
 @NoArgsConstructor
@@ -33,14 +28,11 @@ import java.util.Set;
 @EqualsAndHashCode(callSuper = true, exclude = {"item", "images"})
 public class ItemDetails extends BaseEntity {
 
-    @FullTextField(analyzer = "item")
-    @KeywordField(name = "name_sort", sortable = Sortable.YES, normalizer = "sort")
     private String name;
 
     @Convert(converter = LocaleConverter.class)
     private Locale lang;
 
-    @FullTextField(analyzer = "item")
     @Column(columnDefinition = "text")
     private String description;
 

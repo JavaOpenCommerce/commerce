@@ -33,6 +33,7 @@ public interface SearchItemConverter {
                 .category(categoryDtos)
                 .producer(producerDtos)
                 .details(searchDetails)
+                .valueGross(item.getValueGross().asDecimal().doubleValue())
                 .build();
     }
 

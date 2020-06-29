@@ -38,12 +38,12 @@ public class IndexingService {
 
     public void fetchItems() {
         for (SearchItem item : getSearchItems()) {
-            client.put("/items/_doc/")
+            client.put("/items/_doc/" + item.getId())
                     .putHeader("Content-Length", "" + Json.encode(item).length())
                     .putHeader("Content-Type", "application/json")
                     .sendJson(item, ar -> {
                         if (ar.succeeded()) {
-                            log.infof("Item with id %s, successfully indexed", item.getId());
+                            log.infof("Item with id %s, successfully indexed, %s", item.getId(), ar.result().bodyAsString());
                         } else {
                             log.info(ar.result().bodyAsJsonObject());
                         }
