@@ -19,7 +19,7 @@ public class ItemModel {
     private final Long id;
     private Value valueGross;
     private Vat vat;
-    private Set<ProducerModel> producer;
+    private ProducerModel producer;
     private ImageModel image;
     private Set<CategoryModel> category;
     private Set<ItemDetailModel> details;
