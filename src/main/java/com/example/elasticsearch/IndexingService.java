@@ -1,5 +1,6 @@
 package com.example.elasticsearch;
 
+import com.example.database.entity.Category;
 import com.example.database.repositories.ItemRepository;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.core.json.Json;
@@ -11,6 +12,7 @@ import lombok.extern.jbosslog.JBossLog;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.utils.converters.ItemConverter.convertToModel;
@@ -53,7 +55,14 @@ public class IndexingService {
 
     private List<SearchItem> getSearchItems() {
         return repository.findAll().stream()
+                .filter(i -> validUserCategory(i.getCategory()))
                 .map(item -> convertToSearchItem(convertToModel(item)))
                 .collect(Collectors.toList());
+    }
+
+    private boolean validUserCategory(Set<Category> categories) {
+        return categories.stream()
+                .flatMap(category -> category.getDetails().stream())
+                .allMatch(details -> !"shipping".equalsIgnoreCase(details.getName()));
     }
 }

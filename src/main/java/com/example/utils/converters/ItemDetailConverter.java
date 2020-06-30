@@ -3,7 +3,6 @@ package com.example.utils.converters;
 import com.example.business.models.ImageModel;
 import com.example.business.models.ItemDetailModel;
 import com.example.business.models.ItemModel;
-import com.example.business.models.ProducerModel;
 import com.example.database.entity.ItemDetails;
 import com.example.rest.dtos.ImageDto;
 import com.example.rest.dtos.ItemDetailDto;
@@ -31,7 +30,6 @@ public interface ItemDetailConverter {
     static ItemDetailDto convertToDto(ItemModel item, String lang, String defaultLang) {
 
         ItemDetailModel details = getItemDetailsByLanguage(item, lang, defaultLang);
-        ProducerModel producer = ItemConverter.getProducerByLanguage(item, lang, defaultLang);
 
         Set<ImageDto> images = details.getAdditionalImages().stream()
                 .map(i -> ImageConverter.convertToDto(i))
@@ -41,7 +39,7 @@ public interface ItemDetailConverter {
                 .id(item.getId())
                 .valueGross(item.getValueGross().asDecimal())
                 .vat(item.getVat().asDouble())
-                .producer(ProducerConverter.convertToDto(producer))
+                .producer(ProducerConverter.convertToDto(item.getProducer(), lang, defaultLang))
                 .stock(item.getStock())
                 .mainImage(ImageConverter.convertToDto(item.getImage()))
                 .name(details.getName())
