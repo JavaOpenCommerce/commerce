@@ -1,8 +1,6 @@
 package com.example.elasticsearch;
 
-import com.example.rest.dtos.CategoryDto;
 import com.example.rest.dtos.ImageDto;
-import com.example.rest.dtos.ProducerDto;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,8 +15,7 @@ public class SearchItem {
     private final Long id;
     private double valueGross;
     private ImageDto image;
-
-    private Set<ProducerDto> producer;
-    private Set<CategoryDto> category;
+    private Long producerId;
+    private Set<Long> categoryIds;
     private Set<SearchDetails> details;
 }

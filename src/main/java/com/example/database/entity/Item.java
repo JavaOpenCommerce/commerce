@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
@@ -39,11 +40,9 @@ public class Item extends BaseEntity {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @ManyToMany(cascade = {REFRESH, DETACH, MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "item_producer",
-            joinColumns = @JoinColumn(name = "item_id"),
-            inverseJoinColumns = @JoinColumn(name = "producer_id"))
-    private Set<Producer> producer;
+    @ManyToOne
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
 
     @Builder.Default
     @ManyToMany(cascade = {REFRESH, DETACH, MERGE}, fetch = FetchType.EAGER)

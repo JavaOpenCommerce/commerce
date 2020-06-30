@@ -16,13 +16,13 @@ public class SearchRequest {
     @DefaultValue("10")
     private int pageSize;
 
-    @QueryParam("category")
-    @DefaultValue("")
-    private String category;
+    @QueryParam("categoryId")
+    @DefaultValue("0")
+    private Long categoryId;
 
-    @QueryParam("producer")
-    @DefaultValue("")
-    private String producer;
+    @QueryParam("producerId")
+    @DefaultValue("0")
+    private Long producerId;
 
     @QueryParam("order")
     @DefaultValue("ASC")

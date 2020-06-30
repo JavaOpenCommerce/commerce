@@ -19,6 +19,7 @@ public class SearchTestController {
 
     public SearchTestController(SearchService searchService) {this.searchService = searchService;}
 
+
     @GET
     @Path("/items")
     public String search(@BeanParam SearchRequest request) {

@@ -56,13 +56,13 @@ public class StoreDtoService {
 
     public List<CategoryDto> getCategoryList() {
         return storeService.getCategoryList().stream()
-                .map(c -> CategoryConverter.convertToDto(c))
+                .map(c -> CategoryConverter.convertToDto(c, langResolver.getLanguage(), langResolver.getDefault()))
                 .collect(Collectors.toList());
     }
 
     public List<ProducerDto> getProducerList() {
         return storeService.getProducerList().stream()
-                .map(c -> ProducerConverter.convertToDto(c))
+                .map(c -> ProducerConverter.convertToDto(c, langResolver.getLanguage(), langResolver.getDefault()))
                 .collect(Collectors.toList());
     }
 }
