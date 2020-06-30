@@ -9,40 +9,48 @@ import com.example.database.entity.Item;
 import com.example.database.repositories.CategoryRepository;
 import com.example.database.repositories.ItemRepository;
 import com.example.database.repositories.ProducerRepository;
-import com.example.utils.LanguageResolver;
+import com.example.elasticsearch.SearchService;
 import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ItemConverter;
 import com.example.utils.converters.ProducerConverter;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import lombok.extern.jbosslog.JBossLog;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@JBossLog
 @ApplicationScoped
 public class StoreService {
 
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
     private final ProducerRepository producerRepository;
-    private final LanguageResolver languageResolver;
+    private final SearchService searchService;
+
 
 
     public StoreService(CategoryRepository categoryRepository,
             ItemRepository itemRepository,
-            ProducerRepository producerRepository, LanguageResolver languageResolver) {
+            ProducerRepository producerRepository,
+            SearchService searchService) {
         this.categoryRepository = categoryRepository;
         this.itemRepository = itemRepository;
         this.producerRepository = producerRepository;
-        this.languageResolver = languageResolver;
+        this.searchService = searchService;
     }
 
     public List<CategoryModel> getCategoryList() {
         return categoryRepository.findAll().stream()
-                .filter(cm -> !"Shipping".equalsIgnoreCase(cm.getCategoryName()))
+                .filter(c -> c.getDetails().stream()
+                        .allMatch(detail -> !"shipping".equalsIgnoreCase(detail.getName())))
                 .map(c -> CategoryConverter.convertToModel(c))
                 .collect(Collectors.toList());
     }
@@ -82,7 +90,7 @@ public class StoreService {
 
     private PageModel<ItemModel> getItemModelPage(int pageIndex, int pageSize, PanacheQuery<Item> itemPanacheQuery) {
         List<ItemModel> itemModels = itemPanacheQuery.list().stream()
-                .filter(i -> validUserProductCategory(i.getCategory()))
+                .filter(i -> validUserCategory(i.getCategory()))
                 .map(i -> ItemConverter.convertToModel(i))
                 .collect(Collectors.toList());
 
@@ -95,12 +103,26 @@ public class StoreService {
                 .build();
     }
 
-    private boolean validUserProductCategory(Set<Category> categories) {
-        for (Category cat : categories) {
-            if ("Shipping".equalsIgnoreCase(cat.getCategoryName())) {
-                return false;
-            }
-        }
-        return true;
+    private boolean validUserCategory(Set<Category> categories) {
+        return categories.stream()
+                .flatMap(category -> category.getDetails().stream())
+                .allMatch(details -> !"shipping".equalsIgnoreCase(details.getName()));
     }
+
+    //========================================================================================= PoC
+
+    public void getFilteredResultsFromDB(JsonObject json) {
+        JsonArray hits = json
+                .getJsonObject("hits")
+                .getJsonArray("hits");
+
+        List<Integer> ids = new ArrayList<>();
+        for (int i = 0; i < hits.size(); i++) {
+            ids.add(Integer.parseInt(hits.getJsonObject(i).getString("_id")));
+        }
+        ids.forEach(id -> log.info("Id from elastic: " + id));
+    }
+
+
+
 }

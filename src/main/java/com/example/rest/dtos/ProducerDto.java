@@ -1,19 +1,17 @@
-package com.example.rest.dtos;
+package com.example.business.models;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Locale;
+import java.util.Set;
 
 @Getter
 @Builder
 @EqualsAndHashCode
-public class ProducerDto {
+public class ProducerModel {
 
     private Long id;
-    private String name;
-    private String description;
-    private ImageDto image;
-    private Locale lang;
+    private ImageModel image;
+    private Set<ProducerDetailModel> details;
 }
