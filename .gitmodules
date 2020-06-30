@@ -1,12 +1,12 @@
 [submodule "core"]
 	path = core
-	url = git@github.com:JavaOpenCommerce/core.git
+	url = https://github.com/JavaOpenCommerce/core.git
 [submodule "boot"]
 	path = boot
-	url = git@github.com:JavaOpenCommerce/boot.git
+	url = https://github.com/JavaOpenCommerce/boot.git
 [submodule "model"]
 	path = model
-	url = git@github.com:JavaOpenCommerce/model.git
+	url = https://github.com/JavaOpenCommerce/model.git
 [submodule "quarkus"]
 	path = quarkus
-	url = git@github.com:JavaOpenCommerce/quarkus.git
+	url = https://github.com/JavaOpenCommerce/quarkus.git
