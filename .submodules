@@ -1,9 +1,0 @@
-[submodule "core"]
-	path = core
-	url = git@github.com:JavaOpenCommerce/core.git
-[submodule "boot"]
-	path = boot
-	url = git@github.com:JavaOpenCommerce/boot.git
-[submodule "model"]
-    path = model
-    url = git@github.com:JavaOpenCommerce/model.git
