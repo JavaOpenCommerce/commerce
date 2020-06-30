@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Set;
+import java.util.Locale;
 
 @Getter
 @Builder
@@ -12,5 +12,7 @@ import java.util.Set;
 public class CategoryDto {
 
     private Long id;
-    private Set<CategoryDetailModel> details;
+    private String categoryName;
+    private String description;
+    private Locale lang;
 }
