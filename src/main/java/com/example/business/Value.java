@@ -11,7 +11,7 @@ public final class Value {
     private Value(BigDecimal value) {this.value = value;}
 
     public static Value of(BigDecimal value) {
-        if (value.signum() < 0) {
+        if (value == null || value.signum() < 0) {
             value = BigDecimal.valueOf(0L, 2);
         }
         return new Value(value);
