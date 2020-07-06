@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Builder
@@ -21,7 +21,7 @@ public class ItemModel {
     private Vat vat;
     private ProducerModel producer;
     private ImageModel image;
-    private Set<CategoryModel> category;
-    private Set<ItemDetailModel> details;
+    private List<CategoryModel> category;
+    private List<ItemDetailModel> details;
     private int stock;
 }

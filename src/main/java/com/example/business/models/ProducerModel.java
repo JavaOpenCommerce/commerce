@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Builder
@@ -13,5 +13,5 @@ public class ProducerModel {
 
     private Long id;
     private ImageModel image;
-    private Set<ProducerDetailModel> details;
+    private List<ProducerDetailModel> details;
 }

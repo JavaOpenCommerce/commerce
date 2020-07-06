@@ -4,8 +4,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 @Getter
 @Builder
@@ -16,5 +16,5 @@ public class ItemDetailModel {
     private String name;
     private String description;
     private Locale lang;
-    private Set<ImageModel> additionalImages;
+    private List<ImageModel> additionalImages;
 }

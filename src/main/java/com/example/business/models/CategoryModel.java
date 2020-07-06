@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Builder
@@ -14,5 +14,5 @@ import java.util.Set;
 public class CategoryModel {
 
     private Long id;
-    private Set<CategoryDetailModel> details;
+    private List<CategoryDetailModel> details;
 }
