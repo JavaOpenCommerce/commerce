@@ -20,7 +20,7 @@ public interface CategoryDetailConverter {
 
     static CategoryDetailModel getCategoryDetailByLanguage(CategoryModel category, String lang, String defaultLang) {
         if (category.getDetails().isEmpty()) {
-            return CategoryDetailModel.builder().name("Error").build();
+            return CategoryDetailModel.builder().name("404").build();
         }
 
         return category.getDetails().stream()
@@ -30,6 +30,6 @@ public interface CategoryDetailConverter {
                 .orElse(category.getDetails().stream()
                         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(defaultLang))
                         .findFirst()
-                        .orElse(CategoryDetailModel.builder().name("Error").build()));
+                        .orElse(CategoryDetailModel.builder().name("404").build()));
     }
 }

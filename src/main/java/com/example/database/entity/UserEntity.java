@@ -7,39 +7,25 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class UserEntity extends BaseEntity {
+@EqualsAndHashCode
+public class UserEntity {
 
+    private Long id;
     private String firstName;
     private String lastName;
-
     private String email;
 
     @Builder.Default
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private Set<UserType> permissions = new HashSet<>();
+    private List<UserType> permissions = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH}, mappedBy = "user")
-    private Set<Address> addresses = new HashSet<>();
+    private List<Address> addresses = new ArrayList<>();
 
 }

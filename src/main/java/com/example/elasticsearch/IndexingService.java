@@ -1,7 +1,8 @@
 package com.example.elasticsearch;
 
 import com.example.database.entity.Category;
-import com.example.database.repositories.ItemRepository;
+import com.example.database.entity.Item;
+import com.example.database.repositories.interfaces.ItemRepository;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.client.WebClientOptions;
@@ -11,8 +12,8 @@ import lombok.extern.jbosslog.JBossLog;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.example.utils.converters.ItemConverter.convertToModel;
@@ -22,6 +23,7 @@ import static com.example.utils.converters.SearchItemConverter.convertToSearchIt
 @ApplicationScoped
 public class IndexingService {
 
+    //Should switch to mutiny instead of reactivex !!
     private WebClient client;
     private final ItemRepository repository;
 
@@ -54,13 +56,13 @@ public class IndexingService {
     }
 
     private List<SearchItem> getSearchItems() {
-        return repository.findAll().stream()
+        return new ArrayList<Item>().stream()
                 .filter(i -> validUserCategory(i.getCategory()))
                 .map(item -> convertToSearchItem(convertToModel(item)))
                 .collect(Collectors.toList());
     }
 
-    private boolean validUserCategory(Set<Category> categories) {
+    private boolean validUserCategory(List<Category> categories) {
         return categories.stream()
                 .flatMap(category -> category.getDetails().stream())
                 .allMatch(details -> !"shipping".equalsIgnoreCase(details.getName()));

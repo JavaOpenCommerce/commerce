@@ -5,16 +5,20 @@ import com.example.business.models.CategoryModel;
 import com.example.database.entity.Category;
 import com.example.rest.dtos.CategoryDto;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
 
 public interface CategoryConverter {
 
     static CategoryModel convertToModel(Category category) {
 
-        Set<CategoryDetailModel> details = category.getDetails().stream()
+        List<CategoryDetailModel> details = ofNullable(category.getDetails()).orElse(emptyList())
+                .stream()
                 .map(d -> CategoryDetailConverter.convertToModel(d))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         return CategoryModel.builder()
                 .id(category.getId())

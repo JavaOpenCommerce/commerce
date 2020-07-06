@@ -1,5 +1,7 @@
 package com.example.quarkus.app;
 
+import com.example.database.entity.Item;
+import com.example.database.services.ItemAssemblingService;
 import com.example.rest.dtos.CategoryDto;
 import com.example.rest.dtos.ItemDetailDto;
 import com.example.rest.dtos.ItemDto;
@@ -8,6 +10,7 @@ import com.example.rest.dtos.ProducerDto;
 import com.example.rest.services.CardDtoService;
 import com.example.rest.services.StoreDtoService;
 import com.example.utils.LanguageResolver;
+import io.smallrye.mutiny.Uni;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -27,16 +30,21 @@ public class TestController {
     private final StoreDtoService storeService;
     private final CardDtoService cardService;
     private final LanguageResolver extractor;
+    private final ItemAssemblingService itemAssemblingService;
 
-    public TestController(StoreDtoService service,
-            CardDtoService cardService, LanguageResolver extractor) {this.storeService = service;
+    public TestController(StoreDtoService storeService,
+            CardDtoService cardService,
+            LanguageResolver extractor, ItemAssemblingService itemAssemblingService) {
+        this.storeService = storeService;
         this.cardService = cardService;
         this.extractor = extractor;
+        this.itemAssemblingService = itemAssemblingService;
     }
 
+
     @GET
-    @Path("/items/{id}")
-    public ItemDetailDto getItemById(@PathParam("id") Long id) {
+    @Path("reactive/items/{id}")
+    public Uni<ItemDetailDto> getItemById(@PathParam("id") Long id) {
         return storeService.getItemById(id);
     }
 
@@ -86,4 +94,13 @@ public class TestController {
     public String getLocale() {
         return extractor.getLanguage();
     }
+
+    //=============================================================== TEST
+
+    @GET
+    @Path("reactive/items")
+    public Uni<List<Item>> getAll() {
+        return itemAssemblingService.assemblyFullItemList();
+    }
+
 }

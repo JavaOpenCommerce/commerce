@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,7 +17,7 @@ public class ItemDetailDto {
     private String description;
     private ImageDto mainImage;
     private ProducerDto producer;
-    private Set<ImageDto> additionalImages;
+    private List<ImageDto> additionalImages;
     private BigDecimal valueGross;
     private double vat;
     private int stock;

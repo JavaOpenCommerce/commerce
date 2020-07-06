@@ -5,20 +5,25 @@ import com.example.business.models.ItemModel;
 import com.example.elasticsearch.SearchDetails;
 import com.example.elasticsearch.SearchItem;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
 
 public interface SearchItemConverter {
 
     static SearchItem convertToSearchItem(ItemModel item) {
 
-        Set<Long> categoryIds = item.getCategory().stream()
+        List<Long> categoryIds = ofNullable(item.getCategory()).orElse(emptyList())
+                .stream()
                 .map(c -> c.getId())
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
-        Set<SearchDetails> searchDetails = item.getDetails().stream()
+        List<SearchDetails> searchDetails =ofNullable(item.getDetails()).orElse(emptyList())
+                .stream()
                 .map(itemDetail -> convertToSearchDetails(itemDetail))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         return SearchItem.builder()
                 .id(item.getId())

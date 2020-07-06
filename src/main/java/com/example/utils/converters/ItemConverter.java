@@ -5,35 +5,44 @@ import com.example.business.Vat;
 import com.example.business.models.CategoryModel;
 import com.example.business.models.ItemDetailModel;
 import com.example.business.models.ItemModel;
+import com.example.database.entity.Image;
 import com.example.database.entity.Item;
+import com.example.database.entity.Producer;
 import com.example.rest.dtos.ItemDto;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
 
 public interface ItemConverter {
 
 
     static ItemModel convertToModel(Item item) {
 
-        Set<CategoryModel> categoryModels = item.getCategory()
+        List<CategoryModel> categoryModels = ofNullable(item.getCategory()).orElse(emptyList())
                 .stream()
                 .map(category -> CategoryConverter.convertToModel(category))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
-        Set<ItemDetailModel> itemDetailModels = item.getDetails().stream()
+        List<ItemDetailModel> itemDetailModels = ofNullable(item.getDetails()).orElse(emptyList())
+                .stream()
                 .map(itemDetails -> ItemDetailConverter.convertToModel(itemDetails))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
 
         return ItemModel.builder()
                 .id(item.getId())
                 .valueGross(Value.of(item.getValueGross()))
-                .producer(ProducerConverter.convertToModel(item.getProducer()))
+                .producer(
+                        ProducerConverter.convertToModel(
+                                ofNullable(item.getProducer()).orElse(Producer.builder().build())))
                 .category(categoryModels)
                 .vat(Vat.of(item.getVat()))
                 .details(itemDetailModels)
                 .stock(item.getStock())
-                .image(ImageConverter.convertToModel(item.getImage()))
+                .image(ImageConverter.convertToModel(
+                        ofNullable(item.getImage()).orElse(Image.builder().build())))
                 .build();
     }
 

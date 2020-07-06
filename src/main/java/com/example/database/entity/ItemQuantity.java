@@ -6,26 +6,16 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-@Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class ItemQuantity extends BaseEntity {
+@EqualsAndHashCode
+public class ItemQuantity {
 
+    private Long id;
     private int amount;
-
-    @ManyToOne
-    @JoinColumn(name = "item_id")
     private Item item;
-
-    @ManyToOne
-    @JoinColumn(name = "orderdetails_id")
     private OrderDetails orderDetails;
 
 

@@ -42,6 +42,7 @@ public final class Card {
     }
 
     public void updateProductAmount(Long productId, int amount) {
+
         Product product = products.get(productId);
         int stock = cardService.checkItemStock(productId);
         if (amount <= stock) {

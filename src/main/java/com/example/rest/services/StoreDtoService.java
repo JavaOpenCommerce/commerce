@@ -11,6 +11,7 @@ import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ItemDetailConverter;
 import com.example.utils.converters.ItemPageConverter;
 import com.example.utils.converters.ProducerConverter;
+import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
@@ -28,9 +29,11 @@ public class StoreDtoService {
     }
 
 
-    public ItemDetailDto getItemById(Long id) {
-        return ItemDetailConverter
-                .convertToDto(storeService.getItemById(id), langResolver.getLanguage(), langResolver.getDefault());
+    public Uni<ItemDetailDto> getItemById(Long id) {
+        return storeService
+                .getItemById(id)
+                .onItem()
+                .apply(i -> ItemDetailConverter.convertToDto(i, langResolver.getLanguage(), langResolver.getDefault()));
     }
 
     public PageDto<ItemDto> getPageOfAllItems(int pageIndex, int pageSize) {

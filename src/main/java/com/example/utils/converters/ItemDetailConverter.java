@@ -7,17 +7,21 @@ import com.example.database.entity.ItemDetails;
 import com.example.rest.dtos.ImageDto;
 import com.example.rest.dtos.ItemDetailDto;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 public interface ItemDetailConverter {
 
     static ItemDetailModel convertToModel(ItemDetails details) {
 
-        Set<ImageModel> images = details.getImages().stream()
+        List<ImageModel> images = ofNullable(details.getImages()).orElse(emptyList())
+                .stream()
                 .map(i -> ImageConverter.convertToModel(i))
-                .collect(Collectors.toSet());
+                .collect(toList());
 
         return ItemDetailModel.builder()
                 .name(details.getName())
@@ -31,9 +35,10 @@ public interface ItemDetailConverter {
 
         ItemDetailModel details = getItemDetailsByLanguage(item, lang, defaultLang);
 
-        Set<ImageDto> images = details.getAdditionalImages().stream()
+        List<ImageDto> images = ofNullable(details.getAdditionalImages()).orElse(emptyList())
+                .stream()
                 .map(i -> ImageConverter.convertToDto(i))
-                .collect(Collectors.toSet());
+                .collect(toList());
 
         return ItemDetailDto.builder()
                 .id(item.getId())
@@ -50,7 +55,7 @@ public interface ItemDetailConverter {
 
     static ItemDetailModel getItemDetailsByLanguage(ItemModel item, String lang, String defaultLang) {
         if (item.getDetails().isEmpty()) {
-            return ItemDetailModel.builder().name("Error").build();
+            return ItemDetailModel.builder().name("404").build();
         }
 
         return item.getDetails().stream()
@@ -60,6 +65,6 @@ public interface ItemDetailConverter {
                 .orElse(item.getDetails().stream()
                         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(defaultLang))
                         .findFirst()
-                        .orElse(ItemDetailModel.builder().name("Error").build()));
+                        .orElse(ItemDetailModel.builder().name("404").build()));
     }
 }

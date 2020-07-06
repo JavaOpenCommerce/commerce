@@ -6,16 +6,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
 
-@Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class Image extends BaseEntity {
+@EqualsAndHashCode
+public class Image {
 
+    private Long id;
     private String alt;
     private String url;
 }

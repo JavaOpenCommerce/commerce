@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Builder
@@ -16,6 +16,6 @@ public class SearchItem {
     private double valueGross;
     private ImageDto image;
     private Long producerId;
-    private Set<Long> categoryIds;
-    private Set<SearchDetails> details;
+    private List<Long> categoryIds;
+    private List<SearchDetails> details;
 }

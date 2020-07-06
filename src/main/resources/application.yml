@@ -6,19 +6,9 @@ quarkus:
 
   #datasource settings
   datasource:
-    db-kind: postgresql
-    jdbc:
-      url: jdbc:postgresql://localhost:5432/main_postgres_db
+    url: vertx-reactive:postgresql://localhost:5432/main_postgres_db?currentSchema=main_store_db
     username: ${QUARKUS_DATASOURCE_USERNAME}
     password: ${QUARKUS_DATASOURCE_PASSWORD}
-
-  #hibernate settings
-  hibernate-orm:
-    database:
-      generation: drop-and-create
-    sql-load-script: data.sql
-    log:
-      sql: false
 
 #locale
 default-locale: pl-PL
@@ -28,22 +18,3 @@ com:
     default-locale: pl
     elasticsearch-host: localhost
     elasticsearch-port: 9200
-
-
-###OLD###
-
-#    #Elastic search properties
-#    hibernate-search:
-#      automatic-indexing:
-#        synchronization:
-#          strategy: sync
-#      schema-management:
-#        strategy: drop-and-create
-#      elasticsearch:
-#        version: 7
-#        index-defaults:
-#          schema-management:
-#            required-status: yellow
-#        analysis:
-#          configurer: com.example.elasticsearch.AnalysisConfigurer
-

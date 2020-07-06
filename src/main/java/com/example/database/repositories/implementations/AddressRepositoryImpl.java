@@ -1,24 +1,25 @@
-package com.example.database.repositories;
+package com.example.database.repositories.implementations;
 
 import com.example.database.entity.Address;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import com.example.database.repositories.interfaces.AddressRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
 @ApplicationScoped
-public class AddressRepository implements PanacheRepository<Address> {
-
+public class AddressRepositoryImpl implements AddressRepository {
+    @Override
     public Address findByZip(String zip) {
-        return find("zip LIKE ?1", "%" + zip.trim() + "%").firstResult();
+        return null;
     }
 
+    @Override
     public List<Address> getAddressByCity(String city) {
-        return list("city", city);
+        return null;
     }
 
+    @Override
     public List<Address> getUserAddressListById(Long id) {
-        return list("user.id", id);
+        return null;
     }
-
 }
