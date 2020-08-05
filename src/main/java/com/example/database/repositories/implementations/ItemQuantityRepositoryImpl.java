@@ -11,6 +11,7 @@ public class ItemQuantityRepositoryImpl implements ItemQuantityRepository {
 
     @Override
     public List<ItemQuantity> getItemQuantitiesByOrderId(Long id) {
+        //todo
         return null;
     }
 }

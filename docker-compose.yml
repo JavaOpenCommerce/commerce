@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
 
@@ -10,9 +10,9 @@ services:
       memlock: -1
     restart: always
     environment:
+      - POSTGRES_DB=main_postgres_db
       - POSTGRES_USER=${QUARKUS_DATASOURCE_USERNAME}
       - POSTGRES_PASSWORD=${QUARKUS_DATASOURCE_PASSWORD}
-      - POSTGRES_DB=main_postgres_db
     networks:
       - com-example-network
 
@@ -24,6 +24,13 @@ services:
     restart: always
     environment:
       - discovery.type=single-node
+    networks:
+      - com-example-network
+
+  redis:
+    image: redis
+    ports:
+      - "6380:6379"
     networks:
       - com-example-network
 

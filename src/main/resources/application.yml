@@ -6,15 +6,18 @@ quarkus:
 
   #datasource settings
   datasource:
-    url: vertx-reactive:postgresql://localhost:5432/main_postgres_db?currentSchema=main_store_db
+    url: vertx-reactive:postgresql://localhost:5432/main_postgres_db
     username: ${QUARKUS_DATASOURCE_USERNAME}
     password: ${QUARKUS_DATASOURCE_PASSWORD}
 
 #locale
 default-locale: pl-PL
 
+#custom properties
 com:
   example:
     default-locale: pl
     elasticsearch-host: localhost
     elasticsearch-port: 9200
+    redis-host: localhost
+    redis-port: 6380

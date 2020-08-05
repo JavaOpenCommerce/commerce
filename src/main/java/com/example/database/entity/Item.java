@@ -25,10 +25,10 @@ public class Item {
     private double vat;
     private int stock;
     private Image image;
-    private Producer producer;
+    private Long producerId;
 
     @Builder.Default
-    private List<Category> category = new ArrayList<>();
+    private List<Long> categoryIds = new ArrayList<>();
 
     @Builder.Default
     private List<ItemDetails> details = new ArrayList<>();

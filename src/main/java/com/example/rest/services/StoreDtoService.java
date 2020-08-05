@@ -1,6 +1,7 @@
 package com.example.rest.services;
 
 import com.example.database.services.StoreService;
+import com.example.elasticsearch.SearchRequest;
 import com.example.rest.dtos.CategoryDto;
 import com.example.rest.dtos.ItemDetailDto;
 import com.example.rest.dtos.ItemDto;
@@ -14,58 +15,75 @@ import com.example.utils.converters.ProducerConverter;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @ApplicationScoped
 public class StoreDtoService {
 
     private final StoreService storeService;
-    private final LanguageResolver langResolver;
+    private final LanguageResolver langRes;
 
-    public StoreDtoService(StoreService storeService, LanguageResolver langResolver) {
+    public StoreDtoService(StoreService storeService, LanguageResolver langRes) {
         this.storeService = storeService;
-        this.langResolver = langResolver;
+        this.langRes = langRes;
     }
-
 
     public Uni<ItemDetailDto> getItemById(Long id) {
         return storeService
                 .getItemById(id)
                 .onItem()
-                .apply(i -> ItemDetailConverter.convertToDto(i, langResolver.getLanguage(), langResolver.getDefault()));
+                .apply(i -> ItemDetailConverter.convertToDto(i, langRes.getLanguage(), langRes.getDefault()));
     }
 
-    public PageDto<ItemDto> getPageOfAllItems(int pageIndex, int pageSize) {
-        return ItemPageConverter
-                .convertToDto(storeService.getPageOfAllItems(pageIndex, pageSize),
-                        langResolver.getLanguage(),
-                        langResolver.getDefault());
+    public Uni<PageDto<ItemDto>> getFilteredItems(SearchRequest request) {
+
+        return storeService.getFilteredItemsPage(request).onItem()
+                .apply(itemPage -> {
+                    PageDto<ItemDto> itemDtoPageDto = ItemPageConverter.convertToDto(itemPage,
+                            langRes.getLanguage(),
+                            langRes.getDefault());
+
+                    sortItems(itemDtoPageDto.getItems(), request);
+
+                    return itemDtoPageDto;
+                });
     }
 
-    public PageDto<ItemDto> getItemsPageByCategory(Long categoryId, int pageIndex, int pageSize) {
-        return ItemPageConverter
-                .convertToDto(storeService.getItemsPageByCategory(categoryId, pageIndex, pageSize),
-                        langResolver.getLanguage(),
-                        langResolver.getDefault());
+    public Uni<List<CategoryDto>> getAllCategories() {
+        return storeService.getAllCategories().onItem().apply(categoryModels ->
+                categoryModels.stream()
+                        .map(cat -> CategoryConverter.convertToDto(cat, langRes.getLanguage(), langRes.getDefault()))
+                        .collect(toList()));
     }
 
-    public PageDto<ItemDto> getItemsPageByProducer(Long producerId, int pageIndex, int pageSize) {
-        return ItemPageConverter
-                .convertToDto(storeService.getItemsPageByProducer(producerId, pageIndex, pageSize),
-                        langResolver.getLanguage(),
-                        langResolver.getDefault());
+    public Uni<List<ProducerDto>> getAllProducers() {
+        return storeService.getAllProducers().onItem().apply(producerModels ->
+                producerModels.stream()
+                        .map(prod -> ProducerConverter.convertToDto(prod, langRes.getLanguage(), langRes.getDefault()))
+                        .collect(toList()));
     }
 
-    public List<CategoryDto> getCategoryList() {
-        return storeService.getCategoryList().stream()
-                .map(c -> CategoryConverter.convertToDto(c, langResolver.getLanguage(), langResolver.getDefault()))
-                .collect(Collectors.toList());
-    }
+    private void sortItems(List<ItemDto> itemDtos, SearchRequest request) {
 
-    public List<ProducerDto> getProducerList() {
-        return storeService.getProducerList().stream()
-                .map(c -> ProducerConverter.convertToDto(c, langResolver.getLanguage(), langResolver.getDefault()))
-                .collect(Collectors.toList());
+        String sortingType = request.getSortBy().toUpperCase() + "-" + request.getOrder().toUpperCase();
+
+        switch (sortingType) {
+            case "VALUE-ASC":
+                itemDtos.sort(Comparator.comparing(ItemDto::getValueGross));
+                break;
+            case "VALUE-DESC":
+                itemDtos.sort(Comparator.comparing(ItemDto::getValueGross).reversed());
+                break;
+            case "NAME-ASC":
+            default:
+                itemDtos.sort(Comparator.comparing(ItemDto::getName));
+                break;
+            case "NAME-DESC":
+                itemDtos.sort(Comparator.comparing(ItemDto::getName).reversed());
+                break;
+        }
     }
 }

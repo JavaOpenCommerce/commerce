@@ -5,30 +5,30 @@ import com.example.business.Vat;
 import com.example.business.models.CategoryModel;
 import com.example.business.models.ItemDetailModel;
 import com.example.business.models.ItemModel;
+import com.example.database.entity.Category;
 import com.example.database.entity.Image;
 import com.example.database.entity.Item;
+import com.example.database.entity.ItemDetails;
 import com.example.database.entity.Producer;
 import com.example.rest.dtos.ItemDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 public interface ItemConverter {
 
+    static ItemModel convertToModel(Item item, List<ItemDetails> itemDetails, List<Category> categories, Producer producer) {
 
-    static ItemModel convertToModel(Item item) {
-
-        List<CategoryModel> categoryModels = ofNullable(item.getCategory()).orElse(emptyList())
-                .stream()
-                .map(category -> CategoryConverter.convertToModel(category))
+        List<ItemDetailModel> details = itemDetails.stream()
+                .map(d -> ItemDetailConverter.convertToModel(d))
                 .collect(Collectors.toList());
 
-        List<ItemDetailModel> itemDetailModels = ofNullable(item.getDetails()).orElse(emptyList())
-                .stream()
-                .map(itemDetails -> ItemDetailConverter.convertToModel(itemDetails))
+        List<CategoryModel> categoryModels = categories.stream()
+                .map(cat -> CategoryConverter.convertToModel(cat))
                 .collect(Collectors.toList());
 
         return ItemModel.builder()
@@ -36,14 +36,40 @@ public interface ItemConverter {
                 .valueGross(Value.of(item.getValueGross()))
                 .producer(
                         ProducerConverter.convertToModel(
-                                ofNullable(item.getProducer()).orElse(Producer.builder().build())))
+                                ofNullable(producer).orElse(Producer.builder().build())))
                 .category(categoryModels)
                 .vat(Vat.of(item.getVat()))
-                .details(itemDetailModels)
+                .details(details)
                 .stock(item.getStock())
                 .image(ImageConverter.convertToModel(
                         ofNullable(item.getImage()).orElse(Image.builder().build())))
                 .build();
+    }
+
+    static List<ItemModel> convertToItemModelList(List<Item> items,
+            List<ItemDetails> itemDetails,
+            List<Category> categories,
+            List<Producer> producers) {
+
+        List<ItemModel> itemModels = new ArrayList<>();
+        for (Item item : items) {
+            List<Category> categoriesFiltered = categories.stream()
+                    .filter(c -> item.getCategoryIds().contains(c.getId()))
+                    .collect(toList());
+
+            List<ItemDetails> itemDetailsFiltered = itemDetails.stream()
+                    .filter(id -> id.getItemId() == item.getId())
+                    .collect(toList());
+
+            Producer producerRetrieved = producers.stream()
+                    .filter(p -> p.getId() == item.getProducerId())
+                    .findAny()
+                    .orElse(Producer.builder().build());
+
+            itemModels
+                    .add(convertToModel(item, itemDetailsFiltered, categoriesFiltered, producerRetrieved));
+        }
+        return itemModels;
     }
 
     static ItemDto convertToDto(ItemModel item, String lang, String defaultLang) {

@@ -37,7 +37,7 @@ public interface SearchItemConverter {
 
     static SearchDetails convertToSearchDetails(ItemDetailModel details) {
         return SearchDetails.builder()
-                .lang(details.getLang())
+                .lang(details.getLang().toString())
                 .name(details.getName())
                 .description(details.getDescription())
                 .build();

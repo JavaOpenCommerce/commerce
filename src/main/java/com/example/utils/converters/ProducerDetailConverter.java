@@ -3,6 +3,7 @@ package com.example.utils.converters;
 import com.example.business.models.ProducerDetailModel;
 import com.example.business.models.ProducerModel;
 import com.example.database.entity.ProducerDetails;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ public interface ProducerDetailConverter {
 
     static ProducerDetailModel getProducerDetailByLanguage(ProducerModel producer, String lang, String defaultLang) {
         if (producer.getDetails().isEmpty()) {
-            return ProducerDetailModel.builder().name("Error").build();
+            return ProducerDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build();
         }
 
         return producer.getDetails().stream()
@@ -30,6 +31,6 @@ public interface ProducerDetailConverter {
                 .orElse(producer.getDetails().stream()
                         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(defaultLang))
                         .findFirst()
-                        .orElse(ProducerDetailModel.builder().name("Error").build()));
+                        .orElse(ProducerDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build()));
     }
 }

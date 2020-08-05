@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation project(':model')
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    //implementation 'io.quarkus:quarkus-oidc'
     implementation 'io.quarkus:quarkus-config-yaml'
     implementation 'io.quarkus:quarkus-reactive-pg-client'
     implementation 'io.quarkus:quarkus-config-yaml'
@@ -13,6 +14,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-vertx-web'
     implementation 'io.quarkus:quarkus-scala'
     implementation 'io.quarkus:quarkus-flyway'
+    implementation 'io.vertx:vertx-redis-client'
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-redis-client:0.0.16'
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-resteasy-mutiny'
     implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'

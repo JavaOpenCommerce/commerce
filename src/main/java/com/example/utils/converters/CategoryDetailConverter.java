@@ -4,6 +4,7 @@ package com.example.utils.converters;
 import com.example.business.models.CategoryDetailModel;
 import com.example.business.models.CategoryModel;
 import com.example.database.entity.CategoryDetails;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ public interface CategoryDetailConverter {
 
     static CategoryDetailModel getCategoryDetailByLanguage(CategoryModel category, String lang, String defaultLang) {
         if (category.getDetails().isEmpty()) {
-            return CategoryDetailModel.builder().name("404").build();
+            return CategoryDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build();
         }
 
         return category.getDetails().stream()
@@ -30,6 +31,6 @@ public interface CategoryDetailConverter {
                 .orElse(category.getDetails().stream()
                         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(defaultLang))
                         .findFirst()
-                        .orElse(CategoryDetailModel.builder().name("404").build()));
+                        .orElse(CategoryDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build()));
     }
 }

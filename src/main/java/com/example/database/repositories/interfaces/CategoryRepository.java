@@ -11,4 +11,5 @@ public interface CategoryRepository {
 
     Uni<List<Category>> getCategoriesByItemId(Long id);
 
+    Uni<List<Category>> getCategoriesListByIdList(List<Long> ids);
 }

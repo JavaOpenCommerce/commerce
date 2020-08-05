@@ -22,6 +22,7 @@ public class ItemDetails {
     private String name;
     private Locale lang;
     private String description;
+    private Long itemId;
 
     @Builder.Default
     private List<Image> images = new ArrayList<>();

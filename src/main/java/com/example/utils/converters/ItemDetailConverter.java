@@ -6,6 +6,7 @@ import com.example.business.models.ItemModel;
 import com.example.database.entity.ItemDetails;
 import com.example.rest.dtos.ImageDto;
 import com.example.rest.dtos.ItemDetailDto;
+import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.util.List;
 import java.util.Objects;
@@ -55,7 +56,7 @@ public interface ItemDetailConverter {
 
     static ItemDetailModel getItemDetailsByLanguage(ItemModel item, String lang, String defaultLang) {
         if (item.getDetails().isEmpty()) {
-            return ItemDetailModel.builder().name("404").build();
+            return ItemDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build();
         }
 
         return item.getDetails().stream()
@@ -65,6 +66,6 @@ public interface ItemDetailConverter {
                 .orElse(item.getDetails().stream()
                         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(defaultLang))
                         .findFirst()
-                        .orElse(ItemDetailModel.builder().name("404").build()));
+                        .orElse(ItemDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build()));
     }
 }
