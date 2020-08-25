@@ -48,9 +48,7 @@ public class CardController {
     public Uni<String> addProduct(Product product) {
         addCookieIfNotPresent();
         return cardDtoService.addProductWithAmount(product, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(result ->
-                        "{\"response\":\"" + result + "\"}"
-                        );
+                .onItem().apply(this::simpleResponse);
     }
 
     @PUT
@@ -59,9 +57,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> increaseProductAmount(@QueryParam("id") Long id) {
         return cardDtoService.increaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(result ->
-                                "{\"response\":\"" + result + "\"}"
-                        );
+                .onItem().apply(this::simpleResponse);
     }
 
     @PUT
@@ -70,9 +66,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> decreaseProductAmount(@QueryParam("id") Long id) {
         return cardDtoService.decreaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(result ->
-                        "{\"response\":\"" + result + "\"}"
-                );
+                .onItem().apply(this::simpleResponse);
     }
 
     @DELETE
@@ -81,9 +75,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> removeProduct(@QueryParam("id") Long id) {
         return cardDtoService.removeProduct(id, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(result ->
-                        "{\"response\":\"" + result + "\"}"
-                );
+                .onItem().apply(this::simpleResponse);
     }
 
     @DELETE
@@ -94,7 +86,7 @@ public class CardController {
             cardDtoService.flushCard(request.getCookie(COOKIE_NAME).getValue());
             log.info("Card flushed");
         }
-        return "{\"response\":\"" + OK + "\"}";
+        return simpleResponse(OK);
     }
 
     @GET
@@ -122,5 +114,9 @@ public class CardController {
 
     private String generateValue() {
         return UUID.randomUUID().toString();
+    }
+
+    private String simpleResponse(String response) {
+        return "{\"response\":\"" + response + "\"}";
     }
 }
