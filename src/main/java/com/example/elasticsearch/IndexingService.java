@@ -1,6 +1,5 @@
 package com.example.elasticsearch;
 
-import com.example.business.models.CategoryModel;
 import com.example.database.services.ItemService;
 import com.example.utils.converters.SearchItemConverter;
 import io.quarkus.runtime.StartupEvent;
@@ -63,14 +62,9 @@ public class IndexingService {
     private Uni<List<SearchItem>> getSearchItems() {
         return itemService.getAllItems().onItem().apply(
                 itemModels -> itemModels.stream()
-                        .filter(i -> validUserCategory(i.getCategory()))
                         .map(i -> SearchItemConverter.convertToSearchItem(i))
                         .collect(toList()));
     }
 
-    private boolean validUserCategory(List<CategoryModel> categories) {
-        return categories.stream()
-                .flatMap(category -> category.getDetails().stream())
-                .allMatch(details -> !"shipping".equalsIgnoreCase(details.getName()));
-    }
+
 }

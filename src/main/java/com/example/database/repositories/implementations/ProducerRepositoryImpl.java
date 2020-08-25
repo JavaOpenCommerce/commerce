@@ -82,7 +82,8 @@ public class ProducerRepositoryImpl implements ProducerRepository {
     }
 
     private Producer buildProducer(RowSet<Row> rs) {
-        if (rs == null) {
+        if (rs == null || rs.next() == null) {
+            rs.forEach(System.out::println);
             return Producer.builder().build();
         }
 

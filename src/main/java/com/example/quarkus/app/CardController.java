@@ -2,18 +2,20 @@ package com.example.quarkus.app;
 
 import com.example.database.entity.Product;
 import com.example.rest.dtos.CardDto;
+import com.example.rest.dtos.ItemDto;
 import com.example.rest.services.CardDtoService;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import lombok.extern.jbosslog.JBossLog;
-import org.jboss.resteasy.spi.HttpResponseCodes;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.UUID;
 
+import static com.example.utils.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
 @JBossLog
@@ -30,13 +32,58 @@ public class CardController {
         this.cardDtoService = cardDtoService;
     }
 
+
+    @GET
+    @Path("/get")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<CardDto> getCard() {
+        addCookieIfNotPresent();
+        return cardDtoService.getCard(request.getCookie(COOKIE_NAME).getValue());
+    }
+
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<CardDto> persistCard(Product product) {
+    public Uni<String> addProduct(Product product) {
         addCookieIfNotPresent();
-        return cardDtoService.addProductToCard(product, request.getCookie(COOKIE_NAME).getValue());
+        return cardDtoService.addProductWithAmount(product, request.getCookie(COOKIE_NAME).getValue())
+                .onItem().apply(result ->
+                        "{\"response\":\"" + result + "\"}"
+                        );
+    }
+
+    @PUT
+    @Path("/increase")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<String> increaseProductAmount(@QueryParam("id") Long id) {
+        return cardDtoService.increaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
+                .onItem().apply(result ->
+                                "{\"response\":\"" + result + "\"}"
+                        );
+    }
+
+    @PUT
+    @Path("/decrease")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<String> decreaseProductAmount(@QueryParam("id") Long id) {
+        return cardDtoService.decreaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
+                .onItem().apply(result ->
+                        "{\"response\":\"" + result + "\"}"
+                );
+    }
+
+    @DELETE
+    @Path("/remove")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<String> removeProduct(@QueryParam("id") Long id) {
+        return cardDtoService.removeProduct(id, request.getCookie(COOKIE_NAME).getValue())
+                .onItem().apply(result ->
+                        "{\"response\":\"" + result + "\"}"
+                );
     }
 
     @DELETE
@@ -47,15 +94,14 @@ public class CardController {
             cardDtoService.flushCard(request.getCookie(COOKIE_NAME).getValue());
             log.info("Card flushed");
         }
-        return "{\"response\": " + HttpResponseCodes.SC_OK + "}";
+        return "{\"response\":\"" + OK + "\"}";
     }
 
     @GET
-    @Path("/get")
+    @Path("/shipping")
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<CardDto> getCard() {
-        addCookieIfNotPresent();
-        return cardDtoService.getCard(request.getCookie(COOKIE_NAME).getValue());
+    public Uni<List<ItemDto>> getShippingMethods() {
+        return cardDtoService.getShippingMethods();
     }
 
     private boolean cookieCheck() {

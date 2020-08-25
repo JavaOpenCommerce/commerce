@@ -1,11 +1,17 @@
 package com.example.elasticsearch;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.ws.rs.DefaultValue;
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SearchRequest {
 
     @QueryParam("pageNum")

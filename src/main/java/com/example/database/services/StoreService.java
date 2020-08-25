@@ -52,7 +52,16 @@ public class StoreService {
             itemService
                     .getItemsListByIdList(results.getLeft())
                     .onItem()
-                    .apply(items -> getItemModelPage(request.getPageNum(), request.getPageSize(), results.getRight(), items)));
+                    .apply(items -> {
+                        List<ItemModel> filteredList = items.stream()
+                                .filter(i -> isValidCategory(i.getCategory()))
+                                .collect(toList());
+
+                        //list size difference after filtering out Shipping methods
+                        int difference = items.size() - filteredList.size();
+                        return getItemModelPage(request.getPageNum(), request.getPageSize(),
+                                        results.getRight() - difference, filteredList);
+                    }));
     }
 
     public Uni<List<CategoryModel>> getAllCategories() {
@@ -60,14 +69,14 @@ public class StoreService {
             categories.stream()
                     .filter(cat -> cat.getDetails().stream()
                             .allMatch(detail -> !"shipping".equalsIgnoreCase(detail.getName())))
-                    .map(cat -> CategoryConverter.convertToModel(cat))
+                    .map(CategoryConverter::convertToModel)
                     .collect(toList()));
     }
 
     public Uni<List<ProducerModel>> getAllProducers() {
         return producerRepository.getAll().onItem().apply(producers ->
                 producers.stream()
-                        .map(prod -> ProducerConverter.convertToModel(prod))
+                        .map(ProducerConverter::convertToModel)
                         .collect(toList()));
     }
 
@@ -112,6 +121,12 @@ public class StoreService {
                 .totalElementsCount(totalCount)
                 .items(items)
                 .build();
+    }
+
+    private boolean isValidCategory(List<CategoryModel> categories) {
+        return categories.stream()
+                .flatMap(category -> category.getDetails().stream())
+                .allMatch(details -> !"shipping".equalsIgnoreCase(details.getName()));
     }
 }
 
