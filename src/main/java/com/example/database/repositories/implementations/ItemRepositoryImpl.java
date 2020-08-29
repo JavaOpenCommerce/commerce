@@ -27,23 +27,24 @@ import static java.util.stream.StreamSupport.stream;
 public class ItemRepositoryImpl implements ItemRepository {
 
     private final PgPool client;
-    private static final String SELECT_BASE = "SELECT * FROM Item i ";
+    private static final String SELECT_ITEM_BASE = "SELECT * FROM ITEM i ";
+    private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEMDETAILS i ";
     private static final String IMAGE_JOIN = "INNER JOIN Image img ON i.image_id = img.id ";
+    private static final String CATEGORY_JOIN = "INNER JOIN Image img ON i.image_id = img.id ";
+
 
     public ItemRepositoryImpl(PgPool client) {this.client = client;}
 
 
     @Override
     public Uni<List<Item>> getAllItems() {
-        return client.preparedQuery(SELECT_BASE + IMAGE_JOIN +
-                                        "INNER JOIN item_category ON item_category.item_id = i.id ")
+        return client.preparedQuery(SELECT_ITEM_BASE + IMAGE_JOIN + CATEGORY_JOIN)
                 .onItem().apply(this::getItems);
     }
 
     @Override
     public Uni<Item> getItemById(Long id) {
-        return client.preparedQuery(SELECT_BASE + IMAGE_JOIN +
-                                        "WHERE i.id = $1", Tuple.of(id))
+        return client.preparedQuery(SELECT_ITEM_BASE + IMAGE_JOIN + "WHERE i.id = $1", Tuple.of(id))
                 .onItem().apply(rs -> {
                     if (rs == null || !rs.iterator().hasNext()) {
                         return Item.builder().build();
@@ -54,27 +55,26 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Uni<List<Item>> getItemsListByIdList(List<Long> ids) {
-        return client.preparedQuery(SELECT_BASE + IMAGE_JOIN +
-                                        "INNER JOIN item_category ON item_category.item_id = i.id " +
+        return client.preparedQuery(SELECT_ITEM_BASE + IMAGE_JOIN + CATEGORY_JOIN +
                                         "WHERE i.id = ANY ($1) ORDER BY i.id DESC", Tuple.of(ids.toArray(new Long[ids.size()])))
                 .onItem().apply(this::getItems);
     }
 
     @Override
     public Uni<List<ItemDetails>> getAllItemDetails() {
-        return client.preparedQuery("SELECT * FROM ITEMDETAILS")
+        return client.preparedQuery(SELECT_DETAILS_BASE)
                 .onItem().apply(this::getItemDetails);
     }
 
     @Override
     public Uni<List<ItemDetails>> getItemDetailsListByItemId(Long id) {
-        return client.preparedQuery("SELECT * FROM ITEMDETAILS WHERE item_id = $1", Tuple.of(id))
+        return client.preparedQuery(SELECT_DETAILS_BASE + " WHERE item_id = $1", Tuple.of(id))
                 .onItem().apply(this::getItemDetails);
     }
 
     @Override
     public Uni<List<ItemDetails>> getItemDetailsListByIdList(List<Long> ids) {
-        return client.preparedQuery("SELECT * FROM ITEMDETAILS WHERE item_id = ANY ($1)",
+        return client.preparedQuery(SELECT_DETAILS_BASE + " WHERE item_id = ANY ($1)",
                                         Tuple.of(ids.toArray(new Long[ids.size()])))
                 .onItem().apply(this::getItemDetails);
     }
