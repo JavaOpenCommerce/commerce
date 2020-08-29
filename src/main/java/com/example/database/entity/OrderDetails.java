@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.example.database.entity.OrderStatus.NEW;
 import static com.example.database.entity.PaymentStatus.BEFORE_PAYMENT;
@@ -31,4 +32,6 @@ public class OrderDetails {
     private OrderStatus orderStatus = NEW;
 
     private UserEntity userEntity;
+
+    private List<Product> products;
 }

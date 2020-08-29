@@ -7,5 +7,6 @@ import java.util.List;
 public interface OrderDetailsRepository {
 
     List<OrderDetails> findOrderDetailsByUserId(Long id);
+    OrderDetails saveOrder(OrderDetails orderDetails);
 
 }

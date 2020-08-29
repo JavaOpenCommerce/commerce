@@ -80,6 +80,41 @@ public class ItemRepositoryImpl implements ItemRepository {
                 .onItem().apply(rs -> getItemDetails(rs));
     }
 
+    @Override
+    public Uni<Item> saveItem(Item item) {
+        return client.preparedQuery("INSERT INTO ITEM (stock, valuegross, vat, image_id, producer_id) " +
+                "VALUES($1, $2, $3, $4, $5)", Tuple.of(
+                item.getStock(),
+                item.getValueGross(),
+                item.getVat(),
+                item.getImage().getId(),
+                item.getProducerId()))
+                .onItem().apply(rs -> {
+            if (rs == null || !rs.iterator().hasNext()) {
+                return Item.builder().build();
+            }
+            return rowToItem(rs.iterator().next());
+        });
+    }
+
+    @Override
+    public Uni<ItemDetails> saveItemDetails(ItemDetails itemDetails) {
+        return client.preparedQuery("INSERT INTO ITEMDETAILS (description, lang, name, item_id) " +
+                "VALUES($1, $2, $3, $4)", Tuple.of(
+                        itemDetails.getDescription(),
+                        itemDetails.getLang().toLanguageTag(),
+                        itemDetails.getName(),
+                        itemDetails.getItemId()
+               )).onItem().apply(rs -> {
+            if (rs == null || !rs.iterator().hasNext()) {
+                return ItemDetails.builder().build();
+            }
+            return rowToItemDetails(rs.iterator().next());
+        });
+    }
+
+    //---------------------------------------------------------------------------------------------------------------
+
     private List<Item> getItems(RowSet<Row> rs) {
         if (rs == null) {
             return emptyList();

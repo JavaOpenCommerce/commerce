@@ -19,4 +19,8 @@ public interface ItemRepository {
     Uni<List<ItemDetails>> getItemDetailsListByItemId(Long id);
 
     Uni<List<ItemDetails>> getItemDetailsListByIdList(List<Long> ids);
+
+    Uni<Item> saveItem(Item item);
+
+    Uni<ItemDetails> saveItemDetails(ItemDetails itemDetails);
 }
