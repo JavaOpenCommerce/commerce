@@ -189,7 +189,7 @@ create table itemquantity
 	item_id bigint
 		constraint fkfsobtkbmkfxkxlit1lfn7q3cu
 			references item,
-	orderdetails_id bigint
+	order_id bigint
 		constraint fk6vknl2m714beusu1uyeqj0ghc
 			references orderdetails
 );
@@ -205,4 +205,15 @@ create table userentity_permissions
 );
 
 alter table userentity_permissions owner to testuser;
+
+-- SEQUENCES ---------------------------------------------------
+
+alter sequence item_id_seq
+    increment by 1
+    minvalue 20
+    start 20
+    restart 20;
+alter sequence item_id_seq owner to testuser;
+
+
 
