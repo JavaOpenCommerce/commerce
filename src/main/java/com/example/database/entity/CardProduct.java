@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Product {
+public class CardProduct {
 
     private Long itemId;
     private int amount;

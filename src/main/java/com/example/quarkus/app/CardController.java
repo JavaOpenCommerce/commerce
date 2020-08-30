@@ -1,6 +1,6 @@
 package com.example.quarkus.app;
 
-import com.example.database.entity.Product;
+import com.example.database.entity.CardProduct;
 import com.example.rest.dtos.CardDto;
 import com.example.rest.dtos.ItemDto;
 import com.example.rest.services.CardDtoService;
@@ -45,7 +45,7 @@ public class CardController {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<String> addProduct(Product product) {
+    public Uni<String> addProduct(CardProduct product) {
         addCookieIfNotPresent();
         return cardDtoService.addProductWithAmount(product, request.getCookie(COOKIE_NAME).getValue())
                 .onItem().apply(this::simpleResponse);

@@ -5,7 +5,7 @@ import com.example.business.models.AddressModel;
 import com.example.business.models.ItemModel;
 import com.example.business.models.ProductModel;
 import com.example.database.entity.Address;
-import com.example.database.entity.Product;
+import com.example.database.entity.CardProduct;
 import com.example.database.repositories.implementations.CardRepositoryImpl;
 import com.example.elasticsearch.SearchRequest;
 import com.example.elasticsearch.SearchService;
@@ -45,7 +45,7 @@ public class CardService {
             getCardProducts(products).onItem().apply(CardModel::new));
     }
 
-    public Uni<String> addProductWithAmount(Product product, String id) {
+    public Uni<String> addProductWithAmount(CardProduct product, String id) {
         return Uni.combine().all().unis(getCard(id), itemService.getItemById(product.getItemId()))
                 .combinedWith((cardModel, itemModel) -> {
                     String result = cardModel.addProduct(itemModel, product.getAmount());
@@ -119,7 +119,7 @@ public class CardService {
                 );
     }
 
-    private Uni<Map<Long, ProductModel>> getCardProducts(List<Product> products) {
+    private Uni<Map<Long, ProductModel>> getCardProducts(List<CardProduct> products) {
         List<Long> ids = products.stream().map(id -> id.getItemId()).collect(toList());
 
         return itemService.getItemsListByIdList(ids).onItem().apply(itemModels -> {
@@ -129,7 +129,7 @@ public class CardService {
                 int amount = products.stream()
                         .filter(p -> p.getItemId() == im.getId())
                         .findFirst()
-                        .orElse(Product.builder().amount(1).build())
+                        .orElse(CardProduct.builder().amount(1).build())
                         .getAmount();
 
                 cardProducts.put(im.getId(), ProductModel.getProduct(im, amount));

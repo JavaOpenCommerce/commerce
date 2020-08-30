@@ -15,8 +15,6 @@ public class ItemQuantity {
 
     private Long id;
     private int amount;
-    private Item item;
-    private OrderDetails orderDetails;
-
-
+    private Long itemId;
+    private Long orderId;
 }

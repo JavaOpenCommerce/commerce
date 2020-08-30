@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
@@ -27,10 +28,10 @@ import static java.util.stream.StreamSupport.stream;
 public class ItemRepositoryImpl implements ItemRepository {
 
     private final PgPool client;
-    private static final String SELECT_ITEM_BASE = "SELECT * FROM ITEM i ";
-    private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEMDETAILS i ";
-    private static final String IMAGE_JOIN = "INNER JOIN Image img ON i.image_id = img.id ";
-    private static final String CATEGORY_JOIN = "INNER JOIN Image img ON i.image_id = img.id ";
+    private static final String SELECT_ITEM_BASE = "SELECT * FROM ITEM i";
+    private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEMDETAILS i";
+    private static final String IMAGE_JOIN = "INNER JOIN Image img ON i.image_id = img.id";
+    private static final String CATEGORY_JOIN = "INNER JOIN Image img ON i.image_id = img.id";
 
 
     public ItemRepositoryImpl(PgPool client) {this.client = client;}
@@ -38,13 +39,13 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Uni<List<Item>> getAllItems() {
-        return client.preparedQuery(SELECT_ITEM_BASE + IMAGE_JOIN + CATEGORY_JOIN)
+        return client.preparedQuery(format("%s %s %s", SELECT_ITEM_BASE, IMAGE_JOIN, CATEGORY_JOIN))
                 .onItem().apply(this::getItems);
     }
 
     @Override
     public Uni<Item> getItemById(Long id) {
-        return client.preparedQuery(SELECT_ITEM_BASE + IMAGE_JOIN + "WHERE i.id = $1", Tuple.of(id))
+        return client.preparedQuery(format("%s %s WHERE i.id = $1", SELECT_ITEM_BASE, IMAGE_JOIN), Tuple.of(id))
                 .onItem().apply(rs -> {
                     if (rs == null || !rs.iterator().hasNext()) {
                         return Item.builder().build();
@@ -55,8 +56,9 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Uni<List<Item>> getItemsListByIdList(List<Long> ids) {
-        return client.preparedQuery(SELECT_ITEM_BASE + IMAGE_JOIN + CATEGORY_JOIN +
-                                        "WHERE i.id = ANY ($1) ORDER BY i.id DESC", Tuple.of(ids.toArray(new Long[ids.size()])))
+        return client.preparedQuery(format("%s %s %s WHERE i.id = ANY ($1) ORDER BY i.id DESC",
+                                            SELECT_ITEM_BASE, IMAGE_JOIN, CATEGORY_JOIN),
+                                            Tuple.of(ids.toArray(new Long[ids.size()])))
                 .onItem().apply(this::getItems);
     }
 
@@ -68,13 +70,13 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public Uni<List<ItemDetails>> getItemDetailsListByItemId(Long id) {
-        return client.preparedQuery(SELECT_DETAILS_BASE + " WHERE item_id = $1", Tuple.of(id))
+        return client.preparedQuery(format("%s WHERE item_id = $1", SELECT_DETAILS_BASE), Tuple.of(id))
                 .onItem().apply(this::getItemDetails);
     }
 
     @Override
     public Uni<List<ItemDetails>> getItemDetailsListByIdList(List<Long> ids) {
-        return client.preparedQuery(SELECT_DETAILS_BASE + " WHERE item_id = ANY ($1)",
+        return client.preparedQuery(format("%s WHERE item_id = ANY ($1)", SELECT_DETAILS_BASE),
                                         Tuple.of(ids.toArray(new Long[ids.size()])))
                 .onItem().apply(this::getItemDetails);
     }
@@ -140,17 +142,23 @@ public class ItemRepositoryImpl implements ItemRepository {
             return Item.builder().build();
         }
 
+        Long imageId = row.getLong("image_id");
+
+        Image image = ofNullable(imageId)
+                .map(id -> Image.builder()
+                .id(imageId)
+                .alt(row.getString("alt"))
+                .url(row.getString("url"))
+                .build())
+                .orElse(Image.builder().build());
+
         return Item.builder()
                 .stock(row.getInteger("stock"))
                 .valueGross(BigDecimal.valueOf(row.getDouble("valuegross")))
                 .vat(row.getDouble("vat"))
                 .id(row.getLong("id"))
                 .producerId(row.getLong("producer_id"))
-                .image(Image.builder()
-                        .id(row.getLong("image_id"))
-                        .alt(row.getString("alt"))
-                        .url(row.getString("url"))
-                        .build())
+                .image(image)
                 .build();
     }
 

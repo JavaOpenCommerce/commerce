@@ -1,7 +1,7 @@
 package com.example.utils.converters;
 
 import com.example.business.CardModel;
-import com.example.database.entity.Product;
+import com.example.database.entity.CardProduct;
 import com.example.rest.dtos.CardDto;
 import com.example.rest.dtos.ProductDto;
 
@@ -27,10 +27,10 @@ public interface CardConverter {
                 .build();
     }
 
-    static List<Product> convertToProductList(CardModel cardModel) {
+    static List<CardProduct> convertToProductList(CardModel cardModel) {
         return cardModel.getProducts().values()
                 .stream()
-                .map(p -> Product.builder()
+                .map(p -> CardProduct.builder()
                         .itemId(p.getItemModel().getId())
                         .amount(p.getAmount().asInteger())
                         .build())

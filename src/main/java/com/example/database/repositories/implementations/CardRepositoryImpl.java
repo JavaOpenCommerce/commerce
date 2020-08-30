@@ -1,6 +1,6 @@
 package com.example.database.repositories.implementations;
 
-import com.example.database.entity.Product;
+import com.example.database.entity.CardProduct;
 import com.example.database.repositories.interfaces.CardRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.Json;
@@ -30,8 +30,8 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public Uni<List<Product>> getCardList(String id) {
-        Promise<List<Product>> promise = promise();
+    public Uni<List<CardProduct>> getCardList(String id) {
+        Promise<List<CardProduct>> promise = promise();
         redisAPI.get(id, res -> {
             if (!res.succeeded()) {
                 log.warnf("Failed to get card, with message: {}", res.cause());
@@ -44,8 +44,8 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     @Override
-    public Uni<List<Product>> saveCard(String id, List<Product> products) {
-        Promise<List<Product>> promise = promise();
+    public Uni<List<CardProduct>> saveCard(String id, List<CardProduct> products) {
+        Promise<List<CardProduct>> promise = promise();
         redisAPI.set(List.of(id, Json.encode(products)),res -> {
             if (!res.succeeded()) {
                 log.warnf("Failed to store in redis, with message: {}", res.cause());
@@ -57,7 +57,7 @@ public class CardRepositoryImpl implements CardRepository {
 
     }
 
-    private List<Product> jsonToPojo(String json) {
-        return jsonb.fromJson(json, new ArrayList<Product>(){}.getClass().getGenericSuperclass());
+    private List<CardProduct> jsonToPojo(String json) {
+        return jsonb.fromJson(json, new ArrayList<CardProduct>(){}.getClass().getGenericSuperclass());
     }
 }

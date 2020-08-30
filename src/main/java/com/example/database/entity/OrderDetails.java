@@ -33,5 +33,5 @@ public class OrderDetails {
 
     private UserEntity userEntity;
 
-    private List<Product> products;
+    private List<ItemQuantity> products;
 }

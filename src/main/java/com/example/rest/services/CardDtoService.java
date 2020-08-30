@@ -1,6 +1,6 @@
 package com.example.rest.services;
 
-import com.example.database.entity.Product;
+import com.example.database.entity.CardProduct;
 import com.example.database.services.CardService;
 import com.example.rest.dtos.CardDto;
 import com.example.rest.dtos.ItemDto;
@@ -33,7 +33,7 @@ public class CardDtoService {
                         .convertToDto(cardModel, langResolver.getLanguage(), langResolver.getDefault()));
     }
 
-    public Uni<String> addProductWithAmount(Product product, String id) {
+    public Uni<String> addProductWithAmount(CardProduct product, String id) {
         return cardService.addProductWithAmount(product, id);
     }
 
