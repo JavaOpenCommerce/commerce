@@ -14,7 +14,7 @@ public class OrderDetailsModel {
 
     private Long id;
     private LocalDate creationDate;
-    private Long shippingAddressId;
+    private AddressModel address;
 
     @Builder.Default
     private String paymentStatus = "BEFORE_PAYMENT";

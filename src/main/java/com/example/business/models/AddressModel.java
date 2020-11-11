@@ -14,4 +14,5 @@ public class AddressModel {
     private String local;
     private String city;
     private String zip;
+    private Long userId;
 }
