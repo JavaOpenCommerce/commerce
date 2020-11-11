@@ -1,10 +1,15 @@
 package com.example.business.models;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Builder
+@EqualsAndHashCode
 public class UserModel {
 
     private Long id;
