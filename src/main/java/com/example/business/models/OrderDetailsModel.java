@@ -5,15 +5,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 
 @Getter
 @Builder
 @EqualsAndHashCode
 public class OrderDetailsModel {
 
-    private Long id;
-    private LocalDate creationDate;
+    private final Long id;
+    private final LocalDate creationDate;
     private AddressModel address;
 
     @Builder.Default
@@ -25,7 +25,7 @@ public class OrderDetailsModel {
     @Builder.Default
     private String orderStatus = "NEW";
 
-    private Map<Long, ProductModel> products;
+    private List<ProductModel> products;
 
     private UserModel user;
 }
