@@ -4,6 +4,10 @@ plugins {
     id 'io.freefair.lombok' //version '5.1.0'
 }
 
+dependencies {
+    implementation project(':boot')
+}
+
 repositories {
     jcenter()
     mavenLocal()
