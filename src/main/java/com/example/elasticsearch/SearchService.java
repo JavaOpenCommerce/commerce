@@ -5,7 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.ext.web.client.WebClient;
-import lombok.extern.jbosslog.JBossLog;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -13,10 +13,9 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.function.Supplier;
 
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
-@JBossLog
+@Slf4j
 @ApplicationScoped
 public class SearchService {
 
@@ -34,13 +33,13 @@ public class SearchService {
 
         String query = ssb.query(QueryBuilders.boolQuery()
                 .must(ifTrueOrElse(isEmpty(request),
-                        () -> matchAllQuery(),
+                        QueryBuilders::matchAllQuery,
                         () -> matchQuery("categoryIds", request.getCategoryId())))
                 .must(ifTrueOrElse(isEmpty(request),
-                        () -> matchAllQuery(),
+                        QueryBuilders::matchAllQuery,
                         () -> matchQuery("producerId", request.getProducerId())))
                 .must(ifTrueOrElse(request.getSearchQuery() == null || request.getSearchQuery().isEmpty(),
-                        () -> matchAllQuery(),
+                        QueryBuilders::matchAllQuery,
                         () -> matchQuery("details.name", request.getSearchQuery()))))
                 .from(request.getPageSize() * request.getPageNum())
                 .size(request.getPageSize())
