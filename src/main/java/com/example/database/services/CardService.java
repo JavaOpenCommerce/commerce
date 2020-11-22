@@ -1,7 +1,7 @@
 package com.example.database.services;
 
-import com.example.business.CardModel;
 import com.example.business.models.AddressModel;
+import com.example.business.models.CardModel;
 import com.example.business.models.ItemModel;
 import com.example.business.models.ProductModel;
 import com.example.database.entity.Address;
@@ -42,7 +42,7 @@ public class CardService {
 
     public Uni<CardModel> getCard(String id) {
         return cardRepository.getCardList(id).onItem().produceUni(products ->
-            getCardProducts(products).onItem().apply(CardModel::new));
+            getCardProducts(products).onItem().apply(CardModel::getInstance));
     }
 
     public Uni<String> addProductWithAmount(CardProduct product, String id) {
@@ -93,14 +93,13 @@ public class CardService {
                 .build();
         return getFilteredResults(searchRequest)
                 .onItem()
-                .produceUni(list -> itemService.getItemsListByIdList(list));
+                .produceUni(itemService::getItemsListByIdList);
     }
 
     public AddressModel getAddressModel(Long id) {
         Address address = ofNullable(new Address()) //TODO
                 .orElseThrow(() ->
                         new WebApplicationException("Address with id " + id + " not found", Response.Status.NOT_FOUND));
-
         return AddressConverter
                 .convertToModel(address);
     }
@@ -120,14 +119,14 @@ public class CardService {
     }
 
     private Uni<Map<Long, ProductModel>> getCardProducts(List<CardProduct> products) {
-        List<Long> ids = products.stream().map(id -> id.getItemId()).collect(toList());
+        List<Long> ids = products.stream().map(CardProduct::getItemId).collect(toList());
 
         return itemService.getItemsListByIdList(ids).onItem().apply(itemModels -> {
             Map<Long, ProductModel> cardProducts = new HashMap<>();
             for (ItemModel im : itemModels) {
 
                 int amount = products.stream()
-                        .filter(p -> p.getItemId() == im.getId())
+                        .filter(p -> p.getItemId().equals(im.getId()))
                         .findFirst()
                         .orElse(CardProduct.builder().amount(1).build())
                         .getAmount();

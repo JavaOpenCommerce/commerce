@@ -11,11 +11,7 @@ import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
@@ -32,31 +28,33 @@ public class ProducerRepositoryImpl implements ProducerRepository {
 
     @Override
     public Uni<Producer> getProducerByItemId(Long id) {
-        return client.preparedQuery("SELECT * FROM Producer p " +
+        return this.client.preparedQuery("SELECT * FROM Producer p " +
                                         "INNER JOIN Image img ON p.image_id = img.id " +
                                         "INNER JOIN ProducerDetails pd ON pd.producer_id = p.id " +
                                         "INNER JOIN Item i ON i.producer_id = p.id " +
-                                        "WHERE i.id = $1", Tuple.of(id))
-                .onItem().apply(rs -> buildProducer(rs));
+                                        "WHERE i.id = $1")
+                .execute(Tuple.of(id))
+                .onItem().apply(this::buildProducer);
     }
 
     @Override
     public Uni<List<Producer>> getAll() {
-        return client.preparedQuery("SELECT * FROM Producer p " +
+        return this.client.preparedQuery("SELECT * FROM Producer p " +
                                         "INNER JOIN Image img ON p.image_id = img.id " +
                                         "INNER JOIN ProducerDetails pd ON pd.producer_id = p.id ")
-                .onItem().apply(rs -> rowToProducerList(rs));
+                .execute()
+                .onItem().apply(this::rowToProducerList);
     }
 
     @Override
     public Uni<List<Producer>> getProducersListByIdList(List<Long> ids) {
-        return client.preparedQuery("SELECT * FROM Producer p " +
+        return this.client.preparedQuery("SELECT * FROM Producer p " +
                                         "INNER JOIN Image img ON p.image_id = img.id " +
                                         "INNER JOIN ProducerDetails pd ON pd.producer_id = p.id " +
                                         "INNER JOIN Item i ON i.producer_id = p.id " +
-                                        "WHERE i.id = ANY ($1)",
-                                        Tuple.of(ids.toArray(new Long[ids.size()])))
-                .onItem().apply(rs -> rowToProducerList(rs));
+                                        "WHERE i.id = ANY ($1)")
+                .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
+                .onItem().apply(this::rowToProducerList);
     }
 
     private List<Producer> rowToProducerList(RowSet<Row> rs) {
@@ -83,7 +81,6 @@ public class ProducerRepositoryImpl implements ProducerRepository {
 
     private Producer buildProducer(RowSet<Row> rs) {
         if (rs == null || rs.next() == null) {
-            rs.forEach(System.out::println);
             return Producer.builder().build();
         }
 

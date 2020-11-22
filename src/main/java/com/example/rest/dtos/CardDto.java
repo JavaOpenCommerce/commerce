@@ -13,8 +13,6 @@ import java.util.Map;
 public class CardDto {
 
     private final Map<Long, ProductDto> products;
-
-    private AddressDto deliveryAddress;
     private BigDecimal cardValueNett;
     private BigDecimal cardValueGross;
 }

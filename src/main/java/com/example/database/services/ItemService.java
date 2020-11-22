@@ -8,13 +8,12 @@ import com.example.database.entity.Producer;
 import com.example.database.repositories.interfaces.CategoryRepository;
 import com.example.database.repositories.interfaces.ItemRepository;
 import com.example.database.repositories.interfaces.ProducerRepository;
+import com.example.utils.converters.ItemConverter;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
-import static com.example.utils.converters.ItemConverter.convertToItemModelList;
-import static com.example.utils.converters.ItemConverter.convertToModel;
 import static io.smallrye.mutiny.Uni.combine;
 
 @ApplicationScoped
@@ -40,9 +39,7 @@ public class ItemService {
 
         return combine().all()
                 .unis(itemUni, itemDetailsUni, categoriesUni, producerUni)
-                .combinedWith(
-                        (item, itemDetails, categories, producer) ->
-                                convertToModel(item, itemDetails, categories, producer));
+                .combinedWith(ItemConverter::convertToModel);
     }
 
     public Uni<List<ItemModel>> getAllItems() {
@@ -54,8 +51,7 @@ public class ItemService {
         return combine().all()
                 .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
                 .combinedWith(
-                        (items, itemDetails, categories, producers) ->
-                                convertToItemModelList(items, itemDetails, categories, producers));
+                        ItemConverter::convertToItemModelList);
     }
 
     public Uni<List<ItemModel>> getItemsListByIdList(List<Long> ids) {
@@ -66,7 +62,6 @@ public class ItemService {
 
         return combine().all()
                 .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
-                .combinedWith((items, itemDetails, categories, producers) ->
-                        convertToItemModelList(items, itemDetails, categories, producers));
+                .combinedWith(ItemConverter::convertToItemModelList);
     }
 }

@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface OrderDetailsRepository {
 
-    List<OrderDetails> findOrderDetailsByUserId(Long id);
+    Uni<List<OrderDetails>> findOrderDetailsByUserId(Long id);
+    Uni<OrderDetails> findOrderDetailsById(Long id);
     Uni<OrderDetails> saveOrder(OrderDetails orderDetails);
 
 }

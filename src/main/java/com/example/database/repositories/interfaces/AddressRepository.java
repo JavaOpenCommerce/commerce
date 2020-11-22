@@ -1,14 +1,17 @@
 package com.example.database.repositories.interfaces;
 
 import com.example.database.entity.Address;
+import io.smallrye.mutiny.Uni;
 
 import java.util.List;
 
 public interface AddressRepository {
 
-    Address findByZip(String zip);
+    Uni<List<Address>> findByZip(String zip);
 
-    List<Address> getAddressByCity(String city);
+    Uni<Address> findById(Long id);
 
-    List<Address> getUserAddressListById(Long id);
+    Uni<List<Address>> getAddressByCity(String city);
+
+    Uni<List<Address>> getUserAddressListById(Long id);
 }

@@ -9,11 +9,10 @@ import io.vertx.redis.client.RedisAPI;
 import lombok.extern.jbosslog.JBossLog;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.utils.converters.JsonConverter.convertToObject;
 import static io.vertx.mutiny.core.Promise.promise;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
@@ -23,7 +22,6 @@ import static java.util.Optional.ofNullable;
 public class CardRepositoryImpl implements CardRepository {
 
     private final RedisAPI redisAPI;
-    private final Jsonb jsonb = JsonbBuilder.create();
 
     public CardRepositoryImpl(RedisAPI redisAPI) {
         this.redisAPI = redisAPI;
@@ -54,10 +52,9 @@ public class CardRepositoryImpl implements CardRepository {
             promise.complete(products);
         });
         return promise.future().onComplete();
-
     }
 
     private List<CardProduct> jsonToPojo(String json) {
-        return jsonb.fromJson(json, new ArrayList<CardProduct>(){}.getClass().getGenericSuperclass());
+        return convertToObject(json, new ArrayList<CardProduct>(){}.getClass().getGenericSuperclass());
     }
 }

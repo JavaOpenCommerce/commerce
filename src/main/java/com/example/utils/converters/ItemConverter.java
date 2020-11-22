@@ -5,11 +5,7 @@ import com.example.business.Vat;
 import com.example.business.models.CategoryModel;
 import com.example.business.models.ItemDetailModel;
 import com.example.business.models.ItemModel;
-import com.example.database.entity.Category;
-import com.example.database.entity.Image;
-import com.example.database.entity.Item;
-import com.example.database.entity.ItemDetails;
-import com.example.database.entity.Producer;
+import com.example.database.entity.*;
 import com.example.rest.dtos.ItemDto;
 
 import java.util.ArrayList;
@@ -24,11 +20,11 @@ public interface ItemConverter {
     static ItemModel convertToModel(Item item, List<ItemDetails> itemDetails, List<Category> categories, Producer producer) {
 
         List<ItemDetailModel> details = itemDetails.stream()
-                .map(d -> ItemDetailConverter.convertToModel(d))
+                .map(ItemDetailConverter::convertToModel)
                 .collect(Collectors.toList());
 
         List<CategoryModel> categoryModels = categories.stream()
-                .map(cat -> CategoryConverter.convertToModel(cat))
+                .map(CategoryConverter::convertToModel)
                 .collect(Collectors.toList());
 
         return ItemModel.builder()
@@ -44,6 +40,11 @@ public interface ItemConverter {
                 .image(ImageConverter.convertToModel(
                         ofNullable(item.getImage()).orElse(Image.builder().build())))
                 .build();
+    }
+
+    static ItemModel convertDtoToModel(ItemDto item) {
+        // ??
+        return null;
     }
 
     static List<ItemModel> convertToItemModelList(List<Item> items,

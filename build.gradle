@@ -1,10 +1,11 @@
 plugins {
     id 'java'
-    id 'io.quarkus' version '1.4.2.Final'
+    id 'io.quarkus' version '1.9.2.Final' // the same version as in gradle.properties
     id 'io.freefair.lombok' //version '5.1.0'
 }
 dependencies {
     implementation project(':model')
+    implementation project(':boot')
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     //implementation 'io.quarkus:quarkus-oidc'
     implementation 'io.quarkus:quarkus-config-yaml'
@@ -20,7 +21,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-resteasy-mutiny'
     implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'
     implementation 'org.elasticsearch:elasticsearch:7.8.0'
-
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }

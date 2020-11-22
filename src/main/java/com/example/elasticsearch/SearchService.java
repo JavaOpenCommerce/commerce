@@ -11,7 +11,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import javax.enterprise.context.ApplicationScoped;
-
 import java.util.function.Supplier;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;

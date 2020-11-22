@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.utils.MessagesStore.OK;
+import static com.example.statics.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
 @JBossLog

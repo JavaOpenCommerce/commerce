@@ -2,11 +2,7 @@ package com.example.rest.services;
 
 import com.example.database.services.StoreService;
 import com.example.elasticsearch.SearchRequest;
-import com.example.rest.dtos.CategoryDto;
-import com.example.rest.dtos.ItemDetailDto;
-import com.example.rest.dtos.ItemDto;
-import com.example.rest.dtos.PageDto;
-import com.example.rest.dtos.ProducerDto;
+import com.example.rest.dtos.*;
 import com.example.utils.LanguageResolver;
 import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ItemDetailConverter;

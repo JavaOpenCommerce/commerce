@@ -1,6 +1,9 @@
 package com.example.rest.dtos;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder

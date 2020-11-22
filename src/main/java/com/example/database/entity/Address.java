@@ -1,10 +1,6 @@
 package com.example.database.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -18,4 +14,5 @@ public class Address {
     private String local;
     private String city;
     private String zip;
+    private Long userId;
 }

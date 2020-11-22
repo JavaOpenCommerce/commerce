@@ -10,11 +10,7 @@ import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
@@ -30,27 +26,30 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Uni<List<Category>> getAll() {
-        return client.preparedQuery("SELECT * FROM Category c " +
+        return this.client.preparedQuery("SELECT * FROM Category c " +
                                         "INNER JOIN categorydetails cd ON cd.category_id = c.id ")
-                .onItem().apply(rs -> rowToCategoryList(rs));
+                .execute()
+                .onItem().apply(this::rowToCategoryList);
     }
 
     @Override
     public Uni<List<Category>> getCategoriesByItemId(Long id) {
-        return client.preparedQuery("SELECT * FROM Category c " +
+        return this.client.preparedQuery("SELECT * FROM Category c " +
                                         "INNER JOIN categorydetails cd ON cd.category_id = c.id " +
                                         "INNER JOIN item_category ic ON ic.category_id = c.id " +
-                                        "WHERE ic.item_id = $1", Tuple.of(id))
-                .onItem().apply(rs -> rowToCategoryList(rs));
+                                        "WHERE ic.item_id = $1")
+                .execute(Tuple.of(id))
+                .onItem().apply(this::rowToCategoryList);
     }
 
     @Override
     public Uni<List<Category>> getCategoriesListByIdList(List<Long> ids) {
-        return client.preparedQuery("SELECT * FROM Category c " +
+        return this.client.preparedQuery("SELECT * FROM Category c " +
                                         "INNER JOIN categorydetails cd ON cd.category_id = c.id " +
                                         "INNER JOIN item_category ic ON ic.category_id = c.id " +
-                                        "WHERE ic.item_id = ANY ($1)", Tuple.of(ids.toArray(new Long[ids.size()])))
-                .onItem().apply(rs -> rowToCategoryList(rs));
+                                        "WHERE ic.item_id = ANY ($1)")
+                .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
+                .onItem().apply(this::rowToCategoryList);
     }
 
     private List<Category> rowToCategoryList(RowSet<Row> rs) {

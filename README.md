@@ -4,6 +4,22 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Building
+### Configuring build
+In order to build application, some variables must be provided (for example database credentials). For security reason, 
+such configuration variables should never be committed into the repository. 
+
+In order to provide to application in the build time, all required variables a ${basedir}/.env file should be created. 
+In this file, we provide key=value pair of each required variable, ex:
+``
+GOOGLE_CLIENT_ID=123.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=
+QUARKUS_DATASOURCE_USERNAME=testuser
+`` 
+
+### Compiling
+``./gradlew build``
+ 
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
