@@ -1,15 +1,15 @@
 package com.example.rest.dtos;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+@Data
 @Builder
-@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressDto {
 
     private Long id;
+    private Long userId;
     private String street;
     private String local;
     private String city;

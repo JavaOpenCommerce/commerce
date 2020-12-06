@@ -29,15 +29,14 @@ public class StoreDtoService {
 
     public Uni<ItemDetailDto> getItemById(Long id) {
         return storeService
-                .getItemById(id)
-                .onItem()
-                .apply(i -> ItemDetailConverter.convertToDto(i, langRes.getLanguage(), langRes.getDefault()));
+                .getItemById(id).onItem()
+                .transform(i -> ItemDetailConverter.convertToDto(i, langRes.getLanguage(), langRes.getDefault()));
     }
 
     public Uni<PageDto<ItemDto>> getFilteredItems(SearchRequest request) {
 
         return storeService.getFilteredItemsPage(request).onItem()
-                .apply(itemPage -> {
+                .transform(itemPage -> {
                     PageDto<ItemDto> itemDtoPageDto = ItemPageConverter.convertToDto(itemPage,
                             langRes.getLanguage(),
                             langRes.getDefault());
@@ -49,14 +48,14 @@ public class StoreDtoService {
     }
 
     public Uni<List<CategoryDto>> getAllCategories() {
-        return storeService.getAllCategories().onItem().apply(categoryModels ->
+        return storeService.getAllCategories().map(categoryModels ->
                 categoryModels.stream()
                         .map(cat -> CategoryConverter.convertToDto(cat, langRes.getLanguage(), langRes.getDefault()))
                         .collect(toList()));
     }
 
     public Uni<List<ProducerDto>> getAllProducers() {
-        return storeService.getAllProducers().onItem().apply(producerModels ->
+        return storeService.getAllProducers().map(producerModels ->
                 producerModels.stream()
                         .map(prod -> ProducerConverter.convertToDto(prod, langRes.getLanguage(), langRes.getDefault()))
                         .collect(toList()));
@@ -73,12 +72,12 @@ public class StoreDtoService {
             case "VALUE-DESC":
                 itemDtos.sort(Comparator.comparing(ItemDto::getValueGross).reversed());
                 break;
+            case "NAME-DESC":
+                itemDtos.sort(Comparator.comparing(ItemDto::getName).reversed());
+                break;
             case "NAME-ASC":
             default:
                 itemDtos.sort(Comparator.comparing(ItemDto::getName));
-                break;
-            case "NAME-DESC":
-                itemDtos.sort(Comparator.comparing(ItemDto::getName).reversed());
                 break;
         }
     }

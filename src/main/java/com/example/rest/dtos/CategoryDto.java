@@ -1,14 +1,13 @@
 package com.example.rest.dtos;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.Locale;
 
-@Getter
+@Data
 @Builder
-@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class CategoryDto {
 
     private Long id;

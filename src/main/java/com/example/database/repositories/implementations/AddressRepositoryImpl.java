@@ -29,14 +29,14 @@ public class AddressRepositoryImpl implements AddressRepository {
     public Uni<List<Address>> findByZip(String zip) {
         return this.client.preparedQuery("SELECT * FROM ADDRESS WHERE zip = $1")
                 .execute(Tuple.of(zip))
-                .onItem().apply(this::rowSetToAddressList);
+                .map(this::rowSetToAddressList);
     }
 
     @Override
     public Uni<Address> findById(Long id) {
         return this.client.preparedQuery("SELECT * FROM ADDRESS WHERE id = $1")
                 .execute(Tuple.of(id))
-                .onItem().apply(rs -> {
+                .map(rs -> {
                     if (isRowSetEmpty(rs)) {
                         return Address.builder().build();
                     }

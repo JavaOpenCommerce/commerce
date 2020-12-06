@@ -43,8 +43,16 @@ public interface ItemConverter {
     }
 
     static ItemModel convertDtoToModel(ItemDto item) {
-        // ??
-        return null;
+        return ItemModel.builder()
+                .id(item.getId())
+                .stock(item.getStock())
+                .valueGross(Value.of(item.getValueGross()))
+                .vat(Vat.of(item.getVat()))
+                .image(ImageConverter.convertDtoToModel(item.getImage()))
+                .details(List.of(ItemDetailModel.builder()
+                        .name(item.getName())
+                        .build()))
+                .build();
     }
 
     static List<ItemModel> convertToItemModelList(List<Item> items,
@@ -79,6 +87,7 @@ public interface ItemConverter {
 
         return ItemDto.builder()
                 .id(item.getId())
+                .stock(item.getStock())
                 .name(details.getName())
                 .valueGross(item.getValueGross().asDecimal())
                 .producer(ProducerConverter.convertToDto(item.getProducer(), lang, defaultLang))

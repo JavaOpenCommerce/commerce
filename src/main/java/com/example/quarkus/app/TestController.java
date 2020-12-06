@@ -2,9 +2,9 @@ package com.example.quarkus.app;
 
 import com.example.database.entity.Image;
 import com.example.database.entity.Item;
-import com.example.database.entity.OrderDetails;
 import com.example.database.repositories.interfaces.ItemRepository;
-import com.example.database.repositories.interfaces.OrderDetailsRepository;
+import com.example.rest.dtos.OrderDetailsDto;
+import com.example.rest.services.OrderDetailsDtoService;
 import io.smallrye.mutiny.Uni;
 
 import javax.ws.rs.*;
@@ -17,11 +17,11 @@ import java.math.BigDecimal;
 public class TestController {
 
     private final ItemRepository itemRepository;
-    private final OrderDetailsRepository orderDetailsRepository;
+    private final OrderDetailsDtoService orderDetailsDtoService;
 
-    public TestController(ItemRepository itemRepository, OrderDetailsRepository orderDetailsRepository) {
+    public TestController(ItemRepository itemRepository, OrderDetailsDtoService orderDetailsDtoService) {
         this.itemRepository = itemRepository;
-        this.orderDetailsRepository = orderDetailsRepository;
+        this.orderDetailsDtoService = orderDetailsDtoService;
     }
 
     @GET
@@ -37,20 +37,15 @@ public class TestController {
         return itemRepository.saveItem(item);
     }
 
-    @POST
-    @Path("/2")
-    public Uni<OrderDetails> test2() {
-        OrderDetails order = OrderDetails.builder()
-                .shippingAddressId(1L)
-                .userEntityId(1L)
-                .build();
-
-        return orderDetailsRepository.saveOrder(order);
+    @GET
+    @Path("/get_order")
+    public Uni<OrderDetailsDto> getOrderDetailsById(@QueryParam("id") Long id) {
+        return orderDetailsDtoService.getOrderDetailsById(id);
     }
 
-    @GET
-    @Path("/3")
-    public Uni<OrderDetails> test3() {
-        return orderDetailsRepository.findOrderDetailsById(3L);
+    @POST
+    @Path("/save_order")
+    public Uni<OrderDetailsDto> testSaveOrder(OrderDetailsDto orderDetails) {
+        return orderDetailsDtoService.saveOrderDetails(Uni.createFrom().item(orderDetails));
     }
 }

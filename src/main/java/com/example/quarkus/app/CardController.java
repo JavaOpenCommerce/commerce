@@ -7,7 +7,7 @@ import com.example.rest.services.CardDtoService;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
-import lombok.extern.jbosslog.JBossLog;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -18,7 +18,7 @@ import java.util.UUID;
 import static com.example.statics.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
-@JBossLog
+@Slf4j
 @Path("card")
 public class CardController {
 
@@ -26,7 +26,7 @@ public class CardController {
     private HttpServerRequest request;
 
     private final CardDtoService cardDtoService;
-    private final String COOKIE_NAME = "CardCookie";
+    private static final String COOKIE_NAME = "CardCookie";
 
     public CardController(CardDtoService cardDtoService) {
         this.cardDtoService = cardDtoService;
@@ -48,7 +48,7 @@ public class CardController {
     public Uni<String> addProduct(CardProduct product) {
         addCookieIfNotPresent();
         return cardDtoService.addProductWithAmount(product, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(this::simpleResponse);
+                .map(this::simpleResponse);
     }
 
     @PUT
@@ -57,7 +57,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> increaseProductAmount(@QueryParam("id") Long id) {
         return cardDtoService.increaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(this::simpleResponse);
+                .map(this::simpleResponse);
     }
 
     @PUT
@@ -66,7 +66,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> decreaseProductAmount(@QueryParam("id") Long id) {
         return cardDtoService.decreaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(this::simpleResponse);
+                .map(this::simpleResponse);
     }
 
     @DELETE
@@ -75,7 +75,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> removeProduct(@QueryParam("id") Long id) {
         return cardDtoService.removeProduct(id, request.getCookie(COOKIE_NAME).getValue())
-                .onItem().apply(this::simpleResponse);
+                .map(this::simpleResponse);
     }
 
     @DELETE

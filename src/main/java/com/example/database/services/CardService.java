@@ -41,8 +41,8 @@ public class CardService {
     }
 
     public Uni<CardModel> getCard(String id) {
-        return cardRepository.getCardList(id).onItem().produceUni(products ->
-            getCardProducts(products).onItem().apply(CardModel::getInstance));
+        return cardRepository.getCardList(id).flatMap(products ->
+                getCardProducts(products).map(CardModel::getInstance));
     }
 
     public Uni<String> addProductWithAmount(CardProduct product, String id) {
@@ -92,8 +92,7 @@ public class CardService {
                 .pageSize(20)
                 .build();
         return getFilteredResults(searchRequest)
-                .onItem()
-                .produceUni(itemService::getItemsListByIdList);
+                .flatMap(itemService::getItemsListByIdList);
     }
 
     public AddressModel getAddressModel(Long id) {
@@ -105,23 +104,23 @@ public class CardService {
     }
 
     private Uni<List<Long>> getFilteredResults(SearchRequest request) {
-        return searchService.searchItemsBySearchRequest(request).onItem().apply(json ->
-                    ofNullable(json)
-                            .map(j -> j.getJsonObject("hits"))
-                            .map(hits -> hits.getJsonArray("hits"))
-                            .orElse(new JsonArray())
-                            .stream()
-                            .filter(o -> o instanceof JsonObject)
-                            .map(JsonObject.class::cast)
-                            .map(o -> parseLong(o.getString("_id")))
-                            .collect(toList())
-                );
+        return searchService.searchItemsBySearchRequest(request).map(json ->
+                ofNullable(json)
+                        .map(j -> j.getJsonObject("hits"))
+                        .map(hits -> hits.getJsonArray("hits"))
+                        .orElse(new JsonArray())
+                        .stream()
+                        .filter(o -> o instanceof JsonObject)
+                        .map(JsonObject.class::cast)
+                        .map(o -> parseLong(o.getString("_id")))
+                        .collect(toList())
+        );
     }
 
     private Uni<Map<Long, ProductModel>> getCardProducts(List<CardProduct> products) {
         List<Long> ids = products.stream().map(CardProduct::getItemId).collect(toList());
 
-        return itemService.getItemsListByIdList(ids).onItem().apply(itemModels -> {
+        return itemService.getItemsListByIdList(ids).map(itemModels -> {
             Map<Long, ProductModel> cardProducts = new HashMap<>();
             for (ItemModel im : itemModels) {
 

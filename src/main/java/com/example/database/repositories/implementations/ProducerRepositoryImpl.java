@@ -34,7 +34,7 @@ public class ProducerRepositoryImpl implements ProducerRepository {
                                         "INNER JOIN Item i ON i.producer_id = p.id " +
                                         "WHERE i.id = $1")
                 .execute(Tuple.of(id))
-                .onItem().apply(this::buildProducer);
+                .map(this::buildProducer);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ProducerRepositoryImpl implements ProducerRepository {
                                         "INNER JOIN Image img ON p.image_id = img.id " +
                                         "INNER JOIN ProducerDetails pd ON pd.producer_id = p.id ")
                 .execute()
-                .onItem().apply(this::rowToProducerList);
+                .map(this::rowToProducerList);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ProducerRepositoryImpl implements ProducerRepository {
                                         "INNER JOIN Item i ON i.producer_id = p.id " +
                                         "WHERE i.id = ANY ($1)")
                 .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
-                .onItem().apply(this::rowToProducerList);
+                .map(this::rowToProducerList);
     }
 
     private List<Producer> rowToProducerList(RowSet<Row> rs) {

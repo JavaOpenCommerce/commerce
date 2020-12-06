@@ -34,9 +34,9 @@ public class StoreService {
 
 
     public StoreService(ItemService itemService,
-            SearchService searchService,
-            CategoryRepository categoryRepository,
-            ProducerRepository producerRepository) {
+                        SearchService searchService,
+                        CategoryRepository categoryRepository,
+                        ProducerRepository producerRepository) {
         this.itemService = itemService;
         this.searchService = searchService;
         this.categoryRepository = categoryRepository;
@@ -48,33 +48,33 @@ public class StoreService {
     }
 
     public Uni<PageModel<ItemModel>> getFilteredItemsPage(SearchRequest request) {
-        return getFilteredResults(request).onItem().produceUni(results ->
-            itemService
-                    .getItemsListByIdList(results.getLeft())
-                    .onItem()
-                    .apply(items -> {
-                        List<ItemModel> filteredList = items.stream()
-                                .filter(i -> isValidCategory(i.getCategory()))
-                                .collect(toList());
+        return getFilteredResults(request).flatMap(results ->
+                itemService
+                        .getItemsListByIdList(results.getLeft())
+                        .map(items -> {
+                            List<ItemModel> filteredList = items.stream()
+                                    .filter(i -> isValidCategory(i.getCategory()))
+                                    .collect(toList());
 
-                        //list size difference after filtering out Shipping methods
-                        int difference = items.size() - filteredList.size();
-                        return getItemModelPage(request.getPageNum(), request.getPageSize(),
-                                        results.getRight() - difference, filteredList);
-                    }));
+                            //list size difference after filtering out Shipping methods
+                            int difference = items.size() - filteredList.size();
+                            return getItemModelPage(request.getPageNum(), request.getPageSize(),
+                                    results.getRight() - difference, filteredList);
+                        })
+        );
     }
 
     public Uni<List<CategoryModel>> getAllCategories() {
-        return categoryRepository.getAll().onItem().apply(categories ->
-            categories.stream()
-                    .filter(cat -> cat.getDetails().stream()
-                            .allMatch(detail -> !"shipping".equalsIgnoreCase(detail.getName())))
-                    .map(CategoryConverter::convertToModel)
-                    .collect(toList()));
+        return categoryRepository.getAll().map(categories ->
+                categories.stream()
+                        .filter(cat -> cat.getDetails().stream()
+                                .allMatch(detail -> !"shipping".equalsIgnoreCase(detail.getName())))
+                        .map(CategoryConverter::convertToModel)
+                        .collect(toList()));
     }
 
     public Uni<List<ProducerModel>> getAllProducers() {
-        return producerRepository.getAll().onItem().apply(producers ->
+        return producerRepository.getAll().map(producers ->
                 producers.stream()
                         .map(ProducerConverter::convertToModel)
                         .collect(toList()));
@@ -83,7 +83,7 @@ public class StoreService {
     private Uni<Pair<List<Long>, Integer>> getFilteredResults(SearchRequest request) {
 
         return searchService
-                .searchItemsBySearchRequest(request).onItem().apply(json -> {
+                .searchItemsBySearchRequest(request).map(json -> {
 
                     //null check on json
                     if (json == null || json.isEmpty() || json.getJsonObject("hits") == null

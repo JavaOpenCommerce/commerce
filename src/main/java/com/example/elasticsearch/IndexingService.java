@@ -60,7 +60,7 @@ public class IndexingService {
     }
 
     private Uni<List<SearchItem>> getSearchItems() {
-        return itemService.getAllItems().onItem().apply(
+        return itemService.getAllItems().map(
                 itemModels -> itemModels.stream()
                         .map(i -> SearchItemConverter.convertToSearchItem(i))
                         .collect(toList()));

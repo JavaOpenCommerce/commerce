@@ -37,14 +37,14 @@ public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
     public Uni<List<OrderDetails>> findOrderDetailsByUserId(Long id) {
         return this.client.preparedQuery("SELECT * FROM ORDERDETAILS od WHERE od.userentity_id = $1")
                 .execute(Tuple.of(id))
-                .onItem().apply(this::getOrderDetailsList);
+                .map(this::getOrderDetailsList);
     }
 
     @Override
     public Uni<OrderDetails> findOrderDetailsById(Long id) {
         return this.client.preparedQuery("SELECT * FROM ORDERDETAILS od WHERE od.id = $1")
                 .execute(Tuple.of(id))
-                .onItem().apply(rs -> {
+                .map(rs -> {
                     if (isRowSetEmpty(rs)) {
                         return OrderDetails.builder().build();
                     }
@@ -63,11 +63,14 @@ public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
                 orderDetails.getUserEntityId(),
                 orderDetails.getProductsJson()
         };
+
         return this.client.preparedQuery("INSERT INTO ORDERDETAILS (creationdate, orderstatus, paymentmethod, " +
-                                        "paymentstatus, address_id, userentity_id, productsjson) " +
-                                        "VALUES($1, $2, $3, $4, $5, $6, $7)")
-                .execute(Tuple.of(args))
-                .onItem().apply(rs -> {
+                                             "paymentstatus, address_id, userentity_id, productsjson) " +
+                                             "VALUES ($1, $2, $3, $4, $5, $6, $7) " +
+                                             "RETURNING id, creationdate, orderstatus, paymentmethod, " +
+                                             "paymentstatus, address_id, userentity_id, productsjson")
+                .execute(Tuple.tuple(List.of(args)))
+                .map(rs -> {
                     if (isRowSetEmpty(rs)) {
                         return OrderDetails.builder().build();
                     }

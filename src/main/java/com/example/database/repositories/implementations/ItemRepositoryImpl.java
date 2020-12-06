@@ -37,14 +37,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     public Uni<List<Item>> getAllItems() {
         return this.client.preparedQuery(format("%s %s %s", SELECT_ITEM_BASE, IMAGE_JOIN, CATEGORY_JOIN))
                 .execute()
-                .onItem().apply(this::getItems);
+                .map(this::getItems);
     }
 
     @Override
     public Uni<Item> getItemById(Long id) {
         return this.client.preparedQuery(format("%s %s WHERE i.id = $1", SELECT_ITEM_BASE, IMAGE_JOIN))
         .execute(Tuple.of(id))
-                .onItem().apply(rs -> {
+                .map(rs -> {
                     if (rs == null || !rs.iterator().hasNext()) {
                         return Item.builder().build();
                     }
@@ -57,28 +57,28 @@ public class ItemRepositoryImpl implements ItemRepository {
         return this.client.preparedQuery(format("%s %s %s WHERE i.id = ANY ($1) ORDER BY i.id DESC",
                                             SELECT_ITEM_BASE, IMAGE_JOIN, CATEGORY_JOIN))
         .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
-                .onItem().apply(this::getItems);
+                .map(this::getItems);
     }
 
     @Override
     public Uni<List<ItemDetails>> getAllItemDetails() {
         return this.client.preparedQuery(SELECT_DETAILS_BASE)
                 .execute()
-                .onItem().apply(this::getItemDetails);
+                .map(this::getItemDetails);
     }
 
     @Override
     public Uni<List<ItemDetails>> getItemDetailsListByItemId(Long id) {
         return this.client.preparedQuery(format("%s WHERE item_id = $1", SELECT_DETAILS_BASE))
                 .execute(Tuple.of(id))
-                .onItem().apply(this::getItemDetails);
+                .map(this::getItemDetails);
     }
 
     @Override
     public Uni<List<ItemDetails>> getItemDetailsListByIdList(List<Long> ids) {
         return this.client.preparedQuery(format("%s WHERE item_id = ANY ($1)", SELECT_DETAILS_BASE))
                 .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
-                .onItem().apply(this::getItemDetails);
+                .map(this::getItemDetails);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                     item.getVat(),
                     item.getImage().getId(),
                     item.getProducerId())
-                ).onItem().apply(rs -> {
+                ).map(rs -> {
             if (rs == null || !rs.iterator().hasNext()) {
                 return Item.builder().build();
             }
@@ -108,7 +108,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                         itemDetails.getLang().toLanguageTag(),
                         itemDetails.getName(),
                         itemDetails.getItemId()
-               )).onItem().apply(rs -> {
+               )).map(rs -> {
             if (rs == null || !rs.iterator().hasNext()) {
                 return ItemDetails.builder().build();
             }

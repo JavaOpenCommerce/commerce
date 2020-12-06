@@ -18,7 +18,7 @@ public interface ProducerConverter {
 
         List<ProducerDetailModel> details = ofNullable(producer.getDetails()).orElse(emptyList())
                 .stream()
-                .map(d -> ProducerDetailConverter.convertToModel(d))
+                .map(ProducerDetailConverter::convertToModel)
                 .collect(Collectors.toList());
 
         return ProducerModel.builder()
@@ -38,7 +38,6 @@ public interface ProducerConverter {
 
         return ProducerDto.builder()
                 .id(producer.getId())
-                .lang(details.getLang())
                 .name(details.getName())
                 .description(details.getDescription())
                 .image(ImageConverter.convertToDto(producer.getImage()))

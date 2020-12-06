@@ -27,9 +27,8 @@ public class CardDtoService {
 
     public Uni<CardDto> getCard(String id) {
         return cardService
-                .getCard(id)
-                .onItem()
-                .apply(cardModel -> CardConverter
+                .getCard(id).onItem()
+                .transform(cardModel -> CardConverter
                         .convertToDto(cardModel, langResolver.getLanguage(), langResolver.getDefault()));
     }
 
@@ -55,9 +54,8 @@ public class CardDtoService {
 
     public Uni<List<ItemDto>> getShippingMethods() {
         return cardService
-                .getShippingMethods()
-                .onItem()
-                .apply(items -> items
+                .getShippingMethods().onItem()
+                .transform(items -> items
                         .stream()
                         .map(i -> ItemConverter.convertToDto(i, langResolver.getLanguage(), langResolver.getDefault()))
                         .collect(toList()));

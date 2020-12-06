@@ -17,6 +17,17 @@ public interface AddressConverter {
                 .build();
     }
 
+    static AddressModel convertDtoToModel(AddressDto address) {
+        return AddressModel.builder()
+                .id(address.getId())
+                .userId(address.getUserId())
+                .city(address.getCity())
+                .local(address.getLocal())
+                .street(address.getStreet())
+                .zip(address.getZip())
+                .build();
+    }
+
     static Address convertToEntity(AddressModel addressModel) {
         return Address.builder()
                 .id(addressModel.getId())
@@ -31,6 +42,7 @@ public interface AddressConverter {
     static AddressDto convertToDto(AddressModel address) {
         return AddressDto.builder()
                 .id(address.getId())
+                .userId(address.getUserId())
                 .street(address.getStreet())
                 .local(address.getLocal())
                 .city(address.getCity())

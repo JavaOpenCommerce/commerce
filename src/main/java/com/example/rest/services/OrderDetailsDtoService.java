@@ -21,17 +21,19 @@ public class OrderDetailsDtoService {
     }
 
     public Uni<OrderDetailsDto> getOrderDetailsById(Long id) {
-        return orderDetailsService.getOrderDetailsById(id).onItem().apply(od ->
+        return orderDetailsService.getOrderDetailsById(id).map(od ->
                 OrderDetailsConverter.convertToDto(od, languageResolver.getLanguage(), languageResolver.getDefault()));
     }
 
     public Uni<OrderDetailsDto> saveOrderDetails(Uni<OrderDetailsDto> orderDetailsDtoUni) {
 
-        Uni<OrderDetailsModel> savedDetailsUni = orderDetailsDtoUni.onItem()
-                .apply(OrderDetailsConverter::convertDtoToModel);
+        Uni<OrderDetailsModel> savedDetailsUni = orderDetailsService.saveOrderDetails(
+                orderDetailsDtoUni.map(OrderDetailsConverter::convertDtoToModel)
+        );
 
-        return savedDetailsUni.onItem().apply(od ->
-                OrderDetailsConverter.convertToDto(od, languageResolver.getLanguage(), languageResolver.getDefault()));
+        return savedDetailsUni.map(od ->
+                OrderDetailsConverter.convertToDto(od, languageResolver.getLanguage(), languageResolver.getDefault())
+        );
     }
 
 

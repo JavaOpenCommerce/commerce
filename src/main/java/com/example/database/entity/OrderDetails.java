@@ -30,5 +30,6 @@ public class OrderDetails {
 
     private Long userEntityId;
 
-    private String productsJson;
+    @Builder.Default
+    private String productsJson = "{}";
 }

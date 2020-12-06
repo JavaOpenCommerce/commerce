@@ -29,7 +29,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return this.client.preparedQuery("SELECT * FROM Category c " +
                                         "INNER JOIN categorydetails cd ON cd.category_id = c.id ")
                 .execute()
-                .onItem().apply(this::rowToCategoryList);
+                .map(this::rowToCategoryList);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
                                         "INNER JOIN item_category ic ON ic.category_id = c.id " +
                                         "WHERE ic.item_id = $1")
                 .execute(Tuple.of(id))
-                .onItem().apply(this::rowToCategoryList);
+                .map(this::rowToCategoryList);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
                                         "INNER JOIN item_category ic ON ic.category_id = c.id " +
                                         "WHERE ic.item_id = ANY ($1)")
                 .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
-                .onItem().apply(this::rowToCategoryList);
+                .map(this::rowToCategoryList);
     }
 
     private List<Category> rowToCategoryList(RowSet<Row> rs) {

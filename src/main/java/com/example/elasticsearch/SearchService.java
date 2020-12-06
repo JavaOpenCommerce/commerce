@@ -49,7 +49,7 @@ public class SearchService {
         return client.get("/items/_search?filter_path=hits.hits._id,hits.total.value")
                 .putHeader("Content-Length", "" + query.length())
                 .putHeader("Content-Type", "application/json")
-                .sendJsonObject(new JsonObject(query)).onItem().apply(resp -> {
+                .sendJsonObject(new JsonObject(query)).map(resp -> {
                     if (resp.statusCode() == 200) {
                         return resp.bodyAsJsonObject();
                     } else {

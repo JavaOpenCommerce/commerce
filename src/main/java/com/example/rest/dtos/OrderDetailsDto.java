@@ -1,18 +1,17 @@
 package com.example.rest.dtos;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
+@Data
 @Builder
-@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDetailsDto {
 
-    private final Long id;
-    private final LocalDate creationDate;
+    private Long id;
+    private LocalDate creationDate;
 
     @Builder.Default
     private final String paymentStatus = "BEFORE_PAYMENT";
@@ -27,6 +26,6 @@ public class OrderDetailsDto {
 
     private UserDto user;
 
-    private final CardDto card;
+    private CardDto card;
 
 }
