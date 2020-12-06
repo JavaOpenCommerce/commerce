@@ -3,7 +3,7 @@ version: '3'
 services:
 
   postgresql:
-    image: postgres:11.3
+    image: postgres:13.1
     ports:
       - "5432:5432"
     ulimits:
@@ -23,7 +23,9 @@ services:
       - "9300:9300"
     restart: always
     environment:
+      - node.name=es01
       - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     networks:
       - com-example-network
 

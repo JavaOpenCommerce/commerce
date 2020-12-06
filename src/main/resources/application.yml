@@ -13,6 +13,30 @@ quarkus:
       url: vertx-reactive:postgresql://localhost:5432/main_postgres_db
       ## connection pool size:
       max-size: 20
+  flyway:
+    connect-retries: 2
+    schemas: jcc
+    ## set to true, to clean database at startup
+    clean-at-start: false
+    ## set to true, to trigger flyway on
+    migrate-at-start: false
+    # Enable the creation of the history table if it does not exist already.
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    create-schemas: false
+    tests:
+      ## set to true, to trigger flyway on
+      migrate-at-start: true
+      create-schema: true
+      ## set to true, to clean database at startup
+      clean-at-start: false
+      baseline-version: 0.001
+      baseline-description: Initial version
+      # Enable the creation of the history table if it does not exist already.
+      baseline-on-migrate: true
+      validate-on-migrate: true
+      placeholders:
+
 
 #locale
 default-locale: pl-PL
