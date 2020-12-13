@@ -22,7 +22,6 @@ import java.util.*;
 import static com.example.utils.converters.JsonConverter.convertToObject;
 import static io.smallrye.mutiny.Uni.combine;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 @Slf4j
 @ApplicationScoped
@@ -85,15 +84,8 @@ public class OrderDetailsService {
     private void updateItemStocks(Map<Long, ProductModel> productsMap) {
 
          productsMap.forEach((id, product) ->
-                this.itemService.changeStock(id, product.getAmount().asInteger()).await().indefinitely()
-                .collect(toMap(
-                        key -> key,
-                        key -> productsMap.get(key).getAmount().asInteger())
-                );
-
-        idAmountMap.forEach((id, amount) ->
-                itemService.changeStock(id, amount).await().indefinitely()
-        );
+                 itemService.changeStock(id, product.getAmount().asInteger()).await().indefinitely()
+         );
     }
 
     private Uni<Map<Long, ProductModel>> getProducts(String productsJson) {
