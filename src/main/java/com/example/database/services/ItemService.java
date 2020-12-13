@@ -8,6 +8,8 @@ import com.example.database.entity.Producer;
 import com.example.database.repositories.interfaces.CategoryRepository;
 import com.example.database.repositories.interfaces.ItemRepository;
 import com.example.database.repositories.interfaces.ProducerRepository;
+import com.example.quarkus.exceptions.ItemExceptionEntity;
+import com.example.quarkus.exceptions.OutOfStockException;
 import com.example.utils.converters.ItemConverter;
 import io.smallrye.mutiny.Uni;
 
@@ -63,5 +65,20 @@ public class ItemService {
         return combine().all()
                 .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
                 .combinedWith(ItemConverter::convertToItemModelList);
+    }
+
+    public Uni<Integer> changeStock(Long id, int amount) {
+        Uni<Integer> itemStock = itemRepository.getItemStock(id);
+        return itemStock.flatMap(stock -> {
+            if (stock == -1) {
+                throw new OutOfStockException(
+                        ItemExceptionEntity.create(id, "Item is out of stock! Rollback"));
+            } else if (stock < amount) {
+                throw new OutOfStockException(
+                        ItemExceptionEntity.create(id, "Not enough items in stock! Rollback"));
+            } else {
+                return itemRepository.changeItemStock(id, stock - amount);
+            }
+        });
     }
 }
