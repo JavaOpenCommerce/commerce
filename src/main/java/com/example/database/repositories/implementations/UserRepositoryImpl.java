@@ -1,6 +1,7 @@
 package com.example.database.repositories.implementations;
 
 import com.example.database.entity.UserEntity;
+import com.example.database.repositories.implementations.mappers.UserMapper;
 import com.example.database.repositories.interfaces.UserRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
@@ -13,9 +14,11 @@ import java.util.List;
 public class UserRepositoryImpl implements UserRepository {
 
     private final PgPool client;
+    private final UserMapper userMapper;
 
-    public UserRepositoryImpl(PgPool client) {
+    public UserRepositoryImpl(PgPool client, UserMapper userMapper) {
         this.client = client;
+        this.userMapper = userMapper;
     }
 
     @Override

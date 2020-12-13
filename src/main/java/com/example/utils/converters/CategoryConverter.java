@@ -17,12 +17,19 @@ public interface CategoryConverter {
 
         List<CategoryDetailModel> details = ofNullable(category.getDetails()).orElse(emptyList())
                 .stream()
-                .map(d -> CategoryDetailConverter.convertToModel(d))
+                .map(CategoryDetailConverter::convertToModel)
                 .collect(Collectors.toList());
 
         return CategoryModel.builder()
                 .id(category.getId())
                 .details(details)
+                .build();
+    }
+
+    static CategoryModel convertDtoToModel(CategoryDto category) {
+        return CategoryModel.builder()
+                .id(category.getId())
+                .details(emptyList()) //TODO
                 .build();
     }
 

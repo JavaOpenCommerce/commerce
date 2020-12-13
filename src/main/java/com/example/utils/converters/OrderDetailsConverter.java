@@ -61,7 +61,6 @@ public interface OrderDetailsConverter {
                 .build();
     }
 
-    //Requires OrderDetailsModel
     static OrderDetails convertToEntity(OrderDetailsModel orderDetailsModel) {
 
         List<CardProduct> productList = orderDetailsModel.getCard().getProducts().values()

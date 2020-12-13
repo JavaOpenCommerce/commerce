@@ -13,14 +13,17 @@ import com.example.database.repositories.interfaces.UserRepository;
 import com.example.utils.converters.AddressConverter;
 import com.example.utils.converters.OrderDetailsConverter;
 import io.smallrye.mutiny.Uni;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static com.example.utils.converters.JsonConverter.convertToObject;
 import static io.smallrye.mutiny.Uni.combine;
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @ApplicationScoped
 public class OrderDetailsService {
 
@@ -39,6 +42,8 @@ public class OrderDetailsService {
 
 
     public Uni<OrderDetailsModel> getOrderDetailsById(Long id) {
+        log.info("Fetching OrderDetails with id: " + id);
+
         Uni<OrderDetails> orderDetailsUni = orderDetailsRepository.findOrderDetailsById(id);
 
         Uni<Map<Long, ProductModel>> itemQuantityListUni = orderDetailsUni
@@ -52,31 +57,35 @@ public class OrderDetailsService {
                 .combinedWith(OrderDetailsConverter::convertToModel);
     }
 
+    @Transactional
     public Uni<OrderDetailsModel> saveOrderDetails(Uni<OrderDetailsModel> orderDetailsModel) {
 
         return orderDetailsModel.flatMap(od -> {
 
-                    Uni<OrderDetails> savedOrderDetails = orderDetailsRepository
-                            .saveOrder(OrderDetailsConverter.convertToEntity(od));
+            Uni<OrderDetails> savedOrderDetails = orderDetailsRepository
+                .saveOrder(OrderDetailsConverter.convertToEntity(od));
 
-                    return savedOrderDetails
-                            .flatMap(sod -> {
-                                Uni<Map<Long, ProductModel>> products = getProducts(sod.getProductsJson());
-                                return products.map(prods ->
-                                        OrderDetailsConverter.convertToModel(
-                                                sod,
-                                                prods,
-                                                AddressConverter.convertToEntity(od.getAddress()),
-                                                UserEntity.builder().id(1L).build()) //TODO
-                                );
-                            });
-                });
+            // + decrease/change stocks
+
+            return savedOrderDetails
+                    .flatMap(sod -> {
+                        log.info("Order details persisted with id: {}", sod.getId());
+                        Uni<Map<Long, ProductModel>> products = getProducts(sod.getProductsJson());
+                        return products.map(prods ->
+                                OrderDetailsConverter.convertToModel(
+                                        sod,
+                                        prods,
+                                        AddressConverter.convertToEntity(od.getAddress()),
+                                        UserEntity.builder().id(1L).build()) //TODO
+                        );
+                    });
+        });
     }
 
     private Uni<Map<Long, ProductModel>> getProducts(String productsJson) {
         List<CardProduct> cardProducts =
-                convertToObject(productsJson, new ArrayList<CardProduct>() {
-                }.getClass().getGenericSuperclass());
+                convertToObject(productsJson, new ArrayList<CardProduct>() {}
+                .getClass().getGenericSuperclass());
 
         List<Long> ids = getProductIdList(cardProducts);
 

@@ -4,9 +4,9 @@ package com.example.utils.converters;
 import com.example.business.models.CategoryDetailModel;
 import com.example.business.models.CategoryModel;
 import com.example.database.entity.CategoryDetails;
-import io.netty.handler.codec.http.HttpResponseStatus;
 
-import java.util.Objects;
+import static io.netty.handler.codec.http.HttpResponseStatus.NOT_FOUND;
+import static java.util.Objects.nonNull;
 
 public interface CategoryDetailConverter {
 
@@ -21,16 +21,16 @@ public interface CategoryDetailConverter {
 
     static CategoryDetailModel getCategoryDetailByLanguage(CategoryModel category, String lang, String defaultLang) {
         if (category.getDetails().isEmpty()) {
-            return CategoryDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build();
+            return CategoryDetailModel.builder().name(NOT_FOUND.toString()).build();
         }
 
         return category.getDetails().stream()
-                .filter(d -> Objects.nonNull(d.getLang().getLanguage()))
+                .filter(d -> nonNull(d.getLang().getLanguage()))
                 .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(lang))
                 .findFirst()
                 .orElse(category.getDetails().stream()
                         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(defaultLang))
                         .findFirst()
-                        .orElse(CategoryDetailModel.builder().name(HttpResponseStatus.NOT_FOUND.toString()).build()));
+                        .orElse(CategoryDetailModel.builder().name(NOT_FOUND.toString()).build()));
     }
 }

@@ -23,4 +23,8 @@ public interface ItemRepository {
     Uni<Item> saveItem(Item item);
 
     Uni<ItemDetails> saveItemDetails(ItemDetails itemDetails);
+
+    Uni<Integer> getItemStock(Long id);
+
+    Uni<Integer> changeItemStock(Long id, int stock);
 }

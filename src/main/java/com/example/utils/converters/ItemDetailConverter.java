@@ -21,7 +21,7 @@ public interface ItemDetailConverter {
 
         List<ImageModel> images = ofNullable(details.getImages()).orElse(emptyList())
                 .stream()
-                .map(i -> ImageConverter.convertToModel(i))
+                .map(ImageConverter::convertToModel)
                 .collect(toList());
 
         return ItemDetailModel.builder()
@@ -38,7 +38,7 @@ public interface ItemDetailConverter {
 
         List<ImageDto> images = ofNullable(details.getAdditionalImages()).orElse(emptyList())
                 .stream()
-                .map(i -> ImageConverter.convertToDto(i))
+                .map(ImageConverter::convertToDto)
                 .collect(toList());
 
         return ItemDetailDto.builder()

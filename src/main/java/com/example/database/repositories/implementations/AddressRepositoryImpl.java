@@ -1,35 +1,33 @@
 package com.example.database.repositories.implementations;
 
 import com.example.database.entity.Address;
+import com.example.database.repositories.implementations.mappers.AddressMapper;
 import com.example.database.repositories.interfaces.AddressRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
 import io.vertx.mutiny.sqlclient.Tuple;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
-import static java.util.Objects.isNull;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
+import static com.example.utils.CommonRow.isRowSetEmpty;
 
 @ApplicationScoped
 public class AddressRepositoryImpl implements AddressRepository {
 
     private final PgPool client;
+    private final AddressMapper addressMapper;
 
-    public AddressRepositoryImpl(PgPool client) {
+    public AddressRepositoryImpl(PgPool client, AddressMapper addressMapper) {
         this.client = client;
+        this.addressMapper = addressMapper;
     }
 
     @Override
     public Uni<List<Address>> findByZip(String zip) {
         return this.client.preparedQuery("SELECT * FROM ADDRESS WHERE zip = $1")
                 .execute(Tuple.of(zip))
-                .map(this::rowSetToAddressList);
+                .map(addressMapper::rowSetToAddressList);
     }
 
     @Override
@@ -40,7 +38,7 @@ public class AddressRepositoryImpl implements AddressRepository {
                     if (isRowSetEmpty(rs)) {
                         return Address.builder().build();
                     }
-                    return rowToAddress(rs.iterator().next());
+                    return addressMapper.rowToAddress(rs.iterator().next());
                 });
     }
 
@@ -54,35 +52,4 @@ public class AddressRepositoryImpl implements AddressRepository {
         return null;
     }
 
-
-    //--Helpers-----------------------------------------------------------------------------------------------------
-
-    private List<Address> rowSetToAddressList(RowSet<Row> rs) {
-        if (isRowSetEmpty(rs)) {
-            return emptyList();
-        }
-
-        return stream(rs.spliterator(), false)
-                .map(this::rowToAddress)
-                .collect(toList());
-    }
-
-    private Address rowToAddress(Row row) {
-        if (isNull(row)) {
-            return Address.builder().build();
-        }
-
-        return Address.builder()
-                .id(row.getLong("id"))
-                .city(row.getString("city"))
-                .local(row.getString("local"))
-                .street(row.getString("street"))
-                .zip(row.getString("zip"))
-                .userId(row.getLong("user_id"))
-                .build();
-    }
-
-    private boolean isRowSetEmpty(RowSet<Row> rs) {
-        return isNull(rs) || !rs.iterator().hasNext();
-    }
 }
