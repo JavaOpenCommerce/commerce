@@ -1,9 +1,9 @@
 [submodule "core"]
 	path = core
 	url = https://github.com/JavaOpenCommerce/core.git
-[submodule "boot"]
-	path = boot
-	url = https://github.com/JavaOpenCommerce/boot.git
+[submodule "commons"]
+	path = commons
+	url = https://github.com/JavaOpenCommerce/commons.git
 [submodule "model"]
 	path = model
 	url = https://github.com/JavaOpenCommerce/model.git
