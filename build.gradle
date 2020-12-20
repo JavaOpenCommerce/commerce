@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus' version '1.9.2.Final' // the same version as in gradle.properties
-    id 'io.freefair.lombok' //version '5.1.0'
+    id 'io.freefair.lombok'
 }
 dependencies {
     implementation project(':model')
