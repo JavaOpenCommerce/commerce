@@ -7,9 +7,9 @@
 [submodule "quarkus"]
 	path = quarkus
 	url = https://github.com/JavaOpenCommerce/quarkus.git
-[submodule "common"]
-	path = commons
-	url = https://github.com/JavaOpenCommerce/commons.git
 [submodule "commons"]
 	path = commons
 	url = https://github.com/JavaOpenCommerce/commons.git
+[submodule "dto"]
+	path = commons
+	url = https://github.com/JavaOpenCommerce/dto.git
