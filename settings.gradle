@@ -20,4 +20,5 @@ include 'commons'
 include 'quarkus'
 rootProject.name = 'jcc'
 include 'dto'
+include 'database'
 
