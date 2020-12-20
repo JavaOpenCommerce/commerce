@@ -10,3 +10,6 @@
 [submodule "common"]
 	path = commons
 	url = https://github.com/JavaOpenCommerce/commons.git
+[submodule "commons"]
+	path = commons
+	url = https://github.com/JavaOpenCommerce/commons.git
