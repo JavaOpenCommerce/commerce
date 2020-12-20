@@ -6,17 +6,21 @@ import com.example.database.entity.Item;
 import com.example.database.entity.ItemDetails;
 import com.example.database.entity.Producer;
 import com.example.database.repositories.interfaces.CategoryRepository;
+import com.example.database.repositories.interfaces.ImageRepository;
 import com.example.database.repositories.interfaces.ItemRepository;
 import com.example.database.repositories.interfaces.ProducerRepository;
 import com.example.quarkus.exceptions.ItemExceptionEntity;
 import com.example.quarkus.exceptions.OutOfStockException;
+import com.example.utils.converters.ImageConverter;
 import com.example.utils.converters.ItemConverter;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static io.smallrye.mutiny.Uni.combine;
+import static java.util.Collections.emptyList;
 
 @ApplicationScoped
 public class ItemService {
@@ -24,13 +28,15 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
     private final ProducerRepository producerRepository;
+    private final ImageRepository imageRepository;
 
 
     public ItemService(ItemRepository itemRepository,
-            CategoryRepository categoryRepository, ProducerRepository producerRepository) {
+                       CategoryRepository categoryRepository, ProducerRepository producerRepository, ImageRepository imageRepository) {
         this.itemRepository = itemRepository;
         this.categoryRepository = categoryRepository;
         this.producerRepository = producerRepository;
+        this.imageRepository = imageRepository;
     }
 
     public Uni<ItemModel> getItemById(Long id) {
@@ -80,5 +86,20 @@ public class ItemService {
                 return itemRepository.changeItemStock(id, stock - amount);
             }
         });
+    }
+
+    @Transactional
+    public Uni<ItemModel> addNewItem(Uni<ItemModel> item) {
+        Uni<Item> savedItem = item
+                .map(i -> {
+                    imageRepository
+                            .saveImage(ImageConverter.convertModelToEntity(i.getImage()))
+                            .await().indefinitely();
+                    return ItemConverter.convertModelToEntity(i);
+                })
+                .flatMap(itemRepository::saveItem);
+
+        return savedItem
+                .map(i -> ItemConverter.convertToModel(i, emptyList(), emptyList(), null));
     }
 }

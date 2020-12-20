@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
 public interface ItemConverter {
+
 
     static ItemModel convertToModel(Item item, List<ItemDetails> itemDetails, List<Category> categories, Producer producer) {
 
@@ -49,9 +51,18 @@ public interface ItemConverter {
                 .valueGross(Value.of(item.getValueGross()))
                 .vat(Vat.of(item.getVat()))
                 .image(ImageConverter.convertDtoToModel(item.getImage()))
-                .details(List.of(ItemDetailModel.builder()
-                        .name(item.getName())
-                        .build()))
+                .build();
+    }
+
+    static Item convertModelToEntity(ItemModel item) {
+        return Item.builder()
+                .id(item.getId())
+                .stock(item.getStock())
+                .valueGross(item.getValueGross().asDecimal())
+                .vat(item.getVat().asDouble())
+                .image(ImageConverter.convertModelToEntity(item.getImage()))
+                .categoryIds(emptyList())
+                .details(emptyList())
                 .build();
     }
 

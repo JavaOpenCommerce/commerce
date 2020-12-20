@@ -22,6 +22,14 @@ public interface ImageConverter {
                 .build();
     }
 
+    static Image convertModelToEntity(ImageModel image) {
+        return Image.builder()
+                .id(image.getId())
+                .alt(image.getAlt())
+                .url(image.getUrl())
+                .build();
+    }
+
     static ImageModel convertDtoToModel(ImageDto image) {
         return ImageModel.builder()
                 .id(image.getId())

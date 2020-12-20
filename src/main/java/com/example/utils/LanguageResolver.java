@@ -7,7 +7,10 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+
+import static java.util.Locale.forLanguageTag;
 
 @ApplicationScoped
 public class LanguageResolver {
@@ -41,5 +44,9 @@ public class LanguageResolver {
 
     public String getDefault() {
         return lang;
+    }
+
+    public Locale getDefaultLocale() {
+        return forLanguageTag(lang);
     }
 }

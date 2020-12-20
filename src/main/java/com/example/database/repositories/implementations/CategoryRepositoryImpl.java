@@ -8,7 +8,7 @@ import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.*;
+import java.util.List;
 
 
 @ApplicationScoped

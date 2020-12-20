@@ -5,7 +5,7 @@ plugins {
 }
 dependencies {
     implementation project(':model')
-    implementation project(':boot')
+    implementation project(':commons')
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     //implementation 'io.quarkus:quarkus-oidc'
     implementation 'io.quarkus:quarkus-config-yaml'
