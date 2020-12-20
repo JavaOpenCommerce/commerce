@@ -11,5 +11,5 @@
 	path = commons
 	url = https://github.com/JavaOpenCommerce/commons.git
 [submodule "dto"]
-	path = commons
+	path = dto
 	url = https://github.com/JavaOpenCommerce/dto.git
