@@ -2,7 +2,7 @@ package com.example.utils.converters;
 
 import com.example.business.models.AddressModel;
 import com.example.database.entity.Address;
-import com.example.rest.dtos.AddressDto;
+import dtos.AddressDto;
 
 
 public interface AddressConverter {

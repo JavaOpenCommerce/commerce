@@ -1,6 +1,7 @@
 package com.example.elasticsearch;
 
-import com.example.rest.dtos.ImageDto;
+
+import dtos.ImageDto;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package com.example.quarkus.app;
 
 import com.example.elasticsearch.SearchRequest;
-import com.example.rest.dtos.*;
 import com.example.rest.services.StoreDtoService;
+import dtos.*;
 import io.smallrye.mutiny.Uni;
 
 import javax.ws.rs.*;

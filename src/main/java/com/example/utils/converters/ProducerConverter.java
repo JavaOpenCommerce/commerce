@@ -4,7 +4,7 @@ import com.example.business.models.ProducerDetailModel;
 import com.example.business.models.ProducerModel;
 import com.example.database.entity.Image;
 import com.example.database.entity.Producer;
-import com.example.rest.dtos.ProducerDto;
+import dtos.ProducerDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

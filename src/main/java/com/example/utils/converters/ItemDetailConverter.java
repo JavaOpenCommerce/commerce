@@ -4,8 +4,8 @@ import com.example.business.models.ImageModel;
 import com.example.business.models.ItemDetailModel;
 import com.example.business.models.ItemModel;
 import com.example.database.entity.ItemDetails;
-import com.example.rest.dtos.ImageDto;
-import com.example.rest.dtos.ItemDetailDto;
+import dtos.ImageDto;
+import dtos.ItemDetailDto;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.util.List;

@@ -2,9 +2,9 @@ package com.example.rest.services;
 
 import com.example.business.models.OrderDetailsModel;
 import com.example.database.services.OrderDetailsService;
-import com.example.rest.dtos.OrderDetailsDto;
 import com.example.utils.LanguageResolver;
 import com.example.utils.converters.OrderDetailsConverter;
+import dtos.OrderDetailsDto;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;

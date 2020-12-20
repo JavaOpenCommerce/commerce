@@ -1,9 +1,9 @@
 package com.example.quarkus.app;
 
 import com.example.database.entity.CardProduct;
-import com.example.rest.dtos.CardDto;
-import com.example.rest.dtos.ItemDto;
 import com.example.rest.services.CardDtoService;
+import dtos.CardDto;
+import dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;

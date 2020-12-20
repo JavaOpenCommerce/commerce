@@ -3,7 +3,7 @@ package com.example.utils.converters;
 import com.example.business.models.CategoryDetailModel;
 import com.example.business.models.CategoryModel;
 import com.example.database.entity.Category;
-import com.example.rest.dtos.CategoryDto;
+import dtos.CategoryDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

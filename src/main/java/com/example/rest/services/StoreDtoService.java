@@ -2,12 +2,12 @@ package com.example.rest.services;
 
 import com.example.database.services.StoreService;
 import com.example.elasticsearch.SearchRequest;
-import com.example.rest.dtos.*;
 import com.example.utils.LanguageResolver;
 import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ItemDetailConverter;
 import com.example.utils.converters.ItemPageConverter;
 import com.example.utils.converters.ProducerConverter;
+import dtos.*;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;

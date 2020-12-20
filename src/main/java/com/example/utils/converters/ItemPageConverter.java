@@ -2,8 +2,8 @@ package com.example.utils.converters;
 
 import com.example.business.models.ItemModel;
 import com.example.business.models.PageModel;
-import com.example.rest.dtos.ItemDto;
-import com.example.rest.dtos.PageDto;
+import dtos.ItemDto;
+import dtos.PageDto;
 
 import java.util.List;
 import java.util.stream.Collectors;

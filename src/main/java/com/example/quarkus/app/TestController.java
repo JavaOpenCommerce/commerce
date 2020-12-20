@@ -3,8 +3,8 @@ package com.example.quarkus.app;
 import com.example.database.entity.Image;
 import com.example.database.entity.Item;
 import com.example.database.repositories.interfaces.ItemRepository;
-import com.example.rest.dtos.OrderDetailsDto;
 import com.example.rest.services.OrderDetailsDtoService;
+import dtos.OrderDetailsDto;
 import io.smallrye.mutiny.Uni;
 
 import javax.ws.rs.*;

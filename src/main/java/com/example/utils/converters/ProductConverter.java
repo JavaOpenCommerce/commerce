@@ -2,7 +2,8 @@ package com.example.utils.converters;
 
 import com.example.business.models.ProductModel;
 import com.example.database.entity.CardProduct;
-import com.example.rest.dtos.ProductDto;
+import dtos.ProductDto;
+
 
 public interface ProductConverter {
 

@@ -6,7 +6,7 @@ import com.example.business.models.CategoryModel;
 import com.example.business.models.ItemDetailModel;
 import com.example.business.models.ItemModel;
 import com.example.database.entity.*;
-import com.example.rest.dtos.ItemDto;
+import dtos.ItemDto;
 
 import java.util.ArrayList;
 import java.util.List;

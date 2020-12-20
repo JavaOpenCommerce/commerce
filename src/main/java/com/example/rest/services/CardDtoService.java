@@ -2,11 +2,11 @@ package com.example.rest.services;
 
 import com.example.database.entity.CardProduct;
 import com.example.database.services.CardService;
-import com.example.rest.dtos.CardDto;
-import com.example.rest.dtos.ItemDto;
 import com.example.utils.LanguageResolver;
 import com.example.utils.converters.CardConverter;
 import com.example.utils.converters.ItemConverter;
+import dtos.CardDto;
+import dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 
 import javax.enterprise.context.ApplicationScoped;

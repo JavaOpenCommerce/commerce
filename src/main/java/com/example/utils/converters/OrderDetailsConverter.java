@@ -5,7 +5,7 @@ import com.example.business.models.OrderDetailsModel;
 import com.example.business.models.ProductModel;
 import com.example.business.models.UserModel;
 import com.example.database.entity.*;
-import com.example.rest.dtos.OrderDetailsDto;
+import dtos.OrderDetailsDto;
 
 import java.util.List;
 import java.util.Map;

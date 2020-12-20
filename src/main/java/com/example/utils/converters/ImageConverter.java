@@ -2,7 +2,8 @@ package com.example.utils.converters;
 
 import com.example.business.models.ImageModel;
 import com.example.database.entity.Image;
-import com.example.rest.dtos.ImageDto;
+import dtos.ImageDto;
+
 
 public interface ImageConverter {
 
