@@ -1,9 +1,0 @@
-plugins {
-    id 'java'
-//    id 'application'
-}
-
-dependencies {
-    implementation project(':quarkus')
-    implementation project(':model')
-}
