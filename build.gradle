@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'io.quarkus' version '1.9.2.Final' // the same version as in gradle.properties
-    id 'io.freefair.lombok'
+    id 'io.quarkus' version '1.11.1.Final' // must be the same version as in gradle.properties
+    id 'io.freefair.lombok' //version '5.1.0'
 }
 dependencies {
     implementation project(':model')
@@ -17,13 +17,20 @@ dependencies {
     implementation 'io.quarkus:quarkus-vertx-web'
     implementation 'io.quarkus:quarkus-scala'
     implementation 'io.quarkus:quarkus-flyway'
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '7.3.1'
+
     implementation 'io.vertx:vertx-redis-client'
     implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-redis-client:0.0.16'
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-resteasy-mutiny'
     implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'
     implementation 'org.elasticsearch:elasticsearch:7.8.0'
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
 }
@@ -35,12 +42,29 @@ repositories {
 }
 
 group 'com.example.jcc.quarkus'
-version '1.0.0-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
+
+/**
+ * Remove migration SQLs from being packaged in resulting jar
+*/
+apply plugin: 'distribution'
+
+distributions {
+    main {
+        baseName = "${project.name}"
+        contents {
+            into('/'){
+                from('src/main/resources/db/migration/')
+                exclude("*.sql")
+            }
+        }
+    }
+}
+processResources.enabled = false
 
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"

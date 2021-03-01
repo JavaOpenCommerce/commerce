@@ -27,14 +27,14 @@ public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
 
     @Override
     public Uni<List<OrderDetails>> findOrderDetailsByUserId(Long id) {
-        return this.client.preparedQuery("SELECT * FROM ORDERDETAILS od WHERE od.userentity_id = $1")
+        return this.client.preparedQuery("SELECT * FROM ORDER_DETAILS od WHERE od.userentity_id = $1")
                 .execute(Tuple.of(id))
                 .map(detailsMapper::getOrderDetailsList);
     }
 
     @Override
     public Uni<OrderDetails> findOrderDetailsById(Long id) {
-        return this.client.preparedQuery("SELECT * FROM ORDERDETAILS od WHERE od.id = $1")
+        return this.client.preparedQuery("SELECT * FROM ORDER_DETAILS od WHERE od.id = $1")
                 .execute(Tuple.of(id))
                 .map(rs -> {
                     if (isRowSetEmpty(rs)) {
@@ -56,11 +56,11 @@ public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
                 orderDetails.getProductsJson()
         };
 
-        return this.client.preparedQuery("INSERT INTO ORDERDETAILS (creationdate, orderstatus, paymentmethod, " +
-                                             "paymentstatus, address_id, userentity_id, productsjson) " +
+        return this.client.preparedQuery("INSERT INTO ORDER_DETAILS (creation_date, order_status, payment_method, " +
+                                             "payment_status, address_id, user_id, order_details) " +
                                              "VALUES ($1, $2, $3, $4, $5, $6, $7) " +
-                                             "RETURNING id, creationdate, orderstatus, paymentmethod, " +
-                                             "paymentstatus, address_id, userentity_id, productsjson")
+                                             "RETURNING id, creation_date, order_status, payment_method, " +
+                                             "payment_status, address_id, user_id, productsjson")
                 .execute(Tuple.tuple(List.of(args)))
                 .map(rs -> {
                     if (isRowSetEmpty(rs)) {

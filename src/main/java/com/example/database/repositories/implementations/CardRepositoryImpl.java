@@ -6,7 +6,7 @@ import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.Json;
 import io.vertx.mutiny.core.Promise;
 import io.vertx.redis.client.RedisAPI;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import static io.vertx.mutiny.core.Promise.promise;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
-@Slf4j
+@Log4j2
 @ApplicationScoped
 public class CardRepositoryImpl implements CardRepository {
 
@@ -32,7 +32,7 @@ public class CardRepositoryImpl implements CardRepository {
         Promise<List<CardProduct>> promise = promise();
         redisAPI.get(id, res -> {
             if (!res.succeeded()) {
-                log.warn("Failed to get card, with message: {}", res.cause());
+                log.warn("Failed to get card, with message: {0}", res.cause());
             }
             promise.complete(ofNullable(res.result())
                             .map(r -> jsonToPojo(r.toString()))
@@ -46,7 +46,7 @@ public class CardRepositoryImpl implements CardRepository {
         Promise<List<CardProduct>> promise = promise();
         redisAPI.set(List.of(id, Json.encode(products)),res -> {
             if (!res.succeeded()) {
-                log.warn("Failed to store in redis, with message: {}", res.cause());
+                log.warn("Failed to store in redis, with message: {0}", res.cause());
             }
             log.info("Card successfully persisted in redis, status: " + res.result().toString());
             promise.complete(products);

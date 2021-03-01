@@ -24,16 +24,16 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Uni<List<Category>> getAll() {
-        return this.client.preparedQuery("SELECT * FROM Category c " +
-                                        "INNER JOIN categorydetails cd ON cd.category_id = c.id ")
+        return this.client.preparedQuery("SELECT * FROM category c " +
+                                        "INNER JOIN category_details cd ON cd.category_id = c.id ")
                 .execute()
                 .map(categoryMapper::rowToCategoryList);
     }
 
     @Override
     public Uni<List<Category>> getCategoriesByItemId(Long id) {
-        return this.client.preparedQuery("SELECT * FROM Category c " +
-                                        "INNER JOIN categorydetails cd ON cd.category_id = c.id " +
+        return this.client.preparedQuery("SELECT * FROM category c " +
+                                        "INNER JOIN category_details cd ON cd.category_id = c.id " +
                                         "INNER JOIN item_category ic ON ic.category_id = c.id " +
                                         "WHERE ic.item_id = $1")
                 .execute(Tuple.of(id))
@@ -42,8 +42,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Uni<List<Category>> getCategoriesListByIdList(List<Long> ids) {
-        return this.client.preparedQuery("SELECT * FROM Category c " +
-                                        "INNER JOIN categorydetails cd ON cd.category_id = c.id " +
+        return this.client.preparedQuery("SELECT * FROM category c " +
+                                        "INNER JOIN category_details cd ON cd.category_id = c.id " +
                                         "INNER JOIN item_category ic ON ic.category_id = c.id " +
                                         "WHERE ic.item_id = ANY ($1)")
                 .execute(Tuple.of(ids.toArray(new Long[ids.size()])))

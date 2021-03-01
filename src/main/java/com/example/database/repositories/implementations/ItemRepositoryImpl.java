@@ -21,7 +21,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private final ItemMapper itemMapper;
 
     private static final String SELECT_ITEM_BASE = "SELECT * FROM ITEM i";
-    private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEMDETAILS i";
+    private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEM_DETAILS i";
     private static final String IMAGE_JOIN = "INNER JOIN Image img ON i.image_id = img.id";
     private static final String CATEGORY_JOIN = "INNER JOIN item_category ON i.id = item_category.item_id";
 

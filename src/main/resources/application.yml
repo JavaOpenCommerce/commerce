@@ -1,43 +1,6 @@
 # Configuration file
 # key = value
 
-
-quarkus:
-  #datasource settings
-  datasource:
-    jdbc: false
-    db-kind: postgresql
-    username: ${QUARKUS_DATASOURCE_USERNAME}
-    password: ${QUARKUS_DATASOURCE_PASSWORD}
-    reactive:
-      url: vertx-reactive:postgresql://localhost:5432/main_postgres_db
-      ## connection pool size:
-      max-size: 20
-  flyway:
-    connect-retries: 2
-    schemas: jcc
-    ## set to true, to clean database at startup
-    clean-at-start: false
-    ## set to true, to trigger flyway on
-    migrate-at-start: false
-    # Enable the creation of the history table if it does not exist already.
-    baseline-on-migrate: true
-    validate-on-migrate: true
-    create-schemas: false
-    tests:
-      ## set to true, to trigger flyway on
-      migrate-at-start: true
-      create-schema: true
-      ## set to true, to clean database at startup
-      clean-at-start: false
-      baseline-version: 0.001
-      baseline-description: Initial version
-      # Enable the creation of the history table if it does not exist already.
-      baseline-on-migrate: true
-      validate-on-migrate: true
-      placeholders:
-
-
 #locale
 default-locale: pl-PL
 
@@ -47,7 +10,85 @@ com:
     default-locale: pl
     elasticsearch-host: localhost
     elasticsearch-port: 9200
+    database:
+      username: ${QUARKUS_DATASOURCE_USERNAME}
+      password: ${QUARKUS_DATASOURCE_PASSWORD}
+      schema: main_postgres_db
     redis:
       host: localhost
       port: 6380
       schema: default
+
+## Default, that is production quarkus configuration:
+quarkus:
+  #datasource settings
+  datasource:
+#    jdbc: false
+    ## Once Flyway create database comment below jdbc configuration, uncomment above jdbc: false
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/${com.example.database.schema}
+      max-size: 16
+    db-kind: postgresql
+    username: ${com.example.database.username}
+    password: ${com.example.database.password}
+    reactive:
+      url: vertx-reactive:postgresql://localhost:5432/${com.example.database.schema}
+      ## connection pool size:
+      max-size: 20
+      postgresql:
+        ## Available options: disable, allow, prefer, require, verify-ca, verify-full
+        ssl-mode: prefer
+  log:
+    console:
+      enable: true
+      format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c] (%t) %s%e%n"
+      level: ALL
+      color: true
+      async: true
+    category:
+      "io.quarkus.flyway":
+            level: debug
+
+
+## Developer mode configuration, used when launching local development environment, ex. ./gradlew quarkusDev
+"%dev":
+  quarkus:
+    #synchronus datasource settings, should be used only for initializing local database
+    datasource:
+      ## Once Flyway create database comment below jdbc configuration:
+      jdbc:
+        url: jdbc:postgresql://localhost:5432/${com.example.database.schema}
+        max-size: 16
+      db-kind: postgresql
+      ## for flyway:
+      username: ${com.example.database.username}
+      password: ${com.example.database.password}
+    flyway:
+      connect-retries: 2
+      ## the same as in quarkus.datasource.reactive.url:
+      schemas: ${com.example.database.schema}
+      ## set to true, to clean database at startup
+      clean-at-start: false
+      ## set to true, to trigger flyway on
+      migrate-at-start: true
+      ## Prefix for local environment, 'V' if not set:
+#      sql-migration-prefix: local
+      # Enable the creation of the history table if it does not exist already. Ex. enabling flyway for existing databases.
+      # This schema will then be base-lined with the *baseline-version* before executing the migrations.
+      # Only migrations above *baseline-version* will then be applied.
+      # This is useful for initial Flyway production deployments on projects with an existing DB.
+      #
+      #Be careful when enabling this as it removes the safety net that ensures Flyway does not
+      #migrate the wrong database in case of a configuration mistake!
+      baseline-on-migrate: true
+      validate-on-migrate: true
+      create-schemas: true
+      tests:
+        ## set to true, to trigger flyway on
+        migrate-at-start: true
+        ## set to true, to clean database at startup
+        clean-at-start: false
+        baseline-description: Initial version
+        # Enable the creation of the history table if it does not exist already.
+        baseline-on-migrate: true
+        validate-on-migrate: true
