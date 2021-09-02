@@ -36,9 +36,9 @@ public class CardController {
     @GET
     @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<CardDto> getCard() {
+    public Uni<CardDto> getCard(@Context HttpServerRequest request) {
         addCookieIfNotPresent();
-        return cardDtoService.getCard(request.getCookie(COOKIE_NAME).getValue());
+        return this.cardDtoService.getCard(request.getCookie(COOKIE_NAME).getValue());
     }
 
     @POST
@@ -47,7 +47,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> addProduct(CardProduct product) {
         addCookieIfNotPresent();
-        return cardDtoService.addProductWithAmount(product, request.getCookie(COOKIE_NAME).getValue())
+        return this.cardDtoService.addProductWithAmount(product, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -56,7 +56,7 @@ public class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> increaseProductAmount(@QueryParam("id") Long id) {
-        return cardDtoService.increaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
+        return this.cardDtoService.increaseProductAmount(id, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -65,7 +65,7 @@ public class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> decreaseProductAmount(@QueryParam("id") Long id) {
-        return cardDtoService.decreaseProductAmount(id, request.getCookie(COOKIE_NAME).getValue())
+        return this.cardDtoService.decreaseProductAmount(id, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -74,7 +74,7 @@ public class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> removeProduct(@QueryParam("id") Long id) {
-        return cardDtoService.removeProduct(id, request.getCookie(COOKIE_NAME).getValue())
+        return this.cardDtoService.removeProduct(id, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -83,7 +83,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public String flushCard() {
         if (!cookieCheck()) {
-            cardDtoService.flushCard(request.getCookie(COOKIE_NAME).getValue());
+            this.cardDtoService.flushCard(this.request.getCookie(COOKIE_NAME).getValue());
             log.info("Card flushed");
         }
         return simpleResponse(OK);
@@ -93,18 +93,18 @@ public class CardController {
     @Path("/shipping")
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<List<ItemDto>> getShippingMethods() {
-        return cardDtoService.getShippingMethods();
+        return this.cardDtoService.getShippingMethods();
     }
 
     private boolean cookieCheck() {
-        return ofNullable(request.getCookie(COOKIE_NAME)).map(Cookie::getValue).isEmpty();
+        return ofNullable(this.request.getCookie(COOKIE_NAME)).map(Cookie::getValue).isEmpty();
     }
 
     private void addCookieIfNotPresent() {
         if (cookieCheck()) {
             log.info("No cookie named '" + COOKIE_NAME + "' found, generating new.");
             String newKey = generateValue();
-            request.cookieMap()
+            this.request.cookieMap()
                     .put(COOKIE_NAME, Cookie.cookie(COOKIE_NAME, newKey)
                             .setMaxAge(60L * 60L * 1000L)
                             .setHttpOnly(true));

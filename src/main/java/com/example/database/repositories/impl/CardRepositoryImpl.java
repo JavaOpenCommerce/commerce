@@ -1,7 +1,8 @@
-package com.example.database.repositories.implementations;
+package com.example.database.repositories.impl;
 
 import com.example.database.entity.CardProduct;
 import com.example.database.repositories.interfaces.CardRepository;
+import com.example.utils.converters.JsonConverter;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.Json;
 import io.vertx.mutiny.core.Promise;
@@ -12,8 +13,6 @@ import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.utils.converters.JsonConverter.convertToObject;
-import static io.vertx.mutiny.core.Promise.promise;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
@@ -29,32 +28,32 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public Uni<List<CardProduct>> getCardList(String id) {
-        Promise<List<CardProduct>> promise = promise();
-        redisAPI.get(id, res -> {
+        Promise<List<CardProduct>> promise = Promise.promise();
+        this.redisAPI.get(id, res -> {
             if (!res.succeeded()) {
                 log.warn("Failed to get card, with message: {0}", res.cause());
             }
             promise.complete(ofNullable(res.result())
-                            .map(r -> jsonToPojo(r.toString()))
-                            .orElse(emptyList()));
+                    .map(r -> jsonToPojo(r.toString()))
+                    .orElse(emptyList()));
         });
-        return promise.future().onComplete();
+        return promise.future();
     }
 
     @Override
     public Uni<List<CardProduct>> saveCard(String id, List<CardProduct> products) {
-        Promise<List<CardProduct>> promise = promise();
-        redisAPI.set(List.of(id, Json.encode(products)),res -> {
+        Promise<List<CardProduct>> promise = Promise.promise();
+        this.redisAPI.set(List.of(id, Json.encode(products)), res -> {
             if (!res.succeeded()) {
                 log.warn("Failed to store in redis, with message: {0}", res.cause());
             }
             log.info("Card successfully persisted in redis, status: " + res.result().toString());
             promise.complete(products);
         });
-        return promise.future().onComplete();
+        return promise.future();
     }
 
     private List<CardProduct> jsonToPojo(String json) {
-        return convertToObject(json, new ArrayList<CardProduct>(){}.getClass().getGenericSuperclass());
+        return JsonConverter.convertToObject(json, ArrayList.class.getGenericSuperclass());
     }
 }

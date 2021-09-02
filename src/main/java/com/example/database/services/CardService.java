@@ -6,7 +6,7 @@ import com.example.business.models.ItemModel;
 import com.example.business.models.ProductModel;
 import com.example.database.entity.Address;
 import com.example.database.entity.CardProduct;
-import com.example.database.repositories.implementations.CardRepositoryImpl;
+import com.example.database.repositories.impl.CardRepositoryImpl;
 import com.example.elasticsearch.SearchRequest;
 import com.example.elasticsearch.SearchService;
 import com.example.utils.converters.AddressConverter;
@@ -41,48 +41,48 @@ public class CardService {
     }
 
     public Uni<CardModel> getCard(String id) {
-        return cardRepository.getCardList(id).flatMap(products ->
+        return this.cardRepository.getCardList(id).flatMap(products ->
                 getCardProducts(products).map(CardModel::getInstance));
     }
 
     public Uni<String> addProductWithAmount(CardProduct product, String id) {
-        return Uni.combine().all().unis(getCard(id), itemService.getItemById(product.getItemId()))
+        return Uni.combine().all().unis(getCard(id), this.itemService.getItemById(product.getItemId()))
                 .combinedWith((cardModel, itemModel) -> {
                     String result = cardModel.addProduct(itemModel, product.getAmount());
-                    cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
+                    this.cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel)).subscribe();
                     return result;
                 });
     }
-    
+
     public Uni<String> increaseProductAmount(Long itemId, String id) {
-        return Uni.combine().all().unis(getCard(id), itemService.getItemById(itemId))
+        return Uni.combine().all().unis(getCard(id), this.itemService.getItemById(itemId))
                 .combinedWith((cardModel, itemModel) -> {
                     String result = cardModel.increaseProductAmount(itemModel);
-                    cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
+                    this.cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
                     return result;
                 });
     }
 
     public Uni<String> decreaseProductAmount(Long itemId, String id) {
-        return Uni.combine().all().unis(getCard(id), itemService.getItemById(itemId))
+        return Uni.combine().all().unis(getCard(id), this.itemService.getItemById(itemId))
                 .combinedWith((cardModel, itemModel) -> {
                     String result = cardModel.decreaseProductAmount(itemModel);
-                    cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
+                    this.cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
                     return result;
                 });
     }
 
     public Uni<String> removeProduct(Long itemId, String id) {
-        return Uni.combine().all().unis(getCard(id), itemService.getItemById(itemId))
+        return Uni.combine().all().unis(getCard(id), this.itemService.getItemById(itemId))
                 .combinedWith((cardModel, itemModel) -> {
                     String result = cardModel.removeProduct(itemModel);
-                    cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
+                    this.cardRepository.saveCard(id, CardConverter.convertToProductList(cardModel));
                     return result;
                 });
     }
 
     public void flushCard(String id) {
-        cardRepository.saveCard(id, emptyList());
+        this.cardRepository.saveCard(id, emptyList());
     }
 
     public Uni<List<ItemModel>> getShippingMethods() {
@@ -92,7 +92,7 @@ public class CardService {
                 .pageSize(20)
                 .build();
         return getFilteredResults(searchRequest)
-                .flatMap(itemService::getItemsListByIdList);
+                .flatMap(this.itemService::getItemsListByIdList);
     }
 
     public AddressModel getAddressModel(Long id) {
@@ -104,7 +104,7 @@ public class CardService {
     }
 
     private Uni<List<Long>> getFilteredResults(SearchRequest request) {
-        return searchService.searchItemsBySearchRequest(request).map(json ->
+        return this.searchService.searchItemsBySearchRequest(request).map(json ->
                 ofNullable(json)
                         .map(j -> j.getJsonObject("hits"))
                         .map(hits -> hits.getJsonArray("hits"))
@@ -120,7 +120,7 @@ public class CardService {
     private Uni<Map<Long, ProductModel>> getCardProducts(List<CardProduct> products) {
         List<Long> ids = products.stream().map(CardProduct::getItemId).collect(toList());
 
-        return itemService.getItemsListByIdList(ids).map(itemModels -> {
+        return this.itemService.getItemsListByIdList(ids).map(itemModels -> {
             Map<Long, ProductModel> cardProducts = new HashMap<>();
             for (ItemModel im : itemModels) {
 

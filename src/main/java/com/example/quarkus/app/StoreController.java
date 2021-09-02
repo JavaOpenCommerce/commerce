@@ -24,25 +24,25 @@ public class StoreController {
     @GET
     @Path("/items/{id}")
     public Uni<ItemDetailDto> getItemById(@PathParam("id") Long id) {
-        return storeService.getItemById(id);
+        return this.storeService.getItemById(id);
     }
 
     @GET
     @Path("/items")
     public Uni<PageDto<ItemDto>> search(@BeanParam SearchRequest request) {
-        return storeService.getFilteredItems(request);
+        return this.storeService.getFilteredItems(request);
     }
 
     @GET
     @Path("/categories")
     public Uni<List<CategoryDto>> getAllCategories() {
-        return storeService.getAllCategories();
+        return this.storeService.getAllCategories();
     }
 
     @GET
     @Path("/producers")
     public Uni<List<ProducerDto>> getAllProducers() {
-        return storeService.getAllProducers();
+        return this.storeService.getAllProducers();
     }
 
 }

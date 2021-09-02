@@ -12,7 +12,7 @@ import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ProducerConverter;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
-import lombok.extern.jbosslog.JBossLog;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,8 +22,7 @@ import static java.lang.Long.parseLong;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-
-@JBossLog
+@Log4j2
 @ApplicationScoped
 public class StoreService {
 
@@ -31,7 +30,6 @@ public class StoreService {
     private final SearchService searchService;
     private final CategoryRepository categoryRepository;
     private final ProducerRepository producerRepository;
-
 
     public StoreService(ItemService itemService,
                         SearchService searchService,
@@ -44,12 +42,12 @@ public class StoreService {
     }
 
     public Uni<ItemModel> getItemById(Long id) {
-        return itemService.getItemById(id);
+        return this.itemService.getItemById(id);
     }
 
     public Uni<PageModel<ItemModel>> getFilteredItemsPage(SearchRequest request) {
         return getFilteredResults(request).flatMap(results ->
-                itemService
+                this.itemService
                         .getItemsListByIdList(results.getLeft())
                         .map(items -> {
                             List<ItemModel> filteredList = items.stream()
@@ -65,16 +63,16 @@ public class StoreService {
     }
 
     public Uni<List<CategoryModel>> getAllCategories() {
-        return categoryRepository.getAll().map(categories ->
+        return this.categoryRepository.getAll().map(categories ->
                 categories.stream()
                         .filter(cat -> cat.getDetails().stream()
-                                .allMatch(detail -> !"shipping".equalsIgnoreCase(detail.getName())))
+                                .noneMatch(detail -> "shipping".equalsIgnoreCase(detail.getName())))
                         .map(CategoryConverter::convertToModel)
                         .collect(toList()));
     }
 
     public Uni<List<ProducerModel>> getAllProducers() {
-        return producerRepository.getAll().map(producers ->
+        return this.producerRepository.getAll().map(producers ->
                 producers.stream()
                         .map(ProducerConverter::convertToModel)
                         .collect(toList()));
@@ -82,7 +80,7 @@ public class StoreService {
 
     private Uni<Pair<List<Long>, Integer>> getFilteredResults(SearchRequest request) {
 
-        return searchService
+        return this.searchService
                 .searchItemsBySearchRequest(request).map(json -> {
 
                     //null check on json
@@ -126,7 +124,7 @@ public class StoreService {
     private boolean isValidCategory(List<CategoryModel> categories) {
         return categories.stream()
                 .flatMap(category -> category.getDetails().stream())
-                .allMatch(details -> !"shipping".equalsIgnoreCase(details.getName()));
+                .noneMatch(details -> "shipping".equalsIgnoreCase(details.getName()));
     }
 }
 

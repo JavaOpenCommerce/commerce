@@ -32,8 +32,10 @@ public class OrderDetailsService {
     private final UserRepository userRepository;
     private final ItemService itemService;
 
-    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository, AddressRepository addressRepository,
-                               UserRepository userRepository, ItemService itemService) {
+    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository,
+                               AddressRepository addressRepository,
+                               UserRepository userRepository,
+                               ItemService itemService) {
         this.orderDetailsRepository = orderDetailsRepository;
         this.addressRepository = addressRepository;
         this.userRepository = userRepository;
@@ -44,14 +46,14 @@ public class OrderDetailsService {
     public Uni<OrderDetailsModel> getOrderDetailsById(Long id) {
         log.info("Fetching OrderDetails with id: " + id);
 
-        Uni<OrderDetails> orderDetailsUni = orderDetailsRepository.findOrderDetailsById(id);
+        Uni<OrderDetails> orderDetailsUni = this.orderDetailsRepository.findOrderDetailsById(id);
 
         Uni<Map<Long, ProductModel>> itemQuantityListUni = orderDetailsUni
                 .flatMap(od -> getProducts(od.getProductsJson()));
 
-        Uni<Address> addressUni = orderDetailsUni.flatMap(od -> addressRepository.findById(od.getId()));
+        Uni<Address> addressUni = orderDetailsUni.flatMap(od -> this.addressRepository.findById(od.getId()));
 
-        Uni<UserEntity> userUni = orderDetailsUni.flatMap(od -> userRepository.findById(od.getId()));
+        Uni<UserEntity> userUni = orderDetailsUni.flatMap(od -> this.userRepository.findById(od.getId()));
 
         return combine().all().unis(orderDetailsUni, itemQuantityListUni, addressUni, userUni)
                 .combinedWith(OrderDetailsConverter::convertToModel);
@@ -63,8 +65,8 @@ public class OrderDetailsService {
         return orderDetailsModel.flatMap(od -> {
             updateItemStocks(od.getCard().getProducts());
 
-            Uni<OrderDetails> savedOrderDetails = orderDetailsRepository
-                .saveOrder(OrderDetailsConverter.convertToEntity(od));
+            Uni<OrderDetails> savedOrderDetails = this.orderDetailsRepository
+                    .saveOrder(OrderDetailsConverter.convertToEntity(od));
 
             return savedOrderDetails
                     .flatMap(sod -> {
@@ -83,19 +85,20 @@ public class OrderDetailsService {
 
     private void updateItemStocks(Map<Long, ProductModel> productsMap) {
 
-         productsMap.forEach((id, product) ->
-                 itemService.changeStock(id, product.getAmount().asInteger()).await().indefinitely()
-         );
+        productsMap.forEach((id, product) ->
+                this.itemService.changeStock(id, product.getAmount().asInteger()).await().indefinitely()
+        );
     }
 
     private Uni<Map<Long, ProductModel>> getProducts(String productsJson) {
         List<CardProduct> cardProducts =
-                convertToObject(productsJson, new ArrayList<CardProduct>() {}
-                .getClass().getGenericSuperclass());
+                convertToObject(productsJson, new ArrayList<CardProduct>() {
+                }
+                        .getClass().getGenericSuperclass());
 
         List<Long> ids = getProductIdList(cardProducts);
 
-        return itemService.getItemsListByIdList(ids).map(itemModels -> {
+        return this.itemService.getItemsListByIdList(ids).map(itemModels -> {
             Map<Long, ProductModel> cardProductsMap = new HashMap<>();
             for (ItemModel im : itemModels) {
                 int amount = cardProducts.stream()
