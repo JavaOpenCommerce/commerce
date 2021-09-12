@@ -30,9 +30,10 @@ public class ItemService {
     private final ProducerRepository producerRepository;
     private final ImageRepository imageRepository;
 
-
     public ItemService(ItemRepository itemRepository,
-                       CategoryRepository categoryRepository, ProducerRepository producerRepository, ImageRepository imageRepository) {
+                       CategoryRepository categoryRepository,
+                       ProducerRepository producerRepository,
+                       ImageRepository imageRepository) {
         this.itemRepository = itemRepository;
         this.categoryRepository = categoryRepository;
         this.producerRepository = producerRepository;
@@ -40,10 +41,10 @@ public class ItemService {
     }
 
     public Uni<ItemModel> getItemById(Long id) {
-        Uni<Item> itemUni = itemRepository.getItemById(id);
-        Uni<List<ItemDetails>> itemDetailsUni = itemRepository.getItemDetailsListByItemId(id);
-        Uni<List<Category>> categoriesUni = categoryRepository.getCategoriesByItemId(id);
-        Uni<Producer> producerUni = producerRepository.getProducerByItemId(id);
+        Uni<Item> itemUni = this.itemRepository.getItemById(id);
+        Uni<List<ItemDetails>> itemDetailsUni = this.itemRepository.getItemDetailsListByItemId(id);
+        Uni<List<Category>> categoriesUni = this.categoryRepository.getCategoriesByItemId(id);
+        Uni<Producer> producerUni = this.producerRepository.getProducerByItemId(id);
 
         return combine().all()
                 .unis(itemUni, itemDetailsUni, categoriesUni, producerUni)
@@ -51,10 +52,10 @@ public class ItemService {
     }
 
     public Uni<List<ItemModel>> getAllItems() {
-        Uni<List<Item>> itemsUni = itemRepository.getAllItems();
-        Uni<List<Category>> categoriesUni = categoryRepository.getAll();
-        Uni<List<ItemDetails>> itemDetailsUni = itemRepository.getAllItemDetails();
-        Uni<List<Producer>> producersUni = producerRepository.getAll();
+        Uni<List<Item>> itemsUni = this.itemRepository.getAllItems();
+        Uni<List<Category>> categoriesUni = this.categoryRepository.getAll();
+        Uni<List<ItemDetails>> itemDetailsUni = this.itemRepository.getAllItemDetails();
+        Uni<List<Producer>> producersUni = this.producerRepository.getAll();
 
         return combine().all()
                 .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
@@ -63,10 +64,10 @@ public class ItemService {
     }
 
     public Uni<List<ItemModel>> getItemsListByIdList(List<Long> ids) {
-        Uni<List<Item>> itemsUni = itemRepository.getItemsListByIdList(ids);
-        Uni<List<ItemDetails>> itemDetailsUni = itemRepository.getItemDetailsListByIdList(ids);
-        Uni<List<Category>> categoriesUni = categoryRepository.getCategoriesListByIdList(ids);
-        Uni<List<Producer>> producersUni = producerRepository.getProducersListByIdList(ids);
+        Uni<List<Item>> itemsUni = this.itemRepository.getItemsListByIdList(ids);
+        Uni<List<ItemDetails>> itemDetailsUni = this.itemRepository.getItemDetailsListByIdList(ids);
+        Uni<List<Category>> categoriesUni = this.categoryRepository.getCategoriesListByIdList(ids);
+        Uni<List<Producer>> producersUni = this.producerRepository.getProducersListByIdList(ids);
 
         return combine().all()
                 .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
@@ -74,7 +75,7 @@ public class ItemService {
     }
 
     public Uni<Integer> changeStock(Long id, int amount) {
-        Uni<Integer> itemStock = itemRepository.getItemStock(id);
+        Uni<Integer> itemStock = this.itemRepository.getItemStock(id);
         return itemStock.flatMap(stock -> {
             if (stock == -1) {
                 throw new OutOfStockException(
@@ -83,7 +84,7 @@ public class ItemService {
                 throw new OutOfStockException(
                         ItemExceptionEntity.create(id, "Not enough items in stock! Rollback"));
             } else {
-                return itemRepository.changeItemStock(id, stock - amount);
+                return this.itemRepository.changeItemStock(id, stock - amount);
             }
         });
     }
@@ -92,12 +93,12 @@ public class ItemService {
     public Uni<ItemModel> addNewItem(Uni<ItemModel> item) {
         Uni<Item> savedItem = item
                 .map(i -> {
-                    imageRepository
+                    this.imageRepository
                             .saveImage(ImageConverter.convertModelToEntity(i.getImage()))
                             .await().indefinitely();
                     return ItemConverter.convertModelToEntity(i);
                 })
-                .flatMap(itemRepository::saveItem);
+                .flatMap(this.itemRepository::saveItem);
 
         return savedItem
                 .map(i -> ItemConverter.convertToModel(i, emptyList(), emptyList(), null));

@@ -21,23 +21,6 @@ com:
 
 ## Default, that is production quarkus configuration:
 quarkus:
-  #datasource settings
-  datasource:
-#    jdbc: false
-    ## Once Flyway create database comment below jdbc configuration, uncomment above jdbc: false
-    jdbc:
-      url: jdbc:postgresql://localhost:5432/${com.example.database.schema}
-      max-size: 16
-    db-kind: postgresql
-    username: ${com.example.database.username}
-    password: ${com.example.database.password}
-    reactive:
-      url: vertx-reactive:postgresql://localhost:5432/${com.example.database.schema}
-      ## connection pool size:
-      max-size: 20
-      postgresql:
-        ## Available options: disable, allow, prefer, require, verify-ca, verify-full
-        ssl-mode: prefer
   log:
     console:
       enable: true
@@ -47,7 +30,7 @@ quarkus:
       async: true
     category:
       "io.quarkus.flyway":
-            level: debug
+        level: debug
 
 
 ## Developer mode configuration, used when launching local development environment, ex. ./gradlew quarkusDev
@@ -57,12 +40,13 @@ quarkus:
     datasource:
       ## Once Flyway create database comment below jdbc configuration:
       jdbc:
-        url: jdbc:postgresql://localhost:5432/${com.example.database.schema}
+        #        url: jdbc:postgresql://localhost:5432/${com.example.database.schema}
+        url: vertx-reactive:postgresql://localhost:5432/${com.example.database.schema}
         max-size: 16
+        ## for flyway:
+        username: "${com.example.database.username}"
+        password: "${com.example.database.password}"
       db-kind: postgresql
-      ## for flyway:
-      username: ${com.example.database.username}
-      password: ${com.example.database.password}
     flyway:
       connect-retries: 2
       ## the same as in quarkus.datasource.reactive.url:
@@ -72,7 +56,7 @@ quarkus:
       ## set to true, to trigger flyway on
       migrate-at-start: true
       ## Prefix for local environment, 'V' if not set:
-#      sql-migration-prefix: local
+      #      sql-migration-prefix: local
       # Enable the creation of the history table if it does not exist already. Ex. enabling flyway for existing databases.
       # This schema will then be base-lined with the *baseline-version* before executing the migrations.
       # Only migrations above *baseline-version* will then be applied.

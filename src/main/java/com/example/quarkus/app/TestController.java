@@ -34,18 +34,18 @@ public class TestController {
                 .vat(0.23)
                 .image(Image.builder().id(2L).build())
                 .build();
-        return itemRepository.saveItem(item);
+        return this.itemRepository.saveItem(item);
     }
 
     @GET
     @Path("/get_order")
     public Uni<OrderDetailsDto> getOrderDetailsById(@QueryParam("id") Long id) {
-        return orderDetailsDtoService.getOrderDetailsById(id);
+        return this.orderDetailsDtoService.getOrderDetailsById(id);
     }
 
     @POST
     @Path("/save_order")
     public Uni<OrderDetailsDto> testSaveOrder(OrderDetailsDto orderDetails) {
-        return orderDetailsDtoService.saveOrderDetails(Uni.createFrom().item(orderDetails));
+        return this.orderDetailsDtoService.saveOrderDetails(Uni.createFrom().item(orderDetails));
     }
 }
