@@ -1,10 +1,9 @@
 package com.example.utils.converters;
 
-import com.example.business.models.ItemModel;
-import com.example.business.models.PageModel;
-import dtos.ItemDto;
-import dtos.PageDto;
-
+import com.example.javaopencommerce.PageDto;
+import com.example.javaopencommerce.PageModel;
+import com.example.javaopencommerce.item.ItemDto;
+import com.example.javaopencommerce.item.ItemModel;
 import java.util.List;
 import java.util.stream.Collectors;
 

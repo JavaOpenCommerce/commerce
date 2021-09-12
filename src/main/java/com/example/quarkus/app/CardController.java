@@ -1,22 +1,28 @@
 package com.example.quarkus.app;
 
-import com.example.database.entity.CardProduct;
+import static com.example.statics.MessagesStore.OK;
+import static java.util.Optional.ofNullable;
+
+import com.example.javaopencommerce.item.ItemDto;
+import com.example.javaopencommerce.order.CardDto;
+import com.example.javaopencommerce.order.CardProduct;
 import com.example.rest.services.CardDtoService;
-import dtos.CardDto;
-import dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.UUID;
-
-import static com.example.statics.MessagesStore.OK;
-import static java.util.Optional.ofNullable;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Path("card")

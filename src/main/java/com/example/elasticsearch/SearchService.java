@@ -1,19 +1,18 @@
 package com.example.elasticsearch;
 
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.ext.web.client.WebClient;
+import java.util.function.Supplier;
+import javax.enterprise.context.ApplicationScoped;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.function.Supplier;
-
-import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Slf4j
 @ApplicationScoped

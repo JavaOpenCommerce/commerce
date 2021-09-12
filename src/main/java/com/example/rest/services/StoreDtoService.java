@@ -1,20 +1,23 @@
 package com.example.rest.services;
 
+import static java.util.stream.Collectors.toList;
+
 import com.example.database.services.StoreService;
 import com.example.elasticsearch.SearchRequest;
+import com.example.javaopencommerce.PageDto;
+import com.example.javaopencommerce.category.CategoryDto;
+import com.example.javaopencommerce.item.ItemDetailDto;
+import com.example.javaopencommerce.item.ItemDto;
+import com.example.javaopencommerce.producer.ProducerDto;
 import com.example.utils.LanguageResolver;
 import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ItemDetailConverter;
 import com.example.utils.converters.ItemPageConverter;
 import com.example.utils.converters.ProducerConverter;
-import dtos.*;
 import io.smallrye.mutiny.Uni;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.Comparator;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class StoreDtoService {

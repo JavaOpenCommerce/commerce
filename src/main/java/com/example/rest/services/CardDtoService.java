@@ -1,18 +1,17 @@
 package com.example.rest.services;
 
-import com.example.database.entity.CardProduct;
+import static java.util.stream.Collectors.toList;
+
 import com.example.database.services.CardService;
+import com.example.javaopencommerce.item.ItemDto;
+import com.example.javaopencommerce.order.CardDto;
+import com.example.javaopencommerce.order.CardProduct;
 import com.example.utils.LanguageResolver;
 import com.example.utils.converters.CardConverter;
 import com.example.utils.converters.ItemConverter;
-import dtos.CardDto;
-import dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CardDtoService {

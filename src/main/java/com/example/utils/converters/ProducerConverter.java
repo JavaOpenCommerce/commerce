@@ -1,16 +1,15 @@
 package com.example.utils.converters;
 
-import com.example.business.models.ProducerDetailModel;
-import com.example.business.models.ProducerModel;
-import com.example.database.entity.Image;
-import com.example.database.entity.Producer;
-import dtos.ProducerDto;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+
+import com.example.javaopencommerce.image.Image;
+import com.example.javaopencommerce.producer.Producer;
+import com.example.javaopencommerce.producer.ProducerDetailModel;
+import com.example.javaopencommerce.producer.ProducerDto;
+import com.example.javaopencommerce.producer.ProducerModel;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public interface ProducerConverter {
 

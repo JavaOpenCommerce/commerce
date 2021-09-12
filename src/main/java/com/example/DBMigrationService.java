@@ -2,12 +2,11 @@ package com.example;
 
 import io.quarkus.arc.Arc;
 import io.quarkus.runtime.StartupEvent;
-import lombok.extern.log4j.Log4j2;
-import org.flywaydb.core.Flyway;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.sql.DataSource;
+import lombok.extern.log4j.Log4j2;
+import org.flywaydb.core.Flyway;
 
 @Log4j2
 @ApplicationScoped

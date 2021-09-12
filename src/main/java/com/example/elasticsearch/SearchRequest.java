@@ -1,12 +1,11 @@
 package com.example.elasticsearch;
 
+import javax.ws.rs.DefaultValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
-
-import javax.ws.rs.DefaultValue;
 
 @Getter
 @Builder

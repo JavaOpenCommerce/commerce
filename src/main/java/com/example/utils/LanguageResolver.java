@@ -1,16 +1,15 @@
 package com.example.utils;
 
 
+import static java.util.Locale.forLanguageTag;
+
 import io.vertx.ext.web.LanguageHeader;
 import io.vertx.ext.web.RoutingContext;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
-import static java.util.Locale.forLanguageTag;
+import javax.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class LanguageResolver {

@@ -1,15 +1,14 @@
 package com.example.utils.converters;
 
-import com.example.business.models.CategoryDetailModel;
-import com.example.business.models.CategoryModel;
-import com.example.database.entity.Category;
-import dtos.CategoryDto;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+
+import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.category.CategoryDetailModel;
+import com.example.javaopencommerce.category.CategoryDto;
+import com.example.javaopencommerce.category.CategoryModel;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public interface CategoryConverter {
 

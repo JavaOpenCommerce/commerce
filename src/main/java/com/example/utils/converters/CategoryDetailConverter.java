@@ -1,12 +1,12 @@
 package com.example.utils.converters;
 
 
-import com.example.business.models.CategoryDetailModel;
-import com.example.business.models.CategoryModel;
-import com.example.database.entity.CategoryDetails;
-
 import static io.netty.handler.codec.http.HttpResponseStatus.NOT_FOUND;
 import static java.util.Objects.nonNull;
+
+import com.example.javaopencommerce.category.CategoryDetailModel;
+import com.example.javaopencommerce.category.CategoryDetails;
+import com.example.javaopencommerce.category.CategoryModel;
 
 public interface CategoryDetailConverter {
 

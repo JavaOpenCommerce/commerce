@@ -1,20 +1,19 @@
 package com.example.database.repositories.impl;
 
-import com.example.database.entity.CardProduct;
-import com.example.database.repositories.interfaces.CardRepository;
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
+
+import com.example.javaopencommerce.order.CardProduct;
+import com.example.javaopencommerce.order.CardRepository;
 import com.example.utils.converters.JsonConverter;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.Json;
 import io.vertx.mutiny.core.Promise;
 import io.vertx.redis.client.RedisAPI;
-import lombok.extern.log4j.Log4j2;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
+import javax.enterprise.context.ApplicationScoped;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @ApplicationScoped

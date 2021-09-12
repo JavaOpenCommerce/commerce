@@ -2,13 +2,12 @@ package com.example;
 
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.runtime.configuration.ProfileManager;
-import lombok.extern.log4j.Log4j2;
-import org.eclipse.microprofile.config.ConfigProvider;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import lombok.extern.log4j.Log4j2;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 /**
  * Purpose of this class is purely information. It's aim to log active quarkus profiles.

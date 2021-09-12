@@ -1,8 +1,8 @@
 package com.example.utils.converters;
 
-import com.example.business.models.ImageModel;
-import com.example.database.entity.Image;
-import dtos.ImageDto;
+import com.example.javaopencommerce.image.ImageDto;
+import com.example.javaopencommerce.image.ImageModel;
+import com.example.javaopencommerce.image.Image;
 
 
 public interface ImageConverter {

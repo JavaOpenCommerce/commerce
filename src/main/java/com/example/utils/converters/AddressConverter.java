@@ -1,13 +1,13 @@
 package com.example.utils.converters;
 
-import com.example.business.models.AddressModel;
-import com.example.database.entity.Address;
-import dtos.AddressDto;
+import com.example.javaopencommerce.address.AddressEntity;
+import com.example.javaopencommerce.address.AddressDto;
+import com.example.javaopencommerce.address.AddressModel;
 
 
 public interface AddressConverter {
 
-    static AddressModel convertToModel(Address address) {
+    static AddressModel convertToModel(AddressEntity address) {
         return AddressModel.builder()
                 .id(address.getId())
                 .street(address.getStreet())
@@ -28,8 +28,8 @@ public interface AddressConverter {
                 .build();
     }
 
-    static Address convertToEntity(AddressModel addressModel) {
-        return Address.builder()
+    static AddressEntity convertToEntity(AddressModel addressModel) {
+        return AddressEntity.builder()
                 .id(addressModel.getId())
                 .userId(addressModel.getUserId())
                 .street(addressModel.getStreet())

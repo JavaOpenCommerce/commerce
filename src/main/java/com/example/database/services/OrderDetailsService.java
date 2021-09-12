@@ -1,27 +1,28 @@
 package com.example.database.services;
 
-import com.example.business.models.ItemModel;
-import com.example.business.models.OrderDetailsModel;
-import com.example.business.models.ProductModel;
-import com.example.database.entity.Address;
-import com.example.database.entity.CardProduct;
-import com.example.database.entity.OrderDetails;
-import com.example.database.entity.UserEntity;
-import com.example.database.repositories.interfaces.AddressRepository;
-import com.example.database.repositories.interfaces.OrderDetailsRepository;
-import com.example.database.repositories.interfaces.UserRepository;
-import com.example.utils.converters.AddressConverter;
-import com.example.utils.converters.OrderDetailsConverter;
-import io.smallrye.mutiny.Uni;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
-import java.util.*;
-
 import static com.example.utils.converters.JsonConverter.convertToObject;
 import static io.smallrye.mutiny.Uni.combine;
 import static java.util.stream.Collectors.toList;
+
+import com.example.javaopencommerce.address.AddressEntity;
+import com.example.javaopencommerce.address.AddressRepository;
+import com.example.javaopencommerce.item.ItemModel;
+import com.example.javaopencommerce.order.CardProduct;
+import com.example.javaopencommerce.order.OrderDetails;
+import com.example.javaopencommerce.order.OrderDetailsModel;
+import com.example.javaopencommerce.order.OrderDetailsRepository;
+import com.example.javaopencommerce.order.ProductModel;
+import com.example.utils.converters.AddressConverter;
+import com.example.utils.converters.OrderDetailsConverter;
+import io.smallrye.mutiny.Uni;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
@@ -29,16 +30,13 @@ public class OrderDetailsService {
 
     private final OrderDetailsRepository orderDetailsRepository;
     private final AddressRepository addressRepository;
-    private final UserRepository userRepository;
     private final ItemService itemService;
 
     public OrderDetailsService(OrderDetailsRepository orderDetailsRepository,
                                AddressRepository addressRepository,
-                               UserRepository userRepository,
                                ItemService itemService) {
         this.orderDetailsRepository = orderDetailsRepository;
         this.addressRepository = addressRepository;
-        this.userRepository = userRepository;
         this.itemService = itemService;
     }
 
@@ -51,11 +49,9 @@ public class OrderDetailsService {
         Uni<Map<Long, ProductModel>> itemQuantityListUni = orderDetailsUni
                 .flatMap(od -> getProducts(od.getProductsJson()));
 
-        Uni<Address> addressUni = orderDetailsUni.flatMap(od -> this.addressRepository.findById(od.getId()));
+        Uni<AddressEntity> addressUni = orderDetailsUni.flatMap(od -> this.addressRepository.findById(od.getId()));
 
-        Uni<UserEntity> userUni = orderDetailsUni.flatMap(od -> this.userRepository.findById(od.getId()));
-
-        return combine().all().unis(orderDetailsUni, itemQuantityListUni, addressUni, userUni)
+        return combine().all().unis(orderDetailsUni, itemQuantityListUni, addressUni)
                 .combinedWith(OrderDetailsConverter::convertToModel);
     }
 
@@ -76,9 +72,8 @@ public class OrderDetailsService {
                                 OrderDetailsConverter.convertToModel(
                                         sod,
                                         prods,
-                                        AddressConverter.convertToEntity(od.getAddress()),
-                                        UserEntity.builder().id(1L).build()) //TODO
-                        );
+                                        AddressConverter.convertToEntity(od.getAddress())
+                        ));
                     });
         });
     }

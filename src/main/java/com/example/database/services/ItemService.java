@@ -1,64 +1,52 @@
 package com.example.database.services;
 
-import com.example.business.models.ItemModel;
-import com.example.database.entity.Category;
-import com.example.database.entity.Item;
-import com.example.database.entity.ItemDetails;
-import com.example.database.entity.Producer;
-import com.example.database.repositories.interfaces.CategoryRepository;
-import com.example.database.repositories.interfaces.ImageRepository;
-import com.example.database.repositories.interfaces.ItemRepository;
-import com.example.database.repositories.interfaces.ProducerRepository;
+import static io.smallrye.mutiny.Uni.combine;
+import static java.util.Collections.emptyList;
+
+import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.category.CategoryRepository;
+import com.example.javaopencommerce.image.ImageRepository;
+import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemDetails;
+import com.example.javaopencommerce.item.ItemModel;
+import com.example.javaopencommerce.item.ItemRepository;
+import com.example.javaopencommerce.producer.Producer;
+import com.example.javaopencommerce.producer.ProducerRepository;
 import com.example.quarkus.exceptions.ItemExceptionEntity;
 import com.example.quarkus.exceptions.OutOfStockException;
 import com.example.utils.converters.ImageConverter;
 import com.example.utils.converters.ItemConverter;
 import io.smallrye.mutiny.Uni;
-
+import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
-import java.util.List;
-
-import static io.smallrye.mutiny.Uni.combine;
-import static java.util.Collections.emptyList;
 
 @ApplicationScoped
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final CategoryRepository categoryRepository;
-    private final ProducerRepository producerRepository;
     private final ImageRepository imageRepository;
 
-    public ItemService(ItemRepository itemRepository,
-                       CategoryRepository categoryRepository,
-                       ProducerRepository producerRepository,
-                       ImageRepository imageRepository) {
+    public ItemService(ItemRepository itemRepository, ImageRepository imageRepository) {
         this.itemRepository = itemRepository;
-        this.categoryRepository = categoryRepository;
-        this.producerRepository = producerRepository;
         this.imageRepository = imageRepository;
     }
 
     public Uni<ItemModel> getItemById(Long id) {
         Uni<Item> itemUni = this.itemRepository.getItemById(id);
         Uni<List<ItemDetails>> itemDetailsUni = this.itemRepository.getItemDetailsListByItemId(id);
-        Uni<List<Category>> categoriesUni = this.categoryRepository.getCategoriesByItemId(id);
-        Uni<Producer> producerUni = this.producerRepository.getProducerByItemId(id);
 
         return combine().all()
-                .unis(itemUni, itemDetailsUni, categoriesUni, producerUni)
+                .unis(itemUni, itemDetailsUni)
                 .combinedWith(ItemConverter::convertToModel);
     }
 
     public Uni<List<ItemModel>> getAllItems() {
         Uni<List<Item>> itemsUni = this.itemRepository.getAllItems();
-        Uni<List<Category>> categoriesUni = this.categoryRepository.getAll();
         Uni<List<ItemDetails>> itemDetailsUni = this.itemRepository.getAllItemDetails();
-        Uni<List<Producer>> producersUni = this.producerRepository.getAll();
 
         return combine().all()
-                .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
+                .unis(itemsUni, itemDetailsUni)
                 .combinedWith(
                         ItemConverter::convertToItemModelList);
     }
@@ -66,11 +54,9 @@ public class ItemService {
     public Uni<List<ItemModel>> getItemsListByIdList(List<Long> ids) {
         Uni<List<Item>> itemsUni = this.itemRepository.getItemsListByIdList(ids);
         Uni<List<ItemDetails>> itemDetailsUni = this.itemRepository.getItemDetailsListByIdList(ids);
-        Uni<List<Category>> categoriesUni = this.categoryRepository.getCategoriesListByIdList(ids);
-        Uni<List<Producer>> producersUni = this.producerRepository.getProducersListByIdList(ids);
 
         return combine().all()
-                .unis(itemsUni, itemDetailsUni, categoriesUni, producersUni)
+                .unis(itemsUni, itemDetailsUni)
                 .combinedWith(ItemConverter::convertToItemModelList);
     }
 
@@ -101,6 +87,6 @@ public class ItemService {
                 .flatMap(this.itemRepository::saveItem);
 
         return savedItem
-                .map(i -> ItemConverter.convertToModel(i, emptyList(), emptyList(), null));
+                .map(i -> ItemConverter.convertToModel(i, emptyList()));
     }
 }

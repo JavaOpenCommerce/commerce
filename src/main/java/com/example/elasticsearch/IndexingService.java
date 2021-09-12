@@ -1,5 +1,7 @@
 package com.example.elasticsearch;
 
+import static java.util.stream.Collectors.toList;
+
 import com.example.database.services.ItemService;
 import com.example.utils.converters.SearchItemConverter;
 import io.quarkus.runtime.StartupEvent;
@@ -8,13 +10,10 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
-import lombok.extern.jbosslog.JBossLog;
-
+import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import lombok.extern.jbosslog.JBossLog;
 
 @JBossLog
 @ApplicationScoped

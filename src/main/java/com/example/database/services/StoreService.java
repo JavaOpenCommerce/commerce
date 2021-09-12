@@ -1,26 +1,25 @@
 package com.example.database.services;
 
-import com.example.business.models.CategoryModel;
-import com.example.business.models.ItemModel;
-import com.example.business.models.PageModel;
-import com.example.business.models.ProducerModel;
-import com.example.database.repositories.interfaces.CategoryRepository;
-import com.example.database.repositories.interfaces.ProducerRepository;
+import static java.lang.Long.parseLong;
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
 import com.example.elasticsearch.SearchRequest;
 import com.example.elasticsearch.SearchService;
+import com.example.javaopencommerce.PageModel;
+import com.example.javaopencommerce.category.CategoryModel;
+import com.example.javaopencommerce.category.CategoryRepository;
+import com.example.javaopencommerce.item.ItemModel;
+import com.example.javaopencommerce.producer.ProducerModel;
+import com.example.javaopencommerce.producer.ProducerRepository;
 import com.example.utils.converters.CategoryConverter;
 import com.example.utils.converters.ProducerConverter;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
+import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.tuple.Pair;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.List;
-
-import static java.lang.Long.parseLong;
-import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 @Log4j2
 @ApplicationScoped

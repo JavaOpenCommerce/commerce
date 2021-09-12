@@ -1,10 +1,9 @@
 package com.example.utils.converters;
 
-import com.example.business.models.ProducerDetailModel;
-import com.example.business.models.ProducerModel;
-import com.example.database.entity.ProducerDetails;
+import com.example.javaopencommerce.producer.ProducerDetailModel;
+import com.example.javaopencommerce.producer.ProducerDetails;
+import com.example.javaopencommerce.producer.ProducerModel;
 import io.netty.handler.codec.http.HttpResponseStatus;
-
 import java.util.Objects;
 
 

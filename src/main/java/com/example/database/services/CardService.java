@@ -1,31 +1,30 @@
 package com.example.database.services;
 
-import com.example.business.models.AddressModel;
-import com.example.business.models.CardModel;
-import com.example.business.models.ItemModel;
-import com.example.business.models.ProductModel;
-import com.example.database.entity.Address;
-import com.example.database.entity.CardProduct;
+import static java.lang.Long.parseLong;
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
+
 import com.example.database.repositories.impl.CardRepositoryImpl;
 import com.example.elasticsearch.SearchRequest;
 import com.example.elasticsearch.SearchService;
+import com.example.javaopencommerce.address.AddressEntity;
+import com.example.javaopencommerce.address.AddressModel;
+import com.example.javaopencommerce.item.ItemModel;
+import com.example.javaopencommerce.order.CardModel;
+import com.example.javaopencommerce.order.CardProduct;
+import com.example.javaopencommerce.order.ProductModel;
 import com.example.utils.converters.AddressConverter;
 import com.example.utils.converters.CardConverter;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.lang.Long.parseLong;
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
+import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 @ApplicationScoped
 public class CardService {
@@ -96,7 +95,7 @@ public class CardService {
     }
 
     public AddressModel getAddressModel(Long id) {
-        Address address = ofNullable(new Address()) //TODO
+        AddressEntity address = ofNullable(new AddressEntity()) //TODO
                 .orElseThrow(() ->
                         new WebApplicationException("Address with id " + id + " not found", Response.Status.NOT_FOUND));
         return AddressConverter

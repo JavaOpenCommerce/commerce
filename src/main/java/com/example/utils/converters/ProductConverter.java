@@ -1,8 +1,8 @@
 package com.example.utils.converters;
 
-import com.example.business.models.ProductModel;
-import com.example.database.entity.CardProduct;
-import dtos.ProductDto;
+import com.example.javaopencommerce.order.CardProduct;
+import com.example.javaopencommerce.order.ProductDto;
+import com.example.javaopencommerce.order.ProductModel;
 
 
 public interface ProductConverter {

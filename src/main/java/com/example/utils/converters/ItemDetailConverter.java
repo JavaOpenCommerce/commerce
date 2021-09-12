@@ -1,19 +1,18 @@
 package com.example.utils.converters;
 
-import com.example.business.models.ImageModel;
-import com.example.business.models.ItemDetailModel;
-import com.example.business.models.ItemModel;
-import com.example.database.entity.ItemDetails;
-import dtos.ImageDto;
-import dtos.ItemDetailDto;
-import io.netty.handler.codec.http.HttpResponseStatus;
-
-import java.util.List;
-import java.util.Objects;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
+
+import com.example.javaopencommerce.image.ImageDto;
+import com.example.javaopencommerce.image.ImageModel;
+import com.example.javaopencommerce.item.ItemDetailDto;
+import com.example.javaopencommerce.item.ItemDetailModel;
+import com.example.javaopencommerce.item.ItemDetails;
+import com.example.javaopencommerce.item.ItemModel;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import java.util.List;
+import java.util.Objects;
 
 public interface ItemDetailConverter {
 
@@ -45,7 +44,6 @@ public interface ItemDetailConverter {
                 .id(item.getId())
                 .valueGross(item.getValueGross().asDecimal())
                 .vat(item.getVat().asDouble())
-                .producer(ProducerConverter.convertToDto(item.getProducer(), lang, defaultLang))
                 .stock(item.getStock())
                 .mainImage(ImageConverter.convertToDto(item.getImage()))
                 .name(details.getName())

@@ -1,13 +1,12 @@
-package com.example.business;
-
-import com.example.business.models.ItemModel;
-import com.example.business.models.ProductModel;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import java.math.BigDecimal;
+package com.example.javaopencommerce;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.example.javaopencommerce.item.ItemModel;
+import com.example.javaopencommerce.order.ProductModel;
+import java.math.BigDecimal;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class ProductModelTest {
 

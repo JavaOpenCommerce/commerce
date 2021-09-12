@@ -1,15 +1,19 @@
 package com.example.quarkus.app;
 
-import com.example.database.entity.Image;
-import com.example.database.entity.Item;
-import com.example.database.repositories.interfaces.ItemRepository;
+import com.example.javaopencommerce.image.Image;
+import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemRepository;
+import com.example.javaopencommerce.order.OrderDetailsDto;
 import com.example.rest.services.OrderDetailsDtoService;
-import dtos.OrderDetailsDto;
 import io.smallrye.mutiny.Uni;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.math.BigDecimal;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 @Path("/test")
 @Produces(MediaType.APPLICATION_JSON)

@@ -1,16 +1,15 @@
 package com.example.utils.converters;
 
 
-import com.example.business.models.CardModel;
-import com.example.database.entity.CardProduct;
-import dtos.CardDto;
-import dtos.ProductDto;
+import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.order.CardDto;
+import com.example.javaopencommerce.order.CardModel;
+import com.example.javaopencommerce.order.CardProduct;
+import com.example.javaopencommerce.order.ProductDto;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
 
 public interface CardConverter {
 

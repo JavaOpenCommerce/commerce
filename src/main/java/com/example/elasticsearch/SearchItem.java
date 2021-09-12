@@ -1,12 +1,11 @@
 package com.example.elasticsearch;
 
 
-import dtos.ImageDto;
+import com.example.javaopencommerce.image.ImageDto;
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 @Builder

@@ -1,10 +1,26 @@
 package com.example.quarkus;
 
-import com.example.database.repositories.impl.*;
-import com.example.database.repositories.impl.mappers.*;
-import com.example.database.repositories.interfaces.*;
+import com.example.database.repositories.impl.AddressRepositoryImpl;
+import com.example.database.repositories.impl.CategoryRepositoryImpl;
+import com.example.database.repositories.impl.ImageRepositoryImpl;
+import com.example.database.repositories.impl.ItemRepositoryImpl;
+import com.example.database.repositories.impl.OrderDetailsRepositoryImpl;
+import com.example.database.repositories.impl.ProducerRepositoryImpl;
+import com.example.database.repositories.impl.UserRepositoryImpl;
+import com.example.database.repositories.impl.mappers.AddressMapper;
+import com.example.database.repositories.impl.mappers.CategoryMapper;
+import com.example.database.repositories.impl.mappers.ItemMapper;
+import com.example.database.repositories.impl.mappers.OrderDetailsMapper;
+import com.example.database.repositories.impl.mappers.ProducerMapper;
+import com.example.database.repositories.impl.mappers.UserMapper;
+import com.example.javaopencommerce.address.AddressRepository;
+import com.example.javaopencommerce.category.CategoryRepository;
+import com.example.javaopencommerce.image.ImageRepository;
+import com.example.javaopencommerce.item.ItemRepository;
+import com.example.javaopencommerce.order.OrderDetailsRepository;
+import com.example.javaopencommerce.producer.ProducerRepository;
+import com.example.javaopencommerce.user.UserRepository;
 import io.vertx.mutiny.pgclient.PgPool;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;

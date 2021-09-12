@@ -1,22 +1,25 @@
 package com.example.utils.converters;
 
-import com.example.business.models.CardModel;
-import com.example.business.models.OrderDetailsModel;
-import com.example.business.models.ProductModel;
-import com.example.business.models.UserModel;
-import com.example.database.entity.*;
-import dtos.OrderDetailsDto;
-
-import java.util.List;
-import java.util.Map;
-
 import static com.example.utils.converters.JsonConverter.convertToJson;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
+import com.example.javaopencommerce.address.AddressEntity;
+import com.example.javaopencommerce.order.CardModel;
+import com.example.javaopencommerce.order.CardProduct;
+import com.example.javaopencommerce.order.OrderDetails;
+import com.example.javaopencommerce.order.OrderDetailsDto;
+import com.example.javaopencommerce.order.OrderDetailsModel;
+import com.example.javaopencommerce.order.OrderStatus;
+import com.example.javaopencommerce.order.PaymentMethod;
+import com.example.javaopencommerce.order.PaymentStatus;
+import com.example.javaopencommerce.order.ProductModel;
+import java.util.List;
+import java.util.Map;
+
 public interface OrderDetailsConverter {
 
-    static OrderDetailsModel convertToModel(OrderDetails orderDetails, Map<Long, ProductModel> products, Address address, UserEntity userEntity) {
+    static OrderDetailsModel convertToModel(OrderDetails orderDetails, Map<Long, ProductModel> products, AddressEntity address) {
 
         return OrderDetailsModel.builder()
                 .id(orderDetails.getId())
@@ -25,7 +28,6 @@ public interface OrderDetailsConverter {
                 .paymentMethod(orderDetails.getPaymentMethod().toString())
                 .paymentStatus(orderDetails.getPaymentStatus().toString())
                 .address(AddressConverter.convertToModel(address))
-                .user(UserModel.builder().id(1L).build()) //TODO
                 .card(CardModel.getInstance(products))
                 .build();
     }
@@ -42,7 +44,6 @@ public interface OrderDetailsConverter {
                 .paymentMethod(orderDetails.getPaymentMethod())
                 .paymentStatus(orderDetails.getPaymentStatus())
                 .address(AddressConverter.convertDtoToModel(orderDetails.getAddress()))
-                .user(UserModel.builder().id(1L).build()) //TODO
                 .card(CardModel.getInstance(products))
                 .build();
     }
@@ -56,7 +57,6 @@ public interface OrderDetailsConverter {
                 .paymentMethod(orderDetails.getPaymentMethod())
                 .paymentStatus(orderDetails.getPaymentStatus())
                 .address(AddressConverter.convertToDto(orderDetails.getAddress()))
-                //.user()
                 .card(CardConverter.convertToDto(orderDetails.getCard(), lang, defaultLang))
                 .build();
     }
@@ -74,7 +74,6 @@ public interface OrderDetailsConverter {
                 .orderStatus(OrderStatus.valueOf(orderDetailsModel.getOrderStatus()))
                 .paymentMethod(PaymentMethod.valueOf(orderDetailsModel.getPaymentMethod()))
                 .paymentStatus(PaymentStatus.valueOf(orderDetailsModel.getPaymentStatus()))
-                .userEntityId(orderDetailsModel.getUser().getId())
                 .productsJson(convertToJson(productList))
                 .build();
     }
