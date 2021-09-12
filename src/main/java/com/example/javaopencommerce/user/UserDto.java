@@ -1,4 +1,4 @@
-package dtos;
+package com.example.javaopencommerce.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

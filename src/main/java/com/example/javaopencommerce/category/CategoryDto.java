@@ -1,5 +1,6 @@
-package dtos;
+package com.example.javaopencommerce.category;
 
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageDto {
+public class CategoryDto {
 
     private Long id;
-    private String alt;
-    private String url;
+    private String categoryName;
+    private String description;
+    private Locale lang;
 }

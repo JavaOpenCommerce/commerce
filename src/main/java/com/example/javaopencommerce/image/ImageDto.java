@@ -1,4 +1,4 @@
-package dtos;
+package com.example.javaopencommerce.image;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressDto {
+public class ImageDto {
 
     private Long id;
-    private Long userId;
-    private String street;
-    private String local;
-    private String city;
-    private String zip;
+    private String alt;
+    private String url;
 }
