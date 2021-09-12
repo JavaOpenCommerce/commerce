@@ -1,11 +1,11 @@
-package com.example.business.models;
+package com.example.javaopencommerce.user;
 
+import com.example.javaopencommerce.address.AddressModel;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder

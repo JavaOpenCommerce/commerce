@@ -1,11 +1,10 @@
-package com.example.business.models;
+package com.example.javaopencommerce.category;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Builder

@@ -1,12 +1,13 @@
-package com.example.business.models;
-
-import com.example.business.Amount;
-import com.example.business.Value;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+package com.example.javaopencommerce.order;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
+
+import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.Value;
+import com.example.javaopencommerce.item.ItemModel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode

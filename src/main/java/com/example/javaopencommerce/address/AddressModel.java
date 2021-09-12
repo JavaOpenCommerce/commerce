@@ -1,4 +1,4 @@
-package com.example.business.models;
+package com.example.javaopencommerce.address;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class AddressModel {
+public
+class AddressModel {
 
     private Long id;
     private String street;

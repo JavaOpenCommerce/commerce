@@ -1,8 +1,8 @@
-package com.example.business;
-
-import java.math.BigDecimal;
+package com.example.javaopencommerce;
 
 import static java.math.BigDecimal.valueOf;
+
+import java.math.BigDecimal;
 
 public final class Vat {
 

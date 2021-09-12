@@ -1,20 +1,20 @@
-package com.example.business.models;
+package com.example.javaopencommerce.producer;
 
+import java.util.Locale;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Locale;
-
 @Getter
 @Builder
 @ToString
 @EqualsAndHashCode
-public class CategoryDetailModel {
+public class ProducerDetailModel {
 
     private Long id;
     private String name;
     private String description;
     private Locale lang;
+
 }

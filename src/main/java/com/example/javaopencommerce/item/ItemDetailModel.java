@@ -1,11 +1,11 @@
-package com.example.business.models;
+package com.example.javaopencommerce.item;
 
+import com.example.javaopencommerce.image.ImageModel;
+import java.util.List;
+import java.util.Locale;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.List;
-import java.util.Locale;
 
 @Getter
 @Builder

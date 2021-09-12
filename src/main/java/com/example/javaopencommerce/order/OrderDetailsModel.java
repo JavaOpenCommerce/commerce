@@ -1,10 +1,11 @@
-package com.example.business.models;
+package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.address.AddressModel;
+import com.example.javaopencommerce.user.UserModel;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -23,9 +24,7 @@ public class OrderDetailsModel {
     @Builder.Default
     private final String orderStatus = "NEW";
 
-    private AddressModel address;
-
-    private UserModel user;
+    private final AddressModel address;
 
     private final CardModel card;
 }

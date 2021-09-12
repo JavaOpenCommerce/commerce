@@ -1,17 +1,20 @@
-package com.example.business.models;
+package com.example.javaopencommerce.order;
 
-import com.example.business.Value;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.example.statics.MessagesStore.*;
+import static com.example.statics.MessagesStore.BELOW_STOCK;
+import static com.example.statics.MessagesStore.ITEM_404;
+import static com.example.statics.MessagesStore.OK;
+import static com.example.statics.MessagesStore.OUT_OF_STOCK;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+
+import com.example.javaopencommerce.Value;
+import com.example.javaopencommerce.item.ItemModel;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode

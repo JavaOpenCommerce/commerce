@@ -1,4 +1,4 @@
-package com.example.business.models;
+package com.example.javaopencommerce.image;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

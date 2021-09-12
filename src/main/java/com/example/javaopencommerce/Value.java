@@ -1,4 +1,4 @@
-package com.example.business;
+package com.example.javaopencommerce;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

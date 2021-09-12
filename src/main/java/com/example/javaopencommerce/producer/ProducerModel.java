@@ -1,10 +1,10 @@
-package com.example.business.models;
+package com.example.javaopencommerce.producer;
 
+import com.example.javaopencommerce.image.ImageModel;
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 @Builder
