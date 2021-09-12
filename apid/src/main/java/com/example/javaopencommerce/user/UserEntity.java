@@ -1,10 +1,14 @@
-package com.example.database.entity;
+package com.example.javaopencommerce.user;
 
 
-import lombok.*;
-
+import com.example.javaopencommerce.address.AddressEntity;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
@@ -22,6 +26,6 @@ public class UserEntity {
     private List<UserType> permissions = new ArrayList<>();
 
     @Builder.Default
-    private List<Address> addresses = new ArrayList<>();
+    private List<AddressEntity> addresses = new ArrayList<>();
 
 }

@@ -1,4 +1,4 @@
-package com.example.database.entity;
+package com.example.javaopencommerce.order;
 
 public enum OrderStatus {
     NEW, IN_PROGRESS, READY_FOR_SHIPPING, SHIPPED

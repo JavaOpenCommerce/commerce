@@ -1,16 +1,19 @@
 package com.example.database.repositories.impl.mappers;
 
-import com.example.database.entity.Category;
-import com.example.database.entity.CategoryDetails;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.*;
-
 import static com.example.utils.CommonRow.isRowSetEmpty;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+
+import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.category.CategoryDetails;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class CategoryMapper {

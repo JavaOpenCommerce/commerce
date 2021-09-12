@@ -1,8 +1,11 @@
-package com.example.database.entity;
-
-import lombok.*;
+package com.example.javaopencommerce.producer;
 
 import java.util.Locale;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder

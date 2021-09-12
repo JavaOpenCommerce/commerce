@@ -1,17 +1,16 @@
 package com.example.database.repositories.impl;
 
-import com.example.database.entity.OrderDetails;
+import static com.example.utils.CommonRow.isRowSetEmpty;
+import static java.time.LocalDate.now;
+
 import com.example.database.repositories.impl.mappers.OrderDetailsMapper;
-import com.example.database.repositories.interfaces.OrderDetailsRepository;
+import com.example.javaopencommerce.order.OrderDetails;
+import com.example.javaopencommerce.order.OrderDetailsRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-
-import static com.example.utils.CommonRow.isRowSetEmpty;
-import static java.time.LocalDate.now;
+import javax.enterprise.context.ApplicationScoped;
 
 
 @ApplicationScoped

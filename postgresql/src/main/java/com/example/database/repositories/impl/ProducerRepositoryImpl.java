@@ -1,14 +1,13 @@
 package com.example.database.repositories.impl;
 
-import com.example.database.entity.Producer;
 import com.example.database.repositories.impl.mappers.ProducerMapper;
-import com.example.database.repositories.interfaces.ProducerRepository;
+import com.example.javaopencommerce.producer.Producer;
+import com.example.javaopencommerce.producer.ProducerRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ProducerRepositoryImpl implements ProducerRepository {

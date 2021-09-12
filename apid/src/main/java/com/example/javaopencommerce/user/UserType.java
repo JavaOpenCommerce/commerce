@@ -1,4 +1,4 @@
-package com.example.database.entity;
+package com.example.javaopencommerce.user;
 
 public enum UserType {
     ADMIN, OPERATOR, CUSTOMER

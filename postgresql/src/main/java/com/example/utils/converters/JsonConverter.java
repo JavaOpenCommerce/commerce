@@ -1,9 +1,9 @@
 package com.example.utils.converters;
 
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
 import java.lang.reflect.Type;
 import java.util.Objects;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 
 public abstract class JsonConverter {
 

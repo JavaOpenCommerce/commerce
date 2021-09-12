@@ -1,8 +1,6 @@
-package com.example.database.repositories.interfaces;
+package com.example.javaopencommerce.image;
 
-import com.example.database.entity.Image;
 import io.smallrye.mutiny.Uni;
-
 import java.util.List;
 
 public interface ImageRepository {

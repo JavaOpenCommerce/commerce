@@ -1,13 +1,17 @@
-package com.example.database.entity;
+package com.example.javaopencommerce.address;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Address {
+public class AddressEntity {
 
     private Long id;
     private String street;

@@ -1,10 +1,15 @@
-package com.example.database.entity;
+package com.example.javaopencommerce.item;
 
-import lombok.*;
-
+import com.example.javaopencommerce.image.Image;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Getter
@@ -20,10 +25,6 @@ public class Item {
     private double vat;
     private int stock;
     private Image image;
-    private Long producerId;
-
-    @Builder.Default
-    private List<Long> categoryIds = new ArrayList<>();
 
     @Builder.Default
     private List<ItemDetails> details = new ArrayList<>();

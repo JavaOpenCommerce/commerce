@@ -1,8 +1,6 @@
-package com.example.database.repositories.interfaces;
+package com.example.javaopencommerce.producer;
 
-import com.example.database.entity.Producer;
 import io.smallrye.mutiny.Uni;
-
 import java.util.List;
 
 public interface ProducerRepository {

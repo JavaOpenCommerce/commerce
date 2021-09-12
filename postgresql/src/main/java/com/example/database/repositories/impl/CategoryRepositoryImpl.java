@@ -1,14 +1,13 @@
 package com.example.database.repositories.impl;
 
-import com.example.database.entity.Category;
 import com.example.database.repositories.impl.mappers.CategoryMapper;
-import com.example.database.repositories.interfaces.CategoryRepository;
+import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.category.CategoryRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 
 @ApplicationScoped

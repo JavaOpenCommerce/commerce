@@ -1,9 +1,6 @@
-package com.example.database.repositories.interfaces;
+package com.example.javaopencommerce.item;
 
-import com.example.database.entity.Item;
-import com.example.database.entity.ItemDetails;
 import io.smallrye.mutiny.Uni;
-
 import java.util.List;
 
 public interface ItemRepository {

@@ -1,11 +1,10 @@
 package com.example.database.repositories.impl;
 
-import com.example.database.entity.Image;
-import com.example.database.repositories.interfaces.ImageRepository;
+import com.example.javaopencommerce.image.Image;
+import com.example.javaopencommerce.image.ImageRepository;
 import io.smallrye.mutiny.Uni;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 //TODO
 @ApplicationScoped

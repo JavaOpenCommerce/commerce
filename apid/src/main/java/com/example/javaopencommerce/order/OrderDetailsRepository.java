@@ -1,8 +1,6 @@
-package com.example.database.repositories.interfaces;
+package com.example.javaopencommerce.order;
 
-import com.example.database.entity.OrderDetails;
 import io.smallrye.mutiny.Uni;
-
 import java.util.List;
 
 public interface OrderDetailsRepository {

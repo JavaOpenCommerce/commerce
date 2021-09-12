@@ -1,13 +1,12 @@
 package com.example.database.repositories.impl;
 
-import com.example.database.entity.UserEntity;
 import com.example.database.repositories.impl.mappers.UserMapper;
-import com.example.database.repositories.interfaces.UserRepository;
+import com.example.javaopencommerce.user.UserEntity;
+import com.example.javaopencommerce.user.UserRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 //TODO
 @ApplicationScoped

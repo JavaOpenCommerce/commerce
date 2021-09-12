@@ -1,27 +1,28 @@
 package com.example.database.repositories.impl.mappers;
 
-import com.example.database.entity.Image;
-import com.example.database.entity.Item;
-import com.example.database.entity.ItemDetails;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.math.BigDecimal;
-import java.util.*;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
+import com.example.javaopencommerce.image.Image;
+import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemDetails;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.enterprise.context.ApplicationScoped;
+
 @ApplicationScoped
 public class ItemMapper {
 
     private static final String ID = "id";
-    private static final String CATEGORY_ID = "category_id";
     private static final String ITEM_ID = "item_id";
-    private static final String PRODUCER_ID = "producer_id";
     private static final String IMAGE_ID = "image_id";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
@@ -41,15 +42,7 @@ public class ItemMapper {
         Map<Long, Item> items = new HashMap<>();
         for (Row row : rs) {
             Item item = rowToItem(row);
-            ofNullable(items.putIfAbsent(item.getId(), item))
-                    .ifPresentOrElse(
-                            it -> it
-                                    .getCategoryIds()
-                                    .add(row.getLong(CATEGORY_ID)),
-                            () -> items
-                                    .get(item.getId())
-                                    .getCategoryIds()
-                                    .add(row.getLong(CATEGORY_ID)));
+            items.put(item.getId(), item);
         }
         return new ArrayList<>(items.values());
     }
@@ -74,7 +67,6 @@ public class ItemMapper {
                 .valueGross(BigDecimal.valueOf(row.getDouble(GROSS)))
                 .vat(row.getDouble(VAT))
                 .id(row.getLong(ID))
-                .producerId(row.getLong(PRODUCER_ID))
                 .image(image)
                 .build();
     }

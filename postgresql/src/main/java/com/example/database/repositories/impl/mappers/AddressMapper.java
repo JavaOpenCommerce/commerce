@@ -1,17 +1,16 @@
 package com.example.database.repositories.impl.mappers;
 
-import com.example.database.entity.Address;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.List;
-
 import static com.example.utils.CommonRow.isRowSetEmpty;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
+
+import com.example.javaopencommerce.address.AddressEntity;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class AddressMapper {
@@ -24,7 +23,7 @@ public class AddressMapper {
     private static final String USER_ID = "user_id";
 
 
-    public List<Address> rowSetToAddressList(RowSet<Row> rs) {
+    public List<AddressEntity> rowSetToAddressList(RowSet<Row> rs) {
         if (isRowSetEmpty(rs)) {
             return emptyList();
         }
@@ -34,12 +33,12 @@ public class AddressMapper {
                 .collect(toList());
     }
 
-    public Address rowToAddress(Row row) {
+    public AddressEntity rowToAddress(Row row) {
         if (isNull(row)) {
-            return Address.builder().build();
+            return AddressEntity.builder().build();
         }
 
-        return Address.builder()
+        return AddressEntity.builder()
                 .id(row.getLong(ID))
                 .city(row.getString(CITY))
                 .local(row.getString(LOCAL))

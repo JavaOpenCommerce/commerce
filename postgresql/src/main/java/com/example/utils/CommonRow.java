@@ -1,9 +1,9 @@
 package com.example.utils;
 
+import static java.util.Objects.isNull;
+
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
-
-import static java.util.Objects.isNull;
 
 public interface CommonRow {
 

@@ -1,21 +1,20 @@
 package com.example.database.repositories.impl.mappers;
 
-import com.example.database.entity.OrderDetails;
-import com.example.database.entity.OrderStatus;
-import com.example.database.entity.PaymentMethod;
-import com.example.database.entity.PaymentStatus;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.List;
-
-import static com.example.database.entity.PaymentMethod.valueOf;
+import static com.example.javaopencommerce.order.PaymentMethod.valueOf;
 import static com.example.utils.CommonRow.isRowSetEmpty;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
+
+import com.example.javaopencommerce.order.OrderDetails;
+import com.example.javaopencommerce.order.OrderStatus;
+import com.example.javaopencommerce.order.PaymentMethod;
+import com.example.javaopencommerce.order.PaymentStatus;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class OrderDetailsMapper {

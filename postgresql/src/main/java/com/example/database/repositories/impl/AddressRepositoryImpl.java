@@ -1,17 +1,16 @@
 package com.example.database.repositories.impl;
 
 
-import com.example.database.entity.Address;
+import static com.example.utils.CommonRow.isRowSetEmpty;
+
 import com.example.database.repositories.impl.mappers.AddressMapper;
-import com.example.database.repositories.interfaces.AddressRepository;
+import com.example.javaopencommerce.address.AddressEntity;
+import com.example.javaopencommerce.address.AddressRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-
-import static com.example.utils.CommonRow.isRowSetEmpty;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class AddressRepositoryImpl implements AddressRepository {
@@ -25,31 +24,31 @@ public class AddressRepositoryImpl implements AddressRepository {
     }
 
     @Override
-    public Uni<List<Address>> findByZip(String zip) {
+    public Uni<List<AddressEntity>> findByZip(String zip) {
         return this.client.preparedQuery("SELECT * FROM ADDRESS WHERE zip = $1")
                 .execute(Tuple.of(zip))
                 .map(this.addressMapper::rowSetToAddressList);
     }
 
     @Override
-    public Uni<Address> findById(Long id) {
+    public Uni<AddressEntity> findById(Long id) {
         return this.client.preparedQuery("SELECT * FROM ADDRESS WHERE id = $1")
                 .execute(Tuple.of(id))
                 .map(rs -> {
                     if (isRowSetEmpty(rs)) {
-                        return Address.builder().build();
+                        return AddressEntity.builder().build();
                     }
                     return this.addressMapper.rowToAddress(rs.iterator().next());
                 });
     }
 
     @Override
-    public Uni<List<Address>> getAddressByCity(String city) {
+    public Uni<List<AddressEntity>> getAddressByCity(String city) {
         return null;
     }
 
     @Override
-    public Uni<List<Address>> getUserAddressListById(Long id) {
+    public Uni<List<AddressEntity>> getUserAddressListById(Long id) {
         return null;
     }
 
