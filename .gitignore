@@ -4,7 +4,6 @@ build
 /.gradle/
 
 ## IDE config file/directory:
-http
 .idea
 *.iml
 

@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.freefair.lombok' //version '6.1.0'
+}
+
+dependencies {
+    implementation project(':commons')
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+group 'com.example.jcc.business'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
