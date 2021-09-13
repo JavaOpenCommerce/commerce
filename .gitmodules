@@ -4,9 +4,6 @@
 [submodule "model"]
 	path = model
 	url = https://github.com/JavaOpenCommerce/model.git
-[submodule "quarkus"]
-	path = quarkus
-	url = https://github.com/JavaOpenCommerce/quarkus.git
 [submodule "commons"]
 	path = commons
 	url = https://github.com/JavaOpenCommerce/commons.git
