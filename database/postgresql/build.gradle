@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.quarkus'
+    id 'groovy'
+    id 'io.freefair.lombok' //version '6.1.0'
+}
+
+group 'com.example.jcc.database'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation enforcedPlatform(project(':bom'))
+
+    implementation project(':database:apid')
+    implementation project(':model')
+
+    implementation "io.quarkus:quarkus-reactive-pg-client"
+    implementation "io.quarkus:quarkus-jdbc-postgresql"
+    implementation "io.smallrye.reactive:mutiny"
+//    implementation "io.smallrye.reactive:smallrye-mutiny-vertx-pg-client"
+    implementation "jakarta.json.bind:jakarta.json.bind-api"
+
+//    TODO: move redis integration to separate module.
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-redis-client:0.0.16'
+
+    implementation 'org.apache.logging.log4j:log4j-api'
+    implementation 'org.apache.logging.log4j:log4j-core'
+
+    // mandatory dependencies for using Spock
+    implementation "org.codehaus.groovy:groovy:3.0.8"
+    testImplementation "org.spockframework:spock-core"
+    // optional dependencies for using Spock
+    testImplementation "org.hamcrest:hamcrest-core:2.2"   // only necessary if Hamcrest matchers are used
+    testImplementation "net.bytebuddy:byte-buddy:1.10.10" // allows mocking of classes (in addition to interfaces)
+    testImplementation "org.objenesis:objenesis:3.1"
+    // allows mocking of classes without default constructor (together with ByteBuddy or CGLIB)
+}
