@@ -1,12 +1,3 @@
 [submodule "core"]
 	path = core
 	url = https://github.com/JavaOpenCommerce/core.git
-[submodule "model"]
-	path = model
-	url = https://github.com/JavaOpenCommerce/model.git
-[submodule "dto"]
-	path = dto
-	url = https://github.com/JavaOpenCommerce/dto.git
-[submodule "database"]
-	path = database
-	url = https://github.com/JavaOpenCommerce/database.git
