@@ -5,21 +5,21 @@ import java.util.List;
 
 public interface ItemRepository {
 
-    Uni<List<Item>> getAllItems();
+    Uni<List<ItemEntity>> getAllItems();
 
-    Uni<Item> getItemById(Long id);
+    Uni<ItemEntity> getItemById(Long id);
 
-    Uni<List<Item>> getItemsListByIdList(List<Long> ids);
+    Uni<List<ItemEntity>> getItemsListByIdList(List<Long> ids);
 
-    Uni<List<ItemDetails>> getAllItemDetails();
+    Uni<List<ItemDetailsEntity>> getAllItemDetails();
 
-    Uni<List<ItemDetails>> getItemDetailsListByItemId(Long id);
+    Uni<List<ItemDetailsEntity>> getItemDetailsListByItemId(Long id);
 
-    Uni<List<ItemDetails>> getItemDetailsListByIdList(List<Long> ids);
+    Uni<List<ItemDetailsEntity>> getItemDetailsListByIdList(List<Long> ids);
 
-    Uni<Item> saveItem(Item item);
+    Uni<ItemEntity> saveItem(ItemEntity item);
 
-    Uni<ItemDetails> saveItemDetails(ItemDetails itemDetails);
+    Uni<ItemDetailsEntity> saveItemDetails(ItemDetailsEntity itemDetails);
 
     Uni<Integer> getItemStock(Long id);
 

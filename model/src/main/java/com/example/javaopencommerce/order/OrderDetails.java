@@ -1,20 +1,18 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.address.AddressDto;
+import com.example.javaopencommerce.address.Address;
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class OrderDetailsDto {
+@EqualsAndHashCode
+public class OrderDetails {
 
-    private Long id;
-    private LocalDate creationDate;
+    private final Long id;
+    private final LocalDate creationDate;
 
     @Builder.Default
     private final String paymentStatus = "BEFORE_PAYMENT";
@@ -25,8 +23,7 @@ public class OrderDetailsDto {
     @Builder.Default
     private final String orderStatus = "NEW";
 
-    private AddressDto address;
+    private final Address address;
 
-    private CardDto card;
-
+    private final Card card;
 }

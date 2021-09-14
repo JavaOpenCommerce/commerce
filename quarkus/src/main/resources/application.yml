@@ -13,7 +13,8 @@ com:
     database:
       username: ${QUARKUS_DATASOURCE_USERNAME}
       password: ${QUARKUS_DATASOURCE_PASSWORD}
-      schema: main_postgres_db
+      schema: public
+      name: main_postgres_db
     redis:
       host: localhost
       port: 6380
@@ -38,23 +39,23 @@ quarkus:
   quarkus:
     #synchronus datasource settings, should be used only for initializing local database
     datasource:
-      jdbc: false
       ## Once Flyway create database comment below jdbc configuration:
+#      jdbc:
+#        url: postgresql://localhost:5432/${com.example.database.name}
       reactive:
-        url: postgresql://localhost:5432/${com.example.database.schema}
-        #        url: vertx-reactive:postgresql://localhost:5432/${com.example.database.schema}
-        ## for flyway:
-      username: "${com.example.database.username}"
-      password: "${com.example.database.password}"
+        url: postgresql://localhost:5432/${com.example.database.name}?currentSchema=${com.example.database.schema}
+      username: ${com.example.database.username}
+      password: ${com.example.database.password}
       db-kind: postgresql
     flyway:
       connect-retries: 2
       ## the same as in quarkus.datasource.reactive.url:
       schemas: ${com.example.database.schema}
+      defaultSchema: ${com.example.database.schema}
       ## set to true, to clean database at startup
       clean-at-start: false
       ## set to true, to trigger flyway on
-      migrate-at-start: true
+      migrate-at-start: false
       ## Prefix for local environment, 'V' if not set:
       #      sql-migration-prefix: local
       # Enable the creation of the history table if it does not exist already. Ex. enabling flyway for existing databases.

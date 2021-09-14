@@ -2,16 +2,17 @@ package com.example.javaopencommerce;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.javaopencommerce.item.ItemModel;
-import com.example.javaopencommerce.order.ProductModel;
+import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.order.Product;
 import java.math.BigDecimal;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class ProductModelTest {
 
-    ProductModel product;
-    ItemModel itemModel;
+    Product product;
+    Item itemModel;
 
 
     @ParameterizedTest(name = "For given item price {0} amount {1} and vat {2} GrossValue should equal {3}, NettValue equal {4}")
@@ -31,19 +32,19 @@ class ProductModelTest {
     void setAmount(BigDecimal value, int amount, double vat, BigDecimal gross, BigDecimal nett) {
 
         //given
-        itemModel = ItemModel.builder()
+        itemModel = Item.builder()
                 .id(1L)
                 .valueGross(Value.of(value))
                 .vat(Vat.of(vat))
                 .build();
 
-        product = ProductModel.getProduct(itemModel);
+        product = Product.getProduct(itemModel);
 
         //when
         product.setAmount(amount);
 
         //then
-        assertEquals(gross, product.getValueGross().asDecimal());
-        assertEquals(nett, product.getValueNett().asDecimal());
+        Assertions.assertEquals(gross, product.getValueGross().asDecimal());
+        Assertions.assertEquals(nett, product.getValueNett().asDecimal());
     }
 }

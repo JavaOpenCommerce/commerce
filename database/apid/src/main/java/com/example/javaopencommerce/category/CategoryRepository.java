@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface CategoryRepository {
 
-    Uni<List<Category>> getAll();
+    Uni<List<CategoryEntity>> getAll();
 
-    Uni<List<Category>> getCategoriesByItemId(Long id);
+    Uni<List<CategoryEntity>> getCategoriesByItemId(Long id);
 
-    Uni<List<Category>> getCategoriesListByIdList(List<Long> ids);
+    Uni<List<CategoryEntity>> getCategoriesListByIdList(List<Long> ids);
 }

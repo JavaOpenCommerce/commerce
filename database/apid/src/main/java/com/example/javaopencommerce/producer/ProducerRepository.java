@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface ProducerRepository {
 
-    Uni<Producer> getProducerByItemId(Long id);
+    Uni<ProducerEntity> getProducerByItemId(Long id);
 
-    Uni<List<Producer>> getAll();
+    Uni<List<ProducerEntity>> getAll();
 
-    Uni<List<Producer>> getProducersListByIdList(List<Long> ids);
+    Uni<List<ProducerEntity>> getProducersListByIdList(List<Long> ids);
 }
