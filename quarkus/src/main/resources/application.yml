@@ -38,14 +38,14 @@ quarkus:
   quarkus:
     #synchronus datasource settings, should be used only for initializing local database
     datasource:
+      jdbc: false
       ## Once Flyway create database comment below jdbc configuration:
-      jdbc:
-        #        url: jdbc:postgresql://localhost:5432/${com.example.database.schema}
-        url: vertx-reactive:postgresql://localhost:5432/${com.example.database.schema}
-        max-size: 16
+      reactive:
+        url: postgresql://localhost:5432/${com.example.database.schema}
+        #        url: vertx-reactive:postgresql://localhost:5432/${com.example.database.schema}
         ## for flyway:
-        username: "${com.example.database.username}"
-        password: "${com.example.database.password}"
+      username: "${com.example.database.username}"
+      password: "${com.example.database.password}"
       db-kind: postgresql
     flyway:
       connect-retries: 2

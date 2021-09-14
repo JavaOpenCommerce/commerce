@@ -25,9 +25,7 @@ dependencies {
     implementation project(':model')
 
     implementation "io.quarkus:quarkus-reactive-pg-client"
-    implementation "io.quarkus:quarkus-jdbc-postgresql"
     implementation "io.smallrye.reactive:mutiny"
-//    implementation "io.smallrye.reactive:smallrye-mutiny-vertx-pg-client"
     implementation "jakarta.json.bind:jakarta.json.bind-api"
 
 //    TODO: move redis integration to separate module.
