@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface CardRepository {
 
-    Uni<List<CardProduct>> getCardList(String id);
+    Uni<List<CardProductEntity>> getCardList(String id);
 
-    Uni<List<CardProduct>> saveCard(String id, List<CardProduct> products);
+    Uni<List<CardProductEntity>> saveCard(String id, List<CardProductEntity> products);
 }
