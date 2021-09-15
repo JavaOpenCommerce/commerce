@@ -1,7 +1,5 @@
 package com.example.javaopencommerce;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.order.Product;
 import java.math.BigDecimal;

@@ -1,8 +1,8 @@
 package com.example.javaopencommerce.utils.converters;
 
 import com.example.javaopencommerce.order.CardProductEntity;
-import com.example.javaopencommerce.order.ProductDto;
 import com.example.javaopencommerce.order.Product;
+import com.example.javaopencommerce.order.ProductDto;
 
 
 public interface ProductConverter {

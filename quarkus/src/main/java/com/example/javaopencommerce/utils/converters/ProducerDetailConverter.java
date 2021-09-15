@@ -1,8 +1,8 @@
 package com.example.javaopencommerce.utils.converters;
 
+import com.example.javaopencommerce.producer.Producer;
 import com.example.javaopencommerce.producer.ProducerDetails;
 import com.example.javaopencommerce.producer.ProducerDetailsEntity;
-import com.example.javaopencommerce.producer.Producer;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import java.util.Objects;
 

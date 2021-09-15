@@ -1,8 +1,8 @@
 package com.example.javaopencommerce.utils.converters;
 
-import com.example.javaopencommerce.address.AddressEntity;
-import com.example.javaopencommerce.address.AddressDto;
 import com.example.javaopencommerce.address.Address;
+import com.example.javaopencommerce.address.AddressDto;
+import com.example.javaopencommerce.address.AddressEntity;
 
 
 public interface AddressConverter {

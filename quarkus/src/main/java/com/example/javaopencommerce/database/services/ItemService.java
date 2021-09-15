@@ -4,9 +4,9 @@ import static io.smallrye.mutiny.Uni.combine;
 import static java.util.Collections.emptyList;
 
 import com.example.javaopencommerce.image.ImageRepository;
-import com.example.javaopencommerce.item.ItemEntity;
-import com.example.javaopencommerce.item.ItemDetailsEntity;
 import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemDetailsEntity;
+import com.example.javaopencommerce.item.ItemEntity;
 import com.example.javaopencommerce.item.ItemRepository;
 import com.example.javaopencommerce.quarkus.exceptions.ItemExceptionEntity;
 import com.example.javaopencommerce.quarkus.exceptions.OutOfStockException;

@@ -1,9 +1,9 @@
 package com.example.javaopencommerce.utils.converters;
 
-import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.Page;
-import com.example.javaopencommerce.item.ItemDto;
+import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemDto;
 import java.util.List;
 import java.util.stream.Collectors;
 

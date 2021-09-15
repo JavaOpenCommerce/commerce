@@ -1,9 +1,9 @@
 package com.example.javaopencommerce.item;
 
 
-import com.example.javaopencommerce.image.Image;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
+import com.example.javaopencommerce.image.Image;
 import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

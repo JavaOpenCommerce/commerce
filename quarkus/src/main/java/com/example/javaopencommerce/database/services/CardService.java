@@ -5,14 +5,14 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.order.CardRepositoryImpl;
+import com.example.javaopencommerce.address.Address;
+import com.example.javaopencommerce.address.AddressEntity;
 import com.example.javaopencommerce.elasticsearch.SearchRequest;
 import com.example.javaopencommerce.elasticsearch.SearchService;
-import com.example.javaopencommerce.address.AddressEntity;
-import com.example.javaopencommerce.address.Address;
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.order.Card;
 import com.example.javaopencommerce.order.CardProductEntity;
+import com.example.javaopencommerce.order.CardRepositoryImpl;
 import com.example.javaopencommerce.order.Product;
 import com.example.javaopencommerce.utils.converters.AddressConverter;
 import com.example.javaopencommerce.utils.converters.CardConverter;

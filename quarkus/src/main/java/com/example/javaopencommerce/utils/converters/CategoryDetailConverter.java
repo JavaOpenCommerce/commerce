@@ -4,9 +4,9 @@ package com.example.javaopencommerce.utils.converters;
 import static io.netty.handler.codec.http.HttpResponseStatus.NOT_FOUND;
 import static java.util.Objects.nonNull;
 
+import com.example.javaopencommerce.category.Category;
 import com.example.javaopencommerce.category.CategoryDetails;
 import com.example.javaopencommerce.category.CategoryDetailsEntity;
-import com.example.javaopencommerce.category.Category;
 
 public interface CategoryDetailConverter {
 

@@ -4,11 +4,11 @@ import static java.lang.Long.parseLong;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.elasticsearch.SearchRequest;
-import com.example.javaopencommerce.elasticsearch.SearchService;
 import com.example.javaopencommerce.Page;
 import com.example.javaopencommerce.category.Category;
 import com.example.javaopencommerce.category.CategoryRepository;
+import com.example.javaopencommerce.elasticsearch.SearchRequest;
+import com.example.javaopencommerce.elasticsearch.SearchService;
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.producer.Producer;
 import com.example.javaopencommerce.producer.ProducerRepository;
