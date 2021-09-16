@@ -23,8 +23,7 @@ public interface ProducerConverter {
         return Producer.builder()
                 .id(producer.getId())
                 .details(details)
-                .image(ImageConverter.convertToModel(
-                        ofNullable(producer.getImage()).orElse(ImageEntity.builder().build())))
+                .image(ofNullable(producer.getImage()).orElse(ImageEntity.builder().build()).toImageModel())
                 .build();
     }
 

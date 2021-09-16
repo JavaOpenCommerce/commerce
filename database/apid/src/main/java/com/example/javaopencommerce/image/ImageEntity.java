@@ -14,7 +14,23 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class ImageEntity {
 
+    public static ImageEntity fromSnapshot(ImageSnapshot imageSnapshot) {
+        return ImageEntity.builder()
+            .id(imageSnapshot.getId())
+            .alt(imageSnapshot.getAlt())
+            .url(imageSnapshot.getUrl())
+            .build();
+    }
+
     private Long id;
     private String alt;
     private String url;
+
+    public Image toImageModel() {
+        return Image.builder()
+            .id(id)
+            .alt(alt)
+            .url(url)
+            .build();
+    }
 }

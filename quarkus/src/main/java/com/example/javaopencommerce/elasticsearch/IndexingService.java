@@ -2,7 +2,7 @@ package com.example.javaopencommerce.elasticsearch;
 
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.database.services.ItemService;
+import com.example.javaopencommerce.item.ItemService;
 import com.example.javaopencommerce.utils.converters.SearchItemConverter;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Uni;
