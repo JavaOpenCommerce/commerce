@@ -2,10 +2,10 @@ package com.example.javaopencommerce.rest.services;
 
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.database.services.StoreService;
-import com.example.javaopencommerce.elasticsearch.SearchRequest;
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.category.CategoryDto;
+import com.example.javaopencommerce.database.services.StoreService;
+import com.example.javaopencommerce.elasticsearch.SearchRequest;
 import com.example.javaopencommerce.item.ItemDetailDto;
 import com.example.javaopencommerce.item.ItemDto;
 import com.example.javaopencommerce.producer.ProducerDto;

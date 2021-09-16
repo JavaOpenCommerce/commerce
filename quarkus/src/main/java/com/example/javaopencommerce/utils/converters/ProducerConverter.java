@@ -4,10 +4,10 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.image.ImageEntity;
-import com.example.javaopencommerce.producer.ProducerEntity;
+import com.example.javaopencommerce.producer.Producer;
 import com.example.javaopencommerce.producer.ProducerDetails;
 import com.example.javaopencommerce.producer.ProducerDto;
-import com.example.javaopencommerce.producer.Producer;
+import com.example.javaopencommerce.producer.ProducerEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 

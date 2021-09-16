@@ -40,7 +40,6 @@ public class CardController {
 
 
     @GET
-    @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<CardDto> getCard(@Context HttpServerRequest request) {
         addCookieIfNotPresent();

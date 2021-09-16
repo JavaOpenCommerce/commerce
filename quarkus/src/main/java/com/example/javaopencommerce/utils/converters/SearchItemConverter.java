@@ -5,8 +5,8 @@ import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.elasticsearch.SearchDetails;
 import com.example.javaopencommerce.elasticsearch.SearchItem;
-import com.example.javaopencommerce.item.ItemDetails;
 import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemDetails;
 import java.util.List;
 import java.util.stream.Collectors;
 

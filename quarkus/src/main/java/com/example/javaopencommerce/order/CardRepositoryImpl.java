@@ -51,6 +51,6 @@ public class CardRepositoryImpl implements CardRepository {
     }
 
     private List<CardProductEntity> jsonToPojo(String json) {
-        return JsonConverter.convertToObject(json, ArrayList.class.getGenericSuperclass());
+        return JsonConverter.convertToObject(json, new ArrayList<CardProductEntity>(){}.getClass().getGenericSuperclass());
     }
 }

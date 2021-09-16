@@ -6,8 +6,8 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
 import com.example.javaopencommerce.image.ImageEntity;
-import com.example.javaopencommerce.producer.ProducerEntity;
 import com.example.javaopencommerce.producer.ProducerDetailsEntity;
+import com.example.javaopencommerce.producer.ProducerEntity;
 import com.example.javaopencommerce.utils.CommonRow;
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;

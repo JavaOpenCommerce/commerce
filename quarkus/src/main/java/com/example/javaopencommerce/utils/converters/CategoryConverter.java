@@ -3,10 +3,10 @@ package com.example.javaopencommerce.utils.converters;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
-import com.example.javaopencommerce.category.CategoryEntity;
+import com.example.javaopencommerce.category.Category;
 import com.example.javaopencommerce.category.CategoryDetails;
 import com.example.javaopencommerce.category.CategoryDto;
-import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.category.CategoryEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
