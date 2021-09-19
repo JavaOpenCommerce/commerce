@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.elasticsearch;
 
-
 import com.example.javaopencommerce.image.ImageDto;
 import java.util.List;
 import lombok.Builder;

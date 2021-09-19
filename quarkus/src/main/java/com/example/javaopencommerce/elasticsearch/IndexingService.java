@@ -17,7 +17,7 @@ import lombok.extern.jbosslog.JBossLog;
 
 @JBossLog
 @ApplicationScoped
-public class IndexingService {
+class IndexingService {
 
     private final WebClient client;
     private final ItemService itemService;

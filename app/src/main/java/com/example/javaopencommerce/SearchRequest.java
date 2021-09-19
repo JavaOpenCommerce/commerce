@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.elasticsearch;
+package com.example.javaopencommerce;
 
 import javax.ws.rs.DefaultValue;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
+
+// TODO would be better to remove this restEasy dependency from here !
 
 @Getter
 @Builder
@@ -40,6 +42,4 @@ public class SearchRequest {
     @QueryParam("searchQuery")
     @DefaultValue("")
     private String searchQuery;
-
-
 }

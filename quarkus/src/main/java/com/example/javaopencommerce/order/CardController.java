@@ -1,16 +1,12 @@
-package com.example.javaopencommerce.quarkus.app;
+package com.example.javaopencommerce.order;
 
 import static com.example.javaopencommerce.statics.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
-import com.example.javaopencommerce.item.ItemDto;
-import com.example.javaopencommerce.order.CardDto;
-import com.example.javaopencommerce.order.CardProductEntity;
 import com.example.javaopencommerce.rest.services.CardDtoService;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
-import java.util.List;
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -26,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Path("card")
-public class CardController {
+class CardController {
 
     @Context
     private HttpServerRequest request;
@@ -92,13 +88,6 @@ public class CardController {
             log.info("Card flushed");
         }
         return simpleResponse(OK);
-    }
-
-    @GET
-    @Path("/shipping")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<List<ItemDto>> getShippingMethods() {
-        return this.cardDtoService.getShippingMethods();
     }
 
     private boolean cookieCheck() {

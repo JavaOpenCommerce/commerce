@@ -2,6 +2,7 @@ package com.example.javaopencommerce.elasticsearch;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
+import com.example.javaopencommerce.SearchRequest;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;

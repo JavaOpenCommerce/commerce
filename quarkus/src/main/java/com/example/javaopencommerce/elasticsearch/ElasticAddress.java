@@ -6,7 +6,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Getter
 @ApplicationScoped
-public class ElasticAddress {
+class ElasticAddress {
 
     @ConfigProperty(name = "com.example.elasticsearch-host")
     private String host;

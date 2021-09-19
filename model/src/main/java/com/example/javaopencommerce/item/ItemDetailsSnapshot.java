@@ -4,9 +4,11 @@ import com.example.javaopencommerce.image.ImageSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 class ItemDetailsSnapshot {
 
   private final Long id;

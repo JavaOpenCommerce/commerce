@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.freefair.lombok' //version '6.1.0'
+//    id 'application'
+}
+
+dependencies {
+    implementation enforcedPlatform(project(':bom'))
+    implementation project(':model')
+    implementation 'io.quarkus:quarkus-resteasy-jsonb'
+    implementation group: 'org.apache.commons', name: 'commons-lang3'
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'
+    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-pg-client'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
