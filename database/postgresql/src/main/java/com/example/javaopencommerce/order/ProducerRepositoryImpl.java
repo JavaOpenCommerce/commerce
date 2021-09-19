@@ -5,8 +5,9 @@ import com.example.javaopencommerce.producer.ProducerRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 
 @ApplicationScoped
 public class ProducerRepositoryImpl implements ProducerRepository {
@@ -14,9 +15,9 @@ public class ProducerRepositoryImpl implements ProducerRepository {
     private final PgPool client;
     private final ProducerMapper producerMapper;
 
-    public ProducerRepositoryImpl(PgPool client, ProducerMapper producerMapper) {
+    public ProducerRepositoryImpl(PgPool client) {
         this.client = client;
-        this.producerMapper = producerMapper;
+        this.producerMapper = new ProducerMapper();
     }
 
 

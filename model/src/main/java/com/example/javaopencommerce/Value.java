@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-public final class Value {
+@lombok.Value
+public class Value {
 
-    private final BigDecimal value;
+    BigDecimal value;
 
-    private Value(BigDecimal value) {this.value = value;}
+    private Value(BigDecimal value) {
+        this.value = value;
+    }
 
     public static Value of(BigDecimal value) {
         if (value == null || value.signum() < 0) {
@@ -18,7 +21,7 @@ public final class Value {
     }
 
     public BigDecimal asDecimal() {
-        return value;
+        return this.value;
     }
 
     public Value asObject() {
@@ -30,6 +33,6 @@ public final class Value {
     }
 
     public Value divide(BigDecimal divider) {
-        return Value.of(value.divide(divider, 2, RoundingMode.HALF_UP));
+        return Value.of(this.value.divide(divider, 2, RoundingMode.HALF_UP));
     }
 }

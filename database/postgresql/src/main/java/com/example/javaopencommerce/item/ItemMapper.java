@@ -1,22 +1,17 @@
 package com.example.javaopencommerce.item;
 
+import com.example.javaopencommerce.image.ImageEntity;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+
+import java.math.BigDecimal;
+import java.util.*;
+
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
-import com.example.javaopencommerce.image.ImageEntity;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import javax.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
 public class ItemMapper {
 
     private static final String ID = "id";

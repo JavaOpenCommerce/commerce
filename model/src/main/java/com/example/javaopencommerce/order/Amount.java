@@ -1,15 +1,18 @@
 package com.example.javaopencommerce.order;
 
-import static java.math.BigDecimal.valueOf;
+import lombok.Value;
 
 import java.math.BigDecimal;
 
-final class Amount {
+import static java.math.BigDecimal.valueOf;
 
-    private final int amount;
+@Value
+class Amount {
+
+    int value;
 
     private Amount(int amount) {
-        this.amount = amount;
+        this.value = amount;
     }
 
     public static Amount of(int amount) {
@@ -20,10 +23,10 @@ final class Amount {
     }
 
     public BigDecimal asDecimal() {
-        return valueOf(amount);
+        return valueOf(this.value);
     }
 
     public int asInteger() {
-        return amount;
+        return this.value;
     }
 }

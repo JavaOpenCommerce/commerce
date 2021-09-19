@@ -1,19 +1,17 @@
 package com.example.javaopencommerce.category;
 
-import java.util.Locale;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 
-@Getter
+import java.util.Locale;
+
+@Value
 @Builder
-@ToString
-@EqualsAndHashCode
 public class CategoryDetails {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Locale lang;
+    Long id;
+    String name;
+    String description;
+    Locale lang;
+
 }

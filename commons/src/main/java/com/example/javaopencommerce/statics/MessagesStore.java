@@ -1,5 +1,10 @@
 package com.example.javaopencommerce.statics;
 
+import lombok.NoArgsConstructor;
+
+import static lombok.AccessLevel.PRIVATE;
+
+@NoArgsConstructor(access = PRIVATE)
 public final class MessagesStore {
 
     public static final String OK = "OK";

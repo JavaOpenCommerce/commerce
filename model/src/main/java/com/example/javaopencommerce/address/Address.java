@@ -2,18 +2,18 @@ package com.example.javaopencommerce.address;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
+@Value
 @Builder
 @EqualsAndHashCode
-public
-class Address {
+public class Address {
 
-    private Long id;
-    private String street;
-    private String local;
-    private String city;
-    private String zip;
-    private Long userId;
+    Long id;
+    String street;
+    String local;
+    String city;
+    String zip;
+    Long userId;
+
 }

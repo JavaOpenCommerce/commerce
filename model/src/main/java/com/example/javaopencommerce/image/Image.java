@@ -1,27 +1,26 @@
 package com.example.javaopencommerce.image;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
+@Value
 @Builder
-@EqualsAndHashCode
 public class Image {
+
+    Long id;
+    String alt;
+    String url;
+
+    public ImageSnapshot getSnapshot() {
+        return new ImageSnapshot(this.id, this.alt, this.url);
+    }
 
     public static Image restore(ImageSnapshot imageSnapshot) {
         return Image.builder()
-            .id(imageSnapshot.getId())
-            .alt(imageSnapshot.getAlt())
-            .url(imageSnapshot.getUrl())
-            .build();
+                .id(imageSnapshot.getId())
+                .alt(imageSnapshot.getAlt())
+                .url(imageSnapshot.getUrl())
+                .build();
     }
 
-    private Long id;
-    private String alt;
-    private String url;
-
-    public ImageSnapshot getSnapshot() {
-        return new ImageSnapshot(id, alt, url);
-    }
 }

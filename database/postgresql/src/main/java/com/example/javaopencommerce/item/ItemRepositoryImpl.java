@@ -1,13 +1,14 @@
 package com.example.javaopencommerce.item;
 
-import static java.lang.String.format;
-
 import com.example.javaopencommerce.utils.CommonRow;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
+
+import static java.lang.String.format;
 
 @ApplicationScoped
 public class ItemRepositoryImpl implements ItemRepository {
@@ -19,9 +20,9 @@ public class ItemRepositoryImpl implements ItemRepository {
     private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEM_DETAILS i";
     private static final String IMAGE_JOIN = "INNER JOIN Image img ON i.image_id = img.id";
 
-    public ItemRepositoryImpl(PgPool client, ItemMapper itemMapper) {
+    public ItemRepositoryImpl(PgPool client) {
         this.client = client;
-        this.itemMapper = itemMapper;
+        this.itemMapper = new ItemMapper();
     }
 
     @Override

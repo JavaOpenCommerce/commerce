@@ -2,8 +2,9 @@ package com.example.javaopencommerce.user;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
-import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 
 //TODO
 @ApplicationScoped
@@ -12,9 +13,9 @@ public class UserRepositoryImpl implements UserRepository {
     private final PgPool client;
     private final UserMapper userMapper;
 
-    public UserRepositoryImpl(PgPool client, UserMapper userMapper) {
+    public UserRepositoryImpl(PgPool client) {
         this.client = client;
-        this.userMapper = userMapper;
+        this.userMapper = new UserMapper();
     }
 
     @Override
