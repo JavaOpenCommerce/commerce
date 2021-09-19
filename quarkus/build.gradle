@@ -8,7 +8,7 @@ dependencies {
 
     implementation project(':model')
     implementation project(':commons')
-    implementation project(':dto')
+    implementation project(':app')
     implementation project(':database:apid')
     implementation project(':database:postgresql')
     //implementation 'io.quarkus:quarkus-oidc'

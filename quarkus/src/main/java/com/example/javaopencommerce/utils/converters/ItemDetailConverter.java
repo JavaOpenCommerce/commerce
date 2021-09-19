@@ -1,39 +1,11 @@
 package com.example.javaopencommerce.utils.converters;
 
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.toList;
-
-import com.example.javaopencommerce.image.ImageDto;
 import com.example.javaopencommerce.item.Item;
-import com.example.javaopencommerce.item.ItemDetailDto;
 import com.example.javaopencommerce.item.ItemDetails;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import java.util.List;
 import java.util.Objects;
 
 public interface ItemDetailConverter {
-
-    static ItemDetailDto convertToDto(Item item, String lang, String defaultLang) {
-
-        ItemDetails details = getItemDetailsByLanguage(item, lang, defaultLang);
-
-        List<ImageDto> images = ofNullable(details.getAdditionalImages()).orElse(emptyList())
-                .stream()
-                .map(ImageConverter::convertToDto)
-                .collect(toList());
-
-        return ItemDetailDto.builder()
-                .id(item.getId())
-                .valueGross(item.getValueGross().asDecimal())
-                .vat(item.getVat().asDouble())
-                .stock(item.getStock())
-                .mainImage(ImageConverter.convertToDto(item.getImage()))
-                .name(details.getName())
-                .description(details.getDescription())
-                .additionalImages(images)
-                .build();
-    }
 
     static ItemDetails getItemDetailsByLanguage(Item item, String lang, String defaultLang) {
         if (item.getDetails().isEmpty()) {

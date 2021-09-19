@@ -5,9 +5,9 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.address.Address;
 import com.example.javaopencommerce.address.AddressEntity;
-import com.example.javaopencommerce.elasticsearch.SearchRequest;
 import com.example.javaopencommerce.elasticsearch.SearchService;
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.item.ItemService;

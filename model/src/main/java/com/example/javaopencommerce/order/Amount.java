@@ -1,10 +1,10 @@
-package com.example.javaopencommerce;
+package com.example.javaopencommerce.order;
 
 import static java.math.BigDecimal.valueOf;
 
 import java.math.BigDecimal;
 
-public final class Amount {
+final class Amount {
 
     private final int amount;
 

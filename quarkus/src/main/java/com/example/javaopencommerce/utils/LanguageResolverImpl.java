@@ -1,25 +1,21 @@
 package com.example.javaopencommerce.utils;
 
-
-import static java.util.Locale.forLanguageTag;
-
 import io.vertx.ext.web.LanguageHeader;
 import io.vertx.ext.web.RoutingContext;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import javax.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
-public class LanguageResolver {
+public class LanguageResolverImpl implements com.example.javaopencommerce.LanguageResolver {
 
     @ConfigProperty(name = "com.example.default-locale")
-    private String lang;
+    String lang;
 
     private final RoutingContext context;
 
-    public LanguageResolver(RoutingContext context) {this.context = context;}
+    public LanguageResolverImpl(RoutingContext context) {this.context = context;}
 
     public String getLanguage() {
         List<LanguageHeader> languages = context.acceptableLanguages();
@@ -43,9 +39,5 @@ public class LanguageResolver {
 
     public String getDefault() {
         return lang;
-    }
-
-    public Locale getDefaultLocale() {
-        return forLanguageTag(lang);
     }
 }

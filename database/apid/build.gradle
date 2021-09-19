@@ -19,7 +19,6 @@ java {
 dependencies {
     implementation project(':model')
     implementation enforcedPlatform(project(':bom'))
-
     implementation "io.smallrye.reactive:mutiny"
 
 //    tests to change
