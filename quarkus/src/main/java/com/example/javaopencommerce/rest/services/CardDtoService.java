@@ -2,10 +2,10 @@ package com.example.javaopencommerce.rest.services;
 
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.database.services.CardService;
 import com.example.javaopencommerce.item.ItemDto;
 import com.example.javaopencommerce.order.CardDto;
 import com.example.javaopencommerce.order.CardProductEntity;
+import com.example.javaopencommerce.order.CardService;
 import com.example.javaopencommerce.utils.LanguageResolver;
 import com.example.javaopencommerce.utils.converters.CardConverter;
 import com.example.javaopencommerce.utils.converters.ItemConverter;

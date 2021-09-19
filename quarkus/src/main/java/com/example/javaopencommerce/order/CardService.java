@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.database.services;
+package com.example.javaopencommerce.order;
 
 import static java.lang.Long.parseLong;
 import static java.util.Collections.emptyList;
@@ -10,10 +10,7 @@ import com.example.javaopencommerce.address.AddressEntity;
 import com.example.javaopencommerce.elasticsearch.SearchRequest;
 import com.example.javaopencommerce.elasticsearch.SearchService;
 import com.example.javaopencommerce.item.Item;
-import com.example.javaopencommerce.order.Card;
-import com.example.javaopencommerce.order.CardProductEntity;
-import com.example.javaopencommerce.order.CardRepositoryImpl;
-import com.example.javaopencommerce.order.Product;
+import com.example.javaopencommerce.item.ItemService;
 import com.example.javaopencommerce.utils.converters.AddressConverter;
 import com.example.javaopencommerce.utils.converters.CardConverter;
 import io.smallrye.mutiny.Uni;

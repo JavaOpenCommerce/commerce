@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.database.services;
+package com.example.javaopencommerce.order;
 
 import static com.example.javaopencommerce.utils.converters.JsonConverter.convertToObject;
 import static io.smallrye.mutiny.Uni.combine;
@@ -7,11 +7,7 @@ import static java.util.stream.Collectors.toList;
 import com.example.javaopencommerce.address.AddressEntity;
 import com.example.javaopencommerce.address.AddressRepository;
 import com.example.javaopencommerce.item.Item;
-import com.example.javaopencommerce.order.CardProductEntity;
-import com.example.javaopencommerce.order.OrderDetails;
-import com.example.javaopencommerce.order.OrderDetailsEntity;
-import com.example.javaopencommerce.order.OrderDetailsRepository;
-import com.example.javaopencommerce.order.Product;
+import com.example.javaopencommerce.item.ItemService;
 import com.example.javaopencommerce.utils.converters.AddressConverter;
 import com.example.javaopencommerce.utils.converters.OrderDetailsConverter;
 import io.smallrye.mutiny.Uni;

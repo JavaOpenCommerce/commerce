@@ -1,19 +1,16 @@
-package com.example.javaopencommerce.database.services;
+package com.example.javaopencommerce.item;
 
 import static io.smallrye.mutiny.Uni.combine;
-import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.image.ImageEntity;
 import com.example.javaopencommerce.image.ImageRepository;
-import com.example.javaopencommerce.item.Item;
-import com.example.javaopencommerce.item.ItemDetailsEntity;
-import com.example.javaopencommerce.item.ItemEntity;
-import com.example.javaopencommerce.item.ItemRepository;
 import com.example.javaopencommerce.quarkus.exceptions.ItemExceptionEntity;
 import com.example.javaopencommerce.quarkus.exceptions.OutOfStockException;
-import com.example.javaopencommerce.utils.converters.ImageConverter;
-import com.example.javaopencommerce.utils.converters.ItemConverter;
 import io.smallrye.mutiny.Uni;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 
@@ -34,7 +31,15 @@ public class ItemService {
 
         return combine().all()
                 .unis(itemUni, itemDetailsUni)
-                .combinedWith(ItemConverter::convertToModel);
+                .combinedWith((ItemEntity item, List<ItemDetailsEntity> details) -> {
+                    Item itemModel = item.toItemModel();
+                    itemModel.addDetails(
+                        details.stream()
+                            .map(ItemDetailsEntity::toItemDetailsModel)
+                            .collect(Collectors.toUnmodifiableList()));
+                    return itemModel;
+                });
+
     }
 
     public Uni<List<Item>> getAllItems() {
@@ -43,8 +48,7 @@ public class ItemService {
 
         return combine().all()
                 .unis(itemsUni, itemDetailsUni)
-                .combinedWith(
-                        ItemConverter::convertToItemModelList);
+                .combinedWith(this::matchAndConvertToModel);
     }
 
     public Uni<List<Item>> getItemsListByIdList(List<Long> ids) {
@@ -53,7 +57,24 @@ public class ItemService {
 
         return combine().all()
                 .unis(itemsUni, itemDetailsUni)
-                .combinedWith(ItemConverter::convertToItemModelList);
+                .combinedWith(this::matchAndConvertToModel);
+    }
+
+    private List<Item> matchAndConvertToModel(List<ItemEntity> items,
+        List<ItemDetailsEntity> itemDetails) {
+
+        List<Item> itemModels = new ArrayList<>();
+        for (ItemEntity item : items) {
+            List<ItemDetails> itemDetailsFiltered = itemDetails.stream()
+                .filter(id -> id.getItemId().equals(item.getId()))
+                .map(ItemDetailsEntity::toItemDetailsModel)
+                .collect(toList());
+
+            Item itemModel = item.toItemModel();
+            itemModel.addDetails(itemDetailsFiltered);
+            itemModels.add(itemModel);
+        }
+        return itemModels;
     }
 
     public Uni<Integer> changeStock(Long id, int amount) {
@@ -76,13 +97,13 @@ public class ItemService {
         Uni<ItemEntity> savedItem = item
                 .map(i -> {
                     this.imageRepository
-                            .saveImage(ImageConverter.convertModelToEntity(i.getImage()))
+                            .saveImage(ImageEntity.fromSnapshot(i.getImage().getSnapshot()))
                             .await().indefinitely();
-                    return ItemConverter.convertModelToEntity(i);
+                    return ItemEntity.fromSnapshot(i.getSnapshot());
                 })
                 .flatMap(this.itemRepository::saveItem);
 
         return savedItem
-                .map(i -> ItemConverter.convertToModel(i, emptyList()));
+                .map(ItemEntity::toItemModel);
     }
 }

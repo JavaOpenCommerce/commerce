@@ -4,32 +4,15 @@ import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.image.Image;
 import com.example.javaopencommerce.image.ImageDto;
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.item.ItemDetailDto;
 import com.example.javaopencommerce.item.ItemDetails;
-import com.example.javaopencommerce.item.ItemDetailsEntity;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import java.util.List;
 import java.util.Objects;
 
 public interface ItemDetailConverter {
-
-    static ItemDetails convertToModel(ItemDetailsEntity details) {
-
-        List<Image> images = ofNullable(details.getImages()).orElse(emptyList())
-                .stream()
-                .map(ImageConverter::convertToModel)
-                .collect(toList());
-
-        return ItemDetails.builder()
-                .name(details.getName())
-                .description(details.getDescription())
-                .lang(details.getLang())
-                .additionalImages(images)
-                .build();
-    }
 
     static ItemDetailDto convertToDto(Item item, String lang, String defaultLang) {
 

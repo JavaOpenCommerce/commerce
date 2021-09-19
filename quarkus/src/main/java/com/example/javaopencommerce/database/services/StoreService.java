@@ -10,6 +10,7 @@ import com.example.javaopencommerce.category.CategoryRepository;
 import com.example.javaopencommerce.elasticsearch.SearchRequest;
 import com.example.javaopencommerce.elasticsearch.SearchService;
 import com.example.javaopencommerce.item.Item;
+import com.example.javaopencommerce.item.ItemService;
 import com.example.javaopencommerce.producer.Producer;
 import com.example.javaopencommerce.producer.ProducerRepository;
 import com.example.javaopencommerce.utils.converters.CategoryConverter;
