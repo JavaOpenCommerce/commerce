@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.quarkus.app;
 
 import com.example.javaopencommerce.image.ImageEntity;
+import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.item.ItemEntity;
 import com.example.javaopencommerce.item.ItemRepository;
 import com.example.javaopencommerce.order.OrderDetailsDto;
@@ -30,7 +31,7 @@ public class TestController {
 
     @GET
     @Path("/1")
-    public Uni<ItemEntity> test1() {
+    public Uni<Item> test1() {
         ItemEntity item = ItemEntity.builder()
                 .stock(3)
                 .valueGross(BigDecimal.ONE)

@@ -12,7 +12,7 @@ import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
-public class ItemMapper {
+class ItemMapper {
 
     private static final String ID = "id";
     private static final String ITEM_ID = "item_id";
