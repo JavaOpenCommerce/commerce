@@ -1,28 +1,30 @@
 package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.image.ImageSnapshot;
+import lombok.Builder;
+import lombok.Value;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import lombok.Builder;
-import lombok.Getter;
 
-@Getter
+@Value
 @Builder
 class ItemDetailsSnapshot {
 
-  private final Long id;
-  private final String name;
-  private final String description;
-  private final Locale lang;
-  private final List<ImageSnapshot> additionalImages = new ArrayList<>();
+    Long id;
+    String name;
+    String description;
+    Locale lang;
+    List<ImageSnapshot> additionalImages;
 
-  public ItemDetailsSnapshot(Long id, String name, String description, Locale lang,
-      List<ImageSnapshot> additionalImages) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.lang = lang;
-    this.additionalImages.addAll(additionalImages);
-  }
+    public ItemDetailsSnapshot(Long id, String name, String description, Locale lang,
+                               List<ImageSnapshot> additionalImages) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.lang = lang;
+        this.additionalImages = new ArrayList<>(additionalImages);
+    }
+
 }

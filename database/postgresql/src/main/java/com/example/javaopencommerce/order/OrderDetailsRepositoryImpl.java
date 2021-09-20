@@ -1,13 +1,14 @@
 package com.example.javaopencommerce.order;
 
-import static com.example.javaopencommerce.utils.CommonRow.isRowSetEmpty;
-import static java.time.LocalDate.now;
-
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
+
+import static com.example.javaopencommerce.utils.CommonRow.isRowSetEmpty;
+import static java.time.LocalDate.now;
 
 
 @ApplicationScoped
@@ -16,9 +17,9 @@ public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
     private final PgPool client;
     private final OrderDetailsMapper detailsMapper;
 
-    public OrderDetailsRepositoryImpl(PgPool client, OrderDetailsMapper detailsMapper) {
+    public OrderDetailsRepositoryImpl(PgPool client) {
         this.client = client;
-        this.detailsMapper = detailsMapper;
+        this.detailsMapper = new OrderDetailsMapper();
     }
 
     @Override

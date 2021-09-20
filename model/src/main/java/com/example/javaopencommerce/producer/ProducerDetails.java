@@ -1,20 +1,17 @@
 package com.example.javaopencommerce.producer;
 
-import java.util.Locale;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 
-@Getter
+import java.util.Locale;
+
+@Value
 @Builder
-@ToString
-@EqualsAndHashCode
 public class ProducerDetails {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Locale lang;
+    Long id;
+    String name;
+    String description;
+    Locale lang;
 
 }

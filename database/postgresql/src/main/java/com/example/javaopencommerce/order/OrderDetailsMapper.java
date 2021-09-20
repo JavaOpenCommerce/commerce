@@ -1,18 +1,17 @@
 package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.utils.CommonRow;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+
+import java.util.List;
+
 import static com.example.javaopencommerce.order.PaymentMethod.valueOf;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.of;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
-import com.example.javaopencommerce.utils.CommonRow;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
 public class OrderDetailsMapper {
 
     private static final String ID = "id";

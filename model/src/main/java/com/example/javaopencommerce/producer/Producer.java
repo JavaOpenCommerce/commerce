@@ -1,17 +1,17 @@
 package com.example.javaopencommerce.producer;
 
 import com.example.javaopencommerce.image.Image;
-import java.util.List;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Value;
 
-@Getter
+import java.util.List;
+
+@Value
 @Builder
-@EqualsAndHashCode
 public class Producer {
 
-    private Long id;
-    private Image image;
-    private List<ProducerDetails> details;
+    Long id;
+    Image image;
+    List<ProducerDetails> details;
+
 }

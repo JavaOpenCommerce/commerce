@@ -1,22 +1,19 @@
 package com.example.javaopencommerce;
 
-import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
-@Data
+import java.util.List;
+
+@Value
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class PageDto<T> {
 
-    private List<T> items;
+    List<T> items;
 
-    private int pageNumber;
-    private int pageSize;
-    private int pageCount;
-    private int totalElementsCount;
+    int pageNumber;
+    int pageSize;
+    int pageCount;
+    int totalElementsCount;
 
 }

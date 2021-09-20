@@ -1,14 +1,19 @@
 package com.example.javaopencommerce;
 
-import static java.math.BigDecimal.valueOf;
+import lombok.Value;
 
 import java.math.BigDecimal;
 
-public final class Vat {
+import static java.math.BigDecimal.valueOf;
 
-    private final double vat;
+@Value
+public class Vat {
 
-    private Vat(double vat) {this.vat = vat;}
+    double value;
+
+    private Vat(double vat) {
+        this.value = vat;
+    }
 
     public static Vat of(double vat) {
         if (vat < 0.00) {
@@ -18,10 +23,11 @@ public final class Vat {
     }
 
     public BigDecimal asDecimal() {
-        return valueOf(vat);
+        return valueOf(this.value);
     }
 
     public double asDouble() {
-        return vat;
+        return this.value;
     }
+
 }

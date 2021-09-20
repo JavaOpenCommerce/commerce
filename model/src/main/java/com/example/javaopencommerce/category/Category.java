@@ -1,17 +1,15 @@
 package com.example.javaopencommerce.category;
 
-import java.util.List;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 
-@Getter
+import java.util.List;
+
+@Value
 @Builder
-@ToString
-@EqualsAndHashCode
 public class Category {
 
-    private Long id;
-    private List<CategoryDetails> details;
+    Long id;
+    List<CategoryDetails> details;
+
 }

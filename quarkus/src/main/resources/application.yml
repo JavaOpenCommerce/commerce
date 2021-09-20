@@ -40,8 +40,7 @@ quarkus:
     #synchronus datasource settings, should be used only for initializing local database
     datasource:
       ## Once Flyway create database comment below jdbc configuration:
-#      jdbc:
-#        url: postgresql://localhost:5432/${com.example.database.name}
+      jdbc: false
       reactive:
         url: postgresql://localhost:5432/${com.example.database.name}?currentSchema=${com.example.database.schema}
       username: ${com.example.database.username}
@@ -51,7 +50,6 @@ quarkus:
       connect-retries: 2
       ## the same as in quarkus.datasource.reactive.url:
       schemas: ${com.example.database.schema}
-      defaultSchema: ${com.example.database.schema}
       ## set to true, to clean database at startup
       clean-at-start: false
       ## set to true, to trigger flyway on

@@ -3,8 +3,9 @@ package com.example.javaopencommerce.category;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
+import java.util.List;
 
 
 @ApplicationScoped
@@ -13,9 +14,9 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     private final PgPool client;
     private final CategoryMapper categoryMapper;
 
-    public CategoryRepositoryImpl(PgPool client, CategoryMapper categoryMapper) {
+    public CategoryRepositoryImpl(PgPool client) {
         this.client = client;
-        this.categoryMapper = categoryMapper;
+        this.categoryMapper = new CategoryMapper();
     }
 
 
