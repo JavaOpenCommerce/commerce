@@ -1,12 +1,12 @@
 package com.example.javaopencommerce.order;
 
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.ZERO;
+
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.item.Item;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.ZERO;
 
 @Getter
 @EqualsAndHashCode

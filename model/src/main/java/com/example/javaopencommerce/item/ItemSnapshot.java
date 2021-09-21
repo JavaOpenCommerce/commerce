@@ -3,10 +3,9 @@ package com.example.javaopencommerce.item;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.image.ImageSnapshot;
-import lombok.Builder;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Builder;
 
 @Builder
 @lombok.Value

@@ -1,13 +1,16 @@
 package com.example.javaopencommerce.category;
 
-import com.example.javaopencommerce.utils.CommonRow;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-
-import java.util.*;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
+
+import com.example.javaopencommerce.CommonRow;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CategoryMapper {
 

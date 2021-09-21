@@ -2,9 +2,8 @@ package com.example.javaopencommerce.user;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import javax.enterprise.context.ApplicationScoped;
 
 //TODO
 @ApplicationScoped

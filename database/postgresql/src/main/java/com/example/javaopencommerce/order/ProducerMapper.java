@@ -1,18 +1,21 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.image.ImageEntity;
-import com.example.javaopencommerce.producer.ProducerDetailsEntity;
-import com.example.javaopencommerce.producer.ProducerEntity;
-import com.example.javaopencommerce.utils.CommonRow;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
-
-import java.util.*;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
+
+import com.example.javaopencommerce.CommonRow;
+import com.example.javaopencommerce.image.ImageEntity;
+import com.example.javaopencommerce.producer.ProducerDetailsEntity;
+import com.example.javaopencommerce.producer.ProducerEntity;
+import io.vertx.mutiny.sqlclient.Row;
+import io.vertx.mutiny.sqlclient.RowSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ProducerMapper {
 

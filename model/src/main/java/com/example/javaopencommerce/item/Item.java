@@ -1,16 +1,15 @@
 package com.example.javaopencommerce.item;
 
 
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
+
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.image.Image;
-import lombok.Builder;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
+import lombok.Builder;
 
 @lombok.Value
 @Builder

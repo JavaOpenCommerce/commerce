@@ -1,20 +1,19 @@
 package com.example.javaopencommerce.item;
 
-import com.example.javaopencommerce.image.Image;
-import com.example.javaopencommerce.image.ImageSnapshot;
-import lombok.Builder;
-import lombok.Value;
-
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
+import com.example.javaopencommerce.image.Image;
+import com.example.javaopencommerce.image.ImageSnapshot;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+import lombok.Builder;
+import lombok.Value;
+
 @Value
 @Builder
-public class ItemDetails {
+class ItemDetails {
 
     Long id;
     String name;

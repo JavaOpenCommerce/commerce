@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.utils.converters;
 
+import com.example.javaopencommerce.item.ItemConverter;
 import com.example.javaopencommerce.order.CardProductEntity;
 import com.example.javaopencommerce.order.Product;
 import com.example.javaopencommerce.order.ProductDto;

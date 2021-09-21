@@ -1,10 +1,9 @@
 package com.example.javaopencommerce.producer;
 
 import com.example.javaopencommerce.image.Image;
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
-
-import java.util.List;
 
 @Value
 @Builder

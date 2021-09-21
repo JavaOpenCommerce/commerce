@@ -13,14 +13,14 @@ import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
-
 public class ItemFacade {
 
     private final ItemService itemService;
     private final ItemSearchService searchService;
     private final ItemDetailsLangResolver itemDetailsLangResolver;
 
-  public ItemFacade(ItemService itemService,
+  public ItemFacade(
+      ItemService itemService,
       ItemSearchService searchService,
       ItemDetailsLangResolver itemDetailsLangResolver) {
     this.itemService = itemService;
@@ -30,10 +30,8 @@ public class ItemFacade {
 
   public Uni<ItemDetailsDto> getItemById(Long id) {
         return itemService.getItemById(id)
-            .onItem()
-            .apply(Item::getSnapshot)
-            .onItem()
-            .apply(item ->
+            .map(Item::getSnapshot)
+            .map(item ->
                 ItemDetailsDto.fromSnapshot(
                     item,
                     itemDetailsLangResolver.resolveDetails(item)
@@ -43,28 +41,12 @@ public class ItemFacade {
 
     public Uni<PageDto<ItemDto>> getFilteredItems(SearchRequest request) {
 
-        return getFilteredItemsPage(request).onItem()
-            .apply(itemDtoPage -> {
+        return getFilteredItemsPage(request)
+            .map(itemDtoPage -> {
               sortItems(itemDtoPage.getItems(), request);
               return itemDtoPage;
             });
     }
-
-//    public Uni<List<CategoryDto>> getAllCategories() {
-//        return storeService.getAllCategories().map(categoryModels ->
-//                categoryModels.stream()
-//                        .map(cat -> CategoryConverter
-//                            .convertToDto(cat, langRes.getLanguage(), langRes.getDefault()))
-//                        .collect(toList()));
-//    }
-//
-//    public Uni<List<ProducerDto>> getAllProducers() {
-//        return storeService.getAllProducers().map(producerModels ->
-//                producerModels.stream()
-//                        .map(prod -> ProducerConverter
-//                            .convertToDto(prod, langRes.getLanguage(), langRes.getDefault()))
-//                        .collect(toList()));
-//    }
 
     private void sortItems(List<ItemDto> itemDtos, SearchRequest request) {
 
@@ -87,7 +69,7 @@ public class ItemFacade {
         }
     }
 
-    public Uni<PageDto<ItemDto>> getFilteredItemsPage(SearchRequest request) {
+    private Uni<PageDto<ItemDto>> getFilteredItemsPage(SearchRequest request) {
         return getFilteredResults(request).flatMap(results ->
             this.itemService
                 .getItemsListByIdList(results.getLeft())
@@ -107,7 +89,6 @@ public class ItemFacade {
     }
 
     private Uni<Pair<List<Long>, Integer>> getFilteredResults(SearchRequest request) {
-
         return this.searchService
             .searchItemsBySearchRequest(request).map(json -> {
 
@@ -137,7 +118,6 @@ public class ItemFacade {
     }
 
     private PageDto<ItemDto> getItemModelPage(int pageIndex, int pageSize, int totalCount, List<ItemDto> items) {
-
         int pageCount = (int) Math.ceil((double) totalCount / pageSize);
 
         return PageDto.<ItemDto>builder()

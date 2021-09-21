@@ -3,7 +3,7 @@ package com.example.javaopencommerce.image;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 
-public interface ImageRepository {
+interface PsqlImageRepository {
 
     Uni<List<ImageEntity>> getImagesByIdList(List<Long> ids);
     Uni<ImageEntity> getImageById(Long id);

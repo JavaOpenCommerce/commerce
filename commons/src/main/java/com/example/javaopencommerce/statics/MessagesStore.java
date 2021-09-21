@@ -1,8 +1,8 @@
 package com.example.javaopencommerce.statics;
 
-import lombok.NoArgsConstructor;
-
 import static lombok.AccessLevel.PRIVATE;
+
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
 public final class MessagesStore {

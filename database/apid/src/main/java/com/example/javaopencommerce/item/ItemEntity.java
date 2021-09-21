@@ -1,18 +1,22 @@
 package com.example.javaopencommerce.item;
 
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
+
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.image.ImageEntity;
 import com.example.javaopencommerce.image.ImageSnapshot;
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Getter
@@ -21,7 +25,7 @@ import static java.util.Optional.ofNullable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ItemEntity {
+class ItemEntity {
 
     private Long id;
     private BigDecimal valueGross;

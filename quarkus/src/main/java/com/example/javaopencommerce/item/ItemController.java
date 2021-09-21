@@ -11,9 +11,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+@Path("items")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-class ItemController {
+public class ItemController {
 
     private final ItemFacade storeService;
 
@@ -23,13 +24,12 @@ class ItemController {
 
 
     @GET
-    @Path("/items/{id}")
+    @Path("/{id}")
     public Uni<ItemDetailsDto> getItemById(@PathParam("id") Long id) {
         return this.storeService.getItemById(id);
     }
 
     @GET
-    @Path("/items")
     public Uni<PageDto<ItemDto>> search(@BeanParam SearchRequest request) {
         return this.storeService.getFilteredItems(request);
     }

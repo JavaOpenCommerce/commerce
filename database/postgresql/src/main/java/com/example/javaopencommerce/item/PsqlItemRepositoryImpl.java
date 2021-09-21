@@ -1,16 +1,13 @@
 package com.example.javaopencommerce.item;
 
-import com.example.javaopencommerce.utils.CommonRow;
+import static java.lang.String.format;
+
+import com.example.javaopencommerce.CommonRow;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
-import static java.lang.String.format;
-
-@ApplicationScoped
 class PsqlItemRepositoryImpl implements PsqlItemRepository {
 
     private final PgPool client;
