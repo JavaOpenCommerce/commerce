@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.elasticsearch;
+package com.example.javaopencommerce.item;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class SearchDetails {
+public class SearchItemDetails {
 
     private final String lang;
     private final String name;

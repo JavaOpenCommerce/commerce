@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.utils.converters;
+package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.item.ItemDetails;

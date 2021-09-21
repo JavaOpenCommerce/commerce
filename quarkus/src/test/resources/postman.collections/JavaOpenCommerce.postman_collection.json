@@ -159,36 +159,34 @@
 			"response": []
 		},
 		{
-			"name": "Store: /items/id",
+			"name": "Item: /items/id",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/store/items/2",
+					"raw": "{{host}}/items/3",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"store",
 						"items",
-						"2"
+						"3"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Store: /items",
+			"name": "Item: /items",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/store/items",
+					"raw": "{{host}}/items",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"store",
 						"items"
 					]
 				}
@@ -196,17 +194,16 @@
 			"response": []
 		},
 		{
-			"name": "Store: /items + query",
+			"name": "Item: /items + query",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/store/items?searchQuery=fajny",
+					"raw": "{{host}}/items?searchQuery=fajny",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"store",
 						"items"
 					],
 					"query": [
@@ -220,17 +217,16 @@
 			"response": []
 		},
 		{
-			"name": "Store: /items + pagination",
+			"name": "Item: /items + pagination",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/store/items?pageSize=3&pageNum=1&order=DESC",
+					"raw": "{{host}}/items?pageSize=3&pageNum=1&order=DESC",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"store",
 						"items"
 					],
 					"query": [
@@ -246,42 +242,6 @@
 							"key": "order",
 							"value": "DESC"
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Store: /categories",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/store/categories",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"store",
-						"categories"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Store: /producers",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/store/producers",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"store",
-						"producers"
 					]
 				}
 			},

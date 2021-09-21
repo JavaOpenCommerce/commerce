@@ -1,8 +1,9 @@
-package com.example.javaopencommerce.elasticsearch;
+package com.example.javaopencommerce.item;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 import com.example.javaopencommerce.SearchRequest;
+import com.example.javaopencommerce.elasticsearch.ElasticAddress;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;
@@ -17,7 +18,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 @Slf4j
 @ApplicationScoped
-public class SearchService {
+public class SearchService implements ItemSearchService {
 
     private WebClient client;
 

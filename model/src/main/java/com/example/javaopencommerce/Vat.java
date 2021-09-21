@@ -1,10 +1,9 @@
 package com.example.javaopencommerce;
 
-import lombok.Value;
+import static java.math.BigDecimal.valueOf;
 
 import java.math.BigDecimal;
-
-import static java.math.BigDecimal.valueOf;
+import lombok.Value;
 
 @Value
 public class Vat {

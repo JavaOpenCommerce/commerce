@@ -1,14 +1,13 @@
 package com.example.javaopencommerce.address;
 
 
+import static com.example.javaopencommerce.CommonRow.isRowSetEmpty;
+
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-
-import static com.example.javaopencommerce.utils.CommonRow.isRowSetEmpty;
+import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class AddressRepositoryImpl implements AddressRepository {

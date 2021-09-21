@@ -7,7 +7,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-class OutOfStockExceptionHandler implements ExceptionMapper<OutOfStockException> {
+public class OutOfStockExceptionHandler implements ExceptionMapper<OutOfStockException> {
 
     @Override
     public Response toResponse(OutOfStockException exception) {

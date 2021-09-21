@@ -1,25 +1,37 @@
 package com.example.javaopencommerce.image;
 
+import static java.util.stream.Collectors.toUnmodifiableList;
+
 import io.smallrye.mutiny.Uni;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 
-//TODO
-@ApplicationScoped
-public class ImageRepositoryImpl implements ImageRepository {
+class ImageRepositoryImpl implements ImageRepository {
 
-    @Override
-    public Uni<List<ImageEntity>> getImagesByIdList(List<Long> ids) {
-        return null;
-    }
+  private final PsqlImageRepository imageRepository;
 
-    @Override
-    public Uni<ImageEntity> getImageById(Long id) {
-        return null;
-    }
+  ImageRepositoryImpl(PsqlImageRepository imageRepository) {
+    this.imageRepository = imageRepository;
+  }
 
-    @Override
-    public Uni<ImageEntity> saveImage(ImageEntity image) {
-        return null;
-    }
+  @Override
+  public Uni<List<Image>> getImagesByIdList(List<Long> ids) {
+    return imageRepository.getImagesByIdList(ids)
+        .map(images ->
+            images.stream()
+                .map(ImageEntity::toImageModel)
+                .collect(toUnmodifiableList())
+        );
+  }
+
+  @Override
+  public Uni<Image> getImageById(Long id) {
+    return imageRepository.getImageById(id)
+        .map(ImageEntity::toImageModel);
+  }
+
+  @Override
+  public Uni<Image> saveImage(Image image) {
+    return imageRepository.saveImage(ImageEntity.fromSnapshot(image.getSnapshot()))
+        .map(ImageEntity::toImageModel);
+  }
 }

@@ -1,9 +1,8 @@
 package com.example.javaopencommerce.producer;
 
+import java.util.Locale;
 import lombok.Builder;
 import lombok.Value;
-
-import java.util.Locale;
 
 @Value
 @Builder

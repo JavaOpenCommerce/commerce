@@ -1,14 +1,13 @@
 package com.example.javaopencommerce.order;
 
+import static com.example.javaopencommerce.CommonRow.isRowSetEmpty;
+import static java.time.LocalDate.now;
+
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-
-import static com.example.javaopencommerce.utils.CommonRow.isRowSetEmpty;
-import static java.time.LocalDate.now;
+import javax.enterprise.context.ApplicationScoped;
 
 
 @ApplicationScoped

@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.utils;
+package com.example.javaopencommerce;
 
 import static java.util.Objects.isNull;
 

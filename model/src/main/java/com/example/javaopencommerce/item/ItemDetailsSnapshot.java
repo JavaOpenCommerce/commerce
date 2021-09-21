@@ -1,12 +1,14 @@
 package com.example.javaopencommerce.item;
 
-import com.example.javaopencommerce.image.ImageSnapshot;
-import lombok.Builder;
-import lombok.Value;
+import static java.util.Collections.emptyList;
+import static java.util.Optional.ofNullable;
 
+import com.example.javaopencommerce.image.ImageSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import lombok.Builder;
+import lombok.Value;
 
 @Value
 @Builder
@@ -24,7 +26,9 @@ class ItemDetailsSnapshot {
         this.name = name;
         this.description = description;
         this.lang = lang;
-        this.additionalImages = new ArrayList<>(additionalImages);
+        this.additionalImages = new ArrayList<>(
+            ofNullable(additionalImages).orElse(emptyList())
+        );
     }
 
 }

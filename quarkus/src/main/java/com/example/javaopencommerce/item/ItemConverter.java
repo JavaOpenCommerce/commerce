@@ -1,10 +1,8 @@
-package com.example.javaopencommerce.utils.converters;
+package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
-import com.example.javaopencommerce.item.Item;
-import com.example.javaopencommerce.item.ItemDetails;
-import com.example.javaopencommerce.item.ItemDto;
+import com.example.javaopencommerce.utils.converters.ImageConverter;
 
 public interface ItemConverter {
 

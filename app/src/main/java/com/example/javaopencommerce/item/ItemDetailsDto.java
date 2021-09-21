@@ -7,13 +7,12 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-class ItemDetailsDto {
+public class ItemDetailsDto {
 
     static ItemDetailsDto fromSnapshot(ItemSnapshot itemSnapshot, ItemDetailsSnapshot details) {
 

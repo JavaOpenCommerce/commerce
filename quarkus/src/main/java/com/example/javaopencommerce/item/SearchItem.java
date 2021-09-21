@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.elasticsearch;
+package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.image.ImageDto;
 import java.util.List;
@@ -15,5 +15,5 @@ public class SearchItem {
     private final double valueGross;
     private final ImageDto image;
     private final Long producerId;
-    private final List<SearchDetails> details;
+    private final List<SearchItemDetails> details;
 }
