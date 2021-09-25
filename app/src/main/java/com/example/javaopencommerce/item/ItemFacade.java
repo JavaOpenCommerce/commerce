@@ -7,6 +7,8 @@ import static java.util.stream.Collectors.toList;
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
+import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import java.util.Comparator;
@@ -17,26 +19,19 @@ public class ItemFacade {
 
     private final ItemService itemService;
     private final ItemSearchService searchService;
-    private final ItemDetailsLangResolver itemDetailsLangResolver;
+    private final ItemDtoFactory dtoFactory;
 
-  public ItemFacade(
-      ItemService itemService,
-      ItemSearchService searchService,
-      ItemDetailsLangResolver itemDetailsLangResolver) {
+  public ItemFacade(ItemService itemService,
+      ItemSearchService searchService, ItemDtoFactory dtoFactory) {
     this.itemService = itemService;
     this.searchService = searchService;
-    this.itemDetailsLangResolver = itemDetailsLangResolver;
+    this.dtoFactory = dtoFactory;
   }
 
   public Uni<ItemDetailsDto> getItemById(Long id) {
         return itemService.getItemById(id)
             .map(Item::getSnapshot)
-            .map(item ->
-                ItemDetailsDto.fromSnapshot(
-                    item,
-                    itemDetailsLangResolver.resolveDetails(item)
-                )
-            );
+            .map(dtoFactory::itemToDetailsDto);
     }
 
     public Uni<PageDto<ItemDto>> getFilteredItems(SearchRequest request) {
@@ -76,7 +71,7 @@ public class ItemFacade {
                 .map(items -> {
                     List<ItemDto> filteredList = items.stream()
                         .map(Item::getSnapshot)
-                        .map(i -> ItemDto.fromSnapshot(i, itemDetailsLangResolver.resolveDetails(i)))
+                        .map(dtoFactory::itemToDto)
                         //.filter(i -> isValidCategory(i.getCategory()))// TODO!!
                         .collect(toList());
 
@@ -134,4 +129,6 @@ public class ItemFacade {
             .flatMap(category -> category.getDetails().stream())
             .noneMatch(details -> "shipping".equalsIgnoreCase(details.getName()));
     }
+
+
 }

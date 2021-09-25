@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.address.AddressDto;
+import com.example.javaopencommerce.item.dtos.CardDto;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

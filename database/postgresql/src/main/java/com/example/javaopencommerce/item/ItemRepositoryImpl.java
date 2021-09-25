@@ -1,9 +1,6 @@
 package com.example.javaopencommerce.item;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
-
 import io.smallrye.mutiny.Uni;
-import java.util.ArrayList;
 import java.util.List;
 
 class ItemRepositoryImpl implements ItemRepository {
@@ -20,26 +17,7 @@ class ItemRepositoryImpl implements ItemRepository {
         Uni<List<ItemDetailsEntity>> details = repository.getAllItemDetails();
 
         return Uni.combine().all().unis(items, details)
-            .combinedWith(this::convertToItemModelList);
-    }
-
-    private List<Item> convertToItemModelList(List<ItemEntity> items,
-        List<ItemDetailsEntity> itemDetails) {
-
-        List<Item> itemModels = new ArrayList<>();
-        for (ItemEntity item : items) {
-            List<ItemDetails> itemDetailsFiltered = itemDetails.stream()
-                .filter(id -> id.getItemId().equals(item.getId()))
-                .map(ItemDetailsEntity::toItemDetailsModel)
-                .collect(toUnmodifiableList());
-
-            Item itemModel = item.toItemModel();
-            itemModel.addDetails(itemDetailsFiltered);
-
-            itemModels
-                .add(itemModel);
-        }
-        return itemModels;
+            .combinedWith(ItemDetailsMatcher::convertToItemModelList);
     }
 
     @Override
@@ -60,7 +38,7 @@ class ItemRepositoryImpl implements ItemRepository {
         Uni<List<ItemEntity>> items = repository.getItemsListByIdList(ids);
 
         return Uni.combine().all().unis(items, details)
-            .combinedWith(this::convertToItemModelList);
+            .combinedWith(ItemDetailsMatcher::convertToItemModelList);
     }
 
     @Override

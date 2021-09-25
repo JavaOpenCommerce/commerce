@@ -1,7 +1,8 @@
-package com.example.javaopencommerce;
+package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.item.Item;
-import com.example.javaopencommerce.order.Product;
+import com.example.javaopencommerce.Value;
+import com.example.javaopencommerce.Vat;
+import com.example.javaopencommerce.item.Product;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class ProductModelTest {
 
     Product product;
-    Item itemModel;
+    CardItem itemModel;
 
 
     @ParameterizedTest(name = "For given item price {0} amount {1} and vat {2} GrossValue should equal {3}, NettValue equal {4}")
@@ -30,7 +31,7 @@ class ProductModelTest {
     void setAmount(BigDecimal value, int amount, double vat, BigDecimal gross, BigDecimal nett) {
 
         //given
-        itemModel = Item.builder()
+        itemModel = CardItem.builder()
                 .id(1L)
                 .valueGross(Value.of(value))
                 .vat(Vat.of(vat))
