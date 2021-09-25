@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.producer;
 
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
@@ -7,8 +7,6 @@ import static java.util.stream.StreamSupport.stream;
 
 import com.example.javaopencommerce.CommonRow;
 import com.example.javaopencommerce.image.ImageEntity;
-import com.example.javaopencommerce.producer.ProducerDetailsEntity;
-import com.example.javaopencommerce.producer.ProducerEntity;
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import java.util.ArrayList;

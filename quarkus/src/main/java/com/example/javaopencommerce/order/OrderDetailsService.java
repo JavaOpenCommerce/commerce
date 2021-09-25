@@ -6,8 +6,10 @@ import static java.util.stream.Collectors.toList;
 
 import com.example.javaopencommerce.address.AddressEntity;
 import com.example.javaopencommerce.address.AddressRepository;
+import com.example.javaopencommerce.item.CardProductEntity;
 import com.example.javaopencommerce.item.Item;
 import com.example.javaopencommerce.item.ItemService;
+import com.example.javaopencommerce.item.Product;
 import com.example.javaopencommerce.utils.converters.AddressConverter;
 import com.example.javaopencommerce.utils.converters.OrderDetailsConverter;
 import io.smallrye.mutiny.Uni;

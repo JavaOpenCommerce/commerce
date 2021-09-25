@@ -9,11 +9,14 @@ import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.image.Image;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 
 @lombok.Value
+@Getter(AccessLevel.NONE)
 @Builder
-public class Item {
+class Item {
 
     Long id;
     Value valueGross;
@@ -47,5 +50,13 @@ public class Item {
         return new ItemSnapshot(
                 this.id, this.valueGross, this.vat, this.image.getSnapshot(), this.stock, detailsSnapshots
         );
+    }
+
+    Value getValueGross() {
+        return valueGross;
+    }
+
+    Vat getVat() {
+        return vat;
     }
 }

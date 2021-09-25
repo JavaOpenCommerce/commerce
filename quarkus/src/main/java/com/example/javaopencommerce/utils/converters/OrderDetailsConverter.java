@@ -5,15 +5,15 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 
 import com.example.javaopencommerce.address.AddressEntity;
-import com.example.javaopencommerce.order.Card;
-import com.example.javaopencommerce.order.CardProductEntity;
+import com.example.javaopencommerce.item.Card;
+import com.example.javaopencommerce.item.CardProductEntity;
+import com.example.javaopencommerce.item.Product;
 import com.example.javaopencommerce.order.OrderDetails;
 import com.example.javaopencommerce.order.OrderDetailsDto;
 import com.example.javaopencommerce.order.OrderDetailsEntity;
 import com.example.javaopencommerce.order.OrderStatus;
 import com.example.javaopencommerce.order.PaymentMethod;
 import com.example.javaopencommerce.order.PaymentStatus;
-import com.example.javaopencommerce.order.Product;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public interface OrderDetailsConverter {
     static OrderDetails convertDtoToModel(OrderDetailsDto orderDetails) {
         Map<Long, Product> products = orderDetails.getCard().getProducts().values().stream()
                 .map(ProductConverter::convertDtoToModel)
-                .collect(toMap(pm -> pm.getItemModel().getId(), pm -> pm));
+                .collect(toMap(pm -> pm.getItem().getId(), pm -> pm));
 
         return OrderDetails.builder()
                 .id(orderDetails.getId())

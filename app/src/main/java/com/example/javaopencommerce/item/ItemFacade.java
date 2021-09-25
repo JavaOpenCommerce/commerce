@@ -7,10 +7,14 @@ import static java.util.stream.Collectors.toList;
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.category.Category;
+import com.example.javaopencommerce.image.ImageDto;
+import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
+import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ItemFacade {
@@ -31,12 +35,7 @@ public class ItemFacade {
   public Uni<ItemDetailsDto> getItemById(Long id) {
         return itemService.getItemById(id)
             .map(Item::getSnapshot)
-            .map(item ->
-                ItemDetailsDto.fromSnapshot(
-                    item,
-                    itemDetailsLangResolver.resolveDetails(item)
-                )
-            );
+            .map(this::detailsToDto);
     }
 
     public Uni<PageDto<ItemDto>> getFilteredItems(SearchRequest request) {
@@ -76,7 +75,7 @@ public class ItemFacade {
                 .map(items -> {
                     List<ItemDto> filteredList = items.stream()
                         .map(Item::getSnapshot)
-                        .map(i -> ItemDto.fromSnapshot(i, itemDetailsLangResolver.resolveDetails(i)))
+                        .map(this::itemToDto)
                         //.filter(i -> isValidCategory(i.getCategory()))// TODO!!
                         .collect(toList());
 
@@ -134,4 +133,35 @@ public class ItemFacade {
             .flatMap(category -> category.getDetails().stream())
             .noneMatch(details -> "shipping".equalsIgnoreCase(details.getName()));
     }
+
+    private ItemDto itemToDto(ItemSnapshot itemSnapshot) {
+        ItemDetailsSnapshot itemDetailsSnapshot =
+            itemDetailsLangResolver.resolveDetails(itemSnapshot);
+        return ItemDto.builder()
+            .id(itemSnapshot.getId())
+            .stock(itemSnapshot.getStock())
+            .valueGross(itemSnapshot.getValueGross().asDecimal())
+            .vat(itemSnapshot.getVat().asDouble())
+            .name(itemDetailsSnapshot.getName())
+            .image(ImageDto.fromSnapshot(itemSnapshot.getImage()))
+            .build();
+    }
+
+  private ItemDetailsDto detailsToDto(ItemSnapshot itemSnapshot) {
+    ItemDetailsSnapshot details = itemDetailsLangResolver.resolveDetails(itemSnapshot);
+    List<ImageDto> additionalImages = details.getAdditionalImages().stream()
+        .map(ImageDto::fromSnapshot)
+        .collect(Collectors.toList());
+
+    return ItemDetailsDto.builder()
+        .id(itemSnapshot.getId())
+        .stock(itemSnapshot.getStock())
+        .valueGross(itemSnapshot.getValueGross().asDecimal())
+        .vat(itemSnapshot.getVat().asDouble())
+        .description(details.getDescription())
+        .name(details.getName())
+        .mainImage(ImageDto.fromSnapshot(itemSnapshot.getImage()))
+        .additionalImages(additionalImages)
+        .build();
+  }
 }

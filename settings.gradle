@@ -18,10 +18,11 @@ include 'core'
 include 'app'
 include 'database:apid'
 include 'database:postgresql'
+include 'database:redis'
 include 'model'
 include 'quarkus'
 
 //findProject(':database:apid')?.name = 'apid'
 //findProject(':database:posgresql')?.name = 'posgresql'
-
+include 'redis'
 

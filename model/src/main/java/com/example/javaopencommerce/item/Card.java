@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.item;
 
 import static com.example.javaopencommerce.statics.MessagesStore.BELOW_STOCK;
 import static com.example.javaopencommerce.statics.MessagesStore.ITEM_404;
@@ -9,14 +9,15 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.item.Item;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
-@Getter
+
 @EqualsAndHashCode
 public final class Card {
 
@@ -29,16 +30,17 @@ public final class Card {
         calculateCardValue();
     }
 
-    public static Card getInstance(Map<Long, Product> productsMap) {
+    static Card getInstance(Map<Long, Product> productsMap) {
         return new Card(productsMap);
     }
 
-    public String increaseProductAmount(Item item) {
-        Product productModel = this.products.get(item.getId());
+    String increaseProductAmount(Item item) {
+        ItemSnapshot itemSnapshot = item.getSnapshot();
+        Product productModel = this.products.get(itemSnapshot.getId());
 
         //just adding to list with amount = 1 if does not exist yet
-        if (isNull(productModel) && item.getStock() > 0) {
-            this.products.put(item.getId(), Product.getProduct(item));
+        if (isNull(productModel) && itemSnapshot.getStock() > 0) {
+            this.products.put(itemSnapshot.getId(), Product.getProduct(item));
             return OK;
         }
 
@@ -49,28 +51,29 @@ public final class Card {
 
         int currentAmount = productModel.getAmount().asInteger();
 
-        if (currentAmount + 1 <= item.getStock()) {
+        if (currentAmount + 1 <= itemSnapshot.getStock()) {
             productModel.setAmount(currentAmount + 1);
             return OK;
         }
 
-        productModel.setAmount(item.getStock());
+        productModel.setAmount(itemSnapshot.getStock());
         return BELOW_STOCK;
     }
 
-    public String addProduct(Item item, int amount) {
-        if (item.getStock() < 1) {
+    String addProduct(Item item, int amount) {
+        ItemSnapshot itemSnapshot = item.getSnapshot();
+        if (itemSnapshot.getStock() < 1) {
             return OUT_OF_STOCK;
             //todo handling, issue #6
         }
 
-        Long id = item.getId();
+        Long id = itemSnapshot.getId();
         if (!this.products.containsKey(id)) {
             Product product = Product.getProduct(item);
             this.products.put(id, product);
         }
 
-        return updateProductAmount(id, amount, item.getStock());
+        return updateProductAmount(id, amount, itemSnapshot.getStock());
     }
 
     private String updateProductAmount(Long productId, int amount, int stock) {
@@ -90,23 +93,25 @@ public final class Card {
 
     }
 
-    public String removeProduct(Item item) {
-        Product productModel = this.products.get(item.getId());
+    String removeProduct(Item item) {
+        Long id = item.getSnapshot().getId();
+        Product productModel = this.products.get(id);
         if (nonNull(productModel)) {
-            this.products.remove(item.getId());
+            this.products.remove(id);
             return OK;
         }
         return ITEM_404;
     }
 
-    public String decreaseProductAmount(Item item) {
-        Product productModel = this.products.get(item.getId());
+    String decreaseProductAmount(Item item) {
+        Long id = item.getSnapshot().getId();
+        Product productModel = this.products.get(id);
         if (nonNull(productModel)) {
             int currentAmount = productModel.getAmount().asInteger();
 
             //remove entirely if amount would drop to zero
             if (currentAmount < 2) {
-                this.products.remove(item.getId());
+                this.products.remove(id);
             } else {
                 productModel.setAmount(currentAmount - 1);
             }
@@ -115,7 +120,7 @@ public final class Card {
         return ITEM_404;
     }
 
-    public void calculateCardValue() {
+    private void calculateCardValue() {
         this.cardValueGross = Value.of(this.products.values()
                 .stream()
                 .map(p -> p.getValueGross().asDecimal())
@@ -127,4 +132,19 @@ public final class Card {
                 .reduce(ZERO, BigDecimal::add));
     }
 
+    List<Product> getCardProducts() {
+        return new ArrayList<>(products.values());
+    }
+
+    CardSnapshot getSnapshot() {
+        calculateCardValue();
+        return CardSnapshot.builder()
+            .products(new ArrayList<>(
+                products.values().stream()
+                    .map(Product::getSnapshot)
+                    .collect(Collectors.toUnmodifiableList())))
+            .cardValueGross(cardValueGross)
+            .cardValueNett(cardValueNett)
+            .build();
+    }
 }

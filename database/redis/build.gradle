@@ -22,7 +22,6 @@ dependencies {
     implementation enforcedPlatform(project(':bom'))
 
     implementation project(':database:apid')
-    implementation project(':app')
     implementation project(':model')
 
     implementation "io.quarkus:quarkus-reactive-pg-client"

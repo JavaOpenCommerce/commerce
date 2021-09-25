@@ -17,6 +17,12 @@ class ItemConfiguration {
 
   @Produces
   @ApplicationScoped
+  ItemQueryRepository itemQueryRepository(PgPool sqlClient, ItemDetailsLangResolver resolver) {
+    return new ItemQueryRepositoryImpl(new PsqlItemRepositoryImpl(sqlClient), resolver);
+  }
+
+  @Produces
+  @ApplicationScoped
   ItemService itemService(ItemRepository itemRepository) {
     return new ItemService(itemRepository);
   }

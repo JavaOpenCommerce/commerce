@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.item;
 
 import static java.math.BigDecimal.valueOf;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import lombok.Value;
 
 @Value
-public class Amount {
+class Amount {
 
     int value;
 

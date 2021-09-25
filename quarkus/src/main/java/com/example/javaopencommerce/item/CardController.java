@@ -1,9 +1,10 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.item;
 
 import static com.example.javaopencommerce.statics.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
-import com.example.javaopencommerce.rest.services.CardDtoService;
+import com.example.javaopencommerce.item.dtos.CardDto;
+import com.example.javaopencommerce.item.dtos.ProductOrder;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
@@ -22,16 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Path("card")
-class CardController {
+public class CardController {
 
     @Context
     private HttpServerRequest request;
 
-    private final CardDtoService cardDtoService;
+    private final CardFacade cardFacade;
     private static final String COOKIE_NAME = "CardCookie";
 
-    public CardController(CardDtoService cardDtoService) {
-        this.cardDtoService = cardDtoService;
+    public CardController(CardFacade cardFacade) {
+        this.cardFacade = cardFacade;
     }
 
 
@@ -39,16 +40,16 @@ class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<CardDto> getCard(@Context HttpServerRequest request) {
         addCookieIfNotPresent();
-        return this.cardDtoService.getCard(request.getCookie(COOKIE_NAME).getValue());
+        return this.cardFacade.getCard(request.getCookie(COOKIE_NAME).getValue());
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<String> addProduct(CardProductEntity product) {
+    public Uni<String> addProduct(ProductOrder product) {
         addCookieIfNotPresent();
-        return this.cardDtoService.addProductWithAmount(product, this.request.getCookie(COOKIE_NAME).getValue())
+        return this.cardFacade.addProductWithAmount(product, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -57,7 +58,7 @@ class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> increaseProductAmount(@QueryParam("id") Long id) {
-        return this.cardDtoService.increaseProductAmount(id, this.request.getCookie(COOKIE_NAME).getValue())
+        return this.cardFacade.increaseProductAmount(id, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -66,7 +67,7 @@ class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> decreaseProductAmount(@QueryParam("id") Long id) {
-        return this.cardDtoService.decreaseProductAmount(id, this.request.getCookie(COOKIE_NAME).getValue())
+        return this.cardFacade.decreaseProductAmount(id, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -75,7 +76,7 @@ class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<String> removeProduct(@QueryParam("id") Long id) {
-        return this.cardDtoService.removeProduct(id, this.request.getCookie(COOKIE_NAME).getValue())
+        return this.cardFacade.removeProduct(id, this.request.getCookie(COOKIE_NAME).getValue())
                 .map(this::simpleResponse);
     }
 
@@ -84,7 +85,7 @@ class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public String flushCard() {
         if (!cookieCheck()) {
-            this.cardDtoService.flushCard(this.request.getCookie(COOKIE_NAME).getValue());
+            this.cardFacade.flushCard(this.request.getCookie(COOKIE_NAME).getValue());
             log.info("Card flushed");
         }
         return simpleResponse(OK);

@@ -1,10 +1,9 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.item;
 
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 
 import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.item.Item;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -43,5 +42,14 @@ public final class Product {
     private void calculateSumValue() {
         valueGross = itemModel.getValueGross().multiply(amount.asDecimal());
         valueNett = valueGross.divide(itemModel.getVat().asDecimal().add(ONE));
+    }
+
+    ProductSnapshot getSnapshot() {
+        return ProductSnapshot.builder()
+            .item(itemModel.getSnapshot())
+            .amount(amount)
+            .valueGross(valueGross)
+            .valueNett(valueNett)
+            .build();
     }
 }

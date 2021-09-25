@@ -1,6 +1,5 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.item.dtos;
 
-import com.example.javaopencommerce.item.ItemDto;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

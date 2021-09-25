@@ -1,7 +1,7 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.item.dtos;
 
 import java.math.BigDecimal;
-import java.util.Map;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class CardDto {
 
-    private Map<Long, ProductDto> products;
+    private List<ProductDto> products;
     private BigDecimal cardValueNett;
     private BigDecimal cardValueGross;
 }
