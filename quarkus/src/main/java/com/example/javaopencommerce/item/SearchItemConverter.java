@@ -3,28 +3,27 @@ package com.example.javaopencommerce.item;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
-import com.example.javaopencommerce.utils.converters.ImageConverter;
+import com.example.javaopencommerce.image.ImageDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public interface SearchItemConverter {
 
-    static SearchItem convertToSearchItem(Item item) {
-
-        List<SearchItemDetails> searchItemDetails =ofNullable(item.getDetails()).orElse(emptyList())
+    static SearchItem convertToSearchItem(ItemSnapshot item) {
+        List<SearchItemDetails> searchItemDetails = ofNullable(item.getDetails()).orElse(emptyList())
                 .stream()
                 .map(SearchItemConverter::convertToSearchDetails)
                 .collect(Collectors.toList());
 
         return SearchItem.builder()
                 .id(item.getId())
-                .image(ImageConverter.convertToDto(item.getImage()))
+                .image(ImageDto.fromSnapshot(item.getImage()))
                 .details(searchItemDetails)
                 .valueGross(item.getValueGross().asDecimal().doubleValue())
                 .build();
     }
 
-    static SearchItemDetails convertToSearchDetails(ItemDetails details) {
+    static SearchItemDetails convertToSearchDetails(ItemDetailsSnapshot details) {
         return SearchItemDetails.builder()
                 .lang(details.getLang().toString())
                 .name(details.getName())

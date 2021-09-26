@@ -1,9 +1,8 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'io.quarkus'
     id 'groovy'
-    id 'io.freefair.lombok' //version '6.1.0'
+    id 'io.freefair.lombok'
 }
 
 group 'com.example.jcc.database'
@@ -22,10 +21,8 @@ dependencies {
     implementation enforcedPlatform(project(':bom'))
 
     implementation project(':database:apid')
-    implementation project(':app')
     implementation project(':model')
 
-    implementation "io.quarkus:quarkus-reactive-pg-client"
     implementation "io.smallrye.reactive:mutiny"
     implementation "jakarta.json.bind:jakarta.json.bind-api"
 

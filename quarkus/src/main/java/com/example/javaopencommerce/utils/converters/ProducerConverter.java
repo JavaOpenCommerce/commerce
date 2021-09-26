@@ -3,6 +3,7 @@ package com.example.javaopencommerce.utils.converters;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
+import com.example.javaopencommerce.image.ImageDto;
 import com.example.javaopencommerce.image.ImageEntity;
 import com.example.javaopencommerce.producer.Producer;
 import com.example.javaopencommerce.producer.ProducerDetails;
@@ -38,7 +39,7 @@ public interface ProducerConverter {
                 .id(producer.getId())
                 .name(details.getName())
                 .description(details.getDescription())
-                .image(ImageConverter.convertToDto(producer.getImage()))
+                .image(ImageDto.fromSnapshot(producer.getImage().getSnapshot()))
                 .build();
     }
 }

@@ -18,7 +18,10 @@ class ItemDetailsLangResolver {
 
 
   ItemDetailsSnapshot resolveDetails(ItemSnapshot itemSnapshot) {
-    List<ItemDetailsSnapshot> detailSnapshots = ofNullable(itemSnapshot.getDetails()).orElse(emptyList());
+    return resolveDetails(ofNullable(itemSnapshot.getDetails()).orElse(emptyList()));
+  }
+
+  ItemDetailsSnapshot resolveDetails(List<ItemDetailsSnapshot> detailSnapshots) {
     return detailSnapshots.stream()
         .filter(d -> nonNull(d.getLang().getLanguage()))
         .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(languageResolver.getLanguage()))

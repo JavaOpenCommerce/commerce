@@ -1,7 +1,5 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce.producer;
 
-import com.example.javaopencommerce.producer.ProducerEntity;
-import com.example.javaopencommerce.producer.ProducerRepository;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;

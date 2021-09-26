@@ -2,6 +2,8 @@ package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.SearchRequest;
+import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
+import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;

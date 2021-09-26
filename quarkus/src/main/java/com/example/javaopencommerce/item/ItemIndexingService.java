@@ -1,10 +1,8 @@
-package com.example.javaopencommerce.elasticsearch;
+package com.example.javaopencommerce.item;
 
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.item.ItemService;
-import com.example.javaopencommerce.item.SearchItem;
-import com.example.javaopencommerce.item.SearchItemConverter;
+import com.example.javaopencommerce.elasticsearch.ElasticAddress;
 import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.Vertx;
@@ -18,13 +16,13 @@ import lombok.extern.jbosslog.JBossLog;
 
 @JBossLog
 @ApplicationScoped
-class IndexingService {
+class ItemIndexingService {
 
     private final WebClient client;
     private final ItemService itemService;
 
 
-    public IndexingService(ItemService itemService, Vertx vertx, ElasticAddress address) {
+    ItemIndexingService(ItemService itemService, Vertx vertx, ElasticAddress address) {
         this.itemService = itemService;
 
         this.client = WebClient.create(vertx, new WebClientOptions()
@@ -32,11 +30,11 @@ class IndexingService {
                 .setDefaultHost(address.getHost()));
     }
 
-    public void fetchIndexOnStartup(@Observes StartupEvent ev) {
+    void fetchIndexOnStartup(@Observes StartupEvent ev) {
         fetchItems();
     }
 
-    public void fetchItems() {
+    void fetchItems() {
         getSearchItems().subscribe().with(
                 items -> {
                     for (SearchItem item : items) {
@@ -61,10 +59,8 @@ class IndexingService {
 
     private Uni<List<SearchItem>> getSearchItems() {
         return itemService.getAllItems().map(
-                itemModels -> itemModels.stream()
+                itemModels -> itemModels.stream().map(item -> item.getSnapshot())
                         .map(SearchItemConverter::convertToSearchItem)
                         .collect(toList()));
     }
-
-
 }
