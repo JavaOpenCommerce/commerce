@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 
 
 @EqualsAndHashCode
-public final class Card {
+final class Card {
 
     private final Map<Long, Product> products;
     private Value cardValueNett = Value.of(ZERO);

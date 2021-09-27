@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class SearchItemDetails {
+class SearchItemDetails {
 
     private final String lang;
     private final String name;

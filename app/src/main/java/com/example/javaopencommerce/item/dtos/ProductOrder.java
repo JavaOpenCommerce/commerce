@@ -1,10 +1,14 @@
 package com.example.javaopencommerce.item.dtos;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductOrder {
 
-  Long itemId;
-  int amount;
+  private Long itemId;
+  private int amount;
 }

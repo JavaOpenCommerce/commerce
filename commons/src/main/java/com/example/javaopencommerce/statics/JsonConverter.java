@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.utils.converters;
+package com.example.javaopencommerce.statics;
 
 import java.lang.reflect.Type;
 import java.util.Objects;

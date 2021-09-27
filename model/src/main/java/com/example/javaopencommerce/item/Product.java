@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 
+import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

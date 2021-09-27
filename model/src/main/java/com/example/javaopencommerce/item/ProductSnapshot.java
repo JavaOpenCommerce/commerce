@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.item;
 
+import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
 import lombok.Builder;
 

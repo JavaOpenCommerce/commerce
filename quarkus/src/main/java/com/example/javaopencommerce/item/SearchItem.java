@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class SearchItem {
+class SearchItem {
 
     private final Long id;
     private final double valueGross;
