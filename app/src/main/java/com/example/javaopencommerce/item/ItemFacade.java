@@ -9,10 +9,12 @@ import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.category.Category;
 import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
+import com.example.javaopencommerce.item.dtos.ProductDto;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ItemFacade {
@@ -124,11 +126,17 @@ public class ItemFacade {
             .build();
     }
 
+    public void updateItemStocks(List<ProductDto> products) {
+      products.forEach(product ->
+          this.itemService.changeStock(product.getItem().getId(), product.getAmount())
+              .await()
+              .indefinitely()
+      );
+    }
+
     private boolean isValidCategory(List<Category> categories) {
         return categories.stream()
             .flatMap(category -> category.getDetails().stream())
             .noneMatch(details -> "shipping".equalsIgnoreCase(details.getName()));
     }
-
-
 }

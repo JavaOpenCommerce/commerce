@@ -1,29 +1,57 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.address.Address;
-import com.example.javaopencommerce.item.Card;
+import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.Value;
+import com.example.javaopencommerce.Vat;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
+@lombok.Value
 @Builder
-public class OrderDetails {
+@Getter(AccessLevel.NONE)
+class OrderDetails {
 
     Long id;
     LocalDate creationDate;
 
     @Builder.Default
-    String paymentStatus = "BEFORE_PAYMENT";
+    PaymentStatus paymentStatus = PaymentStatus.BEFORE_PAYMENT;
 
     @Builder.Default
-    String paymentMethod = "MONEY_TRANSFER";
+    PaymentMethod paymentMethod = PaymentMethod.MONEY_TRANSFER;
 
     @Builder.Default
-    String orderStatus = "NEW";
+    OrderStatus orderStatus = OrderStatus.NEW;
 
-    Address address;
+    Value orderValueGross;
+    Value orderValueNett;
+    List<SimpleProduct> orderBody;
 
-    Card card;
+    @lombok.Value
+    @Builder
+    static class SimpleProduct {
+        Long itemId;
+        String name;
+        Amount amount;
+        Value valueGross;
+        Vat vat;
+    }
+
+    OrderSnapshot getSnapshot() {
+        return OrderSnapshot.builder()
+            .id(id)
+            .orderValueNett(orderValueNett)
+            .orderValueGross(orderValueGross)
+            .creationDate(creationDate)
+            .orderStatus(orderStatus)
+            .paymentMethod(paymentMethod)
+            .paymentStatus(paymentStatus)
+            .orderBody(Collections.unmodifiableList(orderBody))
+            .build();
+    }
 }
 

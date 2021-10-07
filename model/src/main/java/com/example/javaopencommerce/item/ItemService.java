@@ -5,7 +5,7 @@ import com.example.javaopencommerce.item.exceptions.OutOfStockException;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 
-public class ItemService {
+class ItemService {
 
     private final ItemRepository itemRepository;
 

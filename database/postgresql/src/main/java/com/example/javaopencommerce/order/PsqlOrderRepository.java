@@ -3,7 +3,7 @@ package com.example.javaopencommerce.order;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 
-public interface OrderDetailsRepository {
+interface PsqlOrderRepository {
 
     Uni<List<OrderDetailsEntity>> findOrderDetailsByUserId(Long id);
 

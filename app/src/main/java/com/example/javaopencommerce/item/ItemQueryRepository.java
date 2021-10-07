@@ -4,7 +4,7 @@ import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 
-interface ItemQueryRepository {
+public interface ItemQueryRepository {
 
   Uni<ItemDto> getItemById(Long id);
 

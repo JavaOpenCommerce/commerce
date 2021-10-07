@@ -3,10 +3,12 @@ package com.example.javaopencommerce.image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ImageDto {
 
     public static ImageDto fromSnapshot(ImageSnapshot imageSnapshot) {

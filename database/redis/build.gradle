@@ -22,6 +22,7 @@ dependencies {
 
     implementation project(':database:apid')
     implementation project(':model')
+    implementation project(':commons')
 
     implementation "io.smallrye.reactive:mutiny"
     implementation "jakarta.json.bind:jakarta.json.bind-api"

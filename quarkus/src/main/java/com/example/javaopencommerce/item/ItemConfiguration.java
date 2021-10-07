@@ -17,14 +17,20 @@ class ItemConfiguration {
 
   @Produces
   @ApplicationScoped
-  ItemDtoFactory dtoFactory(LanguageResolver languageResolver) {
-    return new ItemDtoFactory(new ItemDetailsLangResolver(languageResolver));
+  ItemDetailsLangResolver itemDetailsLangResolver(LanguageResolver languageResolver) {
+    return new ItemDetailsLangResolver(languageResolver);
   }
 
   @Produces
   @ApplicationScoped
-  ItemQueryRepository itemQueryRepository(PgPool sqlClient, ItemDetailsLangResolver resolver) {
-    return new ItemQueryRepositoryImpl(new PsqlItemRepositoryImpl(sqlClient), resolver);
+  ItemDtoFactory dtoFactory(ItemDetailsLangResolver languageResolver) {
+    return new ItemDtoFactory(languageResolver);
+  }
+
+  @Produces
+  @ApplicationScoped
+  ItemQueryRepository itemQueryRepository(PgPool sqlClient, ItemDetailsLangResolver languageResolver) {
+    return new ItemQueryRepositoryImpl(new PsqlItemRepositoryImpl(sqlClient), languageResolver);
   }
 
   @Produces

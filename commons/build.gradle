@@ -5,6 +5,8 @@ plugins {
 dependencies {
     implementation enforcedPlatform(project(':bom'))
 
+    implementation "jakarta.json.bind:jakarta.json.bind-api"
+
     compileOnly "org.projectlombok:lombok:${lombokVer}"
     annotationProcessor "org.projectlombok:lombok:${lombokVer}"
 

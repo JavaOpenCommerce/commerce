@@ -110,6 +110,8 @@ create table order_details (
 	order_status varchar(255),
 	payment_method varchar(255),
 	payment_status varchar(255),
+    value_gross numeric(19,2) not null,
+    value_nett numeric(19,2) not null,
 	address_id bigint constraint address_id_fk references address,
 	user_id bigint constraint user_id_fk references users,
     order_details jsonb

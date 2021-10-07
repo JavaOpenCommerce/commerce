@@ -3,7 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
-import com.example.javaopencommerce.converters.JsonConverter;
+import com.example.javaopencommerce.statics.JsonConverter;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.Json;
 import io.vertx.mutiny.core.Promise;

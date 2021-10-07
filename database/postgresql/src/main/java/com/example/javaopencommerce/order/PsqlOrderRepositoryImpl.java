@@ -1,22 +1,19 @@
 package com.example.javaopencommerce.order;
 
 import static com.example.javaopencommerce.CommonRow.isRowSetEmpty;
-import static java.time.LocalDate.now;
 
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 
 
-@ApplicationScoped
-public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
+class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
 
     private final PgPool client;
     private final OrderDetailsMapper detailsMapper;
 
-    public OrderDetailsRepositoryImpl(PgPool client) {
+    public PsqlOrderRepositoryImpl(PgPool client) {
         this.client = client;
         this.detailsMapper = new OrderDetailsMapper();
     }
@@ -43,22 +40,25 @@ public class OrderDetailsRepositoryImpl implements OrderDetailsRepository {
     @Override
     public Uni<OrderDetailsEntity> saveOrder(OrderDetailsEntity orderDetails) {
         Object[] args = {
-                now(),
-                orderDetails.getOrderStatus().toString(),
-                orderDetails.getPaymentMethod().toString(),
-                orderDetails.getPaymentStatus().toString(),
-                orderDetails.getShippingAddressId(),
-                orderDetails.getUserEntityId(),
-                orderDetails.getProductsJson()
+              orderDetails.getCreationDate(),
+              orderDetails.getOrderStatus(),
+              orderDetails.getPaymentMethod(),
+              orderDetails.getPaymentStatus(),
+              orderDetails.getValueGross(),
+              orderDetails.getValueNett(),
+              orderDetails.getShippingAddressId(),
+              orderDetails.getUserEntityId(),
+              orderDetails.getSimpleProductsJson()
         };
 
         return this.client.preparedQuery("INSERT INTO ORDER_DETAILS (creation_date, order_status, payment_method, " +
-                        "payment_status, address_id, user_id, order_details) " +
-                        "VALUES ($1, $2, $3, $4, $5, $6, $7) " +
+                        "payment_status, value_gross, value_nett, address_id, user_id, order_details) " +
+                        "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) " +
                         "RETURNING id, creation_date, order_status, payment_method, " +
-                        "payment_status, address_id, user_id, productsjson")
+                        "payment_status, value_gross, value_nett, address_id, user_id, order_details")
                 .execute(Tuple.tuple(List.of(args)))
-                .map(rs -> {
+                .onItem()
+                .transform(rs -> {
                     if (isRowSetEmpty(rs)) {
                         return OrderDetailsEntity.builder().build();
                     }

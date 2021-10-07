@@ -18,12 +18,12 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 @Slf4j
 @ApplicationScoped
-public class SearchService implements ItemSearchService {
+class SearchService implements ItemSearchService {
 
     private WebClient client;
 
 
-    public SearchService(Vertx vertx, ElasticAddress address) {
+    SearchService(Vertx vertx, ElasticAddress address) {
         this.client = WebClient.create(vertx, new WebClientOptions()
                 .setDefaultPort(address.getPort())
                 .setDefaultHost(address.getHost()));

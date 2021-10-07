@@ -7,7 +7,7 @@ import com.example.javaopencommerce.image.ImageDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface SearchItemConverter {
+interface SearchItemConverter {
 
     static SearchItem convertToSearchItem(ItemSnapshot item) {
         List<SearchItemDetails> searchItemDetails = ofNullable(item.getDetails()).orElse(emptyList())
