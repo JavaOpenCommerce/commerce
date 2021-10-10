@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order.exceptions;
+package com.example.javaopencommerce.order.exceptions.validation;
 
 import static java.lang.String.format;
 

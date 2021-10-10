@@ -11,11 +11,11 @@ import com.example.javaopencommerce.item.dtos.CardDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductDto;
 import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
-import com.example.javaopencommerce.order.exceptions.AddressNotProvidedValidationException;
-import com.example.javaopencommerce.order.exceptions.OrderStateValidationException;
-import com.example.javaopencommerce.order.exceptions.OrderValidationException;
-import com.example.javaopencommerce.order.exceptions.OrderValueNotMatchingValidationException;
-import com.example.javaopencommerce.order.exceptions.OutOfStockItemsValidationException;
+import com.example.javaopencommerce.order.exceptions.validation.AddressNotProvidedValidationException;
+import com.example.javaopencommerce.order.exceptions.validation.OrderStateValidationException;
+import com.example.javaopencommerce.order.exceptions.validation.OrderValidationException;
+import com.example.javaopencommerce.order.exceptions.validation.OrderValueNotMatchingValidationException;
+import com.example.javaopencommerce.order.exceptions.validation.OutOfStockItemsValidationException;
 import io.smallrye.mutiny.Uni;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,8 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 class OrderIntegrityValidator {
 
   private final ItemQueryRepository itemQueryRepository;
@@ -49,6 +50,7 @@ class OrderIntegrityValidator {
         .await().indefinitely();
 
     if (!orderInaccuracies.isEmpty()) {
+      log.warn("Order validation failed with causes: {}", orderInaccuracies);
       throw new OrderValidationException(orderInaccuracies);
     }
 
