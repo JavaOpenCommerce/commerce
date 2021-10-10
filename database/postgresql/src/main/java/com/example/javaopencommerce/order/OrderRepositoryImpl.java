@@ -7,7 +7,6 @@ import com.example.javaopencommerce.statics.JsonConverter;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 
 class OrderRepositoryImpl implements OrderRepository {
 
@@ -34,7 +33,10 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @Override
   public Uni<OrderDetails> saveOrder(OrderDetails orderDetails) {
-    return psqlOrderRepository.saveOrder(toOrderEntity(orderDetails))
+    List<SimpleProductEntity> products = orderDetails.getSnapshot().getOrderBody().stream()
+        .map(this::toSimpleProductEntity)
+        .collect(Collectors.toUnmodifiableList());
+    return psqlOrderRepository.saveOrder(toOrderEntity(orderDetails), products)
         .map(OrderDetailsEntity::toOrderDetailsModel);
   }
 

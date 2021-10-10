@@ -1,9 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
-import com.example.javaopencommerce.order.exceptions.OrderValidationException;
 import io.smallrye.mutiny.Uni;
-import java.util.function.Supplier;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

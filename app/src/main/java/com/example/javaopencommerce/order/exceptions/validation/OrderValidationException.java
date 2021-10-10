@@ -1,11 +1,12 @@
-package com.example.javaopencommerce.order.exceptions;
+package com.example.javaopencommerce.order.exceptions.validation;
 
 import static java.lang.String.format;
 
+import com.example.javaopencommerce.order.exceptions.OrderException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderValidationException extends RuntimeException {
+public class OrderValidationException extends OrderException {
 
   private List<OrderValidationException> derivativeExceptions = new ArrayList<>();
 

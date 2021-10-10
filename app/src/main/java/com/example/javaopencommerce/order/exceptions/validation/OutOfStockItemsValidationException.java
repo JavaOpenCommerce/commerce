@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order.exceptions;
+package com.example.javaopencommerce.order.exceptions.validation;
 
 import com.example.javaopencommerce.item.dtos.ProductDto;
 import com.example.javaopencommerce.statics.JsonConverter;

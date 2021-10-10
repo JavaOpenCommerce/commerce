@@ -39,15 +39,13 @@ class OrderConfiguration {
   OrderFacade orderFacade(
       OrderDetailsService orderService,
       ItemQueryRepository itemQueryRepository,
-      OrderDtoFactory orderDtoFactory,
-      ItemFacade itemFacade) {
+      OrderDtoFactory orderDtoFactory) {
 
     return new OrderFacade(
         orderService,
         new OrderIntegrityValidator(itemQueryRepository),
         new OrderFactory(),
-        orderDtoFactory,
-        itemFacade
+        orderDtoFactory
     );
   }
 
