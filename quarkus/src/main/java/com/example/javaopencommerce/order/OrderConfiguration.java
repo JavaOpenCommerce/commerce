@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.item.ItemFacade;
 import com.example.javaopencommerce.item.ItemQueryRepository;
 import io.vertx.mutiny.pgclient.PgPool;
 import javax.enterprise.context.ApplicationScoped;
@@ -12,7 +11,7 @@ class OrderConfiguration {
 
   @Produces
   @ApplicationScoped
-  OrderRepository orderDetailsRepository(PgPool sqlClient) {
+  OrderRepository orderRepository(PgPool sqlClient) {
     return new OrderRepositoryImpl(new PsqlOrderRepositoryImpl(sqlClient));
   }
 
@@ -30,14 +29,14 @@ class OrderConfiguration {
 
   @Produces
   @ApplicationScoped
-  OrderDetailsService orderDetailsService(OrderRepository orderRepository) {
-    return new OrderDetailsService(orderRepository);
+  OrderService orderService(OrderRepository orderRepository) {
+    return new OrderService(orderRepository);
   }
 
   @Produces
   @ApplicationScoped
   OrderFacade orderFacade(
-      OrderDetailsService orderService,
+      OrderService orderService,
       ItemQueryRepository itemQueryRepository,
       OrderDtoFactory orderDtoFactory) {
 

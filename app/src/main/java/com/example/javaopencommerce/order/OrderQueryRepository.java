@@ -1,10 +1,10 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import io.smallrye.mutiny.Uni;
 
 public interface OrderQueryRepository {
 
-  Uni<OrderDetailsDto> findOrderDetailsById(Long id);
+  Uni<OrderDto> findOrderById(Long id);
 
 }

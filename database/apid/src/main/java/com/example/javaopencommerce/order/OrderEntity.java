@@ -5,7 +5,7 @@ import static java.util.stream.Collectors.toList;
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
-import com.example.javaopencommerce.order.OrderDetails.SimpleProduct;
+import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
 import com.example.javaopencommerce.statics.JsonConverter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-class OrderDetailsEntity {
+class OrderEntity {
 
     private Long id;
     private LocalDate creationDate;
@@ -39,11 +39,11 @@ class OrderDetailsEntity {
     @Builder.Default
     private final String simpleProductsJson = "{}";
 
-    OrderDetails toOrderDetailsModel() {
+    OrderModel toOrderModel() {
         List<SimpleProductEntity> products = JsonConverter.convertToObject(simpleProductsJson,
             new ArrayList<SimpleProductEntity>(){}.getClass().getGenericSuperclass());
 
-        return OrderDetails.builder()
+        return OrderModel.builder()
             .id(id)
             .creationDate(creationDate)
             .orderValueGross(Value.of(valueGross))

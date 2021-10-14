@@ -5,8 +5,6 @@ import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
-import com.example.javaopencommerce.image.ImageEntity;
-import com.example.javaopencommerce.image.ImageSnapshot;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ class ItemEntity {
     private BigDecimal valueGross;
     private double vat;
     private int stock;
-    private ImageEntity image;
+    private Long imageId;
     @Builder.Default
     private List<ItemDetailsEntity> details = new ArrayList<>();
 
@@ -45,25 +43,17 @@ class ItemEntity {
                 .vat(Vat.of(this.vat))
                 .stock(this.stock)
                 .details(detailsModels)
-                .image(this.image.toImageModel())
+                .imageId(this.imageId)
                 .build();
     }
 
     static ItemEntity fromSnapshot(ItemSnapshot itemSnapshot) {
-        ImageSnapshot img = ofNullable(itemSnapshot)
-                .map(ItemSnapshot::getImage)
-                .orElse(ImageSnapshot.builder().build());
-        ImageEntity image = ImageEntity.builder()
-                .id(img.getId())
-                .alt(img.getAlt())
-                .url(img.getUrl())
-                .build();
         return ItemEntity.builder()
                 .id(itemSnapshot.getId())
                 .valueGross(itemSnapshot.getValueGross().asDecimal())
                 .vat(itemSnapshot.getVat().asDouble())
                 .stock(itemSnapshot.getStock())
-                .image(image)
+                .imageId(itemSnapshot.getImageId())
                 .build();
     }
 

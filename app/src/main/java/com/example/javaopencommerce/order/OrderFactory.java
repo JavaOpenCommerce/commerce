@@ -6,24 +6,24 @@ import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.item.dtos.ProductDto;
-import com.example.javaopencommerce.order.OrderDetails.SimpleProduct;
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import java.time.LocalDate;
 import java.util.List;
 
 class OrderFactory {
 
-  OrderDetails toOrderModel(OrderDetailsDto orderDetailsDto) {
-    List<SimpleProduct> orderBody = getOrderBody(orderDetailsDto.getCard().getProducts());
+  OrderModel toOrderModel(OrderDto orderDto) {
+    List<SimpleProduct> orderBody = getOrderBody(orderDto.getCard().getProducts());
 
-    return OrderDetails.builder()
-        .id(orderDetailsDto.getId())
-        .paymentMethod(PaymentMethod.valueOf(orderDetailsDto.getPaymentMethod()))
-        .orderStatus(OrderStatus.valueOf(orderDetailsDto.getOrderStatus()))
-        .paymentStatus(PaymentStatus.valueOf(orderDetailsDto.getPaymentStatus()))
+    return OrderModel.builder()
+        .id(orderDto.getId())
+        .paymentMethod(PaymentMethod.valueOf(orderDto.getPaymentMethod()))
+        .orderStatus(OrderStatus.valueOf(orderDto.getOrderStatus()))
+        .paymentStatus(PaymentStatus.valueOf(orderDto.getPaymentStatus()))
         .creationDate(LocalDate.now())
-        .orderValueNett(Value.of(orderDetailsDto.getCard().getCardValueNett()))
-        .orderValueGross(Value.of(orderDetailsDto.getCard().getCardValueGross()))
+        .orderValueNett(Value.of(orderDto.getCard().getCardValueNett()))
+        .orderValueGross(Value.of(orderDto.getCard().getCardValueGross()))
         .orderBody(orderBody)
         .build();
   }

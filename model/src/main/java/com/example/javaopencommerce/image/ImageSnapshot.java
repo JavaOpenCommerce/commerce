@@ -5,10 +5,9 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ImageSnapshot {
+class ImageSnapshot {
 
     Long id;
     String alt;
     String url;
-    
 }

@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.item.dtos;
 
-import com.example.javaopencommerce.image.ImageDto;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +16,7 @@ public class ItemDto {
     private String name;
     private int stock;
     private BigDecimal valueGross;
-    private ImageDto image;
+    private Long imageId;
     private double vat;
 
 }

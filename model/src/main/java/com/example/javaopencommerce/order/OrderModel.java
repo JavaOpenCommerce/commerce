@@ -13,7 +13,7 @@ import lombok.Getter;
 @lombok.Value
 @Builder
 @Getter(AccessLevel.NONE)
-class OrderDetails {
+class OrderModel {
 
     Long id;
     LocalDate creationDate;

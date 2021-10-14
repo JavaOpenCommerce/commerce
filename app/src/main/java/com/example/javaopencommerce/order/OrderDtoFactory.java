@@ -7,8 +7,8 @@ import com.example.javaopencommerce.item.ItemQueryRepository;
 import com.example.javaopencommerce.item.dtos.CardDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductDto;
-import com.example.javaopencommerce.order.OrderDetails.SimpleProduct;
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 
@@ -20,7 +20,7 @@ class OrderDtoFactory {
     this.itemQueryRepository = itemQueryRepository;
   }
 
-  Uni<OrderDetailsDto> toDto(OrderDetails order) {
+  Uni<OrderDto> toDto(OrderModel order) {
     OrderSnapshot orderSnapshot = order.getSnapshot();
     List<SimpleProduct> products = orderSnapshot.getOrderBody();
 
@@ -40,17 +40,17 @@ class OrderDtoFactory {
                         .getAmount()
                         .asInteger()))
             .collect(toList()))
-        .map(p -> getOrderDetailsDto(orderSnapshot, p));
+        .map(p -> getOrderDto(orderSnapshot, p));
   }
 
-  private OrderDetailsDto getOrderDetailsDto(OrderSnapshot orderSnapshot, List<ProductDto> productDtos) {
+  private OrderDto getOrderDto(OrderSnapshot orderSnapshot, List<ProductDto> productDtos) {
     CardDto card = CardDto.builder()
         .cardValueGross(orderSnapshot.getOrderValueGross().asDecimal())
         .cardValueNett(orderSnapshot.getOrderValueNett().asDecimal())
         .products(productDtos)
         .build();
 
-    return OrderDetailsDto.builder()
+    return OrderDto.builder()
         .id(orderSnapshot.getId())
         .creationDate(orderSnapshot.getCreationDate())
         .orderStatus(orderSnapshot.getOrderStatus().name())

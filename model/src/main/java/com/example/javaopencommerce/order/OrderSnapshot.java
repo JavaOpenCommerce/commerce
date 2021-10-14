@@ -1,7 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.order.OrderDetails.SimpleProduct;
+import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;

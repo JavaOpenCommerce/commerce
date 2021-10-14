@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import io.smallrye.mutiny.Uni;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -28,13 +28,13 @@ public class OrderController {
 
   @POST
   @Produces(MediaType.APPLICATION_JSON)
-  public Uni<OrderDetailsDto> makeOrder(OrderDetailsDto orderDetailsDto) {
-    return orderFacade.makeOrder(orderDetailsDto);
+  public Uni<OrderDto> makeOrder(OrderDto orderDto) {
+    return orderFacade.makeOrder(orderDto);
   }
 
   @GET
   @Path("/{id}")
-  public Uni<OrderDetailsDto> getOrderById(@PathParam("id") Long id) {
-    return queryRepository.findOrderDetailsById(id);
+  public Uni<OrderDto> getOrderById(@PathParam("id") Long id) {
+    return queryRepository.findOrderById(id);
   }
 }

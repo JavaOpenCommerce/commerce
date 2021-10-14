@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public final class Product {
+class Product {
 
     private final Item itemModel;
     private Value valueNett = Value.of(ZERO);
@@ -27,15 +27,15 @@ public final class Product {
         this(itemModel, 1);
     }
 
-    public static Product getProduct(Item itemModel) {
+    static Product getProduct(Item itemModel) {
         return new Product(itemModel);
     }
 
-    public static Product getProduct(Item itemModel, int amount) {
+    static Product getProduct(Item itemModel, int amount) {
         return new Product(itemModel, amount);
     }
 
-    public void setAmount(int amount) {
+    void setAmount(int amount) {
         this.amount = Amount.of(amount);
         calculateSumValue();
     }

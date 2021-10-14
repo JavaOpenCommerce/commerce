@@ -6,7 +6,6 @@ import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
-import com.example.javaopencommerce.image.Image;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -21,7 +20,7 @@ class Item {
     Long id;
     Value valueGross;
     Vat vat;
-    Image image;
+    Long imageId;
     List<ItemDetails> details;
     int stock;
 
@@ -32,7 +31,7 @@ class Item {
     static Item restore(ItemSnapshot itemSnapshot) {
         return Item.builder()
                 .id(itemSnapshot.getId())
-                .image(Image.restore(itemSnapshot.getImage()))
+                .imageId(itemSnapshot.getImageId())
                 .stock(itemSnapshot.getStock())
                 .valueGross(itemSnapshot.getValueGross())
                 .vat(itemSnapshot.getVat())
@@ -48,7 +47,7 @@ class Item {
                 .map(ItemDetails::getSnapshot)
                 .collect(Collectors.toList());
         return new ItemSnapshot(
-                this.id, this.valueGross, this.vat, this.image.getSnapshot(), this.stock, detailsSnapshots
+                this.id, this.valueGross, this.vat, this.imageId, this.stock, detailsSnapshots
         );
     }
 

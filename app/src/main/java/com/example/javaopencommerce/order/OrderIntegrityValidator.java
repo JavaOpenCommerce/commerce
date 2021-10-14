@@ -10,7 +10,7 @@ import com.example.javaopencommerce.item.ItemQueryRepository;
 import com.example.javaopencommerce.item.dtos.CardDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductDto;
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import com.example.javaopencommerce.order.exceptions.validation.AddressNotProvidedValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OrderStateValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OrderValidationException;
@@ -34,7 +34,7 @@ class OrderIntegrityValidator {
     this.itemQueryRepository = itemQueryRepository;
   }
 
-  public Uni<Void> validateOrder(OrderDetailsDto order) {
+  public Uni<Void> validateOrder(OrderDto order) {
     List<OrderValidationException> orderInaccuracies = new ArrayList<>();
 
     orderInaccuracies.addAll(validateOrderBasics(order));
@@ -67,14 +67,14 @@ class OrderIntegrityValidator {
     return itemQueryRepository.getItemsByIdList(itemIds);
   }
 
-  private List<OrderValidationException> validateOrderBasics(OrderDetailsDto order) {
+  private List<OrderValidationException> validateOrderBasics(OrderDto order) {
     if (order.getAddressId() == null) {
       return List.of(new AddressNotProvidedValidationException());
     }
     return emptyList();
   }
 
-  private List<OrderValidationException> validateOrderState(OrderDetailsDto order) {
+  private List<OrderValidationException> validateOrderState(OrderDto order) {
     List<OrderValidationException> inaccuracies = new ArrayList<>();
     if (!OrderStatus.NEW.toString().equals(order.getOrderStatus())) {
       inaccuracies.add(new OrderStateValidationException(
