@@ -68,7 +68,9 @@ class OrderIntegrityValidator {
   }
 
   private List<OrderValidationException> validateOrderBasics(OrderDto order) {
-    if (order.getAddressId() == null) {
+       return Optional.ofNullable(order.getAddressId())
+            .map(a -> Collections.<OrderValidationException>emptyList())
+            .orElse(List.of(new AddressNotProvidedValidationException()));
       return List.of(new AddressNotProvidedValidationException());
     }
     return emptyList();
