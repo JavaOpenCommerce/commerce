@@ -5,10 +5,10 @@ import java.util.List;
 
 interface OrderRepository {
 
-  Uni<List<OrderDetails>> findOrderDetailsByUserId(Long id);
+  Uni<List<OrderModel>> findOrderByUserId(Long id);
 
-  Uni<OrderDetails> findOrderDetailsById(Long id);
+  Uni<OrderModel> findOrderById(Long id);
 
-  Uni<OrderDetails> saveOrder(OrderDetails orderDetails);
+  Uni<OrderModel> saveOrder(OrderModel orderModel);
 
 }

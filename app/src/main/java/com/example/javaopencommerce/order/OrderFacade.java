@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import com.example.javaopencommerce.order.exceptions.OrderPersistenceException;
 import io.smallrye.mutiny.Uni;
 import java.util.Arrays;
@@ -9,26 +9,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderFacade {
 
-  private final OrderDetailsService orderDetailsService;
+  private final OrderService orderService;
   private final OrderIntegrityValidator integrityValidator;
   private final OrderFactory orderFactory;
   private final OrderDtoFactory orderDtoFactory;
 
-  public OrderFacade(OrderDetailsService orderDetailsService,
+  public OrderFacade(OrderService orderService,
       OrderIntegrityValidator integrityValidator,
       OrderFactory orderFactory,
       OrderDtoFactory orderDtoFactory) {
-    this.orderDetailsService = orderDetailsService;
+    this.orderService = orderService;
     this.integrityValidator = integrityValidator;
     this.orderFactory = orderFactory;
     this.orderDtoFactory = orderDtoFactory;
   }
 
-  public Uni<OrderDetailsDto> makeOrder(OrderDetailsDto orderDetailsDto) {
-    integrityValidator.validateOrder(orderDetailsDto).subscribe();
+  public Uni<OrderDto> makeOrder(OrderDto orderDto) {
+    integrityValidator.validateOrder(orderDto).subscribe();
 
-    OrderDetails orderDetails = orderFactory.toOrderModel(orderDetailsDto);
-    return orderDetailsService.saveOrderDetails(orderDetails)
+    OrderModel orderModel = orderFactory.toOrderModel(orderDto);
+    return orderService.saveOrder(orderModel)
         .onFailure()
         .transform(err -> {
           log.warn("Submitting and saving order failed: {}:\n {}", err.getMessage(),

@@ -1,11 +1,9 @@
 package com.example.javaopencommerce.item;
 
 
-import com.example.javaopencommerce.image.ImageEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"images"})
+@EqualsAndHashCode(exclude = {"imageIds"})
 class ItemDetailsEntity {
 
     private Long id;
@@ -26,7 +24,7 @@ class ItemDetailsEntity {
     private String description;
     private Long itemId;
     @Builder.Default
-    private final List<ImageEntity> images = new ArrayList<>();
+    private final List<Long> imageIds = new ArrayList<>();
 
     public ItemDetails toItemDetailsModel() {
         return ItemDetails.builder()
@@ -34,23 +32,17 @@ class ItemDetailsEntity {
                 .name(this.name)
                 .description(this.description)
                 .lang(this.lang)
-                .additionalImages(
-                        this.images.stream()
-                                .map(ImageEntity::toImageModel)
-                                .collect(Collectors.toList()))
+                .additionalImageIds(this.imageIds)
                 .build();
     }
 
     static ItemDetailsEntity fromSnapshot(ItemDetailsSnapshot detailsSnapshot, Long itemId) {
-        List<ImageEntity> imageEntities = detailsSnapshot.getAdditionalImages().stream()
-                .map(ImageEntity::fromSnapshot)
-                .collect(Collectors.toList());
         return ItemDetailsEntity.builder()
                 .id(detailsSnapshot.getId())
                 .description(detailsSnapshot.getDescription())
                 .name(detailsSnapshot.getName())
                 .lang(detailsSnapshot.getLang())
-                .images(imageEntities)
+                .imageIds(detailsSnapshot.getAdditionalImageIds())
                 .itemId(itemId)
                 .build();
     }

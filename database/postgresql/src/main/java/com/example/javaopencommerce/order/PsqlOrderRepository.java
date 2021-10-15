@@ -6,10 +6,10 @@ import java.util.List;
 
 interface PsqlOrderRepository {
 
-    Uni<List<OrderDetailsEntity>> findOrderDetailsByUserId(Long id);
+    Uni<List<OrderEntity>> findOrderByUserId(Long id);
 
-    Uni<OrderDetailsEntity> findOrderDetailsById(Long id);
+    Uni<OrderEntity> findOrderById(Long id);
 
-    Uni<OrderDetailsEntity> saveOrder(OrderDetailsEntity orderDetails, List<SimpleProductEntity> products);
+    Uni<OrderEntity> saveOrder(OrderEntity order, List<SimpleProductEntity> products);
 
 }

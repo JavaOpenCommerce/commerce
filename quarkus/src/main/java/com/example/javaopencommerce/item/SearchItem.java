@@ -13,7 +13,7 @@ class SearchItem {
 
     private final Long id;
     private final double valueGross;
-    private final ImageDto image;
+    private final Long imageId;
     private final Long producerId;
     private final List<SearchItemDetails> details;
 }

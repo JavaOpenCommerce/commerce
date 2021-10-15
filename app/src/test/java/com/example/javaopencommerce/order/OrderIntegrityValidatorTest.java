@@ -13,7 +13,7 @@ import com.example.javaopencommerce.item.ItemQueryRepository;
 import com.example.javaopencommerce.item.dtos.CardDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductDto;
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import com.example.javaopencommerce.order.exceptions.validation.AddressNotProvidedValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OrderStateValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OrderValidationException;
@@ -45,7 +45,7 @@ class OrderIntegrityValidatorTest {
         .products(getProductsList(1, 2))
         .cardValueGross(BigDecimal.valueOf(31.09))
         .build();
-    OrderDetailsDto order = OrderDetailsDto.builder()
+    OrderDto order = OrderDto.builder()
         .orderStatus("NEW")
         .paymentStatus("BEFORE_PAYMENT")
         .paymentMethod("MONEY_TRANSFER")
@@ -64,7 +64,7 @@ class OrderIntegrityValidatorTest {
         .products(getProductsList(1, 2))
         .cardValueGross(BigDecimal.valueOf(32.09))
         .build();
-    OrderDetailsDto order = OrderDetailsDto.builder()
+    OrderDto order = OrderDto.builder()
         .orderStatus("NEW")
         .paymentStatus("BEFORE_PAYMENT")
         .paymentMethod("MONEY_TRANSFER")
@@ -93,7 +93,7 @@ class OrderIntegrityValidatorTest {
         .products(getProductsList(6, 2))
         .cardValueGross(BigDecimal.valueOf(86.64))
         .build();
-    OrderDetailsDto order = OrderDetailsDto.builder()
+    OrderDto order = OrderDto.builder()
         .orderStatus("NEW")
         .paymentStatus("BEFORE_PAYMENT")
         .paymentMethod("MONEY_TRANSFER")
@@ -126,7 +126,7 @@ class OrderIntegrityValidatorTest {
         .products(getProductsList(1, 2))
         .cardValueGross(BigDecimal.valueOf(31.09))
         .build();
-    OrderDetailsDto order = OrderDetailsDto.builder()
+    OrderDto order = OrderDto.builder()
         .orderStatus("NEW")
         .paymentStatus("BEFORE_PAYMENT")
         .paymentMethod("MONEY_TRANSFER")
@@ -150,7 +150,7 @@ class OrderIntegrityValidatorTest {
         .products(getProductsList(1, 2))
         .cardValueGross(BigDecimal.valueOf(31.09))
         .build();
-    OrderDetailsDto order = OrderDetailsDto.builder()
+    OrderDto order = OrderDto.builder()
         .orderStatus("NEW")
         .paymentStatus("ALREADY_PAID")
         .paymentMethod("MONEY_TRANSFER")

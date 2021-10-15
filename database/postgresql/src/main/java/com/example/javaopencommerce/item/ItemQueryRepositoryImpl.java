@@ -3,7 +3,6 @@ package com.example.javaopencommerce.item;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.image.ImageDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
@@ -63,7 +62,7 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
         .stock(itemSnapshot.getStock())
         .vat((item.getVat().asDouble()))
         .valueGross(item.getValueGross().asDecimal())
-        .image(ImageDto.fromSnapshot(itemSnapshot.getImage()))
+        .imageId(itemSnapshot.getImageId())
         .build();
   }
 }

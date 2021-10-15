@@ -78,7 +78,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
             item.getStock(),
             item.getValueGross(),
             item.getVat(),
-            item.getImage().getId())
+            item.getImageId())
         ).map(rs -> {
           if (CommonRow.isRowSetEmpty(rs)) {
             return ItemEntity.builder().build();

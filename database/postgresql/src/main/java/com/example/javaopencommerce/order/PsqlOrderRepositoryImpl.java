@@ -15,34 +15,34 @@ import java.util.List;
 class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
 
   private final PgPool client;
-  private final OrderDetailsMapper detailsMapper;
+  private final OrderMapper detailsMapper;
 
   public PsqlOrderRepositoryImpl(PgPool client) {
     this.client = client;
-    this.detailsMapper = new OrderDetailsMapper();
+    this.detailsMapper = new OrderMapper();
   }
 
   @Override
-  public Uni<List<OrderDetailsEntity>> findOrderDetailsByUserId(Long id) {
+  public Uni<List<OrderEntity>> findOrderByUserId(Long id) {
     return this.client.preparedQuery("SELECT * FROM ORDER_DETAILS od WHERE od.userentity_id = $1")
         .execute(Tuple.of(id))
-        .map(this.detailsMapper::getOrderDetailsList);
+        .map(this.detailsMapper::getOrderEntityList);
   }
 
   @Override
-  public Uni<OrderDetailsEntity> findOrderDetailsById(Long id) {
+  public Uni<OrderEntity> findOrderById(Long id) {
     return this.client.preparedQuery("SELECT * FROM ORDER_DETAILS od WHERE od.id = $1")
         .execute(Tuple.of(id))
         .map(rs -> {
           if (isRowSetEmpty(rs)) {
-            return OrderDetailsEntity.builder().build();
+            return OrderEntity.builder().build();
           }
-          return this.detailsMapper.rowToOrderDetails(rs.iterator().next());
+          return this.detailsMapper.rowToOrder(rs.iterator().next());
         });
   }
 
   @Override
-  public Uni<OrderDetailsEntity> saveOrder(OrderDetailsEntity orderDetails,
+  public Uni<OrderEntity> saveOrder(OrderEntity order,
       List<SimpleProductEntity> products) {
     return client.withTransaction(conn -> {
 
@@ -52,24 +52,24 @@ class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
               .collect(toList()))
           .discardItems();
 
-      Uni<OrderDetailsEntity> orderDetailsEntityUni = saveOrder(conn, orderDetails);
+      Uni<OrderEntity> orderEntityUni = saveOrder(conn, order);
 
-      return Uni.combine().all().unis(orderDetailsEntityUni, voidStockUni)
-          .combinedWith((OrderDetailsEntity savedOrderDetails, Void stock) -> savedOrderDetails);
+      return Uni.combine().all().unis(orderEntityUni, voidStockUni)
+          .combinedWith((OrderEntity savedorder, Void stock) -> savedorder);
     });
   }
 
-  private Uni<OrderDetailsEntity> saveOrder(SqlConnection conn, OrderDetailsEntity orderDetails) {
+  private Uni<OrderEntity> saveOrder(SqlConnection conn, OrderEntity order) {
     Object[] args = {
-        orderDetails.getCreationDate(),
-        orderDetails.getOrderStatus(),
-        orderDetails.getPaymentMethod(),
-        orderDetails.getPaymentStatus(),
-        orderDetails.getValueGross(),
-        orderDetails.getValueNett(),
-        orderDetails.getShippingAddressId(),
-        orderDetails.getUserEntityId(),
-        orderDetails.getSimpleProductsJson()
+        order.getCreationDate(),
+        order.getOrderStatus(),
+        order.getPaymentMethod(),
+        order.getPaymentStatus(),
+        order.getValueGross(),
+        order.getValueNett(),
+        order.getShippingAddressId(),
+        order.getUserEntityId(),
+        order.getSimpleProductsJson()
     };
 
     return conn
@@ -82,9 +82,9 @@ class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
         .onItem()
         .transform(rs -> {
           if (isRowSetEmpty(rs)) {
-            return OrderDetailsEntity.builder().build();
+            return OrderEntity.builder().build();
           }
-          return this.detailsMapper.rowToOrderDetails(rs.iterator().next());
+          return this.detailsMapper.rowToOrder(rs.iterator().next());
         });
   }
 

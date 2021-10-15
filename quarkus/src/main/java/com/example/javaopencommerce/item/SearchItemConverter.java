@@ -17,7 +17,7 @@ interface SearchItemConverter {
 
         return SearchItem.builder()
                 .id(item.getId())
-                .image(ImageDto.fromSnapshot(item.getImage()))
+                .imageId(item.getImageId())
                 .details(searchItemDetails)
                 .valueGross(item.getValueGross().asDecimal().doubleValue())
                 .build();

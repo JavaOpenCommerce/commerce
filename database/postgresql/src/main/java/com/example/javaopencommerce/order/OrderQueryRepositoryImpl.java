@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.order.dtos.OrderDetailsDto;
+import com.example.javaopencommerce.order.dtos.OrderDto;
 import io.smallrye.mutiny.Uni;
 
 class OrderQueryRepositoryImpl implements OrderQueryRepository {
@@ -16,9 +16,9 @@ class OrderQueryRepositoryImpl implements OrderQueryRepository {
   }
 
   @Override
-  public Uni<OrderDetailsDto> findOrderDetailsById(Long id) {
-    return psqlOrderRepository.findOrderDetailsById(id)
-        .map(OrderDetailsEntity::toOrderDetailsModel)
+  public Uni<OrderDto> findOrderById(Long id) {
+    return psqlOrderRepository.findOrderById(id)
+        .map(OrderEntity::toOrderModel)
         .flatMap(orderDtoFactory::toDto);
   }
 }

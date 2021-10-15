@@ -15,7 +15,7 @@ public class Image {
         return new ImageSnapshot(this.id, this.alt, this.url);
     }
 
-    public static Image restore(ImageSnapshot imageSnapshot) {
+    static Image restore(ImageSnapshot imageSnapshot) {
         return Image.builder()
                 .id(imageSnapshot.getId())
                 .alt(imageSnapshot.getAlt())

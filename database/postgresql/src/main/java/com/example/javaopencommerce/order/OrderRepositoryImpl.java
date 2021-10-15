@@ -2,7 +2,7 @@ package com.example.javaopencommerce.order;
 
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.order.OrderDetails.SimpleProduct;
+import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
 import com.example.javaopencommerce.statics.JsonConverter;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
@@ -17,32 +17,32 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @Override
-  public Uni<List<OrderDetails>> findOrderDetailsByUserId(Long id) {
-    return psqlOrderRepository.findOrderDetailsByUserId(id)
+  public Uni<List<OrderModel>> findOrderByUserId(Long id) {
+    return psqlOrderRepository.findOrderByUserId(id)
         .map(od ->
             od.stream()
-                .map(OrderDetailsEntity::toOrderDetailsModel)
+                .map(OrderEntity::toOrderModel)
                 .collect(Collectors.toUnmodifiableList()));
   }
 
   @Override
-  public Uni<OrderDetails> findOrderDetailsById(Long id) {
-    return psqlOrderRepository.findOrderDetailsById(id)
-        .map(OrderDetailsEntity::toOrderDetailsModel);
+  public Uni<OrderModel> findOrderById(Long id) {
+    return psqlOrderRepository.findOrderById(id)
+        .map(OrderEntity::toOrderModel);
   }
 
   @Override
-  public Uni<OrderDetails> saveOrder(OrderDetails orderDetails) {
-    List<SimpleProductEntity> products = orderDetails.getSnapshot().getOrderBody().stream()
+  public Uni<OrderModel> saveOrder(OrderModel orderModel) {
+    List<SimpleProductEntity> products = orderModel.getSnapshot().getOrderBody().stream()
         .map(this::toSimpleProductEntity)
         .collect(Collectors.toUnmodifiableList());
-    return psqlOrderRepository.saveOrder(toOrderEntity(orderDetails), products)
-        .map(OrderDetailsEntity::toOrderDetailsModel);
+    return psqlOrderRepository.saveOrder(toOrderEntity(orderModel), products)
+        .map(OrderEntity::toOrderModel);
   }
 
-  private OrderDetailsEntity toOrderEntity(OrderDetails orderDetails) {
-    OrderSnapshot orderSnapshot = orderDetails.getSnapshot();
-    return OrderDetailsEntity.builder()
+  private OrderEntity toOrderEntity(OrderModel orderModel) {
+    OrderSnapshot orderSnapshot = orderModel.getSnapshot();
+    return OrderEntity.builder()
         .id(orderSnapshot.getId())
         .creationDate(orderSnapshot.getCreationDate())
         .orderStatus(orderSnapshot.getOrderStatus().name())

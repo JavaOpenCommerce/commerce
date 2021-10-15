@@ -1,11 +1,9 @@
 package com.example.javaopencommerce.item;
 
 import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
-import com.example.javaopencommerce.image.ImageEntity;
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import java.math.BigDecimal;
@@ -48,22 +46,12 @@ class ItemMapper {
             return ItemEntity.builder().build();
         }
 
-        Long imageId = row.getLong(IMAGE_ID);
-
-        ImageEntity image = ofNullable(imageId)
-                .map(id -> ImageEntity.builder()
-                        .id(imageId)
-                        .alt(row.getString(ALT))
-                        .url(row.getString(URL))
-                        .build())
-                .orElse(ImageEntity.builder().build());
-
         return ItemEntity.builder()
                 .stock(row.getInteger(STOCK))
                 .valueGross(BigDecimal.valueOf(row.getDouble(GROSS)))
                 .vat(row.getDouble(VAT))
                 .id(row.getLong(ID))
-                .image(image)
+                .imageId(row.getLong(IMAGE_ID))
                 .build();
     }
 

@@ -10,7 +10,7 @@ import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import java.util.List;
 
-class OrderDetailsMapper {
+class OrderMapper {
 
     private static final String ID = "id";
     private static final String CREATION_DATE = "creation_date";
@@ -24,22 +24,22 @@ class OrderDetailsMapper {
     private static final String USER_ID = "user_id";
     private static final String ORDER_DETAILS = "order_details";
 
-    public List<OrderDetailsEntity> getOrderDetailsList(RowSet<Row> rs) {
+    public List<OrderEntity> getOrderEntityList(RowSet<Row> rs) {
         if (CommonRow.isRowSetEmpty(rs)) {
             return emptyList();
         }
 
         return stream(rs.spliterator(), false)
-                .map(this::rowToOrderDetails)
+                .map(this::rowToOrder)
                 .collect(toList());
     }
 
-    public OrderDetailsEntity rowToOrderDetails(Row row) {
+    public OrderEntity rowToOrder(Row row) {
         if (row == null) {
-            return OrderDetailsEntity.builder().build();
+            return OrderEntity.builder().build();
         }
 
-        return OrderDetailsEntity.builder()
+        return OrderEntity.builder()
                 .id(row.getLong(ID))
                 .creationDate(row.getLocalDate(CREATION_DATE))
                 .paymentMethod(of(row.getString(PAYMENT_METHOD))
