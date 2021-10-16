@@ -1,49 +1,40 @@
 package com.example.javaopencommerce.category;
 
+import static java.util.stream.Collectors.toUnmodifiableList;
+
 import io.smallrye.mutiny.Uni;
-import io.vertx.mutiny.pgclient.PgPool;
-import io.vertx.mutiny.sqlclient.Tuple;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
 
+class CategoryRepositoryImpl implements CategoryRepository {
 
-@ApplicationScoped
-public class CategoryRepositoryImpl implements CategoryRepository {
+  private final PsqlCategoryRepository categoryRepository;
 
-    private final PgPool client;
-    private final CategoryMapper categoryMapper;
+  CategoryRepositoryImpl(
+      PsqlCategoryRepository categoryRepository) {
+    this.categoryRepository = categoryRepository;
+  }
 
-    public CategoryRepositoryImpl(PgPool client) {
-        this.client = client;
-        this.categoryMapper = new CategoryMapper();
-    }
+  @Override
+  public Uni<List<Category>> getAll() {
+    return categoryRepository.getAll()
+        .map(this::toModelList);
+  }
 
+  @Override
+  public Uni<List<Category>> getCategoriesByItemId(Long id) {
+    return categoryRepository.getCategoriesByItemId(id)
+        .map(this::toModelList);
+  }
 
-    @Override
-    public Uni<List<CategoryEntity>> getAll() {
-        return this.client.preparedQuery("SELECT * FROM category c " +
-                        "INNER JOIN category_details cd ON cd.category_id = c.id ")
-                .execute()
-                .map(this.categoryMapper::rowToCategoryList);
-    }
+  @Override
+  public Uni<List<Category>> getCategoriesListByIdList(List<Long> ids) {
+    return categoryRepository.getCategoriesListByIdList(ids)
+        .map(this::toModelList);
+  }
 
-    @Override
-    public Uni<List<CategoryEntity>> getCategoriesByItemId(Long id) {
-        return this.client.preparedQuery("SELECT * FROM category c " +
-                        "INNER JOIN category_details cd ON cd.category_id = c.id " +
-                        "INNER JOIN item_category ic ON ic.category_id = c.id " +
-                        "WHERE ic.item_id = $1")
-                .execute(Tuple.of(id))
-                .map(this.categoryMapper::rowToCategoryList);
-    }
-
-    @Override
-    public Uni<List<CategoryEntity>> getCategoriesListByIdList(List<Long> ids) {
-        return this.client.preparedQuery("SELECT * FROM category c " +
-                        "INNER JOIN category_details cd ON cd.category_id = c.id " +
-                        "INNER JOIN item_category ic ON ic.category_id = c.id " +
-                        "WHERE ic.item_id = ANY ($1)")
-                .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
-                .map(this.categoryMapper::rowToCategoryList);
-    }
+  private List<Category> toModelList(List<CategoryEntity> entities) {
+    return entities.stream()
+        .map(CategoryEntity::toCategoryModel)
+        .collect(toUnmodifiableList());
+  }
 }

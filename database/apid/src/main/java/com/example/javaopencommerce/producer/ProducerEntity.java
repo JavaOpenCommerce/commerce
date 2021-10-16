@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.producer;
 
-import com.example.javaopencommerce.image.ImageEntity;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +16,5 @@ public class ProducerEntity {
 
     private Long id;
     private List<ProducerDetailsEntity> details;
-    private ImageEntity image;
+    private Long imageId;
 }

@@ -2,8 +2,6 @@ package com.example.javaopencommerce.quarkus;
 
 import com.example.javaopencommerce.address.AddressRepository;
 import com.example.javaopencommerce.address.AddressRepositoryImpl;
-import com.example.javaopencommerce.category.CategoryRepository;
-import com.example.javaopencommerce.category.CategoryRepositoryImpl;
 import com.example.javaopencommerce.producer.ProducerMapper;
 import com.example.javaopencommerce.producer.ProducerRepository;
 import com.example.javaopencommerce.producer.ProducerRepositoryImpl;
@@ -39,11 +37,5 @@ public class QuarkusConfiguration {
     @ApplicationScoped
     UserRepository userRepository(PgPool sqlClient) {
         return new UserRepositoryImpl(sqlClient);
-    }
-
-    @Produces
-    @ApplicationScoped
-    CategoryRepository categoryRepository(PgPool sqlClient) {
-        return new CategoryRepositoryImpl(sqlClient);
     }
 }

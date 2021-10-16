@@ -12,10 +12,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CategoryDetailsEntity {
+class CategoryDetailsEntity {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Locale lang;
+  private Long id;
+  private String name;
+  private String description;
+  private Locale lang;
+
+  CategoryDetails toDetailsModel() {
+    return CategoryDetails.builder()
+        .id(id)
+        .name(name)
+        .description(description)
+        .lang(lang)
+        .build();
+  }
 }

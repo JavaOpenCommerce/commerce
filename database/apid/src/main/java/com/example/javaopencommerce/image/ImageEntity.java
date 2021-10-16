@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ImageEntity {
+
+class ImageEntity {
 
     private Long id;
     private String alt;

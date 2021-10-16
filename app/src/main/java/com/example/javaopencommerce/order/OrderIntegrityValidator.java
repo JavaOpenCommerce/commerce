@@ -19,9 +19,11 @@ import com.example.javaopencommerce.order.exceptions.validation.OutOfStockItemsV
 import io.smallrye.mutiny.Uni;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,14 +69,13 @@ class OrderIntegrityValidator {
     return itemQueryRepository.getItemsByIdList(itemIds);
   }
 
+  //TODO validate if address witch such id exists!!
   private List<OrderValidationException> validateOrderBasics(OrderDto order) {
        return Optional.ofNullable(order.getAddressId())
             .map(a -> Collections.<OrderValidationException>emptyList())
             .orElse(List.of(new AddressNotProvidedValidationException()));
-      return List.of(new AddressNotProvidedValidationException());
-    }
-    return emptyList();
   }
+  
 
   private List<OrderValidationException> validateOrderState(OrderDto order) {
     List<OrderValidationException> inaccuracies = new ArrayList<>();

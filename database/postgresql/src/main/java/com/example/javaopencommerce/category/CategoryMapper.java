@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class CategoryMapper {
+class CategoryMapper {
 
     private static final String ID = "id";
     private static final String CATEGORY_ID = "category_id";

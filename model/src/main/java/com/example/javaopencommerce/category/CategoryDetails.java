@@ -6,11 +6,20 @@ import lombok.Value;
 
 @Value
 @Builder
-public class CategoryDetails {
+class CategoryDetails {
 
-    Long id;
-    String name;
-    String description;
-    Locale lang;
+  Long id;
+  String name;
+  String description;
+  Locale lang;
+
+  CategoryDetailsSnapshot getSnapshot() {
+    return CategoryDetailsSnapshot.builder()
+        .id(id)
+        .name(name)
+        .description(description)
+        .lang(lang)
+        .build();
+  }
 
 }
