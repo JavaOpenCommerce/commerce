@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.SearchRequest;
-import com.example.javaopencommerce.category.Category;
 import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductDto;
@@ -133,9 +132,9 @@ public class ItemFacade {
       );
     }
 
-    private boolean isValidCategory(List<Category> categories) {
-        return categories.stream()
-            .flatMap(category -> category.getDetails().stream())
-            .noneMatch(details -> "shipping".equalsIgnoreCase(details.getName()));
-    }
+//    private boolean isValidCategory(List<Category> categories) {
+//        return categories.stream()
+//            .flatMap(category -> category.getDetails().stream())
+//            .noneMatch(details -> "shipping".equalsIgnoreCase(details.getName()));
+//    }
 }

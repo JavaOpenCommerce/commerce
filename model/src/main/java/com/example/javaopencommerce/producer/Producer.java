@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.producer;
 
-import com.example.javaopencommerce.image.Image;
 import java.util.List;
 import lombok.Builder;
 import lombok.Value;
@@ -10,7 +9,7 @@ import lombok.Value;
 public class Producer {
 
     Long id;
-    Image image;
+    Long imageId;
     List<ProducerDetails> details;
 
 }

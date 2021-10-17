@@ -15,7 +15,7 @@ import java.util.Locale;
 @QuarkusMain
 public class QuarkusApp {
 
-    public static void main(String... args) throws InterruptedException, IllegalAccessException, InstantiationException {
+    public static void main(String... args) throws InstantiationException {
         log.info("Running quarkus application with parameters: {}", Arrays.asList(args));
         if (UnixUtil.runningPrivilegedUser()) {
             throw new InstantiationException("This application cannot be run as a superuser (root) for security reasons.");

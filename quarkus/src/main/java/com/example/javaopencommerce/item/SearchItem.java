@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.item;
 
-import com.example.javaopencommerce.image.ImageDto;
 import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

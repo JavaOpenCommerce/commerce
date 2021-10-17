@@ -21,7 +21,6 @@ public class ProducerRepositoryImpl implements ProducerRepository {
     @Override
     public Uni<ProducerEntity> getProducerByItemId(Long id) {
         return this.client.preparedQuery("SELECT * FROM Producer p " +
-                        "INNER JOIN Image img ON p.image_id = img.id " +
                         "INNER JOIN producer_details pd ON pd.producer_id = p.id " +
                         "INNER JOIN Item i ON i.producer_id = p.id " +
                         "WHERE i.id = $1")
@@ -32,7 +31,6 @@ public class ProducerRepositoryImpl implements ProducerRepository {
     @Override
     public Uni<List<ProducerEntity>> getAll() {
         return this.client.preparedQuery("SELECT * FROM Producer p " +
-                        "INNER JOIN Image img ON p.image_id = img.id " +
                         "INNER JOIN producer_details pd ON pd.producer_id = p.id ")
                 .execute()
                 .map(this.producerMapper::rowToProducerList);
@@ -41,7 +39,6 @@ public class ProducerRepositoryImpl implements ProducerRepository {
     @Override
     public Uni<List<ProducerEntity>> getProducersListByIdList(List<Long> ids) {
         return this.client.preparedQuery("SELECT * FROM Producer p " +
-                        "INNER JOIN Image img ON p.image_id = img.id " +
                         "INNER JOIN producer_details pd ON pd.producer_id = p.id " +
                         "INNER JOIN Item i ON i.producer_id = p.id " +
                         "WHERE i.id = ANY ($1)")

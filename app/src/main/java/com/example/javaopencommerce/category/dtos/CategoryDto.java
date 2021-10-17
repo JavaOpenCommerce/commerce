@@ -1,6 +1,5 @@
-package com.example.javaopencommerce.category;
+package com.example.javaopencommerce.category.dtos;
 
-import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +12,4 @@ public class CategoryDto {
     private Long id;
     private String categoryName;
     private String description;
-    private Locale lang;
 }

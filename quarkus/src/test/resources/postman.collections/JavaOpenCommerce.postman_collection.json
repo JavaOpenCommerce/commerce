@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"itemId\": 2,\n    \"amount\": 2\n}",
+					"raw": "{\n    \"itemId\": 6,\n    \"amount\": 3\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -103,7 +103,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/card/remove?id=4",
+					"raw": "{{host}}/card/remove?id=2",
 					"host": [
 						"{{host}}"
 					],
@@ -114,7 +114,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "4"
+							"value": "2"
 						}
 					]
 				}
@@ -241,6 +241,82 @@
 						{
 							"key": "order",
 							"value": "DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order: /",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"paymentMethod\": \"MONEY_TRANSFER\",\n    \"orderStatus\": \"NEW\",\n    \"paymentStatus\": \"BEFORE_PAYMENT\",\n    \"addressId\": 1,\n    \"card\": {\n    \"cardValueGross\": 13.01,\n    \"cardValueNett\": 10.58,\n    \"products\": [\n        {\n            \"amount\": 1,\n            \"item\": {\n                \"id\": 4,\n                \"imageId\": 4,\n                \"name\": \"Testowy item\",\n                \"stock\": 218,\n                \"valueGross\": 1.45,\n                \"vat\": 0.23\n            },\n            \"valueGross\": 1.45,\n            \"valueNett\": 1.18\n        },\n        {\n            \"amount\": 1,\n            \"item\": {\n                \"id\": 2,\n                \"imageId\": 2,\n                \"name\": \"Bardzo fajny item\",\n                \"stock\": 333,\n                \"valueGross\": 11.56,\n                \"vat\": 0.23\n            },\n            \"valueGross\": 11.56,\n            \"valueNett\": 9.40\n        }\n    ]\n}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/order",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order: /{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "Categories: /all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/categories/all",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"categories",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categories : /?itemids=",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/categories?itemIds=2,3",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"categories"
+					],
+					"query": [
+						{
+							"key": "itemIds",
+							"value": "2,3"
 						}
 					]
 				}

@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
 import com.example.javaopencommerce.CommonRow;
-import com.example.javaopencommerce.image.ImageEntity;
 import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import java.util.ArrayList;
@@ -19,8 +18,6 @@ public class ProducerMapper {
 
     private static final String PRODUCER_ID = "producer_id";
     private static final String IMAGE_ID = "image_id";
-    private static final String ALT = "alt";
-    private static final String URL = "url";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
     private static final String LANG = "lang";
@@ -67,11 +64,7 @@ public class ProducerMapper {
         return ProducerEntity.builder()
                 .id(row.getLong(PRODUCER_ID))
                 .details(details)
-                .image(ImageEntity.builder()
-                        .id(row.getLong(IMAGE_ID))
-                        .alt(row.getString(ALT))
-                        .url(row.getString(URL))
-                        .build())
+                .imageId(row.getLong(IMAGE_ID))
                 .build();
     }
 

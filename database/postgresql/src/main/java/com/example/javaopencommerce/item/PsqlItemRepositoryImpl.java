@@ -15,7 +15,6 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
 
   private static final String SELECT_ITEM_BASE = "SELECT * FROM ITEM i";
   private static final String SELECT_DETAILS_BASE = "SELECT * FROM ITEM_DETAILS i";
-  private static final String IMAGE_JOIN = "INNER JOIN Image img ON i.image_id = img.id";
 
   PsqlItemRepositoryImpl(PgPool client) {
     this.client = client;
@@ -24,14 +23,14 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
 
   @Override
   public Uni<List<ItemEntity>> getAllItems() {
-    return this.client.preparedQuery(format("%s %s", SELECT_ITEM_BASE, IMAGE_JOIN))
+    return this.client.preparedQuery(SELECT_ITEM_BASE)
         .execute()
         .map(this.itemMapper::getItems);
   }
 
   @Override
   public Uni<ItemEntity> getItemById(Long id) {
-    return this.client.preparedQuery(format("%s %s WHERE i.id = $1", SELECT_ITEM_BASE, IMAGE_JOIN))
+    return this.client.preparedQuery(format("%s WHERE i.id = $1", SELECT_ITEM_BASE))
         .execute(Tuple.of(id))
         .map(rs -> {
           if (CommonRow.isRowSetEmpty(rs)) {
@@ -43,8 +42,8 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
 
   @Override
   public Uni<List<ItemEntity>> getItemsListByIdList(List<Long> ids) {
-    return this.client.preparedQuery(format("%s %s WHERE i.id = ANY ($1) ORDER BY i.id DESC",
-        SELECT_ITEM_BASE, IMAGE_JOIN))
+    return this.client.preparedQuery(format("%s WHERE i.id = ANY ($1) ORDER BY i.id DESC",
+        SELECT_ITEM_BASE))
         .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
         .map(this.itemMapper::getItems);
   }

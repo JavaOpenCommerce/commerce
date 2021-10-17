@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class Image {
+class Image {
 
     Long id;
     String alt;

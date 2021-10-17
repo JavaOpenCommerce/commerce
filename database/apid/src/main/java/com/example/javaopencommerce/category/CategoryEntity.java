@@ -2,6 +2,7 @@ package com.example.javaopencommerce.category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,10 +14,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class CategoryEntity {
+class CategoryEntity {
 
-    private Long id;
+  private Long id;
 
-    @Builder.Default
-    private List<CategoryDetailsEntity> details = new ArrayList<>();
+  @Builder.Default
+  private final List<CategoryDetailsEntity> details = new ArrayList<>();
+
+  Category toCategoryModel() {
+    return Category.builder()
+        .id(id)
+        .details(details.stream()
+            .map(CategoryDetailsEntity::toDetailsModel)
+            .collect(Collectors.toUnmodifiableList()))
+        .build();
+  }
 }
