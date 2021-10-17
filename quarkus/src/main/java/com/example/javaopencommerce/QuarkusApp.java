@@ -17,30 +17,32 @@ public class QuarkusApp {
 
     public static void main(String... args) throws InstantiationException {
         log.info("Running quarkus application with parameters: {}", Arrays.asList(args));
-        if (UnixUtil.runningPrivilegedUser()) {
-            throw new InstantiationException("This application cannot be run as a superuser (root) for security reasons.");
-        }
+
+        //TODO FIX!
+//        if (UnixUtil.runningPrivilegedUser()) {
+//            throw new InstantiationException("This application cannot be run as a superuser (root) for security reasons.");
+//        }
         Quarkus.run(args);
     }
 
-    private static class UnixUtil {
-        private static final long UID = 0L;
-        private static final String ROOT = "root";
-
-        static boolean runningPrivilegedUser() {
-            return isUnix() && (isPrivilegedUser() || isPrivilegedGroup() || ROOT.equalsIgnoreCase(System.getProperty("user.name", "undefined")));
-        }
-
-        static boolean isPrivilegedGroup() {
-            return UID == jdk.internal.misc.VM.getgid();
-        }
-        static boolean isPrivilegedUser() {
-            return UID == jdk.internal.misc.VM.geteuid();
-        }
-
-        static boolean isUnix() {
-            String os = System.getProperty("os.name", "undefined").toLowerCase(Locale.ROOT);
-            return os.contains("nux") || os.contains("mac");
-        }
-    }
+//    private static class UnixUtil {
+//        private static final long UID = 0L;
+//        private static final String ROOT = "root";
+//
+//        static boolean runningPrivilegedUser() {
+//            return isUnix() && (isPrivilegedUser() || isPrivilegedGroup() || ROOT.equalsIgnoreCase(System.getProperty("user.name", "undefined")));
+//        }
+//
+//        static boolean isPrivilegedGroup() {
+//            return UID == jdk.internal.misc.VM.getgid();
+//        }
+//        static boolean isPrivilegedUser() {
+//            return UID == jdk.internal.misc.VM.geteuid();
+//        }
+//
+//        static boolean isUnix() {
+//            String os = System.getProperty("os.name", "undefined").toLowerCase(Locale.ROOT);
+//            return os.contains("nux") || os.contains("mac");
+//        }
+//    }
 }

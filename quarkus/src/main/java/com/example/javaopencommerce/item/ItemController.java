@@ -18,21 +18,23 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ItemController {
 
-    private final ItemFacade storeService;
+    private final ItemQueryRepository queryRepository;
+    private final ItemQueryFacade queryFacade;
 
-    ItemController(ItemFacade storeService) {
-        this.storeService = storeService;
+    ItemController(ItemQueryRepository queryRepository,
+        ItemQueryFacade queryFacade) {
+        this.queryRepository = queryRepository;
+        this.queryFacade = queryFacade;
     }
-
 
     @GET
     @Path("/{id}")
     public Uni<ItemDetailsDto> getItemById(@PathParam("id") Long id) {
-        return this.storeService.getItemById(id);
+        return this.queryRepository.getItemById(id);
     }
 
     @GET
     public Uni<PageDto<ItemDto>> search(@BeanParam SearchRequest request) {
-        return this.storeService.getFilteredItems(request);
+        return this.queryFacade.getFilteredItems(request);
     }
 }

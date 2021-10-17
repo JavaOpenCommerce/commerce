@@ -23,7 +23,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
 
   @Override
   public Uni<List<ItemEntity>> getAllItems() {
-    return this.client.preparedQuery(SELECT_ITEM_BASE)
+    return this.client.preparedQuery(format("%s WHERE i.shipping = false", SELECT_ITEM_BASE))
         .execute()
         .map(this.itemMapper::getItems);
   }
@@ -49,8 +49,28 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   }
 
   @Override
+  public Uni<List<ItemEntity>> getAllShippingMethods() {
+    return this.client.preparedQuery(
+        format("%s WHERE i.shipping = true", SELECT_ITEM_BASE))
+        .execute()
+        .map(this.itemMapper::getItems);
+  }
+
+  @Override
+  public Uni<List<ItemDetailsEntity>> getAllDetailsForShippingMethods() {
+    return this.client.preparedQuery(
+        format("%s INNER JOIN item it ON i.item_id = it.id WHERE it.shipping = true",
+            SELECT_DETAILS_BASE))
+        .execute()
+        .map(this.itemMapper::getItemDetails);
+  }
+
+
+  @Override
   public Uni<List<ItemDetailsEntity>> getAllItemDetails() {
-    return this.client.preparedQuery(SELECT_DETAILS_BASE)
+    return this.client.preparedQuery(
+        format("%s INNER JOIN item it ON i.item_id = it.id WHERE it.shipping = false",
+            SELECT_DETAILS_BASE))
         .execute()
         .map(this.itemMapper::getItemDetails);
   }

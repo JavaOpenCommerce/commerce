@@ -28,7 +28,7 @@ class CardConfiguration {
 
   @Produces
   @ApplicationScoped
-  CardController cardController(CardFacade cardFacade) {
-    return new CardController(cardFacade);
+  CardController cardController(CardFacade cardFacade, ItemQueryRepository itemQueryRepository) {
+    return new CardController(cardFacade, itemQueryRepository);
   }
 }

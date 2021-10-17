@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
@@ -11,15 +12,17 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
 
   private final PsqlItemRepository psqlItemRepository;
   private final ItemDetailsLangResolver resolver;
+  private final ItemDtoFactory dtoFactory;
 
   ItemQueryRepositoryImpl(PsqlItemRepository psqlItemRepository,
-      ItemDetailsLangResolver resolver) {
+      ItemDetailsLangResolver resolver, ItemDtoFactory dtoFactory) {
     this.psqlItemRepository = psqlItemRepository;
     this.resolver = resolver;
+    this.dtoFactory = dtoFactory;
   }
 
   @Override
-  public Uni<ItemDto> getItemById(Long id) {
+  public Uni<ItemDetailsDto> getItemById(Long id) {
     Uni<List<ItemDetailsEntity>> itemDetails = psqlItemRepository.getItemDetailsListByItemId(id);
     Uni<ItemEntity> itemEntity = psqlItemRepository.getItemById(id);
 
@@ -28,7 +31,8 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
             .convertToItemModelList(singletonList(item), details))
         .map(items ->
             items.stream()
-                .map(this::toDto)
+                .map(Item::getSnapshot)
+                .map(dtoFactory::itemToDetailsDto)
                 .findFirst()
                 .orElseThrow(RuntimeException::new));
   }
@@ -43,7 +47,17 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
   }
 
   @Override
-  public Uni<List<ItemDto>> getItemsByIdList(List<Long> ids) {
+  public Uni<List<ItemDto>> getShippingMethods() {
+    Uni<List<ItemEntity>> allShippingMethods = psqlItemRepository.getAllShippingMethods();
+    Uni<List<ItemDetailsEntity>> allDetailsForShippingMethods = psqlItemRepository
+        .getAllDetailsForShippingMethods();
+    return Uni.combine().all().unis(allShippingMethods, allDetailsForShippingMethods)
+        .combinedWith(ItemDetailsMatcher::convertToItemModelList)
+        .map(items -> items.stream().map(this::toDto).collect(toList()));
+  }
+
+  @Override
+  public Uni<List<ItemDto>> getItemsListByIdList(List<Long> ids) {
     Uni<List<ItemEntity>> itemsList = psqlItemRepository.getItemsListByIdList(ids);
     Uni<List<ItemDetailsEntity>> itemDetailsList = psqlItemRepository
         .getItemDetailsListByIdList(ids);

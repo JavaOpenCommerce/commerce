@@ -11,6 +11,10 @@ interface PsqlItemRepository {
 
   Uni<List<ItemEntity>> getItemsListByIdList(List<Long> ids);
 
+  Uni<List<ItemEntity>> getAllShippingMethods();
+
+  Uni<List<ItemDetailsEntity>> getAllDetailsForShippingMethods();
+
   Uni<List<ItemDetailsEntity>> getAllItemDetails();
 
   Uni<List<ItemDetailsEntity>> getItemDetailsListByItemId(Long id);

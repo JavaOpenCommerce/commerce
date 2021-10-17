@@ -34,7 +34,7 @@ class OrderIntegrityValidatorTest {
   @BeforeEach
   void setUp() {
     orderIntegrityValidator = new OrderIntegrityValidator(itemQueryRepository);
-    when(itemQueryRepository.getItemsByIdList(any()))
+    when(itemQueryRepository.getItemsListByIdList(any()))
         .thenReturn(Uni.createFrom().item(getItemsList()));
   }
 

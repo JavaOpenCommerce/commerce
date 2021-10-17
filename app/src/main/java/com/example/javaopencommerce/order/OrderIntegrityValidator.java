@@ -66,7 +66,7 @@ class OrderIntegrityValidator {
         .filter(Objects::nonNull)
         .map(ItemDto::getId)
         .collect(toUnmodifiableList());
-    return itemQueryRepository.getItemsByIdList(itemIds);
+    return itemQueryRepository.getItemsListByIdList(itemIds);
   }
 
   //TODO validate if address witch such id exists!!

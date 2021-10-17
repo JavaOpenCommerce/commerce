@@ -43,7 +43,8 @@ create table item (
 	value_gross numeric(19,2),
 	vat double precision not null,
 	image_id bigint constraint image_id_fk references image,
-	producer_id bigint constraint producer_id_fk references producer
+	producer_id bigint constraint producer_id_fk references producer,
+	shipping bool not null default false
 );
 
 alter table ${flyway:defaultSchema}.item owner to ${flyway:user};

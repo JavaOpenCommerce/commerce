@@ -28,7 +28,7 @@ class OrderDtoFactory {
         .map(SimpleProduct::getItemId)
         .collect(toUnmodifiableList());
 
-    return itemQueryRepository.getItemsByIdList(itemIds)
+    return itemQueryRepository.getItemsListByIdList(itemIds)
         .map(items -> items.stream()
             .map(itemDto ->
                 itemToProductDto(
