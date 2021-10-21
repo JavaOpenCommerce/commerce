@@ -94,7 +94,7 @@ public class ItemQueryFacade {
 
   private PageDto<ItemDto> getItemModelPage(int pageIndex, int pageSize, int totalCount,
       List<ItemDto> items) {
-    int pageCount = (int) Math.ceil((double) totalCount / pageSize);
+    int pageCount = Double.valueOf(Math.ceil(totalCount / (double) pageSize)).intValue();
 
     return PageDto.<ItemDto>builder()
         .pageCount(pageCount)
