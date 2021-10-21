@@ -20,8 +20,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 @ApplicationScoped
 class SearchService implements ItemSearchService {
 
-    private WebClient client;
-
+    private final WebClient client;
 
     SearchService(Vertx vertx, ElasticAddress address) {
         this.client = WebClient.create(vertx, new WebClientOptions()

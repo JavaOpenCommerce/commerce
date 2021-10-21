@@ -18,49 +18,63 @@ import lombok.extern.jbosslog.JBossLog;
 @ApplicationScoped
 class ItemIndexingService {
 
-    private final WebClient client;
-    private final ItemService itemService;
+  private final WebClient client;
+  private final ItemRepository itemRepository;
 
 
-    ItemIndexingService(ItemService itemService, Vertx vertx, ElasticAddress address) {
-        this.itemService = itemService;
+  ItemIndexingService(Vertx vertx, ElasticAddress address,
+      ItemRepository itemRepository) {
+    this.itemRepository = itemRepository;
 
-        this.client = WebClient.create(vertx, new WebClientOptions()
-                .setDefaultPort(address.getPort())
-                .setDefaultHost(address.getHost()));
-    }
+    this.client = WebClient.create(vertx, new WebClientOptions()
+        .setDefaultPort(address.getPort())
+        .setDefaultHost(address.getHost()));
+  }
 
-    void fetchIndexOnStartup(@Observes StartupEvent ev) {
-        fetchItems();
-    }
+  void cleanAndFetchIndexOnStartup(@Observes StartupEvent ev) {
+    cleanIndex();
+    fetchItems();
+  }
 
-    void fetchItems() {
-        getSearchItems().subscribe().with(
-                items -> {
-                    for (SearchItem item : items) {
-                        sendItem(item);
-                    }
-                },
-            Throwable::printStackTrace);
-    }
+  private void cleanIndex() {
+    client.delete("/items").send(ar -> {
+      if (ar.succeeded()) {
+        log.infof("Item index successfully cleaned: %s", ar.result().bodyAsString());
+      } else {
+        log.infof("Problems during index cleanup: %s", ar.result().bodyAsJsonObject());
+      }
+    });
+  }
 
-    private void sendItem(SearchItem item) {
-        client.put("/items/_doc/" + item.getId())
-                .putHeader("Content-Length", "" + Json.encode(item).length())
-                .putHeader("Content-Type", "application/json")
-                .sendJson(item, ar -> {
-                    if (ar.succeeded()) {
-                        log.infof("Item with id %s, successfully indexed, %s", item.getId(), ar.result().bodyAsString());
-                    } else {
-                        log.info(ar.result().bodyAsJsonObject());
-                    }
-                });
-    }
+  private void fetchItems() {
+    getSearchItems().subscribe().with(
+        items -> {
+          for (SearchItem item : items) {
+            sendItem(item);
+          }
+        },
+        Throwable::printStackTrace);
+  }
 
-    private Uni<List<SearchItem>> getSearchItems() {
-        return itemService.getAllItems().map(
-                itemModels -> itemModels.stream().map(item -> item.getSnapshot())
-                        .map(SearchItemConverter::convertToSearchItem)
-                        .collect(toList()));
-    }
+  private void sendItem(SearchItem item) {
+    client.put("/items/_doc/" + item.getId())
+        .putHeader("Content-Length", "" + Json.encode(item).length())
+        .putHeader("Content-Type", "application/json")
+        .sendJson(item, ar -> {
+          if (ar.succeeded()) {
+            log.infof("Item with id %s, successfully indexed, %s", item.getId(),
+                ar.result().bodyAsString());
+          } else {
+            log.infof("Troubles during indexing item with id: %s, %s", item.getId(),
+                ar.result().bodyAsJsonObject());
+          }
+        });
+  }
+
+  private Uni<List<SearchItem>> getSearchItems() {
+    return itemRepository.getAllItems().map(
+        itemModels -> itemModels.stream().map(Item::getSnapshot)
+            .map(SearchItemConverter::convertToSearchItem)
+            .collect(toList()));
+  }
 }

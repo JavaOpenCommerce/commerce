@@ -29,7 +29,7 @@ INSERt INTO ${flyway:defaultSchema}.CATEGORY_DETAILS VALUES ('3', 'CATEGORY_DETA
 INSERt INTO ${flyway:defaultSchema}.CATEGORY_DETAILS VALUES ('4', 'CATEGORY_DETAILS', 'pl-PL', 'category4_PL', '4');
 INSERt INTO ${flyway:defaultSchema}.CATEGORY_DETAILS VALUES ('5', 'CATEGORY_DETAILS', 'en-US', 'category4_US', '4');
 
-INSERT INTO ${flyway:defaultSchema}.ITEM VALUES ('1', '1', '0.0', '0.23', '1', '1');
+INSERT INTO ${flyway:defaultSchema}.ITEM VALUES ('1', '99999999', '0.0', '0.23', '1', '1', 'true');
 
 INSERT INTO ${flyway:defaultSchema}.ITEM VALUES ('2', '333', '11.56', '0.23', '2', '2');
 INSERT INTO ${flyway:defaultSchema}.ITEM VALUES ('3', '0', '12.33', '0.23', '3', '3');

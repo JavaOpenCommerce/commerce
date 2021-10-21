@@ -4,10 +4,12 @@ import static com.example.javaopencommerce.statics.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.item.dtos.CardDto;
+import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductOrder;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
+import java.util.List;
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -29,10 +31,13 @@ public class CardController {
     private HttpServerRequest request;
 
     private final CardFacade cardFacade;
+    private final ItemQueryRepository itemQueryRepository;
     private static final String COOKIE_NAME = "CardCookie";
 
-    public CardController(CardFacade cardFacade) {
+    public CardController(CardFacade cardFacade,
+        ItemQueryRepository itemQueryRepository) {
         this.cardFacade = cardFacade;
+        this.itemQueryRepository = itemQueryRepository;
     }
 
 
@@ -89,6 +94,13 @@ public class CardController {
             log.info("Card flushed");
         }
         return simpleResponse(OK);
+    }
+
+    @GET
+    @Path("/shipping")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Uni<List<ItemDto>> getShippingMethods() {
+        return itemQueryRepository.getShippingMethods();
     }
 
     private boolean cookieCheck() {
