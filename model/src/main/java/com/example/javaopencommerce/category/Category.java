@@ -10,11 +10,13 @@ import lombok.Value;
 class Category {
 
   Long id;
+  Long parentId;
   List<CategoryDetails> details;
 
   CategorySnapshot getSnapshot() {
     return CategorySnapshot.builder()
         .id(id)
+        .parentId(parentId)
         .details(details.stream()
             .map(CategoryDetails::getSnapshot)
             .collect(Collectors.toUnmodifiableList()))

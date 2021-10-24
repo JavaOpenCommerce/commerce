@@ -47,6 +47,7 @@ class CategoryQueryRepositoryImpl implements CategoryQueryRepository {
 
     return CategoryDto.builder()
         .id(categorySnapshot.getId())
+        .parentId(categorySnapshot.getParentId())
         .categoryName(categoryDetailsSnapshot.getName())
         .description(categoryDetailsSnapshot.getDescription())
         .build();

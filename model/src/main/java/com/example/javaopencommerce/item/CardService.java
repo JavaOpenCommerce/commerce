@@ -70,7 +70,7 @@ class CardService {
             .map(Product::getSnapshot)
             .map(ProductSnapshot::getItemId).collect(toList());
 
-        return this.itemRepository.getItemsListByIdList(ids)
+        return this.itemRepository.getItemsByIdList(ids)
             .map(items -> {
               Map<Long, Product> cardProducts = new HashMap<>();
               for (ItemSnapshot im : items.stream().map(Item::getSnapshot).collect(toList())) {

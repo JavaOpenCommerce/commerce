@@ -9,7 +9,7 @@ interface ItemRepository {
 
   Uni<Item> getItemById(Long id);
 
-  Uni<List<Item>> getItemsListByIdList(List<Long> ids);
+  Uni<List<Item>> getItemsByIdList(List<Long> ids);
 
   Uni<Item> saveItem(Item item);
 

@@ -18,6 +18,7 @@ interface SearchItemConverter {
                 .id(item.getId())
                 .imageId(item.getImageId())
                 .details(searchItemDetails)
+                .categoryIds(emptyList()) //TODO !!
                 .valueGross(item.getValueGross().asDecimal().doubleValue())
                 .build();
     }

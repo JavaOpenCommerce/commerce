@@ -44,7 +44,7 @@ class CardRepositoryImpl implements CardRepository {
           List<Long> itemIds = prods.stream().map(CardProductEntity::getItemId)
               .collect(Collectors.toList());
 
-          Uni<List<Item>> itemsList = itemRepository.getItemsListByIdList(itemIds);
+          Uni<List<Item>> itemsList = itemRepository.getItemsByIdList(itemIds);
 
           return itemsList.map(items -> {
             List<Product> products = new ArrayList<>();

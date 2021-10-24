@@ -1,12 +1,12 @@
 {
   "settings": {
-    "number_of_shards": 3,
+    "number_of_shards": "3",
     "analysis": {
       "tokenizer": {
         "ngram_tokenizer": {
           "type": "edge_ngram",
-          "min_gram": 3,
-          "max_gram": 10,
+          "min_gram": "3",
+          "max_gram": "10",
           "token_chars": [
             "letter",
             "digit"

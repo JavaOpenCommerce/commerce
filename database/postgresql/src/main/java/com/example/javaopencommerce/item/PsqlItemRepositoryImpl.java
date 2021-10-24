@@ -41,11 +41,30 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   }
 
   @Override
-  public Uni<List<ItemEntity>> getItemsListByIdList(List<Long> ids) {
+  public Uni<List<ItemEntity>> getItemsByIdList(List<Long> ids) {
     return this.client.preparedQuery(format("%s WHERE i.id = ANY ($1) ORDER BY i.id DESC",
         SELECT_ITEM_BASE))
         .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
         .map(this.itemMapper::getItems);
+  }
+
+  @Override
+  public Uni<List<ItemEntity>> getItemsByCategoryId(Long id) {
+    return this.client.preparedQuery(format(
+        "%s INNER JOIN item_category ic ON ic.category_id = i.id WHERE ic.category = $1",
+        SELECT_ITEM_BASE))
+        .execute(Tuple.of(id))
+        .map(this.itemMapper::getItems);
+  }
+
+  @Override
+  public Uni<List<ItemDetailsEntity>> getItemsDetailsListByCategoryId(Long id) {
+    return this.client.preparedQuery(format(
+        "%s INNER JOIN item it ON i.item_id = it.id "
+            + "INNER JOIN item_category ic ON ic.category_id = it.id WHERE ic.category = $1",
+        SELECT_DETAILS_BASE))
+        .execute(Tuple.of(id))
+        .map(this.itemMapper::getItemDetails);
   }
 
   @Override

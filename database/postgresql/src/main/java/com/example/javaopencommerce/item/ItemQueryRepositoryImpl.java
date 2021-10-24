@@ -47,6 +47,16 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
   }
 
   @Override
+  public Uni<List<ItemDto>> getItemsByCategoryId(Long id) {
+    Uni<List<ItemEntity>> itemsList = psqlItemRepository.getItemsByCategoryId(id);
+    Uni<List<ItemDetailsEntity>> itemsDetailsList = psqlItemRepository
+        .getItemsDetailsListByCategoryId(id);
+    return Uni.combine().all().unis(itemsList, itemsDetailsList)
+        .combinedWith(ItemDetailsMatcher::convertToItemModelList)
+        .map(items -> items.stream().map(this::toDto).collect(toList()));
+  }
+
+  @Override
   public Uni<List<ItemDto>> getShippingMethods() {
     Uni<List<ItemEntity>> allShippingMethods = psqlItemRepository.getAllShippingMethods();
     Uni<List<ItemDetailsEntity>> allDetailsForShippingMethods = psqlItemRepository
@@ -57,8 +67,8 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
   }
 
   @Override
-  public Uni<List<ItemDto>> getItemsListByIdList(List<Long> ids) {
-    Uni<List<ItemEntity>> itemsList = psqlItemRepository.getItemsListByIdList(ids);
+  public Uni<List<ItemDto>> getItemsByIdList(List<Long> ids) {
+    Uni<List<ItemEntity>> itemsList = psqlItemRepository.getItemsByIdList(ids);
     Uni<List<ItemDetailsEntity>> itemDetailsList = psqlItemRepository
         .getItemDetailsListByIdList(ids);
 

@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 class CategoryEntity {
 
   private Long id;
+  private Long parentId;
 
   @Builder.Default
   private final List<CategoryDetailsEntity> details = new ArrayList<>();
@@ -24,6 +25,7 @@ class CategoryEntity {
   Category toCategoryModel() {
     return Category.builder()
         .id(id)
+        .parentId(parentId)
         .details(details.stream()
             .map(CategoryDetailsEntity::toDetailsModel)
             .collect(Collectors.toUnmodifiableList()))

@@ -10,6 +10,7 @@ import lombok.Data;
 public class CategoryDto {
 
     private Long id;
+    private Long parentId;
     private String categoryName;
     private String description;
 }
