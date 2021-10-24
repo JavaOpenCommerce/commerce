@@ -25,7 +25,6 @@ public class ItemQueryFacade {
   }
 
   public Uni<PageDto<ItemDto>> getFilteredItems(SearchRequest request) {
-
     return getFilteredItemsPage(request)
         .map(itemDtoPage -> {
           sortItems(itemDtoPage.getItems(), request);
@@ -57,7 +56,7 @@ public class ItemQueryFacade {
   private Uni<PageDto<ItemDto>> getFilteredItemsPage(SearchRequest request) {
     return getFilteredResults(request).flatMap(results ->
         this.queryRepository
-            .getItemsListByIdList(results.getLeft())
+            .getItemsByIdList(results.getLeft())
             .map(items ->
               getItemModelPage(request.getPageNum(), request.getPageSize(),
                   results.getRight(), items)));

@@ -33,9 +33,9 @@ class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Uni<List<Item>> getItemsListByIdList(List<Long> ids) {
+    public Uni<List<Item>> getItemsByIdList(List<Long> ids) {
         Uni<List<ItemDetailsEntity>> details = repository.getItemDetailsListByIdList(ids);
-        Uni<List<ItemEntity>> items = repository.getItemsListByIdList(ids);
+        Uni<List<ItemEntity>> items = repository.getItemsByIdList(ids);
 
         return Uni.combine().all().unis(items, details)
             .combinedWith(ItemDetailsMatcher::convertToItemModelList);

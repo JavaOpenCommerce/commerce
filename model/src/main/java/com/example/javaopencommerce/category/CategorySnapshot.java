@@ -9,5 +9,6 @@ import lombok.Value;
 class CategorySnapshot {
 
   Long id;
+  Long parentId;
   List<CategoryDetailsSnapshot> details;
 }

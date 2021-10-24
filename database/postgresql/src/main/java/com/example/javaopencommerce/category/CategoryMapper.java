@@ -19,6 +19,7 @@ class CategoryMapper {
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
     private static final String LANG = "lang";
+    private static final String PARENT_ID = "parent_id";
 
     public List<CategoryEntity> rowToCategoryList(RowSet<Row> rs) {
         if (CommonRow.isRowSetEmpty(rs)) {
@@ -29,6 +30,7 @@ class CategoryMapper {
         for (Row row : rs) {
             CategoryEntity category = CategoryEntity.builder()
                     .id(row.getLong(CATEGORY_ID))
+                    .parentId(row.getLong(PARENT_ID))
                     .build();
 
             ofNullable(categories.putIfAbsent(category.getId(), category))

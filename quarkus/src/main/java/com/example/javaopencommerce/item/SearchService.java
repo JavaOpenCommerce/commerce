@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.item;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
 import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.elasticsearch.ElasticAddress;
@@ -40,7 +41,7 @@ class SearchService implements ItemSearchService {
                         () -> matchQuery("producerId", request.getProducerId())))
                 .must(ifTrueOrElse(request.getSearchQuery() == null || request.getSearchQuery().isEmpty(),
                         QueryBuilders::matchAllQuery,
-                        () -> matchQuery("details.name", request.getSearchQuery()))))
+                        () -> multiMatchQuery(request.getSearchQuery(), "details.name", "details.description"))))
                 .from(request.getPageSize() * request.getPageNum())
                 .size(request.getPageSize())
                 .toString();

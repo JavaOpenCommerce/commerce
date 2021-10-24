@@ -11,8 +11,10 @@ public interface ItemQueryRepository {
 
   Uni<List<ItemDto>> getAllItems();
 
+  Uni<List<ItemDto>> getItemsByCategoryId(Long id);
+
   Uni<List<ItemDto>> getShippingMethods();
 
-  Uni<List<ItemDto>> getItemsListByIdList(List<Long> ids);
+  Uni<List<ItemDto>> getItemsByIdList(List<Long> ids);
 
 }
