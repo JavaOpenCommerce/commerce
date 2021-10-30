@@ -21,14 +21,14 @@ class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @Override
-  public Uni<List<Category>> getCategoriesByItemId(Long id) {
-    return categoryRepository.getCategoriesByItemId(id)
+  public Uni<List<Category>> getCategoriesForItem(Long id) {
+    return categoryRepository.getCategoriesForItem(id)
         .map(this::toModelList);
   }
 
   @Override
-  public Uni<List<Category>> getCategoriesListByIdList(List<Long> ids) {
-    return categoryRepository.getCategoriesListByIdList(ids)
+  public Uni<List<Category>> getCategoriesForItems(List<Long> ids) {
+    return categoryRepository.getCategoriesForItems(ids)
         .map(this::toModelList);
   }
 

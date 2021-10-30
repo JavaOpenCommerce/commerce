@@ -24,13 +24,8 @@ class CategoryQueryRepositoryImpl implements CategoryQueryRepository {
   }
 
   @Override
-  public Uni<List<CategoryDto>> getCategoriesByItemId(Long id) {
-    return categoryRepository.getCategoriesByItemId(id).map(this::getDtoList);
-  }
-
-  @Override
-  public Uni<List<CategoryDto>> getCategoriesListByIdList(List<Long> ids) {
-    return categoryRepository.getCategoriesListByIdList(ids).map(this::getDtoList);
+  public Uni<List<Long>> getCategoryIdsByItemId(Long id) {
+    return categoryRepository.getCategoryIdsForItem(id);
   }
 
   private List<CategoryDto> getDtoList(List<CategoryEntity> entities) {

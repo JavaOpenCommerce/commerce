@@ -26,6 +26,7 @@ dependencies {
 
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation 'io.quarkus:quarkus-resteasy-mutiny'
+    implementation "io.smallrye.reactive:mutiny"
     implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'
     implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-pg-client'
 

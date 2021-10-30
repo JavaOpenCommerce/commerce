@@ -7,7 +7,9 @@ interface PsqlCategoryRepository {
 
     Uni<List<CategoryEntity>> getAll();
 
-    Uni<List<CategoryEntity>> getCategoriesByItemId(Long id);
+    Uni<List<CategoryEntity>> getCategoriesForItem(Long id);
 
-    Uni<List<CategoryEntity>> getCategoriesListByIdList(List<Long> ids);
+    Uni<List<Long>> getCategoryIdsForItem(Long id);
+
+    Uni<List<CategoryEntity>> getCategoriesForItems(List<Long> ids);
 }

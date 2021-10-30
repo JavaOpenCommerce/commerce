@@ -8,8 +8,6 @@ public interface CategoryQueryRepository {
 
   Uni<List<CategoryDto>> getAll();
 
-  Uni<List<CategoryDto>> getCategoriesByItemId(Long id);
-
-  Uni<List<CategoryDto>> getCategoriesListByIdList(List<Long> ids);
+  Uni<List<Long>> getCategoryIdsByItemId(Long id);
 
 }

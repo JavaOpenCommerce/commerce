@@ -73,7 +73,10 @@ INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('1', '0');
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('1', '1');
 
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('2', '0');
+INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('2', '4');
+
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('3', '0');
+INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('3', '5');
 
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('4', '0');
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('4', '2');
