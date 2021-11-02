@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.util.Optional.empty;
 import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.category.CategoryQueryRepository;
 import com.example.javaopencommerce.elasticsearch.ElasticAddress;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
@@ -29,12 +30,15 @@ class ItemIndexingService {
   private final WebClient client;
   private final ItemRepository itemRepository;
   private final ObjectMapper mapper;
+  private final CategoryQueryRepository categoryQueryRepository;
 
 
   ItemIndexingService(Vertx vertx,
       ElasticAddress address,
-      ItemRepository itemRepository) {
+      ItemRepository itemRepository,
+      CategoryQueryRepository categoryQueryRepository) {
     this.itemRepository = itemRepository;
+    this.categoryQueryRepository = categoryQueryRepository;
     this.mapper = new ObjectMapper();
 
     this.client = WebClient.create(vertx, new WebClientOptions()
@@ -136,6 +140,17 @@ class ItemIndexingService {
     return itemRepository.getAllItems().map(
         itemModels -> itemModels.stream().map(Item::getSnapshot)
             .map(SearchItemConverter::convertToSearchItem)
-            .collect(toList()));
+            .collect(toList()))
+        .flatMap(this::enrichSearchItemsWithCategoryIds);
+  }
+
+  private Uni<List<SearchItem>> enrichSearchItemsWithCategoryIds(List<SearchItem> items) {
+    List<Uni<SearchItem>> updatedItems = items.stream()
+        .map(item -> categoryQueryRepository.getCategoryIdsByItemId(item.getId()).map(ids -> {
+          item.setCategoryIds(ids);
+          return item;
+        })).collect(toList());
+    return Uni.combine().all().unis(updatedItems)
+        .combinedWith(SearchItem.class, unis -> unis);
   }
 }

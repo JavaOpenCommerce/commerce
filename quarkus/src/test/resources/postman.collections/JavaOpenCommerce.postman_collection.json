@@ -179,8 +179,17 @@
 		{
 			"name": "Item: /items",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{host}}/items",
 					"host": [
@@ -196,21 +205,24 @@
 		{
 			"name": "Item: /items + query",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"searchQuery\": \"16GB\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{host}}/items?searchQuery=fajny",
+					"raw": "{{host}}/items",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"items"
-					],
-					"query": [
-						{
-							"key": "searchQuery",
-							"value": "fajny"
-						}
 					]
 				}
 			},
@@ -219,29 +231,50 @@
 		{
 			"name": "Item: /items + pagination",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"pageSize\": 3,\n    \"pageNum\": 1,\n    \"order\": \"DESC\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{host}}/items?pageSize=3&pageNum=1&order=DESC",
+					"raw": "{{host}}/items",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"items"
-					],
-					"query": [
-						{
-							"key": "pageSize",
-							"value": "3"
-						},
-						{
-							"key": "pageNum",
-							"value": "1"
-						},
-						{
-							"key": "order",
-							"value": "DESC"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Item: /items - by category",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"categoryIds\": \"3,5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
 						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"items"
 					]
 				}
 			},
@@ -301,22 +334,23 @@
 			"response": []
 		},
 		{
-			"name": "Categories : /?itemids=",
+			"name": "Categories: /sub",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/categories?itemIds=2,3",
+					"raw": "{{host}}/categories/sub?id=0",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"categories"
+						"categories",
+						"sub"
 					],
 					"query": [
 						{
-							"key": "itemIds",
-							"value": "2,3"
+							"key": "id",
+							"value": "0"
 						}
 					]
 				}

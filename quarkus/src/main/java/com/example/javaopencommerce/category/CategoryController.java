@@ -4,9 +4,7 @@ import static java.util.Collections.emptyList;
 
 import com.example.javaopencommerce.category.dtos.CategoryDto;
 import io.smallrye.mutiny.Uni;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,17 +31,9 @@ public class CategoryController {
   }
 
   @GET
-  public Uni<List<CategoryDto>> getAllCategoriesThatMatchItemsWithIds(@QueryParam("itemIds") String itemIds) {
-    if (itemIds == null || itemIds.isEmpty()) {
-      return Uni.createFrom().item(emptyList());
-    }
-    try {
-      List<Long> itemIdsList = Arrays.stream(itemIds.split(","))
-          .map(Long::parseLong)
-          .collect(Collectors.toList());
-      return queryRepository.getCategoriesListByIdList(itemIdsList);
-    } catch (NumberFormatException e) {
-      throw new IllegalArgumentException("Illegal/corrupted itemsIds query param!");
-    }
+  @Path("/sub")
+  public Uni<List<CategoryDto>> getAllSubcategoriesOf(@QueryParam("id") Long categoryId) {
+    //TODO
+    return Uni.createFrom().item(emptyList());
   }
 }

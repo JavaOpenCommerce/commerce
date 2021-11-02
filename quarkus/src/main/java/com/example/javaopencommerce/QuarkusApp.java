@@ -2,10 +2,8 @@ package com.example.javaopencommerce;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.annotations.QuarkusMain;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Arrays;
-import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This file is not necessary. It's here, only to act as a starting point for IDE to run project.

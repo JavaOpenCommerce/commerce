@@ -1,13 +1,12 @@
 package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.PageDto;
-import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
-import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -33,8 +32,8 @@ public class ItemController {
         return this.queryRepository.getItemById(id);
     }
 
-    @GET
-    public Uni<PageDto<ItemDto>> search(@BeanParam SearchRequest request) {
+    @POST
+    public Uni<PageDto<ItemDto>> search(SearchRequest request) {
         return this.queryFacade.getFilteredItems(request);
     }
 }

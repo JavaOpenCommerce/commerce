@@ -5,7 +5,6 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 import com.example.javaopencommerce.PageDto;
-import com.example.javaopencommerce.SearchRequest;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;
 import io.vertx.core.json.JsonObject;
