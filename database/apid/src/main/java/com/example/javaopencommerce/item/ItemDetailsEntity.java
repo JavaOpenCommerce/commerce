@@ -1,6 +1,8 @@
 package com.example.javaopencommerce.item;
 
 
+import com.example.javaopencommerce.item.Item.ItemDetails;
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

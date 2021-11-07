@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.lang.String.format;
 
 import com.example.javaopencommerce.CommonRow;
+import com.example.javaopencommerce.exception.EntityNotFoundException;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
@@ -34,7 +35,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
         .execute(Tuple.of(id))
         .map(rs -> {
           if (CommonRow.isRowSetEmpty(rs)) {
-            return ItemEntity.builder().build();
+            throw new EntityNotFoundException("Item", id);
           }
           return this.itemMapper.rowToItem(rs.iterator().next());
         });
@@ -148,7 +149,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
         .execute(Tuple.of(id))
         .map(rs -> {
           if (CommonRow.isRowSetEmpty(rs)) {
-            return -1;
+            throw new EntityNotFoundException("Item", id);
           }
           return rs.iterator().next().getInteger("stock");
         });

@@ -5,6 +5,7 @@ import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
+import com.example.javaopencommerce.item.Item.ItemDetails;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

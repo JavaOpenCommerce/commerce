@@ -3,6 +3,7 @@ package com.example.javaopencommerce.address;
 
 import static com.example.javaopencommerce.CommonRow.isRowSetEmpty;
 
+import com.example.javaopencommerce.exception.EntityNotFoundException;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Tuple;
@@ -33,7 +34,7 @@ public class AddressRepositoryImpl implements AddressRepository {
                 .execute(Tuple.of(id))
                 .map(rs -> {
                     if (isRowSetEmpty(rs)) {
-                        return AddressEntity.builder().build();
+                        throw new EntityNotFoundException("Address", id);
                     }
                     return this.addressMapper.rowToAddress(rs.iterator().next());
                 });

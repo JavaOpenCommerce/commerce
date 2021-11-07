@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.item;
 
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
 import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 

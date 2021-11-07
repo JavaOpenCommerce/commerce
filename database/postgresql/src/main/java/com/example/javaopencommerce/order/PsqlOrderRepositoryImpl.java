@@ -3,6 +3,7 @@ package com.example.javaopencommerce.order;
 import static com.example.javaopencommerce.CommonRow.isRowSetEmpty;
 import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.exception.EntityNotFoundException;
 import io.smallrye.mutiny.Uni;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.Row;
@@ -35,7 +36,7 @@ class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
         .execute(Tuple.of(id))
         .map(rs -> {
           if (isRowSetEmpty(rs)) {
-            return OrderEntity.builder().build();
+            throw new EntityNotFoundException("Order", id);
           }
           return this.detailsMapper.rowToOrder(rs.iterator().next());
         });

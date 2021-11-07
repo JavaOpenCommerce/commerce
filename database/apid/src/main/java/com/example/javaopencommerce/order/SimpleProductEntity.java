@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleProductEntity {
+class SimpleProductEntity {
   private Long itemId;
   private String name;
   private Integer amount;

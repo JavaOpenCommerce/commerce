@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
+import com.example.javaopencommerce.item.Item.ItemDetails;
 import java.util.List;
 
 interface ItemDetailsMatcher {
