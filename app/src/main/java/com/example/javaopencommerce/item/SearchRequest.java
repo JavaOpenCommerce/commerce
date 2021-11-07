@@ -19,8 +19,9 @@ public class SearchRequest {
     private String sortBy = "name";
 
     private String searchQuery = "";
-    private double priceMin = 0;
-    private double priceMax = Double.MAX_VALUE;
+
+    private Double priceMin;
+    private Double priceMax;
 
     @Setter(AccessLevel.NONE)
     private int[] categoryIds = new int[] {0};
