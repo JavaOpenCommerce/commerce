@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.item;
 
 import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
 import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
 
 import com.example.javaopencommerce.elasticsearch.ElasticAddress;
@@ -31,6 +32,12 @@ class SearchService implements ItemSearchService {
   public Uni<JsonObject> searchItemsBySearchRequest(SearchRequest request) {
     SearchSourceBuilder ssb = new SearchSourceBuilder();
     String query = ssb.query(QueryBuilders.boolQuery()
+        .must(ifTrueOrElse(request.getPriceMin() == null,
+            QueryBuilders::matchAllQuery,
+            () -> rangeQuery("valueGross").gte(request.getPriceMin())))
+        .must(ifTrueOrElse(request.getPriceMax() == null,
+            QueryBuilders::matchAllQuery,
+            () -> rangeQuery("valueGross").lte(request.getPriceMax())))
         .must(ifTrueOrElse(isEmpty(request),
             QueryBuilders::matchAllQuery,
             () -> termsQuery("categoryIds", request.getCategoryIds())))

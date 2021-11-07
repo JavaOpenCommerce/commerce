@@ -281,6 +281,32 @@
 			"response": []
 		},
 		{
+			"name": "Item: /items + price range",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"priceMin\": 1998,\n    \"priceMax\": 4000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/items",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Order: /",
 			"request": {
 				"method": "POST",
