@@ -11,8 +11,14 @@ class ItemConfiguration {
 
   @Produces
   @ApplicationScoped
-  ItemRepository itemRepository(PgPool sqlClient) {
-    return new ItemRepositoryImpl(new PsqlItemRepositoryImpl(sqlClient));
+  PsqlItemRepository psqlItemRepository(PgPool sqlClient) {
+    return new PsqlItemRepositoryImpl(sqlClient);
+  }
+
+  @Produces
+  @ApplicationScoped
+  ItemRepository itemRepository(PsqlItemRepository repository) {
+    return new ItemRepositoryImpl(repository);
   }
 
   @Produces
@@ -29,10 +35,9 @@ class ItemConfiguration {
 
   @Produces
   @ApplicationScoped
-  ItemQueryRepository itemQueryRepository(PgPool sqlClient,
+  ItemQueryRepository itemQueryRepository(PsqlItemRepository repository,
       ItemDetailsLangResolver languageResolver, ItemDtoFactory factory) {
-    return new ItemQueryRepositoryImpl(new PsqlItemRepositoryImpl(sqlClient), languageResolver,
-        factory);
+    return new ItemQueryRepositoryImpl(repository, languageResolver, factory);
   }
 
   @Produces
@@ -44,8 +49,7 @@ class ItemConfiguration {
   @Produces
   @ApplicationScoped
   ItemFacade itemFacade(ItemService itemService) {
-    return new ItemFacade(
-        itemService);
+    return new ItemFacade(itemService);
   }
 
   @Produces

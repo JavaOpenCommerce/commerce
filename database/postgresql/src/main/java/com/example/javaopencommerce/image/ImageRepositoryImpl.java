@@ -1,9 +1,6 @@
 package com.example.javaopencommerce.image;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
-
 import io.smallrye.mutiny.Uni;
-import java.util.List;
 
 class ImageRepositoryImpl implements ImageRepository {
 
@@ -11,22 +8,6 @@ class ImageRepositoryImpl implements ImageRepository {
 
   ImageRepositoryImpl(PsqlImageRepository imageRepository) {
     this.imageRepository = imageRepository;
-  }
-
-  @Override
-  public Uni<List<Image>> getImagesByIdList(List<Long> ids) {
-    return imageRepository.getImagesByIdList(ids)
-        .map(images ->
-            images.stream()
-                .map(ImageEntity::toImageModel)
-                .collect(toUnmodifiableList())
-        );
-  }
-
-  @Override
-  public Uni<Image> getImageById(Long id) {
-    return imageRepository.getImageById(id)
-        .map(ImageEntity::toImageModel);
   }
 
   @Override

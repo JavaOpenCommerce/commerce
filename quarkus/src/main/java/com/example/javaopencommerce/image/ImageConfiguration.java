@@ -14,4 +14,17 @@ class ImageConfiguration {
   ImageRepository imageRepository(PgPool client) {
     return new ImageRepositoryImpl(new PsqlImageRepositoryImpl(client));
   }
+
+
+  @Produces
+  @ApplicationScoped
+  ImageQueryRepository itemQueryRepository(PgPool sqlClient) {
+    return new ImageQueryRepositoryImpl(new PsqlImageRepositoryImpl(sqlClient));
+  }
+
+  @Produces
+  @ApplicationScoped
+  ImageController imageController(ImageQueryRepository queryRepository) {
+    return new ImageController(queryRepository);
+  }
 }

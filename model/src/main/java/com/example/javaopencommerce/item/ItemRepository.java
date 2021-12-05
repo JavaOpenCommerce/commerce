@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.item;
 
+import com.example.javaopencommerce.item.Item.ItemDetails;
 import io.smallrye.mutiny.Uni;
 import java.util.List;
 

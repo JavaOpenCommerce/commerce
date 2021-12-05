@@ -5,6 +5,7 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.LanguageResolver;
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import java.util.List;
 

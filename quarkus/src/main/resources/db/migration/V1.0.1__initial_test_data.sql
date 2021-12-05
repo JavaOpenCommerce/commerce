@@ -93,5 +93,5 @@ INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY VALUES ('7', '3');
 INSERT INTO ${flyway:defaultSchema}.USERS VALUES ('1','testmail@test.com','TestUser','TestName');
 
 
-INSERT INTO ${flyway:defaultSchema}.ADDRESS VALUES ('1', 'TestCity', '666', 'TestStreet', '00-000', '1');
+INSERT INTO ${flyway:defaultSchema}.ADDRESS VALUES ('1', 'TestCity', '666', 'TestStreet', '00-000');
 

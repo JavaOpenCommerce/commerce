@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,6 @@ interface SearchItemConverter {
                 .id(item.getId())
                 .imageId(item.getImageId())
                 .details(searchItemDetails)
-                .categoryIds(emptyList()) //TODO !!
                 .valueGross(item.getValueGross().asDecimal().doubleValue())
                 .build();
     }

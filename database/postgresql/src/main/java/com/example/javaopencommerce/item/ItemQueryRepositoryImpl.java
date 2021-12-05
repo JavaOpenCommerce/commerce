@@ -3,6 +3,7 @@ package com.example.javaopencommerce.item;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
 import com.example.javaopencommerce.item.dtos.ItemDetailsDto;
 import com.example.javaopencommerce.item.dtos.ItemDto;
 import io.smallrye.mutiny.Uni;

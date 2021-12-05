@@ -6,7 +6,9 @@ import static java.util.Optional.ofNullable;
 
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -57,5 +59,32 @@ class Item {
 
     Vat getVat() {
         return vat;
+    }
+
+    @lombok.Value
+    @Builder
+    static class ItemDetails {
+
+        Long id;
+        String name;
+        String description;
+        Locale lang;
+        List<Long> additionalImageIds;
+
+        ItemDetailsSnapshot getSnapshot() {
+            return new ItemDetailsSnapshot(this.id, this.name, this.description, this.lang, this.additionalImageIds);
+        }
+
+        static ItemDetails restore(ItemDetailsSnapshot detailsSnapshot) {
+            return ItemDetails.builder()
+                .id(detailsSnapshot.getId())
+                .description(detailsSnapshot.getDescription())
+                .lang(detailsSnapshot.getLang())
+                .name(detailsSnapshot.getName())
+                .additionalImageIds(
+                    ofNullable(detailsSnapshot.getAdditionalImageIds())
+                        .orElse(emptyList()))
+                .build();
+        }
     }
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardProductEntity {
+class CardProductEntity {
 
     private Long itemId;
     private int amount;

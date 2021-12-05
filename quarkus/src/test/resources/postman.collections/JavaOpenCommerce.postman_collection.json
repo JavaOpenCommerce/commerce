@@ -382,6 +382,33 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Image: /id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/images/2",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"images",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Address: /id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
 		}
 	],
 	"variable": [
