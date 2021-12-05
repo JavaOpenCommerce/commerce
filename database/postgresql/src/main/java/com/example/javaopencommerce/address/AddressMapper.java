@@ -10,14 +10,13 @@ import io.vertx.mutiny.sqlclient.Row;
 import io.vertx.mutiny.sqlclient.RowSet;
 import java.util.List;
 
-public class AddressMapper {
+class AddressMapper {
 
     private static final String ID = "id";
     private static final String CITY = "city";
     private static final String LOCAL = "local";
     private static final String STREET = "street";
     private static final String ZIP = "zip";
-    private static final String USER_ID = "user_id";
 
 
     public List<AddressEntity> rowSetToAddressList(RowSet<Row> rs) {
@@ -41,7 +40,6 @@ public class AddressMapper {
                 .local(row.getString(LOCAL))
                 .street(row.getString(STREET))
                 .zip(row.getString(ZIP))
-                .userId(row.getLong(USER_ID))
                 .build();
     }
 }

@@ -1,7 +1,6 @@
 package com.example.javaopencommerce.user;
 
 
-import com.example.javaopencommerce.address.AddressEntity;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -24,8 +23,5 @@ public class UserEntity {
 
     @Builder.Default
     private List<UserType> permissions = new ArrayList<>();
-
-    @Builder.Default
-    private List<AddressEntity> addresses = new ArrayList<>();
 
 }

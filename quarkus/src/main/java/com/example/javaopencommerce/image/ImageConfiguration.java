@@ -1,12 +1,10 @@
 package com.example.javaopencommerce.image;
 
 
-import com.example.javaopencommerce.item.ItemQueryRepository;
 import io.vertx.mutiny.pgclient.PgPool;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
-import javax.ws.rs.ext.Provider;
 
 @Singleton
 class ImageConfiguration {

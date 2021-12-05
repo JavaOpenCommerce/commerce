@@ -100,8 +100,7 @@ create table address (
 	city varchar(255),
 	local varchar(255),
 	street varchar(255),
-	zip varchar(255),
-	user_id bigint constraint user_id_fk references users
+	zip varchar(255)
 );
 
 alter table ${flyway:defaultSchema}.address owner to ${flyway:user};

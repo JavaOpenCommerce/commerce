@@ -1,8 +1,5 @@
 package com.example.javaopencommerce.user;
 
-import com.example.javaopencommerce.address.Address;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Builder;
 import lombok.Value;
 
@@ -17,7 +14,4 @@ public class User {
 
 //    @Builder.Default
 //    private List<UserType> permissions = new ArrayList<>();
-
-    @Builder.Default
-    List<Address> addresses = new ArrayList<>();
 }
