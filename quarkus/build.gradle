@@ -54,10 +54,6 @@ repositories {
 
 group 'com.example.jcc.quarkus'
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
 
 compileJava {
     options.compilerArgs.addAll(["--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED"])

@@ -1,23 +1,32 @@
+
 plugins {
     id 'java'
     id 'idea'
-    id 'io.quarkus' version '2.6.1.Final' apply false // must be the same version as in bom:gradle.properties
-    id 'io.freefair.lombok' version '6.1.0'
-    id 'org.asciidoctor.jvm.convert' version '3.1.0'
-    id 'org.asciidoctor.jvm.gems' version '3.1.0'
+    id 'io.quarkus' version '2.11.1.Final' apply false // must be the same version as in bom:gradle.properties
+    id 'io.freefair.lombok' version '6.5.1'
+    id ('org.asciidoctor.jvm.convert') version '3.3.2'
+    id ('org.asciidoctor.jvm.gems') version '3.3.2'
+    id ('org.asciidoctor.jvm.pdf') version '3.3.2'
 }
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'idea'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     mavenLocal()
     mavenCentral()
+    ruby {
+        gems()
+    }
+}
+dependencies {
+    asciidoctorGems 'rubygems:asciidoctor-revealjs:1.1.3'
 }
 allprojects {
     java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 subprojects {
@@ -29,39 +38,37 @@ subprojects {
 }
 
 asciidoctor {
-    sourceDir file("docs")
-
+    sourceDir file('docs')
+    outputDir file('build/docs')
     baseDirFollowsSourceFile()
 
-    resources {
-        from("${sourceDir}/images") {
-            include '**'
-            into 'images'
-        }
-    }
-    outputDir file("build/docs")
     attributes 'build-gradle': file('build.gradle'),
             'endpoint-url': 'http://example.org',
             'source-highlighter': 'coderay',
             'coderay-css': 'style',
-            'imagesdir': './images',
+            'imagesdir': 'images',
             'toc': 'left',
             'icons': 'font',
             'setanchors': '',
-            'idprefix': 'slide-',
+            'idprefix': '',
             'idseparator': '-',
             'docinfo': 'shared'
-}
-
-/**
- * AsciidoctorJ, enables diagrams in asciidoctor documentation.
- */
-asciidoctorj {
-    modules {
-        diagram.use()
-        diagram.version '1.5.16'
+//    asciidoctorj {
+//        setOptions = [ doctype: 'article' ]
+//        attributes toc : left
+//    }
+    /**
+     * AsciidoctorJ, enables diagrams in asciidoctor documentation.
+     */
+    asciidoctorj {
+//        requires 'asciidoctor-revealjs'
+        modules {
+            diagram.use()
+            diagram.version '1.5.16'
+        }
     }
 }
+
 /**
  * OpenJDK 9/10 Mac issue:
  * Caused by: java.lang.UnsatisfiedLinkError: /path/to/openjdk10/lib/libfontmanager.dylib: dlopen(/path/to/openjdk10/lib/libfontmanager.dylib, 1): Library not loaded: /Users/jenkins/workspace/openjdk10_build_x86-64_macos/openjdk/installedfreetype/lib/libfreetype.6.dylib

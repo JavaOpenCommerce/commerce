@@ -13,9 +13,3 @@ dependencies {
     testCompileOnly "org.projectlombok:lombok:${lombokVer}"
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVer}"
 }
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
