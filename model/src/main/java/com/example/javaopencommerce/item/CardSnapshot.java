@@ -5,10 +5,6 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-@lombok.Value
-class CardSnapshot {
+record CardSnapshot(List<ProductSnapshot> products, Value cardValueNett, Value cardValueGross) {
 
-  List<ProductSnapshot> products;
-  Value cardValueNett;
-  Value cardValueGross;
 }

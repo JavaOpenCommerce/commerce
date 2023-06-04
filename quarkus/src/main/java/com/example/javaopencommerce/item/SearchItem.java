@@ -14,13 +14,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 class SearchItem {
 
-    private final Long id;
-    private final double valueGross;
-    private final Long imageId;
-    private final Long producerId;
-    private List<Long> categoryIds;
-    private final List<SearchItemDetails> details;
+  private final Long id;
+  private final double valueGross;
+  private final Long imageId;
+  private final Long producerId;
+  private List<Long> categoryIds;
+  private final List<SearchItemDetails> details;
 
-    void setCategoryIds(List<Long> categoryIds) {
-        this.categoryIds = unmodifiableList(categoryIds); }
+  void setCategoryIds(List<Long> categoryIds) {
+    this.categoryIds = unmodifiableList(categoryIds);
+  }
 }

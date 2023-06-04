@@ -8,9 +8,9 @@ import lombok.Value;
 @Builder
 public class ProducerDetails {
 
-    Long id;
-    String name;
-    String description;
-    Locale lang;
+  Long id;
+  String name;
+  String description;
+  Locale lang;
 
 }

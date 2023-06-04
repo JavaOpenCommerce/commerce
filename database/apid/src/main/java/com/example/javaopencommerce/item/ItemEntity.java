@@ -26,36 +26,36 @@ import lombok.Setter;
 @EqualsAndHashCode
 class ItemEntity {
 
-    private Long id;
-    private BigDecimal valueGross;
-    private double vat;
-    private int stock;
-    private Long imageId;
-    @Builder.Default
-    private List<ItemDetailsEntity> details = new ArrayList<>();
+  private Long id;
+  private BigDecimal valueGross;
+  private double vat;
+  private int stock;
+  private Long imageId;
+  @Builder.Default
+  private List<ItemDetailsEntity> details = new ArrayList<>();
 
-    public Item toItemModel() {
-        List<ItemDetails> detailsModels = ofNullable(this.details).orElse(emptyList()).stream()
-                .map(ItemDetailsEntity::toItemDetailsModel)
-                .collect(Collectors.toList());
-        return Item.builder()
-                .id(this.id)
-                .valueGross(Value.of(this.valueGross))
-                .vat(Vat.of(this.vat))
-                .stock(this.stock)
-                .details(detailsModels)
-                .imageId(this.imageId)
-                .build();
-    }
+  public Item toItemModel() {
+    List<ItemDetails> detailsModels = ofNullable(this.details).orElse(emptyList()).stream()
+        .map(ItemDetailsEntity::toItemDetailsModel)
+        .collect(Collectors.toList());
+    return Item.builder()
+        .id(this.id)
+        .valueGross(Value.of(this.valueGross))
+        .vat(Vat.of(this.vat))
+        .stock(this.stock)
+        .details(detailsModels)
+        .imageId(this.imageId)
+        .build();
+  }
 
-    static ItemEntity fromSnapshot(ItemSnapshot itemSnapshot) {
-        return ItemEntity.builder()
-                .id(itemSnapshot.getId())
-                .valueGross(itemSnapshot.getValueGross().asDecimal())
-                .vat(itemSnapshot.getVat().asDouble())
-                .stock(itemSnapshot.getStock())
-                .imageId(itemSnapshot.getImageId())
-                .build();
-    }
+  static ItemEntity fromSnapshot(ItemSnapshot itemSnapshot) {
+    return ItemEntity.builder()
+        .id(itemSnapshot.getId())
+        .valueGross(itemSnapshot.getValueGross().asDecimal())
+        .vat(itemSnapshot.getVat().asDouble())
+        .stock(itemSnapshot.getStock())
+        .imageId(itemSnapshot.getImageId())
+        .build();
+  }
 
 }

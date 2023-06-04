@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SimpleProductDto {
+
   private Long itemId;
   private String name;
   private Amount amount;

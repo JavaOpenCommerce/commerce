@@ -16,68 +16,68 @@ import java.util.Map;
 
 public class ProducerMapper {
 
-    private static final String PRODUCER_ID = "producer_id";
-    private static final String IMAGE_ID = "image_id";
-    private static final String NAME = "name";
-    private static final String DESCRIPTION = "description";
-    private static final String LANG = "lang";
+  private static final String PRODUCER_ID = "producer_id";
+  private static final String IMAGE_ID = "image_id";
+  private static final String NAME = "name";
+  private static final String DESCRIPTION = "description";
+  private static final String LANG = "lang";
 
-    public List<ProducerEntity> rowToProducerList(RowSet<Row> rs) {
-        if (CommonRow.isRowSetEmpty(rs)) {
-            return emptyList();
-        }
-
-        Map<Long, ProducerEntity> producers = new HashMap<>();
-        for (Row row : rs) {
-            ProducerEntity producer = buildProducer(row, new ArrayList<>());
-
-            ofNullable(producers.putIfAbsent(producer.getId(), producer))
-                    .ifPresentOrElse(
-                            prod -> prod
-                                    .getDetails()
-                                    .add(rowToProducerDetails(row)),
-                            () -> producers
-                                    .get(producer.getId())
-                                    .getDetails()
-                                    .add(rowToProducerDetails(row)));
-        }
-        return new ArrayList<>(producers.values());
+  public List<ProducerEntity> rowToProducerList(RowSet<Row> rs) {
+    if (CommonRow.isRowSetEmpty(rs)) {
+      return emptyList();
     }
 
-    public ProducerEntity buildProducer(RowSet<Row> rs) {
-        if (CommonRow.isRowSetEmpty(rs)) {
-            return ProducerEntity.builder().build();
-        }
+    Map<Long, ProducerEntity> producers = new HashMap<>();
+    for (Row row : rs) {
+      ProducerEntity producer = buildProducer(row, new ArrayList<>());
 
-        List<ProducerDetailsEntity> details = stream(rs.spliterator(), false)
-                .map(this::rowToProducerDetails)
-                .collect(toList());
+      ofNullable(producers.putIfAbsent(producer.getId(), producer))
+          .ifPresentOrElse(
+              prod -> prod
+                  .getDetails()
+                  .add(rowToProducerDetails(row)),
+              () -> producers
+                  .get(producer.getId())
+                  .getDetails()
+                  .add(rowToProducerDetails(row)));
+    }
+    return new ArrayList<>(producers.values());
+  }
 
-        return buildProducer(rs.iterator().next(), details);
+  public ProducerEntity buildProducer(RowSet<Row> rs) {
+    if (CommonRow.isRowSetEmpty(rs)) {
+      return ProducerEntity.builder().build();
     }
 
-    public ProducerEntity buildProducer(Row row, List<ProducerDetailsEntity> details) {
-        if (row == null) {
-            return ProducerEntity.builder().build();
-        }
+    List<ProducerDetailsEntity> details = stream(rs.spliterator(), false)
+        .map(this::rowToProducerDetails)
+        .collect(toList());
 
-        return ProducerEntity.builder()
-                .id(row.getLong(PRODUCER_ID))
-                .details(details)
-                .imageId(row.getLong(IMAGE_ID))
-                .build();
+    return buildProducer(rs.iterator().next(), details);
+  }
+
+  public ProducerEntity buildProducer(Row row, List<ProducerDetailsEntity> details) {
+    if (row == null) {
+      return ProducerEntity.builder().build();
     }
 
-    public ProducerDetailsEntity rowToProducerDetails(Row row) {
-        if (row == null) {
-            return ProducerDetailsEntity.builder().build();
-        }
+    return ProducerEntity.builder()
+        .id(row.getLong(PRODUCER_ID))
+        .details(details)
+        .imageId(row.getLong(IMAGE_ID))
+        .build();
+  }
 
-        return ProducerDetailsEntity.builder()
-                .id(row.getLong(5))
-                .name(row.getString(NAME))
-                .description(row.getString(DESCRIPTION))
-                .lang(Locale.forLanguageTag(row.getString(LANG)))
-                .build();
+  public ProducerDetailsEntity rowToProducerDetails(Row row) {
+    if (row == null) {
+      return ProducerDetailsEntity.builder().build();
     }
+
+    return ProducerDetailsEntity.builder()
+        .id(row.getLong(5))
+        .name(row.getString(NAME))
+        .description(row.getString(DESCRIPTION))
+        .lang(Locale.forLanguageTag(row.getString(LANG)))
+        .build();
+  }
 }

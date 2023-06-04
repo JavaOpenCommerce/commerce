@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ItemDto {
 
-    private Long id;
-    private String name;
-    private int stock;
-    private BigDecimal valueGross;
-    private Long imageId;
-    private double vat;
+  private Long id;
+  private String name;
+  private int stock;
+  private BigDecimal valueGross;
+  private Long imageId;
+  private double vat;
 
 }

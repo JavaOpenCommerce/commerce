@@ -7,7 +7,7 @@ import io.vertx.mutiny.sqlclient.RowSet;
 
 public interface CommonRow {
 
-    static boolean isRowSetEmpty(RowSet<Row> rs) {
-        return isNull(rs) || !rs.iterator().hasNext();
-    }
+  static boolean isRowSetEmpty(RowSet<Row> rs) {
+    return isNull(rs) || !rs.iterator().hasNext();
+  }
 }

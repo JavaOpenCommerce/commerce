@@ -1,12 +1,13 @@
-
 plugins {
     id 'java'
     id 'idea'
-    id 'io.quarkus' version '2.11.1.Final' apply false // must be the same version as in bom:gradle.properties
+    id 'io.quarkus' version '2.11.1.Final' apply false
+    // must be the same version as in bom:gradle.properties
     id 'io.freefair.lombok' version '6.5.1'
-    id ('org.asciidoctor.jvm.convert') version '3.3.2'
-    id ('org.asciidoctor.jvm.gems') version '3.3.2'
-    id ('org.asciidoctor.jvm.pdf') version '3.3.2'
+    id('org.asciidoctor.jvm.convert') version '3.3.2'
+    id('org.asciidoctor.jvm.gems') version '3.3.2'
+    id('org.asciidoctor.jvm.pdf') version '3.3.2'
+    id('com.diffplug.spotless') version "6.19.0"
 }
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
@@ -68,7 +69,6 @@ asciidoctor {
         }
     }
 }
-
 /**
  * OpenJDK 9/10 Mac issue:
  * Caused by: java.lang.UnsatisfiedLinkError: /path/to/openjdk10/lib/libfontmanager.dylib: dlopen(/path/to/openjdk10/lib/libfontmanager.dylib, 1): Library not loaded: /Users/jenkins/workspace/openjdk10_build_x86-64_macos/openjdk/installedfreetype/lib/libfreetype.6.dylib

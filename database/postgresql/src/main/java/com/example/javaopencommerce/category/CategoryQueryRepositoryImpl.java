@@ -1,9 +1,6 @@
 package com.example.javaopencommerce.category;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
-
 import com.example.javaopencommerce.category.dtos.CategoryDto;
-import io.smallrye.mutiny.Uni;
 import java.util.List;
 
 class CategoryQueryRepositoryImpl implements CategoryQueryRepository {
@@ -19,20 +16,20 @@ class CategoryQueryRepositoryImpl implements CategoryQueryRepository {
   }
 
   @Override
-  public Uni<List<CategoryDto>> getAll() {
-    return categoryRepository.getAll().map(this::getDtoList);
+  public List<CategoryDto> getAll() {
+    return categoryRepository.getAll().map(this::getDtoList).await().indefinitely();
   }
 
   @Override
-  public Uni<List<Long>> getCategoryIdsByItemId(Long id) {
-    return categoryRepository.getCategoryIdsForItem(id);
+  public List<Long> getCategoryIdsByItemId(Long id) {
+    return categoryRepository.getCategoryIdsForItem(id).await().indefinitely();
   }
 
   private List<CategoryDto> getDtoList(List<CategoryEntity> entities) {
     return entities.stream()
         .map(CategoryEntity::toCategoryModel)
         .map(this::toDto)
-        .collect(toUnmodifiableList());
+        .toList();
   }
 
   private CategoryDto toDto(Category category) {

@@ -13,22 +13,22 @@ import javax.inject.Singleton;
 @Singleton
 public class QuarkusConfiguration {
 
-    @Produces
-    @ApplicationScoped
-    ProducerRepository producerRepository(PgPool client) {
-        return new ProducerRepositoryImpl(client);
-    }
+  @Produces
+  @ApplicationScoped
+  ProducerRepository producerRepository(PgPool client) {
+    return new ProducerRepositoryImpl(client);
+  }
 
-    @Produces
-    @ApplicationScoped
-    ProducerMapper producerMapper() {
-        return new ProducerMapper();
-    }
+  @Produces
+  @ApplicationScoped
+  ProducerMapper producerMapper() {
+    return new ProducerMapper();
+  }
 
 
-    @Produces
-    @ApplicationScoped
-    UserRepository userRepository(PgPool sqlClient) {
-        return new UserRepositoryImpl(sqlClient);
-    }
+  @Produces
+  @ApplicationScoped
+  UserRepository userRepository(PgPool sqlClient) {
+    return new UserRepositoryImpl(sqlClient);
+  }
 }

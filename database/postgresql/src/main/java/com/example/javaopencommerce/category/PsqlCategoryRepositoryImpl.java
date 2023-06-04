@@ -22,7 +22,7 @@ class PsqlCategoryRepositoryImpl implements PsqlCategoryRepository {
   @Override
   public Uni<List<CategoryEntity>> getAll() {
     return this.client.preparedQuery("SELECT * FROM category c " +
-        "INNER JOIN category_details cd ON cd.category_id = c.id ")
+            "INNER JOIN category_details cd ON cd.category_id = c.id ")
         .execute()
         .map(this.categoryMapper::rowToCategoryList);
   }
@@ -31,18 +31,18 @@ class PsqlCategoryRepositoryImpl implements PsqlCategoryRepository {
     return this.client.preparedQuery("SELECT category_id FROM ITEM_CATEGORY WHERE item_id = $1")
         .execute(Tuple.of(itemId))
         .map(rows ->
-           StreamSupport
-            .stream(rows.spliterator(), false)
-            .map(row -> row.getLong("category_id"))
-            .collect(Collectors.toList()));
+            StreamSupport
+                .stream(rows.spliterator(), false)
+                .map(row -> row.getLong("category_id"))
+                .collect(Collectors.toList()));
   }
 
   @Override
   public Uni<List<CategoryEntity>> getCategoriesForItem(Long id) {
     return this.client.preparedQuery("SELECT * FROM category c "
-        + "LEFT JOIN category_details cd ON cd.category_id = c.id "
-        + "LEFT JOIN item_category ic on ic.category_id = c.id "
-        + "WHERE ic.item_id = $1")
+            + "LEFT JOIN category_details cd ON cd.category_id = c.id "
+            + "LEFT JOIN item_category ic on ic.category_id = c.id "
+            + "WHERE ic.item_id = $1")
         .execute(Tuple.of(id))
         .map(this.categoryMapper::rowToCategoryList);
   }
@@ -50,9 +50,9 @@ class PsqlCategoryRepositoryImpl implements PsqlCategoryRepository {
   @Override
   public Uni<List<CategoryEntity>> getCategoriesForItems(List<Long> ids) {
     return this.client.preparedQuery("SELECT * FROM category c " +
-        "INNER JOIN category_details cd ON cd.category_id = c.id " +
-        "INNER JOIN item_category ic ON ic.category_id = c.id " +
-        "WHERE ic.item_id = ANY ($1)")
+            "INNER JOIN category_details cd ON cd.category_id = c.id " +
+            "INNER JOIN item_category ic ON ic.category_id = c.id " +
+            "WHERE ic.item_id = ANY ($1)")
         .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
         .map(this.categoryMapper::rowToCategoryList);
   }

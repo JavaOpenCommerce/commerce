@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = "details")
 public class ProducerEntity {
 
-    private Long id;
-    private List<ProducerDetailsEntity> details;
-    private Long imageId;
+  private Long id;
+  private List<ProducerDetailsEntity> details;
+  private Long imageId;
 }

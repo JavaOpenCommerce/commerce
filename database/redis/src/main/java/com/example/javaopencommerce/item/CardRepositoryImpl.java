@@ -2,10 +2,8 @@ package com.example.javaopencommerce.item;
 
 import static com.example.javaopencommerce.item.Product.getProduct;
 
-import io.smallrye.mutiny.Uni;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -14,8 +12,7 @@ class CardRepositoryImpl implements CardRepository {
   private final RedisCardRepository redisCardRepository;
   private final ItemRepository itemRepository;
 
-  public CardRepositoryImpl(
-      RedisCardRepository redisCardRepository,
+  public CardRepositoryImpl(RedisCardRepository redisCardRepository,
       ItemRepository itemRepository) {
     this.redisCardRepository = redisCardRepository;
     this.itemRepository = itemRepository;
@@ -23,41 +20,29 @@ class CardRepositoryImpl implements CardRepository {
 
 
   @Override
-  public Uni<List<Product>> getCardList(String id) {
+  public List<Product> getCardList(String id) {
     return restoreProducts(redisCardRepository.getCardList(id));
   }
 
   @Override
-  public Uni<List<Product>> saveCard(String id, List<Product> products) {
-    List<CardProductEntity> productEntities = products.stream()
-        .map(Product::getSnapshot)
-        .map(CardProductEntity::fromSnapshot)
-        .collect(Collectors.toUnmodifiableList());
+  public List<Product> saveCard(String id, List<Product> products) {
+    List<CardProductEntity> productEntities = products.stream().map(Product::getSnapshot)
+        .map(CardProductEntity::fromSnapshot).toList();
 
     return restoreProducts(redisCardRepository.saveCard(id, productEntities));
   }
 
-  private Uni<List<Product>> restoreProducts(Uni<List<CardProductEntity>> entities) {
+  private List<Product> restoreProducts(List<CardProductEntity> productEntities) {
+    List<Long> itemIds = productEntities.stream().map(CardProductEntity::getItemId).toList();
+    List<Item> items = itemRepository.getItemsByIdList(itemIds);
 
-    return entities
-        .flatMap(prods -> {
-          List<Long> itemIds = prods.stream().map(CardProductEntity::getItemId)
-              .collect(Collectors.toList());
-
-          Uni<List<Item>> itemsList = itemRepository.getItemsByIdList(itemIds);
-
-          return itemsList.map(items -> {
-            List<Product> products = new ArrayList<>();
-            for (CardProductEntity cardProduct : prods) {
-              Item matchingItem = items.stream()
-                  .filter(
-                      item -> item.getSnapshot().getId().equals(cardProduct.getItemId()))
-                  .findFirst()
-                  .orElseThrow();
-              products.add(getProduct(matchingItem, cardProduct.getAmount()));
-            }
-            return products;
-          });
-        });
+    List<Product> products = new ArrayList<>();
+    for (CardProductEntity cardProduct : productEntities) {
+      Item matchingItem = items.stream()
+          .filter(item -> item.getSnapshot().getId().equals(cardProduct.getItemId())).findFirst()
+          .orElseThrow();
+      products.add(getProduct(matchingItem, cardProduct.getAmount()));
+    }
+    return products;
   }
 }

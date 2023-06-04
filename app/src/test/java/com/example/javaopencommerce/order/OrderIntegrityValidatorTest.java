@@ -20,7 +20,6 @@ import com.example.javaopencommerce.order.exceptions.validation.OrderValidationE
 import com.example.javaopencommerce.order.exceptions.validation.OrderValueNotMatchingValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OutOfStockItemsValidationException;
 import com.example.javaopencommerce.statics.JsonConverter;
-import io.smallrye.mutiny.Uni;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +34,7 @@ class OrderIntegrityValidatorTest {
   void setUp() {
     orderIntegrityValidator = new OrderIntegrityValidator(itemQueryRepository);
     when(itemQueryRepository.getItemsByIdList(any()))
-        .thenReturn(Uni.createFrom().item(getItemsList()));
+        .thenReturn(getItemsList());
   }
 
   @Test

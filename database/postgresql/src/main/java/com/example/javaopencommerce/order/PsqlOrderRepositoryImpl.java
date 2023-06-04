@@ -48,9 +48,9 @@ class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
     return client.withTransaction(conn -> {
 
       Uni<Void> voidStockUni = Uni.combine().all().unis(
-          products.stream()
-              .map(prod -> updateSingleItemStock(conn, -prod.getAmount(), prod.getItemId()))
-              .collect(toList()))
+              products.stream()
+                  .map(prod -> updateSingleItemStock(conn, -prod.getAmount(), prod.getItemId()))
+                  .collect(toList()))
           .discardItems();
 
       Uni<OrderEntity> orderEntityUni = saveOrder(conn, order);

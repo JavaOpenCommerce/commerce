@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CardDto {
 
-    private List<ProductDto> products;
-    private BigDecimal cardValueNett;
-    private BigDecimal cardValueGross;
+  private List<ProductDto> products;
+  private BigDecimal cardValueNett;
+  private BigDecimal cardValueGross;
 }

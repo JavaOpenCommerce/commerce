@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 class SimpleProductEntity {
+
   private Long itemId;
   private String name;
   private Integer amount;

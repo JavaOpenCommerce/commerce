@@ -1,8 +1,5 @@
 package com.example.javaopencommerce.category;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
-
-import io.smallrye.mutiny.Uni;
 import java.util.List;
 
 class CategoryRepositoryImpl implements CategoryRepository {
@@ -15,26 +12,26 @@ class CategoryRepositoryImpl implements CategoryRepository {
   }
 
   @Override
-  public Uni<List<Category>> getAll() {
+  public List<Category> getAll() {
     return categoryRepository.getAll()
-        .map(this::toModelList);
+        .map(this::toModelList).await().indefinitely();
   }
 
   @Override
-  public Uni<List<Category>> getCategoriesForItem(Long id) {
+  public List<Category> getCategoriesForItem(Long id) {
     return categoryRepository.getCategoriesForItem(id)
-        .map(this::toModelList);
+        .map(this::toModelList).await().indefinitely();
   }
 
   @Override
-  public Uni<List<Category>> getCategoriesForItems(List<Long> ids) {
+  public List<Category> getCategoriesForItems(List<Long> ids) {
     return categoryRepository.getCategoriesForItems(ids)
-        .map(this::toModelList);
+        .map(this::toModelList).await().indefinitely();
   }
 
   private List<Category> toModelList(List<CategoryEntity> entities) {
     return entities.stream()
         .map(CategoryEntity::toCategoryModel)
-        .collect(toUnmodifiableList());
+        .toList();
   }
 }

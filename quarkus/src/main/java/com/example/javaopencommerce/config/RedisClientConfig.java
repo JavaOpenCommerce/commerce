@@ -12,26 +12,26 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class RedisClientConfig {
 
-    @ConfigProperty(name = "com.example.redis.host")
-    private String host;
+  @ConfigProperty(name = "com.example.redis.host")
+  private String host;
 
-    @ConfigProperty(name = "com.example.redis.port")
-    private String port;
-    @ConfigProperty(name = "com.example.redis.schema", defaultValue = "default")
-    private String schema;
+  @ConfigProperty(name = "com.example.redis.port")
+  private String port;
+  @ConfigProperty(name = "com.example.redis.schema", defaultValue = "default")
+  private String schema;
 
-    @Produces
-    public RedisAPI redisAPI() {
+  @Produces
+  public RedisAPI redisAPI() {
 
-        Redis client = Redis
-                .createClient(Vertx.vertx(), String.format("redis://%s:%s", this.host, this.port))
-                .connect(result -> {
-                    if (result.succeeded()) {
-                        log.info("Successfully connected to Redis");
-                    } else {
-                        log.warn("Failed to connect to Redis with message: {}", result.cause());
-                    }
-                });
-        return RedisAPI.api(client);
-    }
+    Redis client = Redis
+        .createClient(Vertx.vertx(), String.format("redis://%s:%s", this.host, this.port))
+        .connect(result -> {
+          if (result.succeeded()) {
+            log.info("Successfully connected to Redis");
+          } else {
+            log.warn("Failed to connect to Redis with message: {}", result.cause());
+          }
+        });
+    return RedisAPI.api(client);
+  }
 }

@@ -9,8 +9,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProducerDto {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Long imageId;
+  private Long id;
+  private String name;
+  private String description;
+  private Long imageId;
 }

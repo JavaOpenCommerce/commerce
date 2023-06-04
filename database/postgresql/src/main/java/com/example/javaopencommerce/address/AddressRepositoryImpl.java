@@ -3,10 +3,10 @@ package com.example.javaopencommerce.address;
 
 class AddressRepositoryImpl implements AddressRepository {
 
-    private final PsqlAddressRepository addressRepository;
+  private final PsqlAddressRepository addressRepository;
 
-    AddressRepositoryImpl(
-        PsqlAddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
-    }
+  AddressRepositoryImpl(
+      PsqlAddressRepository addressRepository) {
+    this.addressRepository = addressRepository;
+  }
 }

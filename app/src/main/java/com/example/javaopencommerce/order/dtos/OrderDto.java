@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto {
-    private Long id;
-    private LocalDate creationDate;
-    private String paymentStatus;
-    private String paymentMethod;
-    private String orderStatus;
-    private Long addressId;
-    private CardDto card;
+
+  private Long id;
+  private LocalDate creationDate;
+  private String paymentStatus;
+  private String paymentMethod;
+  private String orderStatus;
+  private Long addressId;
+  private CardDto card;
 }

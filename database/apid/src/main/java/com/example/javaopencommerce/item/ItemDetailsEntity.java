@@ -19,34 +19,34 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(exclude = {"imageIds"})
 class ItemDetailsEntity {
 
-    private Long id;
+  private Long id;
 
-    private String name;
-    private Locale lang;
-    private String description;
-    private Long itemId;
-    @Builder.Default
-    private final List<Long> imageIds = new ArrayList<>();
+  private String name;
+  private Locale lang;
+  private String description;
+  private Long itemId;
+  @Builder.Default
+  private final List<Long> imageIds = new ArrayList<>();
 
-    public ItemDetails toItemDetailsModel() {
-        return ItemDetails.builder()
-                .id(this.id)
-                .name(this.name)
-                .description(this.description)
-                .lang(this.lang)
-                .additionalImageIds(this.imageIds)
-                .build();
-    }
+  public ItemDetails toItemDetailsModel() {
+    return ItemDetails.builder()
+        .id(this.id)
+        .name(this.name)
+        .description(this.description)
+        .lang(this.lang)
+        .additionalImageIds(this.imageIds)
+        .build();
+  }
 
-    static ItemDetailsEntity fromSnapshot(ItemDetailsSnapshot detailsSnapshot, Long itemId) {
-        return ItemDetailsEntity.builder()
-                .id(detailsSnapshot.getId())
-                .description(detailsSnapshot.getDescription())
-                .name(detailsSnapshot.getName())
-                .lang(detailsSnapshot.getLang())
-                .imageIds(detailsSnapshot.getAdditionalImageIds())
-                .itemId(itemId)
-                .build();
-    }
+  static ItemDetailsEntity fromSnapshot(ItemDetailsSnapshot detailsSnapshot, Long itemId) {
+    return ItemDetailsEntity.builder()
+        .id(detailsSnapshot.getId())
+        .description(detailsSnapshot.getDescription())
+        .name(detailsSnapshot.getName())
+        .lang(detailsSnapshot.getLang())
+        .imageIds(detailsSnapshot.getAdditionalImageIds())
+        .itemId(itemId)
+        .build();
+  }
 
 }

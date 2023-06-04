@@ -13,10 +13,7 @@ public class ItemFacade {
 
   public void updateItemStocks(List<ProductDto> products) {
     products.forEach(product ->
-        this.itemService.changeStock(product.getItem().getId(), product.getAmount())
-            .await()
-            .indefinitely()
-    );
+        this.itemService.changeStock(product.getItem().getId(), product.getAmount()));
   }
 
   //ITEM CRUDS HERE!!

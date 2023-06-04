@@ -1,23 +1,22 @@
 package com.example.javaopencommerce.item;
 
 import com.example.javaopencommerce.item.Item.ItemDetails;
-import io.smallrye.mutiny.Uni;
 import java.util.List;
 
 interface ItemRepository {
 
-  Uni<List<Item>> getAllItems();
+  List<Item> getAllItems();
 
-  Uni<Item> getItemById(Long id);
+  Item getItemById(Long id);
 
-  Uni<List<Item>> getItemsByIdList(List<Long> ids);
+  List<Item> getItemsByIdList(List<Long> ids);
 
-  Uni<Item> saveItem(Item item);
+  Item saveItem(Item item);
 
-  Uni<ItemDetails> saveItemDetails(Item itemDetails);
+  ItemDetails saveItemDetails(Item itemDetails);
 
-  Uni<Integer> getItemStock(Long id);
+  Integer getItemStock(Long id);
 
-  Uni<Integer> changeItemStock(Long id, int stock);
+  Integer changeItemStock(Long id, int stock);
 
 }

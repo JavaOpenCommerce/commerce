@@ -7,10 +7,10 @@ import lombok.Value;
 @Builder
 public class User {
 
-    Long id;
-    String firstName;
-    String lastName;
-    String email;
+  Long id;
+  String firstName;
+  String lastName;
+  String email;
 
 //    @Builder.Default
 //    private List<UserType> permissions = new ArrayList<>();

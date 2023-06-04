@@ -4,7 +4,6 @@ import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 import com.example.javaopencommerce.item.ItemQueryRepository;
 import com.example.javaopencommerce.item.dtos.CardDto;
@@ -16,7 +15,6 @@ import com.example.javaopencommerce.order.exceptions.validation.OrderStateValida
 import com.example.javaopencommerce.order.exceptions.validation.OrderValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OrderValueNotMatchingValidationException;
 import com.example.javaopencommerce.order.exceptions.validation.OutOfStockItemsValidationException;
-import io.smallrye.mutiny.Uni;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,46 +34,39 @@ class OrderIntegrityValidator {
     this.itemQueryRepository = itemQueryRepository;
   }
 
-  public Uni<Void> validateOrder(OrderDto order) {
+  public void validateOrder(OrderDto order) {
     List<OrderValidationException> orderInaccuracies = new ArrayList<>();
 
     orderInaccuracies.addAll(validateOrderBasics(order));
     orderInaccuracies.addAll(validateOrderState(order));
 
-    fetchCurrentItems(order.getCard().getProducts())
-        .onItem().invoke(
-        items -> orderInaccuracies.addAll(
-            validateOrderValue(items, order.getCard())))
-        .onItem().invoke(
-        items -> orderInaccuracies.addAll(
-            validateStocks(items, order.getCard().getProducts())))
-        .await().indefinitely();
+    List<ItemDto> items = fetchCurrentItems(order.getCard().getProducts());
+    orderInaccuracies.addAll(validateOrderValue(items, order.getCard()));
+    orderInaccuracies.addAll(validateStocks(items, order.getCard().getProducts()));
 
     if (!orderInaccuracies.isEmpty()) {
       log.warn("Order validation failed with causes: {}", orderInaccuracies);
       throw new OrderValidationException(orderInaccuracies);
     }
-
-    return Uni.createFrom().voidItem();
   }
 
-  private Uni<List<ItemDto>> fetchCurrentItems(List<ProductDto> products) {
+  private List<ItemDto> fetchCurrentItems(List<ProductDto> products) {
     List<Long> itemIds = products.stream()
         .filter(Objects::nonNull)
         .map(ProductDto::getItem)
         .filter(Objects::nonNull)
         .map(ItemDto::getId)
-        .collect(toUnmodifiableList());
+        .toList();
     return itemQueryRepository.getItemsByIdList(itemIds);
   }
 
   //TODO validate if address witch such id exists!!
   private List<OrderValidationException> validateOrderBasics(OrderDto order) {
-       return Optional.ofNullable(order.getAddressId())
-            .map(a -> Collections.<OrderValidationException>emptyList())
-            .orElse(List.of(new AddressNotProvidedValidationException()));
+    return Optional.ofNullable(order.getAddressId())
+        .map(a -> Collections.<OrderValidationException>emptyList())
+        .orElse(List.of(new AddressNotProvidedValidationException()));
   }
-  
+
 
   private List<OrderValidationException> validateOrderState(OrderDto order) {
     List<OrderValidationException> inaccuracies = new ArrayList<>();

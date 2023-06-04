@@ -10,7 +10,8 @@ public class OrderValidationException extends OrderException {
 
   private List<OrderValidationException> derivativeExceptions = new ArrayList<>();
 
-  private OrderValidationException() {}
+  private OrderValidationException() {
+  }
 
   public OrderValidationException(String message) {
     super(format("OrderValidationException: %s", message));

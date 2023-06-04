@@ -3,7 +3,6 @@ package com.example.javaopencommerce.address;
 import static java.util.stream.Collectors.toList;
 
 import com.example.javaopencommerce.address.dtos.AddressDto;
-import io.smallrye.mutiny.Uni;
 import java.util.List;
 
 class AddressQueryRepositoryImpl implements AddressQueryRepository {
@@ -16,30 +15,30 @@ class AddressQueryRepositoryImpl implements AddressQueryRepository {
   }
 
   @Override
-  public Uni<List<AddressDto>> findByZip(String zip) {
+  public List<AddressDto> findByZip(String zip) {
     return addressRepository.findByZip(zip)
         .map(addresses ->
             addresses.stream()
                 .map(AddressEntity::toAddressModel)
                 .map(this::toDto)
-                .collect(toList()));
+                .collect(toList())).await().indefinitely();
   }
 
   @Override
-  public Uni<AddressDto> findById(Long id) {
+  public AddressDto findById(Long id) {
     return addressRepository.findById(id)
         .map(AddressEntity::toAddressModel)
-        .map(this::toDto);
+        .map(this::toDto).await().indefinitely();
   }
 
   @Override
-  public Uni<List<AddressDto>> getUserAddressListById(Long id) {
+  public List<AddressDto> getUserAddressListById(Long id) {
     return addressRepository.getUserAddressListById(id)
         .map(addresses ->
             addresses.stream()
                 .map(AddressEntity::toAddressModel)
                 .map(this::toDto)
-                .collect(toList()));
+                .collect(toList())).await().indefinitely();
   }
 
   AddressDto toDto(Address address) {
