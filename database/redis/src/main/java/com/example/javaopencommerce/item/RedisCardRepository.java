@@ -8,4 +8,6 @@ interface RedisCardRepository {
   List<CardProductEntity> getCardList(String id);
 
   List<CardProductEntity> saveCard(String id, List<CardProductEntity> products);
+
+  void flushCard(String id);
 }

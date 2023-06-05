@@ -114,8 +114,8 @@ public class CardController {
     if (cookieCheck()) {
       log.info("No cookie named '" + COOKIE_NAME + "' found, generating new.");
       String newKey = generateValue();
-      this.request.cookieMap()
-          .put(COOKIE_NAME, Cookie.cookie(COOKIE_NAME, newKey)
+      this.request.cookies()
+          .add(Cookie.cookie(COOKIE_NAME, newKey)
               .setMaxAge(60L * 60L * 1000L)
               .setHttpOnly(true));
       log.info("New Cookie generated: " + newKey);

@@ -32,6 +32,11 @@ class CardRepositoryImpl implements CardRepository {
     return restoreProducts(redisCardRepository.saveCard(id, productEntities));
   }
 
+  @Override
+  public void flushCard(String id) {
+    redisCardRepository.flushCard(id);
+  }
+
   private List<Product> restoreProducts(List<CardProductEntity> productEntities) {
     List<Long> itemIds = productEntities.stream().map(CardProductEntity::getItemId).toList();
     List<Item> items = itemRepository.getItemsByIdList(itemIds);

@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.item;
 
-import io.vertx.redis.client.RedisAPI;
+import io.quarkus.redis.datasource.RedisDataSource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
@@ -10,8 +10,8 @@ class CardConfiguration {
 
   @Produces
   @ApplicationScoped
-  CardRepository cardRepository(RedisAPI redisApi, ItemRepository itemRepository) {
-    return new CardRepositoryImpl(new RedisCardRepositoryImpl(redisApi), itemRepository);
+  CardRepository cardRepository(RedisDataSource redisClient, ItemRepository itemRepository) {
+    return new CardRepositoryImpl(new RedisCardRepositoryImpl(redisClient), itemRepository);
   }
 
   @Produces
