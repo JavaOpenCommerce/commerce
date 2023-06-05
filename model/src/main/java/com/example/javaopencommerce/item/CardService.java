@@ -1,7 +1,6 @@
 package com.example.javaopencommerce.item;
 
 import static com.example.javaopencommerce.item.Item.restore;
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 import java.util.HashMap;
@@ -57,7 +56,7 @@ class CardService {
   }
 
   public void flushCard(String id) {
-    this.cardRepository.saveCard(id, emptyList());
+    this.cardRepository.flushCard(id);
   }
 
   private Map<Long, Product> getCardProducts(List<Product> products) {

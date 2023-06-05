@@ -1,53 +1,47 @@
 package com.example.javaopencommerce.item;
 
-import static java.util.Collections.emptyList;
-import static java.util.Optional.ofNullable;
-
-import com.example.javaopencommerce.statics.JsonConverter;
-import io.vertx.core.json.Json;
-import io.vertx.mutiny.core.Promise;
-import io.vertx.redis.client.RedisAPI;
-import java.util.ArrayList;
+import io.quarkus.redis.datasource.RedisDataSource;
+import io.quarkus.redis.datasource.list.ListCommands;
+import java.util.Collections;
 import java.util.List;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 class RedisCardRepositoryImpl implements RedisCardRepository {
 
-  private final RedisAPI redisAPI;
+  private final ListCommands<String, CardProductEntity> commands;
 
-  public RedisCardRepositoryImpl(RedisAPI redisAPI) {
-    this.redisAPI = redisAPI;
+  public RedisCardRepositoryImpl(RedisDataSource redisClient) {
+    this.commands = redisClient.list(CardProductEntity.class);
   }
 
   @Override
-  public List<CardProductEntity> getCardList(String id) {
-    Promise<List<CardProductEntity>> promise = Promise.promise();
-    this.redisAPI.get(id, res -> {
-      if (!res.succeeded()) {
-        log.warn("Failed to get card, with message: {0}", res.cause());
-      }
-      promise.complete(
-          ofNullable(res.result()).map(r -> jsonToPojo(r.toString())).orElse(emptyList()));
-    });
-    return promise.future().await().indefinitely();
+  public List<CardProductEntity> getCardList(String key) {
+    return getAll(key);
   }
 
   @Override
-  public List<CardProductEntity> saveCard(String id, List<CardProductEntity> products) {
-    Promise<List<CardProductEntity>> promise = Promise.promise();
-    this.redisAPI.set(List.of(id, Json.encode(products)), res -> {
-      if (!res.succeeded()) {
-        log.warn("Failed to store in redis, with message: {0}", res.cause());
-      }
-      log.info("Card successfully persisted in redis, status: {}", res.result().toString());
-      promise.complete(products);
-    });
-    return promise.future().await().indefinitely();
+  public List<CardProductEntity> saveCard(String key, List<CardProductEntity> products) {
+    if ((int) commands.llen(key) != 0) {
+      pruneList(key);
+    }
+    if (products.isEmpty()) {
+      return Collections.emptyList();
+    }
+    commands.lpush(key, products.toArray(new CardProductEntity[0]));
+    return getAll(key);
   }
 
-  private List<CardProductEntity> jsonToPojo(String json) {
-    return JsonConverter.convertToObject(json, new ArrayList<CardProductEntity>() {
-    }.getClass().getGenericSuperclass());
+  @Override
+  public void flushCard(String key) {
+    pruneList(key);
+  }
+
+  private void pruneList(String key) {
+    commands.ltrim(key, 1, 0);
+  }
+
+  private List<CardProductEntity> getAll(String key) {
+    return commands.lrange(key, 0, -1);
   }
 }

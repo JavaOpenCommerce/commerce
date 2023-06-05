@@ -22,6 +22,7 @@ dependencies {
     implementation project(':commons')
 
     implementation "io.quarkus:quarkus-reactive-pg-client"
+    implementation "org.postgresql:postgresql:42.6.0"
     implementation "io.smallrye.reactive:mutiny"
 
 //    TODO: move redis integration to separate module.
