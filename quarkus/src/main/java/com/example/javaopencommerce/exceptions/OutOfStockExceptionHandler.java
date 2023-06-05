@@ -9,11 +9,11 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class OutOfStockExceptionHandler implements ExceptionMapper<OutOfStockException> {
 
-    @Override
-    public Response toResponse(OutOfStockException exception) {
-        return Response
-                .status(Response.Status.NOT_ACCEPTABLE)
-                .entity(exception.getMessage())
-                .build();
-    }
+  @Override
+  public Response toResponse(OutOfStockException exception) {
+    return Response
+        .status(Response.Status.NOT_ACCEPTABLE)
+        .entity(exception.getMessage())
+        .build();
+  }
 }

@@ -16,12 +16,13 @@ import org.eclipse.microprofile.config.ConfigProvider;
 @ApplicationScoped
 public class ApplicationLifecycleManager {
 
-    void onStart(@Observes StartupEvent ev) {
-        log.info("The application is starting with profile {}", ProfileManager.getActiveProfile());
-        log.trace("Lunch mode: {}, and properties: {}", io.quarkus.runtime.LaunchMode.current(),
-                StreamSupport.stream(ConfigProvider.getConfig().getPropertyNames().spliterator(), false)
-                        .map(name -> name + "->" + ConfigProvider.getConfig().getOptionalValue(name, String.class).orElse(null))
-                        .sorted()
-                        .collect(Collectors.joining("\n")));
-    }
+  void onStart(@Observes StartupEvent ev) {
+    log.info("The application is starting with profile {}", ProfileManager.getActiveProfile());
+    log.trace("Lunch mode: {}, and properties: {}", io.quarkus.runtime.LaunchMode.current(),
+        StreamSupport.stream(ConfigProvider.getConfig().getPropertyNames().spliterator(), false)
+            .map(name -> name + "->" + ConfigProvider.getConfig()
+                .getOptionalValue(name, String.class).orElse(null))
+            .sorted()
+            .collect(Collectors.joining("\n")));
+  }
 }

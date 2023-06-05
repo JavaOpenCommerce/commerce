@@ -1,9 +1,6 @@
 package com.example.javaopencommerce.image;
 
-import static java.util.stream.Collectors.toUnmodifiableList;
-
 import com.example.javaopencommerce.image.dtos.ImageDto;
-import io.smallrye.mutiny.Uni;
 import java.util.List;
 
 class ImageQueryRepositoryImpl implements ImageQueryRepository {
@@ -15,20 +12,16 @@ class ImageQueryRepositoryImpl implements ImageQueryRepository {
   }
 
   @Override
-  public Uni<List<ImageDto>> getImagesByIdList(List<Long> ids) {
-    return imageRepository.getImagesByIdList(ids).onItem()
-        .transform(images -> images.stream()
-            .map(ImageEntity::toImageModel)
-            .map(Image::getSnapshot)
-            .map(ImageDtoFactory::fromSnapshot)
-            .collect(toUnmodifiableList()));
+  public List<ImageDto> getImagesByIdList(List<Long> ids) {
+    return imageRepository.getImagesByIdList(ids).onItem().transform(
+        images -> images.stream().map(ImageEntity::toImageModel).map(Image::getSnapshot)
+            .map(ImageDtoFactory::fromSnapshot).toList()).await().indefinitely();
   }
 
   @Override
-  public Uni<ImageDto> getImageById(Long id) {
+  public ImageDto getImageById(Long id) {
     return imageRepository.getImageById(id).onItem()
-        .transform(image ->
-            ImageDtoFactory.fromSnapshot(
-                image.toImageModel().getSnapshot()));
+        .transform(image -> ImageDtoFactory.fromSnapshot(image.toImageModel().getSnapshot()))
+        .await().indefinitely();
   }
 }

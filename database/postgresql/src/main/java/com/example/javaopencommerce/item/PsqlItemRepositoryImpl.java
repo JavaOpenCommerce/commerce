@@ -44,7 +44,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<List<ItemEntity>> getItemsByIdList(List<Long> ids) {
     return this.client.preparedQuery(format("%s WHERE i.id = ANY ($1) ORDER BY i.id DESC",
-        SELECT_ITEM_BASE))
+            SELECT_ITEM_BASE))
         .execute(Tuple.of(ids.toArray(new Long[ids.size()])))
         .map(this.itemMapper::getItems);
   }
@@ -52,8 +52,8 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<List<ItemEntity>> getItemsByCategoryId(Long id) {
     return this.client.preparedQuery(format(
-        "%s INNER JOIN item_category ic ON ic.category_id = i.id WHERE ic.category = $1",
-        SELECT_ITEM_BASE))
+            "%s INNER JOIN item_category ic ON ic.category_id = i.id WHERE ic.category = $1",
+            SELECT_ITEM_BASE))
         .execute(Tuple.of(id))
         .map(this.itemMapper::getItems);
   }
@@ -61,9 +61,9 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<List<ItemDetailsEntity>> getItemsDetailsListByCategoryId(Long id) {
     return this.client.preparedQuery(format(
-        "%s INNER JOIN item it ON i.item_id = it.id "
-            + "INNER JOIN item_category ic ON ic.category_id = it.id WHERE ic.category = $1",
-        SELECT_DETAILS_BASE))
+            "%s INNER JOIN item it ON i.item_id = it.id "
+                + "INNER JOIN item_category ic ON ic.category_id = it.id WHERE ic.category = $1",
+            SELECT_DETAILS_BASE))
         .execute(Tuple.of(id))
         .map(this.itemMapper::getItemDetails);
   }
@@ -71,7 +71,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<List<ItemEntity>> getAllShippingMethods() {
     return this.client.preparedQuery(
-        format("%s WHERE i.shipping = true", SELECT_ITEM_BASE))
+            format("%s WHERE i.shipping = true", SELECT_ITEM_BASE))
         .execute()
         .map(this.itemMapper::getItems);
   }
@@ -79,8 +79,8 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<List<ItemDetailsEntity>> getAllDetailsForShippingMethods() {
     return this.client.preparedQuery(
-        format("%s INNER JOIN item it ON i.item_id = it.id WHERE it.shipping = true",
-            SELECT_DETAILS_BASE))
+            format("%s INNER JOIN item it ON i.item_id = it.id WHERE it.shipping = true",
+                SELECT_DETAILS_BASE))
         .execute()
         .map(this.itemMapper::getItemDetails);
   }
@@ -89,8 +89,8 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<List<ItemDetailsEntity>> getAllItemDetails() {
     return this.client.preparedQuery(
-        format("%s INNER JOIN item it ON i.item_id = it.id WHERE it.shipping = false",
-            SELECT_DETAILS_BASE))
+            format("%s INNER JOIN item it ON i.item_id = it.id WHERE it.shipping = false",
+                SELECT_DETAILS_BASE))
         .execute()
         .map(this.itemMapper::getItemDetails);
   }
@@ -112,7 +112,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<ItemEntity> saveItem(ItemEntity item) {
     return this.client.preparedQuery("INSERT INTO ITEM (stock, valuegross, vat, image_id) " +
-        "VALUES($1, $2, $3, $4)")
+            "VALUES($1, $2, $3, $4)")
         .execute(Tuple.of(
             item.getStock(),
             item.getValueGross(),
@@ -129,7 +129,7 @@ class PsqlItemRepositoryImpl implements PsqlItemRepository {
   @Override
   public Uni<ItemDetailsEntity> saveItemDetails(ItemDetailsEntity itemDetails) {
     return this.client.preparedQuery("INSERT INTO ITEMDETAILS (description, lang, name, item_id) " +
-        "VALUES($1, $2, $3, $4)")
+            "VALUES($1, $2, $3, $4)")
         .execute(Tuple.of(
             itemDetails.getDescription(),
             itemDetails.getLang().toLanguageTag(),

@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ItemDetailsDto {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Long mainImageId;
-    private List<Long> additionalImageIds;
-    private BigDecimal valueGross;
-    private double vat;
-    private int stock;
+  private Long id;
+  private String name;
+  private String description;
+  private Long mainImageId;
+  private List<Long> additionalImageIds;
+  private BigDecimal valueGross;
+  private double vat;
+  private int stock;
 }

@@ -1,7 +1,5 @@
 package com.example.javaopencommerce.order;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toUnmodifiableList;
 
 import com.example.javaopencommerce.item.ItemQueryRepository;
 import com.example.javaopencommerce.item.dtos.CardDto;
@@ -9,7 +7,6 @@ import com.example.javaopencommerce.item.dtos.ItemDto;
 import com.example.javaopencommerce.item.dtos.ProductDto;
 import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
 import com.example.javaopencommerce.order.dtos.OrderDto;
-import io.smallrye.mutiny.Uni;
 import java.util.List;
 
 class OrderDtoFactory {
@@ -20,27 +17,27 @@ class OrderDtoFactory {
     this.itemQueryRepository = itemQueryRepository;
   }
 
-  Uni<OrderDto> toDto(OrderModel order) {
+  OrderDto toDto(OrderModel order) {
     OrderSnapshot orderSnapshot = order.getSnapshot();
     List<SimpleProduct> products = orderSnapshot.getOrderBody();
 
     List<Long> itemIds = products.stream()
         .map(SimpleProduct::getItemId)
-        .collect(toUnmodifiableList());
+        .toList();
 
-    return itemQueryRepository.getItemsByIdList(itemIds)
-        .map(items -> items.stream()
-            .map(itemDto ->
-                itemToProductDto(
-                    itemDto,
-                    products.stream()
-                        .filter(p -> p.getItemId().equals(itemDto.getId()))
-                        .findAny()
-                        .orElseThrow()
-                        .getAmount()
-                        .asInteger()))
-            .collect(toList()))
-        .map(p -> getOrderDto(orderSnapshot, p));
+    List<ProductDto> productDtos = itemQueryRepository.getItemsByIdList(itemIds).stream()
+        .map(itemDto ->
+            itemToProductDto(
+                itemDto,
+                products.stream()
+                    .filter(p -> p.getItemId().equals(itemDto.getId()))
+                    .findAny()
+                    .orElseThrow()
+                    .getAmount()
+                    .asInteger()))
+        .toList();
+
+    return getOrderDto(orderSnapshot, productDtos);
   }
 
   private OrderDto getOrderDto(OrderSnapshot orderSnapshot, List<ProductDto> productDtos) {

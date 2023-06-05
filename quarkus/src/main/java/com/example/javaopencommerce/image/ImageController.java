@@ -1,7 +1,6 @@
 package com.example.javaopencommerce.image;
 
 import com.example.javaopencommerce.image.dtos.ImageDto;
-import io.smallrye.mutiny.Uni;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -22,7 +21,7 @@ public class ImageController {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public Uni<ImageDto> getImageById(@PathParam("id") Long id) {
+  public ImageDto getImageById(@PathParam("id") Long id) {
     return this.queryRepository.getImageById(id);
   }
 

@@ -11,19 +11,23 @@ import org.flywaydb.core.Flyway;
 @ApplicationScoped
 public class DBMigrationService {
 
-    @ConfigProperty(name = "quarkus.datasource.reactive.url")
-    String datasourceUrl;
+  @ConfigProperty(name = "quarkus.datasource.reactive.url")
+  String datasourceUrl;
 
-    @ConfigProperty(name = "quarkus.datasource.username")
-    String datasourceUsername;
+  @ConfigProperty(name = "quarkus.datasource.username")
+  String datasourceUsername;
 
-    @ConfigProperty(name = "quarkus.datasource.password")
-    String datasourcePassword;
+  @ConfigProperty(name = "quarkus.datasource.password")
+  String datasourcePassword;
 
-    public void runFlywayMigration(@Observes StartupEvent event) {
-        Flyway flyway = Flyway.configure().dataSource("jdbc:" + this.datasourceUrl, this.datasourceUsername, this.datasourcePassword).load();
-        flyway.migrate();
+  public void runFlywayMigration(@Observes StartupEvent event) {
+    Flyway flyway = Flyway.configure()
+        .dataSource("jdbc:" + this.datasourceUrl, this.datasourceUsername, this.datasourcePassword)
+        .load();
+    flyway.migrate();
 
-        log.info("LOG: flyway, version: {};, cfg: {}, script: {}", flyway.info().current().getVersion().toString(), flyway.getConfiguration(), flyway.info().current().getScript());
-    }
+    log.info("LOG: flyway, version: {};, cfg: {}, script: {}",
+        flyway.info().current().getVersion().toString(), flyway.getConfiguration(),
+        flyway.info().current().getScript());
+  }
 }

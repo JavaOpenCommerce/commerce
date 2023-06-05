@@ -12,45 +12,45 @@ import lombok.Getter;
 @EqualsAndHashCode
 class Product {
 
-    private final Item itemModel;
-    private Value valueNett = Value.of(ZERO);
-    private Value valueGross = Value.of(ZERO);
-    private Amount amount;
+  private final Item itemModel;
+  private Value valueNett = Value.of(ZERO);
+  private Value valueGross = Value.of(ZERO);
+  private Amount amount;
 
-    private Product(Item itemModel, int amount) {
-        this.itemModel = itemModel;
-        this.amount = Amount.of(amount);
-        calculateSumValue();
-    }
+  private Product(Item itemModel, int amount) {
+    this.itemModel = itemModel;
+    this.amount = Amount.of(amount);
+    calculateSumValue();
+  }
 
-    private Product(Item itemModel) {
-        this(itemModel, 1);
-    }
+  private Product(Item itemModel) {
+    this(itemModel, 1);
+  }
 
-    static Product getProduct(Item itemModel) {
-        return new Product(itemModel);
-    }
+  static Product getProduct(Item itemModel) {
+    return new Product(itemModel);
+  }
 
-    static Product getProduct(Item itemModel, int amount) {
-        return new Product(itemModel, amount);
-    }
+  static Product getProduct(Item itemModel, int amount) {
+    return new Product(itemModel, amount);
+  }
 
-    void setAmount(int amount) {
-        this.amount = Amount.of(amount);
-        calculateSumValue();
-    }
+  void setAmount(int amount) {
+    this.amount = Amount.of(amount);
+    calculateSumValue();
+  }
 
-    private void calculateSumValue() {
-        valueGross = itemModel.getValueGross().multiply(amount.asDecimal());
-        valueNett = valueGross.divide(itemModel.getVat().asDecimal().add(ONE));
-    }
+  private void calculateSumValue() {
+    valueGross = itemModel.getValueGross().multiply(amount.asDecimal());
+    valueNett = valueGross.divide(itemModel.getVat().asDecimal().add(ONE));
+  }
 
-    ProductSnapshot getSnapshot() {
-        return ProductSnapshot.builder()
-            .item(itemModel.getSnapshot())
-            .amount(amount)
-            .valueGross(valueGross)
-            .valueNett(valueNett)
-            .build();
-    }
+  ProductSnapshot getSnapshot() {
+    return ProductSnapshot.builder()
+        .item(itemModel.getSnapshot())
+        .amount(amount)
+        .valueGross(valueGross)
+        .valueNett(valueNett)
+        .build();
+  }
 }

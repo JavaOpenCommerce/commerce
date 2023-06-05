@@ -9,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserDto {
 
-    private Long id;
+  private Long id;
 }

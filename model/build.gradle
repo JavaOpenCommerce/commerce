@@ -8,8 +8,6 @@ dependencies {
     implementation enforcedPlatform(project(':bom'))
     implementation project(':commons')
     implementation group: 'org.apache.commons', name: 'commons-lang3'
-    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-web-client'
-    implementation 'io.smallrye.reactive:smallrye-mutiny-vertx-pg-client'
 }
 
 repositories {

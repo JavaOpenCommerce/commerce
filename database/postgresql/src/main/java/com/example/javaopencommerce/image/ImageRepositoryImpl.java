@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.image;
 
-import io.smallrye.mutiny.Uni;
 
 class ImageRepositoryImpl implements ImageRepository {
 
@@ -11,8 +10,8 @@ class ImageRepositoryImpl implements ImageRepository {
   }
 
   @Override
-  public Uni<Image> saveImage(Image image) {
+  public Image saveImage(Image image) {
     return imageRepository.saveImage(ImageEntity.fromSnapshot(image.getSnapshot()))
-        .map(ImageEntity::toImageModel);
+        .map(ImageEntity::toImageModel).await().indefinitely();
   }
 }

@@ -22,48 +22,49 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 class OrderEntity {
 
-    private Long id;
-    private LocalDate creationDate;
+  private Long id;
+  private LocalDate creationDate;
 
-    @Builder.Default
-    private Long shippingAddressId = 1L;
-    private String paymentStatus;
-    private String paymentMethod;
-    private String orderStatus;
-    private BigDecimal valueGross;
-    private BigDecimal valueNett;
+  @Builder.Default
+  private Long shippingAddressId = 1L;
+  private String paymentStatus;
+  private String paymentMethod;
+  private String orderStatus;
+  private BigDecimal valueGross;
+  private BigDecimal valueNett;
 
-    @Builder.Default
-    private Long userEntityId = 1L;
+  @Builder.Default
+  private Long userEntityId = 1L;
 
-    @Builder.Default
-    private final String simpleProductsJson = "{}";
+  @Builder.Default
+  private final String simpleProductsJson = "{}";
 
-    OrderModel toOrderModel() {
-        List<SimpleProductEntity> products = JsonConverter.convertToObject(simpleProductsJson,
-            new ArrayList<SimpleProductEntity>(){}.getClass().getGenericSuperclass());
+  OrderModel toOrderModel() {
+    List<SimpleProductEntity> products = JsonConverter.convertToObject(simpleProductsJson,
+        new ArrayList<SimpleProductEntity>() {
+        }.getClass().getGenericSuperclass());
 
-        return OrderModel.builder()
-            .id(id)
-            .creationDate(creationDate)
-            .orderValueGross(Value.of(valueGross))
-            .orderValueNett(Value.of(valueNett))
-            .paymentMethod(PaymentMethod.valueOf(paymentMethod))
-            .paymentStatus(PaymentStatus.valueOf(paymentStatus))
-            .orderStatus(OrderStatus.valueOf(orderStatus))
-            .orderBody(products.stream()
-                .map(this::toSimpleProduct)
-                .collect(toList()))
-            .build();
-    }
+    return OrderModel.builder()
+        .id(id)
+        .creationDate(creationDate)
+        .orderValueGross(Value.of(valueGross))
+        .orderValueNett(Value.of(valueNett))
+        .paymentMethod(PaymentMethod.valueOf(paymentMethod))
+        .paymentStatus(PaymentStatus.valueOf(paymentStatus))
+        .orderStatus(OrderStatus.valueOf(orderStatus))
+        .orderBody(products.stream()
+            .map(this::toSimpleProduct)
+            .collect(toList()))
+        .build();
+  }
 
-    SimpleProduct toSimpleProduct(SimpleProductEntity productEntity) {
-        return SimpleProduct.builder()
-            .itemId(productEntity.getItemId())
-            .name(productEntity.getName())
-            .vat(Vat.of(productEntity.getVat()))
-            .amount(Amount.of(productEntity.getAmount()))
-            .valueGross(Value.of(productEntity.getValueGross()))
-            .build();
-    }
+  SimpleProduct toSimpleProduct(SimpleProductEntity productEntity) {
+    return SimpleProduct.builder()
+        .itemId(productEntity.getItemId())
+        .name(productEntity.getName())
+        .vat(Vat.of(productEntity.getVat()))
+        .amount(Amount.of(productEntity.getAmount()))
+        .valueGross(Value.of(productEntity.getValueGross()))
+        .build();
+  }
 }

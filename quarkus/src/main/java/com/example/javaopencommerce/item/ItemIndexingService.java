@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.runtime.StartupEvent;
-import io.smallrye.mutiny.Uni;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.client.WebClient;
@@ -112,18 +111,12 @@ class ItemIndexingService {
   }
 
   private void fetchItems() {
-    getSearchItems().subscribe().with(
-        items -> {
-          for (SearchItem item : items) {
-            sendItem(item);
-          }
-        },
-        Throwable::printStackTrace);
+    getSearchItems().forEach(this::sendItem);
   }
 
   private void sendItem(SearchItem item) {
     client.put("/items/_doc/" + item.getId())
-        .putHeader("Content-Length", "" + Json.encode(item).length())
+        .putHeader("Content-Length", String.valueOf(Json.encode(item).length()))
         .putHeader("Content-Type", ContentType.APPLICATION_JSON.toString())
         .sendJson(item, ar -> {
           if (ar.succeeded()) {
@@ -136,21 +129,15 @@ class ItemIndexingService {
         });
   }
 
-  private Uni<List<SearchItem>> getSearchItems() {
-    return itemRepository.getAllItems().map(
-        itemModels -> itemModels.stream().map(Item::getSnapshot)
-            .map(SearchItemConverter::convertToSearchItem)
-            .collect(toList()))
-        .flatMap(this::enrichSearchItemsWithCategoryIds);
+  private List<SearchItem> getSearchItems() {
+    return itemRepository.getAllItems().stream().map(Item::getSnapshot)
+        .map(SearchItemConverter::convertToSearchItem).map(this::enrichSearchItemWithCategoryIds)
+        .collect(toList());
   }
 
-  private Uni<List<SearchItem>> enrichSearchItemsWithCategoryIds(List<SearchItem> items) {
-    List<Uni<SearchItem>> updatedItems = items.stream()
-        .map(item -> categoryQueryRepository.getCategoryIdsByItemId(item.getId()).map(ids -> {
-          item.setCategoryIds(ids);
-          return item;
-        })).collect(toList());
-    return Uni.combine().all().unis(updatedItems)
-        .combinedWith(SearchItem.class, unis -> unis);
+  private SearchItem enrichSearchItemWithCategoryIds(SearchItem item) {
+    List<Long> itemCategoryIds = categoryQueryRepository.getCategoryIdsByItemId(item.getId());
+    item.setCategoryIds(itemCategoryIds);
+    return item;
   }
 }

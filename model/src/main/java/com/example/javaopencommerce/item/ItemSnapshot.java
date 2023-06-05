@@ -14,42 +14,42 @@ import lombok.Builder;
 @lombok.Value
 class ItemSnapshot {
 
+  Long id;
+  Value valueGross;
+  Vat vat;
+  Long imageId;
+  int stock;
+  List<ItemDetailsSnapshot> details;
+
+  ItemSnapshot(Long id, Value valueGross, Vat vat,
+      Long imageId, int stock, List<ItemDetailsSnapshot> details) {
+    this.id = id;
+    this.valueGross = valueGross;
+    this.vat = vat;
+    this.imageId = imageId;
+    this.stock = stock;
+    this.details = new ArrayList<>(details);
+  }
+
+  @lombok.Value
+  @Builder
+  static class ItemDetailsSnapshot {
+
     Long id;
-    Value valueGross;
-    Vat vat;
-    Long imageId;
-    int stock;
-    List<ItemDetailsSnapshot> details;
+    String name;
+    String description;
+    Locale lang;
+    List<Long> additionalImageIds;
 
-    ItemSnapshot(Long id, Value valueGross, Vat vat,
-                 Long imageId, int stock, List<ItemDetailsSnapshot> details) {
-        this.id = id;
-        this.valueGross = valueGross;
-        this.vat = vat;
-        this.imageId = imageId;
-        this.stock = stock;
-        this.details = new ArrayList<>(details);
+    public ItemDetailsSnapshot(Long id, String name, String description, Locale lang,
+        List<Long> additionalImageIds) {
+      this.id = id;
+      this.name = name;
+      this.description = description;
+      this.lang = lang;
+      this.additionalImageIds = new ArrayList<>(
+          ofNullable(additionalImageIds).orElse(emptyList())
+      );
     }
-
-    @lombok.Value
-    @Builder
-    static class ItemDetailsSnapshot {
-
-        Long id;
-        String name;
-        String description;
-        Locale lang;
-        List<Long> additionalImageIds;
-
-        public ItemDetailsSnapshot(Long id, String name, String description, Locale lang,
-            List<Long> additionalImageIds) {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.lang = lang;
-            this.additionalImageIds = new ArrayList<>(
-                ofNullable(additionalImageIds).orElse(emptyList())
-            );
-        }
-    }
+  }
 }

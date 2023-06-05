@@ -11,33 +11,35 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class LanguageResolverImpl implements LanguageResolver {
 
-    @ConfigProperty(name = "com.example.default-locale")
-    String lang;
+  @ConfigProperty(name = "com.example.default-locale")
+  String lang;
 
-    private final RoutingContext context;
+  private final RoutingContext context;
 
-    public LanguageResolverImpl(RoutingContext context) {this.context = context;}
+  public LanguageResolverImpl(RoutingContext context) {
+    this.context = context;
+  }
 
-    public String getLanguage() {
-        List<LanguageHeader> languages = context.acceptableLanguages();
-        return languages.stream()
-                .filter(Objects::nonNull)
-                .map(l -> l.value().split("-")[0])
-                .findFirst()
-                .orElse(lang);
-    }
+  public String getLanguage() {
+    List<LanguageHeader> languages = context.acceptableLanguages();
+    return languages.stream()
+        .filter(Objects::nonNull)
+        .map(l -> l.value().split("-")[0])
+        .findFirst()
+        .orElse(lang);
+  }
 
-    public String getLanguage(RoutingContext rc) {
-        List<LanguageHeader> languages = rc.acceptableLanguages();
+  public String getLanguage(RoutingContext rc) {
+    List<LanguageHeader> languages = rc.acceptableLanguages();
 
-        return languages.stream()
-                .filter(Objects::nonNull)
-                .map(l -> l.value().split("-")[0])
-                .findFirst()
-                .orElse(lang);
-    }
+    return languages.stream()
+        .filter(Objects::nonNull)
+        .map(l -> l.value().split("-")[0])
+        .findFirst()
+        .orElse(lang);
+  }
 
-    public String getDefault() {
-        return lang;
-    }
+  public String getDefault() {
+    return lang;
+  }
 }

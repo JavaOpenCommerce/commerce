@@ -11,7 +11,6 @@ dependencies {
     implementation project(':commons')
     implementation 'io.quarkus:quarkus-resteasy-jsonb'
     implementation group: 'org.apache.commons', name: 'commons-lang3'
-    implementation "io.smallrye.reactive:mutiny"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.mockito:mockito-core'

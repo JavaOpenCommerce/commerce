@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class ProducerDetailsEntity {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Locale lang;
+  private Long id;
+  private String name;
+  private String description;
+  private Locale lang;
 }

@@ -15,43 +15,44 @@ import lombok.Getter;
 @Getter(AccessLevel.NONE)
 class OrderModel {
 
-    Long id;
-    LocalDate creationDate;
+  Long id;
+  LocalDate creationDate;
 
-    @Builder.Default
-    PaymentStatus paymentStatus = PaymentStatus.BEFORE_PAYMENT;
+  @Builder.Default
+  PaymentStatus paymentStatus = PaymentStatus.BEFORE_PAYMENT;
 
-    @Builder.Default
-    PaymentMethod paymentMethod = PaymentMethod.MONEY_TRANSFER;
+  @Builder.Default
+  PaymentMethod paymentMethod = PaymentMethod.MONEY_TRANSFER;
 
-    @Builder.Default
-    OrderStatus orderStatus = OrderStatus.NEW;
+  @Builder.Default
+  OrderStatus orderStatus = OrderStatus.NEW;
 
-    Value orderValueGross;
-    Value orderValueNett;
-    List<SimpleProduct> orderBody;
+  Value orderValueGross;
+  Value orderValueNett;
+  List<SimpleProduct> orderBody;
 
-    @lombok.Value
-    @Builder
-    static class SimpleProduct {
-        Long itemId;
-        String name;
-        Amount amount;
-        Value valueGross;
-        Vat vat;
-    }
+  @lombok.Value
+  @Builder
+  static class SimpleProduct {
 
-    OrderSnapshot getSnapshot() {
-        return OrderSnapshot.builder()
-            .id(id)
-            .orderValueNett(orderValueNett)
-            .orderValueGross(orderValueGross)
-            .creationDate(creationDate)
-            .orderStatus(orderStatus)
-            .paymentMethod(paymentMethod)
-            .paymentStatus(paymentStatus)
-            .orderBody(Collections.unmodifiableList(orderBody))
-            .build();
-    }
+    Long itemId;
+    String name;
+    Amount amount;
+    Value valueGross;
+    Vat vat;
+  }
+
+  OrderSnapshot getSnapshot() {
+    return OrderSnapshot.builder()
+        .id(id)
+        .orderValueNett(orderValueNett)
+        .orderValueGross(orderValueGross)
+        .creationDate(creationDate)
+        .orderStatus(orderStatus)
+        .paymentMethod(paymentMethod)
+        .paymentStatus(paymentStatus)
+        .orderBody(Collections.unmodifiableList(orderBody))
+        .build();
+  }
 }
 

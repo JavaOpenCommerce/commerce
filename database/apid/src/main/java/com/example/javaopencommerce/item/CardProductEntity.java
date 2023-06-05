@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 class CardProductEntity {
 
-    private Long itemId;
-    private int amount;
+  private Long itemId;
+  private int amount;
 
-    static CardProductEntity fromSnapshot(ProductSnapshot productSnapshot) {
-        return CardProductEntity.builder()
-            .itemId(productSnapshot.getItemId())
-            .amount(productSnapshot.getAmount().asInteger())
-            .build();
-    }
+  static CardProductEntity fromSnapshot(ProductSnapshot productSnapshot) {
+    return CardProductEntity.builder()
+        .itemId(productSnapshot.getItemId())
+        .amount(productSnapshot.getAmount().asInteger())
+        .build();
+  }
 }

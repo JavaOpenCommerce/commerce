@@ -1,420 +1,420 @@
 {
-	"info": {
-		"_postman_id": "9b257cbb-0329-4341-8b80-b4712058c1d5",
-		"name": "JavaOpenCommerce",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Card: /add",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"itemId\": 6,\n    \"amount\": 3\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/card/add",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card",
-						"add"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Card: /",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/card",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Card: /increase?id=",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/card/increase?id=4",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card",
-						"increase"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "4"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Card: /decrease?id=",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/card/decrease?id=2",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card",
-						"decrease"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "2"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Card: /remove?id=",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/card/remove?id=2",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card",
-						"remove"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "2"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Card: /flush",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/card/flush",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card",
-						"flush"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Card: /shipping",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/card/shipping",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"card",
-						"shipping"
-					]
-				},
-				"description": "Doesnt work now, also shouldnt be under /card URI"
-			},
-			"response": []
-		},
-		{
-			"name": "Item: /items/id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/items/3",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"items",
-						"3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Item: /items",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Item: /items + query",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"searchQuery\": \"16GB\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Item: /items + pagination",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"pageSize\": 3,\n    \"pageNum\": 1,\n    \"order\": \"DESC\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Item: /items - by category",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"categoryIds\": \"3,5\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Item: /items + price range",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"priceMin\": 1998,\n    \"priceMax\": 4000\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/items",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"items"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Order: /",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"paymentMethod\": \"MONEY_TRANSFER\",\n    \"orderStatus\": \"NEW\",\n    \"paymentStatus\": \"BEFORE_PAYMENT\",\n    \"addressId\": 1,\n    \"card\": {\n    \"cardValueGross\": 13.01,\n    \"cardValueNett\": 10.58,\n    \"products\": [\n        {\n            \"amount\": 1,\n            \"item\": {\n                \"id\": 4,\n                \"imageId\": 4,\n                \"name\": \"Testowy item\",\n                \"stock\": 218,\n                \"valueGross\": 1.45,\n                \"vat\": 0.23\n            },\n            \"valueGross\": 1.45,\n            \"valueNett\": 1.18\n        },\n        {\n            \"amount\": 1,\n            \"item\": {\n                \"id\": 2,\n                \"imageId\": 2,\n                \"name\": \"Bardzo fajny item\",\n                \"stock\": 333,\n                \"valueGross\": 11.56,\n                \"vat\": 0.23\n            },\n            \"valueGross\": 11.56,\n            \"valueNett\": 9.40\n        }\n    ]\n}\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/order",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"order"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Order: /{id}",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
-			},
-			"response": []
-		},
-		{
-			"name": "Categories: /all",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/categories/all",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"categories",
-						"all"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Categories: /sub",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/categories/sub?id=0",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"categories",
-						"sub"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "0"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Image: /id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/images/2",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"images",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Address: /id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": null
-			},
-			"response": []
-		}
-	],
-	"variable": [
-		{
-			"key": "host",
-			"value": "http://localhost:8080"
-		}
-	]
+  "info": {
+    "_postman_id": "9b257cbb-0329-4341-8b80-b4712058c1d5",
+    "name": "JavaOpenCommerce",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Card: /add",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"itemId\": 6,\n    \"amount\": 3\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/card/add",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Card: /",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/card",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Card: /increase?id=",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/card/increase?id=4",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card",
+            "increase"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "4"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Card: /decrease?id=",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/card/decrease?id=2",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card",
+            "decrease"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Card: /remove?id=",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/card/remove?id=2",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card",
+            "remove"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Card: /flush",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/card/flush",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card",
+            "flush"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Card: /shipping",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/card/shipping",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "card",
+            "shipping"
+          ]
+        },
+        "description": "Doesnt work now, also shouldnt be under /card URI"
+      },
+      "response": []
+    },
+    {
+      "name": "Item: /items/id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/items/3",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "items",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Item: /items",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/items",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Item: /items + query",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"searchQuery\": \"16GB\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/items",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Item: /items + pagination",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"pageSize\": 3,\n    \"pageNum\": 1,\n    \"order\": \"DESC\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/items",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Item: /items - by category",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"categoryIds\": \"3,5\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/items",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Item: /items + price range",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"priceMin\": 1998,\n    \"priceMax\": 4000\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/items",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "items"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Order: /",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"paymentMethod\": \"MONEY_TRANSFER\",\n    \"orderStatus\": \"NEW\",\n    \"paymentStatus\": \"BEFORE_PAYMENT\",\n    \"addressId\": 1,\n    \"card\": {\n    \"cardValueGross\": 13.01,\n    \"cardValueNett\": 10.58,\n    \"products\": [\n        {\n            \"amount\": 1,\n            \"item\": {\n                \"id\": 4,\n                \"imageId\": 4,\n                \"name\": \"Testowy item\",\n                \"stock\": 218,\n                \"valueGross\": 1.45,\n                \"vat\": 0.23\n            },\n            \"valueGross\": 1.45,\n            \"valueNett\": 1.18\n        },\n        {\n            \"amount\": 1,\n            \"item\": {\n                \"id\": 2,\n                \"imageId\": 2,\n                \"name\": \"Bardzo fajny item\",\n                \"stock\": 333,\n                \"valueGross\": 11.56,\n                \"vat\": 0.23\n            },\n            \"valueGross\": 11.56,\n            \"valueNett\": 9.40\n        }\n    ]\n}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{host}}/order",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "order"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Order: /{id}",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
+    },
+    {
+      "name": "Categories: /all",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/categories/all",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "categories",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Categories: /sub",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/categories/sub?id=0",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "categories",
+            "sub"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "0"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Image: /id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}/images/2",
+          "host": [
+            "{{host}}"
+          ],
+          "path": [
+            "images",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Address: /id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": null
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "host",
+      "value": "http://localhost:8080"
+    }
+  ]
 }

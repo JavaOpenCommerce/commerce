@@ -8,8 +8,8 @@ import lombok.Value;
 @Builder
 public class Producer {
 
-    Long id;
-    Long imageId;
-    List<ProducerDetails> details;
+  Long id;
+  Long imageId;
+  List<ProducerDetails> details;
 
 }

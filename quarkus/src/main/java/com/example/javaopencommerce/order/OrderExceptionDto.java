@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderExceptionDto {
+
   private String message;
   private String type;
   private String additionalData;

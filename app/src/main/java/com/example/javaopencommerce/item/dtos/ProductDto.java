@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDto {
 
-    private ItemDto item;
-    private BigDecimal valueNett;
-    private BigDecimal valueGross;
-    private int amount;
+  private ItemDto item;
+  private BigDecimal valueNett;
+  private BigDecimal valueGross;
+  private int amount;
 }

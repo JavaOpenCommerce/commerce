@@ -8,11 +8,11 @@ import lombok.Value;
 @Builder
 public class PageDto<T> {
 
-    List<T> items;
+  List<T> items;
 
-    int pageNumber;
-    int pageSize;
-    int pageCount;
-    int totalElementsCount;
+  int pageNumber;
+  int pageSize;
+  int pageCount;
+  int totalElementsCount;
 
 }

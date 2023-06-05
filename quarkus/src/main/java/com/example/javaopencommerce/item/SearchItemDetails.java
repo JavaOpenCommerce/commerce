@@ -9,7 +9,7 @@ import lombok.Getter;
 @EqualsAndHashCode
 class SearchItemDetails {
 
-    private final String lang;
-    private final String name;
-    private final String description;
+  private final String lang;
+  private final String name;
+  private final String description;
 }

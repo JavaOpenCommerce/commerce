@@ -7,7 +7,7 @@ import lombok.Value;
 @Builder
 class ImageSnapshot {
 
-    Long id;
-    String alt;
-    String url;
+  Long id;
+  String alt;
+  String url;
 }

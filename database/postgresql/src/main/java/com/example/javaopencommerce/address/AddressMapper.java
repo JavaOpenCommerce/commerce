@@ -12,34 +12,34 @@ import java.util.List;
 
 class AddressMapper {
 
-    private static final String ID = "id";
-    private static final String CITY = "city";
-    private static final String LOCAL = "local";
-    private static final String STREET = "street";
-    private static final String ZIP = "zip";
+  private static final String ID = "id";
+  private static final String CITY = "city";
+  private static final String LOCAL = "local";
+  private static final String STREET = "street";
+  private static final String ZIP = "zip";
 
 
-    public List<AddressEntity> rowSetToAddressList(RowSet<Row> rs) {
-        if (CommonRow.isRowSetEmpty(rs)) {
-            return emptyList();
-        }
-
-        return stream(rs.spliterator(), false)
-                .map(this::rowToAddress)
-                .collect(toList());
+  public List<AddressEntity> rowSetToAddressList(RowSet<Row> rs) {
+    if (CommonRow.isRowSetEmpty(rs)) {
+      return emptyList();
     }
 
-    public AddressEntity rowToAddress(Row row) {
-        if (isNull(row)) {
-            return AddressEntity.builder().build();
-        }
+    return stream(rs.spliterator(), false)
+        .map(this::rowToAddress)
+        .collect(toList());
+  }
 
-        return AddressEntity.builder()
-                .id(row.getLong(ID))
-                .city(row.getString(CITY))
-                .local(row.getString(LOCAL))
-                .street(row.getString(STREET))
-                .zip(row.getString(ZIP))
-                .build();
+  public AddressEntity rowToAddress(Row row) {
+    if (isNull(row)) {
+      return AddressEntity.builder().build();
     }
+
+    return AddressEntity.builder()
+        .id(row.getLong(ID))
+        .city(row.getString(CITY))
+        .local(row.getString(LOCAL))
+        .street(row.getString(STREET))
+        .zip(row.getString(ZIP))
+        .build();
+  }
 }
