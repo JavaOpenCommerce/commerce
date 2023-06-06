@@ -18,6 +18,8 @@ com:
 
 ## Default, that is production quarkus configuration:
 quarkus:
+  native:
+    builder-image: graalvm
   log:
     console:
       enable: true

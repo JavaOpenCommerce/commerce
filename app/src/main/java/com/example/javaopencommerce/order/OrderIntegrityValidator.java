@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
-@Slf4j
+@Log4j2
 class OrderIntegrityValidator {
 
   private final ItemQueryRepository itemQueryRepository;
@@ -127,7 +127,7 @@ class OrderIntegrityValidator {
 
     List<ProductDto> outOfStockItems = orderedProducts.stream()
         .filter(product -> !isEnoughInStock(currentStocks, product))
-        .collect(Collectors.toList());
+        .toList();
 
     if (!outOfStockItems.isEmpty()) {
       return List.of(new OutOfStockItemsValidationException(outOfStockItems));

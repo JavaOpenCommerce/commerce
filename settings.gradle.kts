@@ -5,16 +5,28 @@
  * in the user guide at https://docs.gradle.org/4.4.1/userguide/multi_project_builds.html
  */
 
-rootProject.name = 'jcc'
-include 'bom'
-include 'commons'
-include 'core'
-include 'app'
-include 'database:apid'
-include 'database:postgresql'
-include 'database:redis'
-include 'model'
-include 'quarkus'
+rootProject.name = "jcc"
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+    plugins {
+        `version-catalog`
+    }
+}
+include(
+    "bom",
+    "app",
+    "commons",
+    "core",
+    "database:apid",
+    "database:postgresql",
+    "database:redis",
+    "model",
+    "quarkus",
+)
 
 //findProject(':database:apid')?.name = 'apid'
 //findProject(':database:posgresql')?.name = 'posgresql'
