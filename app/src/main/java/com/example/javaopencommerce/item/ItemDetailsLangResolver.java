@@ -1,13 +1,14 @@
 package com.example.javaopencommerce.item;
 
+import com.example.javaopencommerce.LanguageResolver;
+import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
+
+import java.util.List;
+
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
-
-import com.example.javaopencommerce.LanguageResolver;
-import com.example.javaopencommerce.item.ItemSnapshot.ItemDetailsSnapshot;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import java.util.List;
 
 class ItemDetailsLangResolver {
 
@@ -31,7 +32,7 @@ class ItemDetailsLangResolver {
             .filter(d -> d.getLang().getLanguage().equalsIgnoreCase(languageResolver.getDefault()))
             .findFirst()
             .orElse(ItemDetailsSnapshot.builder()
-                .name(HttpResponseStatus.NOT_FOUND.toString())
+                .name(String.valueOf(HTTP_NOT_FOUND))
                 .build()));
   }
 
