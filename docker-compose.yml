@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+  quarkus-app:
+    build:
+      context: ./quarkus/
+      dockerfile: src/main/docker/Dockerfile.jvm
+    env_file: .env-docker
+    environment:
+      - QUARKUS_DATASOURCE_HOST=postgresql
+      - REDIS_HOSTS=redis
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    restart: on-failure
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    networks:
+      backend:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
+
+  postgresql:
+    image: postgres:15.3-alpine3.18
+    env_file: .env-docker
+    environment:
+      - PGUSER=postgres
+      - PGPASSWORD=`</dev/urandom tr -dc A-Za-z0-9 | head -c 32`
+    ports:
+      - "5432:5432"
+    ulimits:
+      memlock: -1
+    restart: always
+    healthcheck:
+      interval: 2s
+      retries: 20
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+    networks:
+      backend:
+
+  flyway:
+    image: flyway/flyway:9.20-alpine
+    env_file: .env-docker
+    entrypoint: /bin/bash
+    command:
+      - "-c"
+      - "/flyway/flyway 
+      -locations=filesystem:/flyway/sql
+      -url=jdbc:postgresql://$${POSTGRES_HOST}:$${POSTGRES_PORT}/$${POSTGRES_DB} 
+      -schemas=$${POSTGRES_SCHEMA} 
+      -user=$${POSTGRES_USER} 
+      -password=$${POSTGRES_PASSWORD} 
+      -connectRetries=5 
+      migrate
+      -X
+      ; ls -la /flyway/sql"
+    volumes:
+      - ${PWD}/quarkus/src/main/resources/db/migration:/flyway/sql
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      backend:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.2
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: always
+    environment:
+      - node.name=es01
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    healthcheck:
+      interval: 2s
+      retries: 20
+      test: curl -s http://elasticsearch:9200 >/dev/null || exit 1
+    networks:
+      backend:
+
+  redis:
+    image: redis
+    ports:
+      - "6380:6379"
+    networks:
+      backend:
+
+networks:
+  backend:

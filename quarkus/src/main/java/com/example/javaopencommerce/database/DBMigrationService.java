@@ -1,14 +1,17 @@
 package com.example.javaopencommerce.database;
 
+import io.quarkus.arc.properties.IfBuildProperty;
 import io.quarkus.runtime.StartupEvent;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import lombok.extern.log4j.Log4j2;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.flywaydb.core.Flyway;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+
 @Log4j2
 @ApplicationScoped
+@IfBuildProperty(name = "quarkus.datasource.jdbc", stringValue = "true")
 public class DBMigrationService {
 
   @ConfigProperty(name = "quarkus.datasource.reactive.url")
@@ -21,8 +24,10 @@ public class DBMigrationService {
   String datasourcePassword;
 
   public void runFlywayMigration(@Observes StartupEvent event) {
+    String jdbcUrl = "jdbc:" + this.datasourceUrl;
+    log.info("Migrating with flyway, and database: {}", jdbcUrl);
     Flyway flyway = Flyway.configure()
-        .dataSource("jdbc:" + this.datasourceUrl, this.datasourceUsername, this.datasourcePassword)
+        .dataSource(jdbcUrl, this.datasourceUsername, this.datasourcePassword)
         .load();
     flyway.migrate();
 

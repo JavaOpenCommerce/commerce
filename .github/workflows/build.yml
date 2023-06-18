@@ -1,20 +1,62 @@
-name: Java CI
+name: Java Open Commerce pipeline
 on: [ push ]
 
 jobs:
   build_job:
     runs-on: ubuntu-latest
+    container:
+      image: eclipse-temurin:17-alpine@sha256:b617ad10f590d8933bc3971651dab334bde4c9e842e2a03cf113ae09ec1aeff3
+    env:
+      QUARKUS_DATASOURCE_USERNAME: example_username
+      QUARKUS_DATASOURCE_PASSWORD: example_password
     name: Build and test
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout the source code
+        uses: actions/checkout@v3
+
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'liberica'
-          java-version: '17'
-          cache: 'gradle'
-      - name: Build with Gradle
+
+      - name: Build application
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
           arguments: build test
+
+      - name: Setup Docker
+        run: |
+          /bin/sh -c set -eux; 
+          apkArch="$(apk --print-arch)"; case "$apkArch" in 'x86_64') url='https://download.docker.com/linux/static/stable/x86_64/docker-24.0.2.tgz'; ;; 'armhf') url='https://download.docker.com/linux/static/stable/armel/docker-24.0.2.tgz'; ;; 'armv7') url='https://download.docker.com/linux/static/stable/armhf/docker-24.0.2.tgz'; ;; 'aarch64') url='https://download.docker.com/linux/static/stable/aarch64/docker-24.0.2.tgz'; ;; *) echo >&2 "error: unsupported 'docker.tgz' architecture ($apkArch)"; exit 1 ;; esac; 
+          wget -O 'docker.tgz' "$url"; tar --extract --file docker.tgz --strip-components 1 --directory /usr/local/bin/ --no-same-owner 'docker/docker' ; 
+          rm docker.tgz; docker --version 
+          case "$apkArch" in 'x86_64') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-x86_64'; sha256='b4e6aff14c30f82ce26e94d37686b5598b3f870ce1e053927c853b4f4b128575'; ;; 'armhf') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-armv6'; sha256='34430890fe8ab68fe091a2907ebff174d1d6dcfc3d4e87f8c50bb105a2ac8b5f'; ;; 'armv7') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-armv7'; sha256='cced34fc17c3689b5e0760b115ef481014eb004370a7b9380fc25eeef55570bb'; ;; 'aarch64') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-aarch64'; sha256='6d1784542f74806ef0ed4e798d31c91604453eb06b86448b4c60d7df5d5b7afb'; ;; 'ppc64le') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-ppc64le'; sha256='baa21ead951f0b0a0dc191e4dc7718e584961d0fcbb5969004bdcf1950203cde'; ;; 'riscv64') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-riscv64'; sha256='2e84879a8677bcebda18d7772a86fa107f3745ba693f7c9c397b9fede355e3f2'; ;; 's390x') url='https://github.com/docker/compose/releases/download/v2.18.1/docker-compose-linux-s390x'; sha256='e8d5669b5f11212310d080d239348fe293b783c7357bb1085728fbed69e519c9'; ;; *) echo >&2 "warning: unsupported 'docker-compose' architecture ($apkArch); skipping"; exit 0 ;; esac; 
+          wget -O 'docker-compose' "$url"; echo "$sha256 *"'docker-compose' | sha256sum -c -; plugin='/usr/local/libexec/docker/cli-plugins/docker-compose'; 
+          mkdir -p "$(dirname "$plugin")"; mv -vT 'docker-compose' "$plugin"; 
+          chmod +x "$plugin"; ln -sv "$plugin" /usr/local/bin/; 
+          docker-compose --version; 
+          docker compose version
+
+      - name: run docker-compose
+        run: docker compose up -d
+## TODO: change to grep healthy status, after redis will be up and working. Add the basic integration check, fetch item:
+      - name: Healthcheck status on a container
+        run: timeout 2m sh -c 'until docker ps --filter status=running --filter "name=jcc_quarkus-app_1" --format "{{.ID}} {{.Names}} {{.Status}}" | grep -q "(unhealthy)"; do docker ps -a; sleep 10; done'
+
+      - name: fetch docker logs
+        if: ${{ failure() }}
+        run: |
+          for i in $(docker ps -a --format "{{.Names}}"); do 
+            echo "Docker logs for container ${i}\n\n"; 
+            docker logs $i; 
+            docker inspect $i; 
+          done
+          echo "trying to list flyway sql" && docker start -ai --entrypoint /bin/bash jcc_flyway_1 -c "ls /flyway/sql";
+          echo "flyway schema migration directory:" && ls ${PWD}/quarkus/src/main/resources/db/migration/
+#      - name: Basic integration check
+#        run: |
+#          response=$(curl -s localhost:8080/items)
+#          if [[ $response == *"\"id\""* ]]; then
+#            echo "JSON response contains 'id' parameter."
+#          else
+#            echo "JSON response does not contain 'id' parameter."
+#            exit 1
+#          fi

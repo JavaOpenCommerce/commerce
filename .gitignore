@@ -6,6 +6,8 @@ build
 ## IDE config file/directory:
 .idea
 *.iml
+*.iws
+*.ipr
 
 # Compiled class file
 *.class

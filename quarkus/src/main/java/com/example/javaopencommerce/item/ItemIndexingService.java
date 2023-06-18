@@ -6,11 +6,15 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.runtime.StartupEvent;
+import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.Json;
+import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.client.WebClientOptions;
 import lombok.extern.log4j.Log4j2;
+import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -52,13 +56,20 @@ class ItemIndexingService {
     }
 
     private void cleanIndex() {
-        client.delete("/items").send(ar -> {
-            if (ar.succeeded()) {
-                log.info("'Item' index successfully cleaned: %s", ar.result().bodyAsString());
-            } else {
-                log.info("Problems during 'item' index cleanup: %s", ar.result().bodyAsJsonObject());
-            }
-        });
+        client.delete("/items").send(ItemIndexingService::logResult);
+    }
+
+    private static void logResult(AsyncResult<HttpResponse<Buffer>> ar) {
+        if (ar.succeeded()) {
+            log.info("'Item' index successfully cleaned: {}", getResult(ar));
+        } else {
+            log.info("Problems during 'item' index cleanup: {}", getResult(ar));
+        }
+    }
+
+    @Nullable
+    private static Object getResult(AsyncResult<HttpResponse<Buffer>> ar) {
+        return Optional.ofNullable(ar.result()).map(HttpResponse::bodyAsString).orElse(null);
     }
 
     private void updateIndexSettings() {
@@ -73,16 +84,7 @@ class ItemIndexingService {
 
         client.put("/items")
                 .putHeader("Content-Type", APPLICATION_JSON)
-                .sendJson(settingsPayload, ar -> {
-                            if (ar.succeeded()) {
-                                log.info("Settings for index 'item' successfully updated, %s",
-                                        ar.result().bodyAsString());
-                            } else {
-                                log.warn("Troubles during update of 'item' index settings, %s",
-                                        ar.result().bodyAsJsonObject());
-                            }
-                        }
-                );
+                .sendJson(settingsPayload, ItemIndexingService::logResult);
     }
 
     private TreeNode getSettingsPayload(String settingsJson) {
@@ -91,21 +93,20 @@ class ItemIndexingService {
             JsonParser parser = mapper.getFactory().createParser(settingsJson);
             treeNode = mapper.readTree(parser);
         } catch (IOException e) {
-            log.warn("Failed to parse json with index settings: %s", e.getMessage());
+            log.warn("Failed to parse json with index settings: {}", e.getMessage());
         }
         return treeNode;
     }
 
     private Optional<String> getSettingsJson() {
-        try {
-            InputStream resource = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream("elasticsearch_config.json");
+        try(InputStream resource = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("elasticsearch_config.json")) {
             if (resource == null) {
                 return empty();
             }
             return Optional.of(new String(resource.readAllBytes()));
         } catch (IOException e) {
-            log.error("Failed to load elastic search settings file: %s", e.getMessage());
+            log.error("Failed to load elastic search settings file: {}", e.getMessage());
             return empty();
         }
     }
@@ -118,15 +119,7 @@ class ItemIndexingService {
         client.put("/items/_doc/" + item.getId())
                 .putHeader("Content-Length", String.valueOf(Json.encode(item).length()))
                 .putHeader("Content-Type", APPLICATION_JSON)
-                .sendJson(item, ar -> {
-                    if (ar.succeeded()) {
-                        log.info("Item with id %s, successfully indexed, %s", item.getId(),
-                                ar.result().bodyAsString());
-                    } else {
-                        log.info("Troubles during indexing item with id: %s, %s", item.getId(),
-                                ar.result().bodyAsJsonObject());
-                    }
-                });
+                .sendJson(item, ItemIndexingService::logResult);
     }
 
     private List<SearchItem> getSearchItems() {

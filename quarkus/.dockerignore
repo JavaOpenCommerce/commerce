@@ -1,4 +1,6 @@
 *
-!build/*-runner
-!build/*-runner.jar
-!build/lib/*
+!build/quarkus-app/app/quarkus-*.jar
+!build/quarkus-app/lib/*
+!build/quarkus-app/quarkus/*
+!build/quarkus-app/quarkus-*.jar
+!build/quarkus-app/quarkus-*.txt

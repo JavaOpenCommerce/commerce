@@ -27,7 +27,8 @@ dependencies {
     implementation("org.flywaydb:flyway-core") // { exclude (module: "net.milkbowl:vault:1.2.27") }
 
     implementation("io.quarkus:quarkus-resteasy-jsonb")
-    implementation("io.quarkus:quarkus-resteasy-mutiny")
+    implementation("org.jboss.logmanager:log4j2-jboss-logmanager")
+
     implementation("io.smallrye.reactive:mutiny")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-pg-client")
@@ -39,6 +40,7 @@ dependencies {
     implementation(libs.log4j.api)
     implementation(libs.log4j.core)
     implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("io.quarkus:quarkus-smallrye-health")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured") {
@@ -51,6 +53,12 @@ dependencies {
     testAnnotationProcessor(libs.lombok)
 
     testImplementation(libs.bundles.spock)
+
+    if (hasProperty("profile") && property("profile") == "docker") {
+        println("Adding dependencies, in order to create a docker image.")
+        implementation(platform(libs.quarkus))
+        implementation("io.quarkus:quarkus-container-image-docker")
+    }
 }
 
 tasks.withType<JavaCompile> {
@@ -60,7 +68,6 @@ tasks.withType<JavaCompile> {
 /**
  * Remove migration SQLs from being packaged in resulting jar
  */
-
 distributions {
     main {
         distributionBaseName.set(project.name)
