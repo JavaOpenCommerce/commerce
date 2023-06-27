@@ -49,18 +49,12 @@ services:
     entrypoint: /bin/bash
     command:
       - "-c"
-      - "/flyway/flyway 
-      -locations=filesystem:/flyway/sql
-      -url=jdbc:postgresql://$${POSTGRES_HOST}:$${POSTGRES_PORT}/$${POSTGRES_DB} 
-      -schemas=$${POSTGRES_SCHEMA} 
-      -user=$${POSTGRES_USER} 
-      -password=$${POSTGRES_PASSWORD} 
-      -connectRetries=5 
-      migrate
-      -X
-      ; ls -la /flyway/sql"
+      - "/flyway/flyway
+      migrate -X
+      ; echo '/flyway directory' && ls -la /flyway/ && echo '/flyway/sql' && ls -la /flyway/sql && echo '/flyway/conf' && ls -la /flyway/conf"
     volumes:
-      - ${PWD}/quarkus/src/main/resources/db/migration:/flyway/sql
+      - ${GITHUB_WORKSPACE:-.}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf:ro
+      - ${GITHUB_WORKSPACE:-.}/quarkus/src/main/resources/db/migration:/flyway/sql/:ro
     depends_on:
       postgresql:
         condition: service_healthy

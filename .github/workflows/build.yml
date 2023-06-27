@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: eclipse-temurin:17-alpine@sha256:b617ad10f590d8933bc3971651dab334bde4c9e842e2a03cf113ae09ec1aeff3
+      volumes:
+          - ${{ github.workspace }}/quarkus/src/main/resources/db/migration/:/flyway/sql/
+          - ${{ github.workspace }}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf
     env:
       QUARKUS_DATASOURCE_USERNAME: example_username
       QUARKUS_DATASOURCE_PASSWORD: example_password
@@ -32,11 +35,16 @@ jobs:
           wget -O 'docker-compose' "$url"; echo "$sha256 *"'docker-compose' | sha256sum -c -; plugin='/usr/local/libexec/docker/cli-plugins/docker-compose'; 
           mkdir -p "$(dirname "$plugin")"; mv -vT 'docker-compose' "$plugin"; 
           chmod +x "$plugin"; ln -sv "$plugin" /usr/local/bin/; 
-          docker-compose --version; 
-          docker compose version
+          echo "compose version" && docker-compose --version; 
 
       - name: run docker-compose
-        run: docker compose up -d
+        run: |
+          /bin/sh -c set -eux; 
+          echo "flyway schema migration directory:" && ls ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration/  
+          echo "mounted directories: " && ls -dla /tmp/ 2>/dev/null;
+          docker compose up -d;
+          docker run --rm -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration/:/flyway/sql/ -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf /flyway/flyway migrate -X 2>/dev/null
+
 ## TODO: change to grep healthy status, after redis will be up and working. Add the basic integration check, fetch item:
       - name: Healthcheck status on a container
         run: timeout 2m sh -c 'until docker ps --filter status=running --filter "name=jcc_quarkus-app_1" --format "{{.ID}} {{.Names}} {{.Status}}" | grep -q "(unhealthy)"; do docker ps -a; sleep 10; done'
@@ -49,8 +57,7 @@ jobs:
             docker logs $i; 
             docker inspect $i; 
           done
-          echo "trying to list flyway sql" && docker start -ai --entrypoint /bin/bash jcc_flyway_1 -c "ls /flyway/sql";
-          echo "flyway schema migration directory:" && ls ${PWD}/quarkus/src/main/resources/db/migration/
+          echo "flyway schema migration directory:" && ls ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration/
 #      - name: Basic integration check
 #        run: |
 #          response=$(curl -s localhost:8080/items)
