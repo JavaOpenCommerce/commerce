@@ -7,11 +7,7 @@ jobs:
     container:
       image: eclipse-temurin:17-alpine@sha256:b617ad10f590d8933bc3971651dab334bde4c9e842e2a03cf113ae09ec1aeff3
       volumes:
-          - ${{ github.workspace }}/quarkus/src/main/resources/db/migration/:/flyway/sql/
-          - ${{ github.workspace }}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf
-    env:
-      QUARKUS_DATASOURCE_USERNAME: example_username
-      QUARKUS_DATASOURCE_PASSWORD: example_password
+          - flyway:${{ github.workspace }}/quarkus/src/main/resources/db/
     name: Build and test
     steps:
       - name: Checkout the source code
@@ -40,13 +36,13 @@ jobs:
       - name: run docker-compose
         run: |
           /bin/sh -c set -eux; 
-          docker compose up -V -d;
-          echo "trying to run flyway:"
-          docker run --rm -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration:/flyway/sql/ -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf --env-file ${GITHUB_WORKSPACE}/.env-docker flyway/flyway migrate -X;
+          docker compose --verbose up -d;
+          echo "Trying to run flyway:"
+          docker run --name manual-flyway-1 -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration/:/flyway/sql/ -v ${GITHsUB_WORKSPACE}/quarkus/src/main/resources/db/conf/:/flyway/conf --env-file ${GITHUB_WORKSPACE}/.env-docker flyway/flyway migrate -X;
 
 ## TODO: change to grep healthy status, after redis will be up and working. Add the basic integration check, fetch item:
       - name: Healthcheck status on a container
-        run: timeout 2m sh -c 'until docker ps --filter status=running --filter "name=jcc_quarkus-app_1" --format "{{.ID}} {{.Names}} {{.Status}}" | grep -q "(unhealthy)"; do docker ps -a; sleep 10; done'
+        run: timeout 2m sh -c 'until docker ps --filter status=running --filter "name=jcc_quarkus-app_1" --format "{{.ID}} {{.Names}} {{.Status}}" | grep -q "(unhealthy)"; do docker ps -a; sleep 10; done';
 
       - name: fetch docker logs
         if: ${{ failure() }}
