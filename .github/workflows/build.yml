@@ -40,10 +40,9 @@ jobs:
       - name: run docker-compose
         run: |
           /bin/sh -c set -eux; 
-          echo "flyway schema migration directory:" && ls ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration/  
-          echo "mounted directories: " && ls -dla /tmp/ 2>/dev/null;
-          docker compose up -d;
-          docker run --rm -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration/:/flyway/sql/ -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf /flyway/flyway migrate -X 2>/dev/null
+          docker compose up -V -d;
+          echo "trying to run flyway:"
+          docker run --rm -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/migration:/flyway/sql/ -v ${GITHUB_WORKSPACE}/quarkus/src/main/resources/db/conf/flyway.conf:/flyway/conf/flyway.conf --env-file ${GITHUB_WORKSPACE}/.env-docker flyway/flyway migrate -X;
 
 ## TODO: change to grep healthy status, after redis will be up and working. Add the basic integration check, fetch item:
       - name: Healthcheck status on a container
