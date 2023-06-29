@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":model"))
     implementation(project(":commons"))
     implementation(project(":bom"))
-    implementation("io.smallrye.reactive:mutiny")
+    implementation("io.quarkus:quarkus-hibernate-orm")
 
 //    tests to change
     testImplementation("org.junit.jupiter:junit-jupiter-api")

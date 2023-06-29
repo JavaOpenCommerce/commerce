@@ -2,8 +2,8 @@ package com.example.javaopencommerce.order;
 
 import static java.util.stream.Collectors.toList;
 
-import com.example.javaopencommerce.order.exceptions.validation.ExceptionWithPayload;
-import com.example.javaopencommerce.order.exceptions.validation.OrderValidationException;
+import com.example.javaopencommerce.order.exceptions.ExceptionWithPayload;
+import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValidationException;
 import com.example.javaopencommerce.statics.JsonConverter;
 import java.util.List;
 import javax.ws.rs.core.Response;

@@ -1,58 +1,32 @@
 package com.example.javaopencommerce.order;
 
-import static java.util.Collections.emptyList;
-import static java.util.Optional.of;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
-
-import com.example.javaopencommerce.CommonRow;
-import io.vertx.mutiny.sqlclient.Row;
-import io.vertx.mutiny.sqlclient.RowSet;
+import com.example.javaopencommerce.order.dtos.OrderDto;
+import com.example.javaopencommerce.order.dtos.OrderDto.OrderItemDto;
+import com.example.javaopencommerce.statics.JsonConverter;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 class OrderMapper {
 
-  private static final String ID = "id";
-  private static final String CREATION_DATE = "creation_date";
-  private static final String PAYMENT_METHOD = "payment_method";
-  private static final String PAYMENT_STATUS = "payment_status";
-  private static final String VALUE_GROSS = "value_gross";
-  private static final String VALUE_NETT = "value_nett";
-
-  private static final String ORDER_STATUS = "order_status";
-  private static final String ADDRESS_ID = "address_id";
-  private static final String USER_ID = "user_id";
-  private static final String ORDER_DETAILS = "order_details";
-
-  public List<OrderEntity> getOrderEntityList(RowSet<Row> rs) {
-    if (CommonRow.isRowSetEmpty(rs)) {
-      return emptyList();
-    }
-
-    return stream(rs.spliterator(), false)
-        .map(this::rowToOrder)
-        .collect(toList());
+  private OrderMapper() {
   }
 
-  public OrderEntity rowToOrder(Row row) {
-    if (row == null) {
-      return OrderEntity.builder().build();
-    }
+  static OrderDto toQuery(OrderEntity entity) {
+    List<SimpleProductEntity> items = JsonConverter.convertToObject(entity.getSimpleProductsJson(),
+        new ArrayList<SimpleProductEntity>() {
+        }.getClass().getGenericSuperclass());
 
-    return OrderEntity.builder()
-        .id(row.getLong(ID))
-        .creationDate(row.getLocalDate(CREATION_DATE))
-        .paymentMethod(of(row.getString(PAYMENT_METHOD))
-            .orElse(PaymentMethod.MONEY_TRANSFER.toString()))
-        .paymentStatus(of(row.getString(PAYMENT_STATUS))
-            .orElse(PaymentStatus.BEFORE_PAYMENT.toString()))
-        .orderStatus(of(row.getString(ORDER_STATUS))
-            .orElse(OrderStatus.NEW.toString()))
-        .valueNett(row.getBigDecimal(VALUE_NETT))
-        .valueGross(row.getBigDecimal(VALUE_GROSS))
-        .shippingAddressId(row.getLong(ADDRESS_ID))
-        .userEntityId(row.getLong(USER_ID))
-        .simpleProductsJson(row.getString(ORDER_DETAILS))
-        .build();
+    return OrderDto.builder().id(entity.getId()).status(entity.getStatus())
+        .paymentStatus(entity.getPaymentStatus()).valueNett(entity.getValueNett())
+        .valueGross(entity.getValueGross()).creationDate(entity.getCreatedAt())
+        .items(items.stream().map(OrderMapper::toDto).toList()).build();
+  }
+
+  private static OrderItemDto toDto(SimpleProductEntity orderItem) {
+    return new OrderItemDto(orderItem.getItemId(), orderItem.getName(), orderItem.getAmount(),
+        orderItem.getValueGross(),
+        orderItem.getValueGross().multiply(BigDecimal.valueOf(orderItem.getAmount())),
+        BigDecimal.valueOf(orderItem.getVat()));
   }
 }

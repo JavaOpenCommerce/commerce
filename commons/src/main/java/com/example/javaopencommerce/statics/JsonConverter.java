@@ -7,10 +7,10 @@ import javax.json.bind.JsonbBuilder;
 
 public abstract class JsonConverter {
 
+  private static final Jsonb jsonb = JsonbBuilder.create();
+
   private JsonConverter() {
   }
-
-  private static final Jsonb jsonb = JsonbBuilder.create();
 
   public static <T> T convertToObject(String json, Type type) {
     return jsonb.fromJson(json, type);

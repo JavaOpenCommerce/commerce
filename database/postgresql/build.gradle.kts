@@ -13,12 +13,10 @@ dependencies {
     implementation(project(":model"))
     implementation(project(":commons"))
 
-    implementation("io.quarkus:quarkus-reactive-pg-client")
-    implementation("org.postgresql:postgresql:42.6.0")
-    implementation("io.smallrye.reactive:mutiny")
+    implementation("io.quarkus:quarkus-hibernate-orm")
+    implementation("io.quarkus:quarkus-jdbc-postgresql")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
-//    TODO: move redis integration to separate module.
-    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-redis-client:0.0.16")
 
     implementation(libs.log4j.api)
     implementation(libs.log4j.core)

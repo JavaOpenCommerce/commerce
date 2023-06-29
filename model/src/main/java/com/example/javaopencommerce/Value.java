@@ -20,19 +20,32 @@ public class Value {
     return new Value(value);
   }
 
-  public BigDecimal asDecimal() {
-    return this.value;
+  public static Value zero() {
+    return new Value(BigDecimal.ZERO);
   }
 
-  public Value asObject() {
-    return this;
+  public BigDecimal asDecimal() {
+    return this.value;
   }
 
   public Value multiply(BigDecimal multiplier) {
     return Value.of(this.value.multiply(multiplier, MathContext.DECIMAL32));
   }
 
+  public Value multiply(Amount multiplier) {
+    return Value.of(this.value.multiply(multiplier.asDecimal(), MathContext.DECIMAL32));
+  }
+
   public Value divide(BigDecimal divider) {
     return Value.of(this.value.divide(divider, 2, RoundingMode.HALF_UP));
+  }
+
+  public Value add(Value toAdd) {
+    return Value.of(this.value.add(toAdd.value));
+  }
+
+  public Value toNett(Vat vat) {
+    BigDecimal multiplier = BigDecimal.ONE.subtract(vat.asDecimal());
+    return this.multiply(multiplier);
   }
 }

@@ -1,23 +1,17 @@
 package com.example.javaopencommerce.order.dtos;
 
-import com.example.javaopencommerce.item.dtos.CardDto;
-import java.time.LocalDate;
-import lombok.AllArgsConstructor;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class OrderDto {
+public record OrderDto(UUID id, String status, String paymentStatus, List<OrderItemDto> items,
+                       BigDecimal valueNett, BigDecimal valueGross, Instant creationDate) {
 
-  private Long id;
-  private LocalDate creationDate;
-  private String paymentStatus;
-  private String paymentMethod;
-  private String orderStatus;
-  private Long addressId;
-  private CardDto card;
+  public record OrderItemDto(Long itemId, String name, int amount, BigDecimal unitValueGross,
+                             BigDecimal totalValueGross, BigDecimal vat) {
+
+  }
 }
