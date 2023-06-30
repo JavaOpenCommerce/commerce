@@ -7,6 +7,10 @@ import com.example.javaopencommerce.Vat;
 @lombok.Value
 class Item {
 
+  static Item empty(ItemId id, String name) {
+    return new Item(id, Amount.ZERO, name, null, Value.ZERO, Vat.ZERO);
+  }
+
   ItemId id;
   Amount stock;
   String name;

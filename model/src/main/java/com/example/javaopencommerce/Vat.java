@@ -1,12 +1,14 @@
 package com.example.javaopencommerce;
 
+import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.valueOf;
 
 import java.math.BigDecimal;
-import lombok.Value;
 
-@Value
+@lombok.Value
 public class Vat {
+
+  public final static Vat ZERO = new Vat(0);
 
   double value;
 
@@ -19,6 +21,10 @@ public class Vat {
       vat = 0.00;
     }
     return new Vat(vat);
+  }
+
+  public Value toNett(Value gross) {
+    return gross.divide(asDecimal().add(ONE));
   }
 
   public BigDecimal asDecimal() {

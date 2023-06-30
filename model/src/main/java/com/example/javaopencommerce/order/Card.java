@@ -32,7 +32,7 @@ final class Card {
   }
 
   static Card validateAndRecreate(CardSnapshot cardToValidate, List<CardItem> cardItems) {
-    Map<ItemId, CardItem> card = cardItems.stream()
+    Map<ItemId, CardItem> card = cardItems.stream().filter(item -> !item.hasZeroAmount())
         .collect(Collectors.toMap(CardItem::id, Function.identity()));
 
     Card actualCard = new Card(card);
@@ -60,6 +60,9 @@ final class Card {
   void changeItemAmount(Item item, Amount amount) {
     ItemId itemId = item.getId();
     this.items.remove(itemId);
+    if (amount.isZero()) {
+      return;
+    }
     items.put(itemId, CardItem.withAmount(item, amount));
     calculateCardValue();
   }

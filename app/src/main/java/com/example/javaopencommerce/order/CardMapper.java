@@ -31,7 +31,7 @@ class CardMapper {
         Amount.of(itemDto.getStock()), itemDto.getName(), itemDto.getImageUri(),
         Value.of(itemDto.getValueGross()), Vat.of(itemDto.getVat()));
     return new CardItemSnapshot(itemSnapshot, Value.of(cardItemDto.valueNett()),
-        Value.of(cardItemDto.valueGross()), Amount.of(cardItemDto.amount()));
+        Value.of(cardItemDto.valueGross()), Amount.of(cardItemDto.amount()), null);
   }
 
   static CardDto toDto(Card card) {
@@ -48,7 +48,8 @@ class CardMapper {
     ItemSnapshot itemSnapshot = cardItemSnapshot.itemSnapshot();
     ItemDto itemDto = fromSnapshot(itemSnapshot);
     return new CardItemDto(itemDto, cardItemSnapshot.valueNett().asDecimal(),
-        cardItemSnapshot.valueGross().asDecimal(), cardItemSnapshot.amount().asInteger());
+        cardItemSnapshot.valueGross().asDecimal(), cardItemSnapshot.amount().asInteger(),
+        cardItemSnapshot.status());
   }
 
   private static ItemDto fromSnapshot(ItemSnapshot itemSnapshot) {

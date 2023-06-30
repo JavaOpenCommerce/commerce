@@ -1,13 +1,11 @@
 package com.example.javaopencommerce.order;
 
-import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Objects.requireNonNull;
 
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.order.Item.ItemSnapshot;
-import com.example.javaopencommerce.order.exceptions.OutOfStockException;
 
 final class CardItem {
 
@@ -15,11 +13,17 @@ final class CardItem {
   private Amount amount;
   private Value valueNett = Value.of(ZERO);
   private Value valueGross = Value.of(ZERO);
+  private CardItemStatus status;
 
-  private CardItem(Item item, Amount amount) {
+  private CardItem(Item item, Amount amount, CardItemStatus status) {
     this.item = item;
     this.amount = amount;
+    this.status = status;
     calculateSumValue();
+  }
+
+  static CardItem empty(ItemId id, String name) {
+    return new CardItem(Item.empty(id, name), Amount.ZERO, CardItemStatus.ITEM_NO_LONGER_EXISTS);
   }
 
   static CardItem withAmount(Item item, Amount amount) {
@@ -27,15 +31,16 @@ final class CardItem {
     requireNonNull(amount);
 
     if (item.getStock().isLessThan(amount)) {
-      throw new OutOfStockException(item.getStock(), item.getStock().plus(amount));
+      return new CardItem(item, item.getStock(), CardItemStatus.NOT_ENOUGH_IN_STOCK);
     }
 
-    return new CardItem(item, amount);
+    return new CardItem(item, amount, CardItemStatus.OK);
   }
 
   void increaseAmountBy(Amount itemsToAdd) {
     if (item.getStock().isLessThan(this.amount.plus(itemsToAdd))) {
-      throw new OutOfStockException(item.getStock(), item.getStock().plus(itemsToAdd));
+      this.amount = item.getStock();
+      this.status = CardItemStatus.NOT_ENOUGH_IN_STOCK;
     }
     this.amount = this.amount.plus(itemsToAdd);
     calculateSumValue();
@@ -53,17 +58,22 @@ final class CardItem {
     return valueGross;
   }
 
+  boolean hasZeroAmount() {
+    return this.amount.isZero();
+  }
+
   CardItemSnapshot getSnapshot() {
-    return new CardItemSnapshot(this.item.getSnapshot(), valueNett, valueGross, amount);
+    return new CardItemSnapshot(this.item.getSnapshot(), valueNett, valueGross, amount,
+        status.ok() ? "OK" : status.getCause().name());
   }
 
   private void calculateSumValue() {
     valueGross = item.getValueGross().multiply(amount.asDecimal());
-    valueNett = valueGross.divide(item.getVat().asDecimal().add(ONE));
+    valueNett = item.getVat().toNett(valueGross);
   }
 
   record CardItemSnapshot(ItemSnapshot itemSnapshot, Value valueNett, Value valueGross,
-                          Amount amount) {
+                          Amount amount, String status) {
 
     ItemId id() {
       return itemSnapshot.id();

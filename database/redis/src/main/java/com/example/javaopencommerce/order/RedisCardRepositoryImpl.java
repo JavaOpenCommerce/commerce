@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.catalog.CardItemEntity;
 import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.list.ListCommands;
 import java.util.Collections;

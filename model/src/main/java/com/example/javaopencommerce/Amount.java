@@ -8,6 +8,8 @@ import lombok.Value;
 @Value
 public class Amount {
 
+  public final static Amount ZERO = new Amount(0);
+
   int value;
 
   private Amount(int amount) {

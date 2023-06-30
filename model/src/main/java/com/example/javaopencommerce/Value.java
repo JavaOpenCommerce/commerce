@@ -7,6 +7,8 @@ import java.math.RoundingMode;
 @lombok.Value
 public class Value {
 
+  public final static Value ZERO = new Value(BigDecimal.ZERO);
+
   BigDecimal value;
 
   private Value(BigDecimal value) {

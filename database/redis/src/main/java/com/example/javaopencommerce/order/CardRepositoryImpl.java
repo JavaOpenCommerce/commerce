@@ -1,12 +1,11 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
-import com.example.javaopencommerce.catalog.CardItemEntity;
 import com.example.javaopencommerce.catalog.ItemQueryRepository;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
-import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -26,15 +25,15 @@ class CardRepositoryImpl implements CardRepository {
 
   @Override
   public List<CardItem> getCardList(String id) {
-    return restoreProducts(redisCardRepository.getCardList(id));
+    return restoreCard(redisCardRepository.getCardList(id));
   }
 
   @Override
   public List<CardItem> saveCard(String id, List<CardItem> products) {
     List<CardItemEntity> productEntities = products.stream().map(CardItem::getSnapshot)
-        .map(this::fromSnapshot).toList();
+        .map(CardItemEntity::fromSnapshot).toList();
 
-    return restoreProducts(redisCardRepository.saveCard(id, productEntities));
+    return restoreCard(redisCardRepository.saveCard(id, productEntities));
   }
 
   @Override
@@ -42,15 +41,22 @@ class CardRepositoryImpl implements CardRepository {
     redisCardRepository.flushCard(id);
   }
 
-  private List<CardItem> restoreProducts(List<CardItemEntity> cardItemEntities) {
+  private List<CardItem> restoreCard(List<CardItemEntity> cardItemEntities) {
     List<Long> itemIds = cardItemEntities.stream().map(CardItemEntity::itemId).toList();
     List<ItemDto> items = itemRepository.getItemsByIdList(itemIds);
 
     List<CardItem> cardItems = new ArrayList<>();
     for (CardItemEntity cardItemEntity : cardItemEntities) {
-      ItemDto matchedItem = items.stream().filter(item -> hasMatchingIds(item, cardItemEntity))
-          .findFirst().orElseThrow(); // TODO proper handling
-      Item matchedItemModel = itemMapper.fromCatalog(matchedItem);
+      Optional<ItemDto> matchedItem = items.stream()
+          .filter(item -> hasMatchingIds(item, cardItemEntity))
+          .findFirst();
+
+      if (matchedItem.isEmpty()) {
+        cardItems.add(CardItem.empty(ItemId.of(cardItemEntity.itemId()), ""));
+        continue;
+      }
+
+      Item matchedItemModel = itemMapper.fromCatalog(matchedItem.get());
       cardItems.add(CardItem.withAmount(matchedItemModel, Amount.of(cardItemEntity.amount())));
     }
     return cardItems;
@@ -58,9 +64,5 @@ class CardRepositoryImpl implements CardRepository {
 
   private boolean hasMatchingIds(ItemDto item, CardItemEntity itemEntity) {
     return item.getId().equals(itemEntity.itemId());
-  }
-
-  private CardItemEntity fromSnapshot(CardItemSnapshot snapshot) {
-    return new CardItemEntity(snapshot.id().id(), snapshot.amount().getValue());
   }
 }

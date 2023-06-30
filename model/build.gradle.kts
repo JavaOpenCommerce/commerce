@@ -8,4 +8,7 @@ dependencies {
     implementation(project(":bom"))
     implementation(project(":commons"))
     implementation(libs.commons.lang)
+
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("org.assertj:assertj-core:3.8.0")
 }

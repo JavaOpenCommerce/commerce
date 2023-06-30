@@ -1,6 +1,5 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.catalog.CardItemEntity;
 import java.util.List;
 
 
