@@ -5,7 +5,5 @@ interface PsqlCategoryRepository {
 
   String getCatalog();
 
-
   String saveCatalog(String catalog);
-
 }

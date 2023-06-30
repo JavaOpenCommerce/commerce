@@ -1,9 +1,37 @@
+-- Catalog --
+
 INSERT INTO ${flyway:defaultSchema}.CATEGORY
 VALUES ('1', '{
 	"id": "f08e43f6-a4d6-435d-8334-3e423f072b20",
 	"name": "root",
 	"description": "catalog root",
-	"children": []
+	"children": [
+		{
+			"id": "f8ec2256-a9bc-4d61-9b10-5f3eb0a98fe6",
+			"name": "computers",
+			"description": "PC, desktop, laptops, notebooks",
+			"children": [
+				{
+					"id": "829c9c63-7f3a-4ac0-ad99-65998894bb61",
+					"name": "laptops",
+					"description": "portable computers",
+					"children": []
+				},
+				{
+					"id": "f6eaf737-0a8c-454c-9b30-05492e1ece9d",
+					"name": "PC",
+					"description": "desktop machines",
+					"children": []
+				}
+			]
+		},
+		{
+			"id": "6522db9d-5347-4cee-9aca-67ca3c161e22",
+			"name": "smartphones",
+			"description": "Mobile smart phones",
+			"children": []
+		}
+	]
 }');
 
 -- Image --
@@ -34,11 +62,11 @@ VALUES ('10', 'image10', 'https://via.placeholder.com/200.png');
 INSERT INTO ${flyway:defaultSchema}.PRODUCER
 VALUES ('1', 'testProducer', 'Producer1_PL', 'https://via.placeholder.com/200.png');
 INSERT INTO ${flyway:defaultSchema}.PRODUCER
-VALUES ('2', 'testProducer', 'Producer2_PL', 'https://via.placeholder.com/200.png');
+VALUES ('2', 'Apple', 'Producer2_PL', 'https://via.placeholder.com/200.png');
 INSERT INTO ${flyway:defaultSchema}.PRODUCER
-VALUES ('3', 'testProducer', 'Producer3_PL', 'https://via.placeholder.com/200.png');
+VALUES ('3', 'Dell', 'Producer3_PL', 'https://via.placeholder.com/200.png');
 INSERT INTO ${flyway:defaultSchema}.PRODUCER
-VALUES ('4', 'testProducer', 'Producer3_US', 'https://via.placeholder.com/200.png');
+VALUES ('4', 'Acer', 'Producer3_US', 'https://via.placeholder.com/200.png');
 
 
 -- Item-Details --
@@ -49,6 +77,8 @@ INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
 VALUES ('2', 'MacbookPro 16, Ryzen, 500GB SSD');
 INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
 VALUES ('3', 'Dell XPS 13, i7 16GB RAM 500GB SSD');
+INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
+VALUES ('4', 'Acer Nitro 50, i5-12400/16GB/512 RTX3060');
 
 -- Item-Details-Image --
 
@@ -62,6 +92,10 @@ INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS_IMAGE
 VALUES ('3', '7');
 INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS_IMAGE
 VALUES ('3', '8');
+INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS_IMAGE
+VALUES ('4', '9');
+INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS_IMAGE
+VALUES ('4', '10');
 
 -- Items --
 
@@ -71,91 +105,15 @@ INSERT INTO ${flyway:defaultSchema}.ITEM
 VALUES ('2', 'MacbookPro', '5', '33000', '0.23', '2', '2', '2', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
 VALUES ('3', 'Dell XPS 13', '5', '12000', '0.23', '3', '3', '3', false);
+INSERT INTO ${flyway:defaultSchema}.ITEM
+VALUES ('4', 'Acer Nitro 50', '8', '4399', '0.23', '10', '4', '4', false);
 
 
 -- Item-Category --
 
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
-VALUES ('2', 'f08e43f6-a4d6-435d-8334-3e423f072b20');
+VALUES ('2', '829c9c63-7f3a-4ac0-ad99-65998894bb61');
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
-VALUES ('3', 'f08e43f6-a4d6-435d-8334-3e423f072b20');
-
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM
--- VALUES ('2', '45', '3464.23', '0.23', '2', '2');
--- INSERT INTO ${flyway:defaultSchema}.ITEM
--- VALUES ('3', '50', '7307.30', '0.23', '3', '3');
--- INSERT INTO ${flyway:defaultSchema}.ITEM
--- VALUES ('4', '57', '1999.00', '0.23', '2', '2');
--- INSERT INTO ${flyway:defaultSchema}.ITEM
--- VALUES ('5', '17', '2399.00', '0.23', '3', '3');
--- INSERT INTO ${flyway:defaultSchema}.ITEM
--- VALUES ('6', '25', '11030.00', '0.23', '3', '2');
--- INSERT INTO ${flyway:defaultSchema}.ITEM
--- VALUES ('7', '21', '6775.23', '0.23', '2', '3');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('1', 'shippingMethod', 'pl-PL', 'shipping', '1');
--- -- Shipping
---
--- -- Desktop computers --
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('2', 'Core i5, RTX 2026, 16GB RAM, 500GB SSD', 'pl-PL', 'Infinity X500', '2');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('3', 'Core i7, RTX 3070, 32GB RAM, 1TB SSD', 'pl-PL', 'Ultimate X711', '3');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('4', 'Core i5, UHD730, 8GB RAM, 500GB SSD', 'pl-PL', 'Sensilo X511', '4');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('5', 'Core i7, GT 730, 8GB RAM, 500GB SSD', 'pl-PL', 'Vostro 3888 MT', '5');
---
--- -- Laptops --
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('6', 'MacbookPro 15 cali, Ryzen, 500GB SSD', 'pl-PL', 'MacbookPro', '6');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
--- VALUES ('7', 'Dell XPS 13, i7 16GB RAM 500GB SSD', 'pl-PL', 'Dell XPS 13', '7');
---
---
--- -- Item-Category --
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('1', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('1', '1');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('2', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('2', '4');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('3', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('3', '5');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('4', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('4', '2');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('5', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('5', '2');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('6', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('6', '3');
---
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('7', '0');
--- INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
--- VALUES ('7', '3');
---
--- INSERT INTO ${flyway:defaultSchema}.USERS
--- VALUES ('d463fb63-9158-49d7-b0fd-fd9d24370e78', 'testmail@test.com', 'TestUser', 'TestName');
---
---
--- INSERT INTO ${flyway:defaultSchema}.ADDRESS
--- VALUES ('73a40dde-0738-4b21-8188-2019cea89b7e', 'TestCity', '666', 'TestStreet', '00-000');
---
+VALUES ('3', '829c9c63-7f3a-4ac0-ad99-65998894bb61');
+INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
+VALUES ('4', 'f6eaf737-0a8c-454c-9b30-05492e1ece9d');

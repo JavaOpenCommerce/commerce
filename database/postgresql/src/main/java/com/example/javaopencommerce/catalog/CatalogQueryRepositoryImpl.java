@@ -3,6 +3,7 @@ package com.example.javaopencommerce.catalog;
 import com.example.javaopencommerce.catalog.dtos.CategoryDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 
 class CatalogQueryRepositoryImpl implements CatalogQueryRepository {
 
@@ -19,9 +20,16 @@ class CatalogQueryRepositoryImpl implements CatalogQueryRepository {
   public CategoryDto getCatalog() {
     String catalog = categoryRepository.getCatalog();
     try {
-      return objectMapper.readValue(catalog, CategoryDto.class); // TODO go through entity!
+      CategoryEntity categoryEntity = objectMapper.readValue(catalog, CategoryEntity.class);
+      return toDto(categoryEntity);
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Problems while fetching catalog!", e);
     }
+  }
+
+  private CategoryDto toDto(CategoryEntity categoryEntity) {
+    List<CategoryDto> children = categoryEntity.children().stream().map(this::toDto).toList();
+    return new CategoryDto(categoryEntity.id(), categoryEntity.name(), categoryEntity.description(),
+        children);
   }
 }

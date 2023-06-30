@@ -16,13 +16,8 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
   @Override
   public Category getCatalog() {
-    String catalog = categoryRepository.getCatalog();
-    try {
-      CategoryEntity categoryEntity = objectMapper.readValue(catalog, CategoryEntity.class);
-      return toModel(categoryEntity);
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException("Problems with category tree recovery!", e);
-    }
+    String catalogJson = categoryRepository.getCatalog();
+    return recoverCategory(catalogJson);
   }
 
   @Override
@@ -30,21 +25,25 @@ class CatalogRepositoryImpl implements CatalogRepository {
     Category.CategorySnapshot catalogSnapshot = catalog.toSnapshot();
     CategoryEntity catalogEntity = CategoryEntity.fromSnapshot(catalogSnapshot);
 
-    // TODO This needs refactor
     String catalogJson;
     try {
       catalogJson = objectMapper.writeValueAsString(catalogEntity);
-      catalogJson = categoryRepository.saveCatalog(catalogJson);
     } catch (JsonProcessingException e) {
-      throw new RuntimeException("Problems with category tree save/update", e);
+      throw new IllegalStateException("Problems with category tree save/update", e);
     }
 
+    catalogJson = categoryRepository.saveCatalog(catalogJson);
+    return recoverCategory(catalogJson);
+  }
+
+  private Category recoverCategory(String catalogJson) {
+    CategoryEntity categoryEntity;
     try {
-      CategoryEntity categoryEntity = objectMapper.readValue(catalogJson, CategoryEntity.class);
-      return toModel(categoryEntity);
+      categoryEntity = objectMapper.readValue(catalogJson, CategoryEntity.class);
     } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Problems with category tree recovery!", e);
     }
+    return toModel(categoryEntity);
   }
 
   private Category toModel(CategoryEntity entity) {

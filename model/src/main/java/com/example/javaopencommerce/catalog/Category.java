@@ -42,15 +42,20 @@ class Category {
 
   List<CategoryId> findAllSubcategoryIdsFor(CategoryId categoryId) {
     Optional<Category> categoryById = findCategoryById(categoryId);
+
     if (categoryById.isEmpty()) {
       throw new CategoryNotFoundException(categoryId);
     }
 
     List<CategoryId> ids = new ArrayList<>();
     Category temp = categoryById.get();
+
     while (temp.hasParent()) {
       ids.add(temp.id);
+      temp = temp.parent;
     }
+    ids.add(temp.id);
+
     return ids;
   }
 
