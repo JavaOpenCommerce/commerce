@@ -9,7 +9,7 @@ record CategoryEntity(UUID id, String name, String description,
   static CategoryEntity fromSnapshot(Category.CategorySnapshot snapshot) {
     List<CategoryEntity> children = snapshot.children().stream().map(CategoryEntity::fromSnapshot)
         .toList();
-    return new CategoryEntity(snapshot.id(), snapshot.name(), snapshot.description(), children);
+    return new CategoryEntity(snapshot.id().id(), snapshot.name(), snapshot.description(), children);
   }
 
 }

@@ -41,7 +41,7 @@ public class Amount {
   }
 
   public boolean isZero() {
-    return value == 0;
+    return value <= 0;
   }
 
   public int asInteger() {

@@ -48,7 +48,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
 
   private Category toModel(CategoryEntity entity) {
     Category catalog = Category.recover(entity.id(), entity.name(), entity.description());
-    entity.children().stream().map(this::toModel).forEach(catalog::addChild);
+    entity.children().stream().map(this::toModel).forEach(catalog::addChildToThisCategory);
     return catalog;
   }
 }

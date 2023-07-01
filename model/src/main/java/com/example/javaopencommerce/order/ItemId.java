@@ -2,7 +2,7 @@ package com.example.javaopencommerce.order;
 
 import java.util.Objects;
 
-public class ItemId {
+class ItemId {
 
   private final Long id;
 
