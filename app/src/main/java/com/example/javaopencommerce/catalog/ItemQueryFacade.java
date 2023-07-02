@@ -7,7 +7,6 @@ import static java.util.stream.Collectors.toList;
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
 import io.vertx.core.json.JsonObject;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
@@ -24,32 +23,15 @@ public class ItemQueryFacade {
   }
 
   public PageDto<ItemDto> getFilteredItems(SearchRequest request) {
-    PageDto<ItemDto> filteredProductsPage = getFilteredItemsPage(request);
-    sortItems(filteredProductsPage.getItems(), request);
-    return filteredProductsPage;
-  }
-
-  private void sortItems(List<ItemDto> productDtos, SearchRequest request) {
-
-    productDtos = new ArrayList<>(productDtos);
-    String sortingType = request.getSortBy().toUpperCase() + "-" + request.getOrder().toUpperCase();
-    switch (sortingType) {
-      case "VALUE-ASC" -> productDtos.sort(Comparator.comparing(ItemDto::getValueGross));
-      case "VALUE-DESC" ->
-          productDtos.sort(Comparator.comparing(ItemDto::getValueGross).reversed());
-      case "NAME-DESC" -> productDtos.sort(Comparator.comparing(ItemDto::getName).reversed());
-      default -> productDtos.sort(Comparator.comparing(ItemDto::getName));
-    }
-  }
-
-  private PageDto<ItemDto> getFilteredItemsPage(SearchRequest request) {
     Pair<List<Long>, Integer> filteredResults = getFilteredResults(request);
 
     List<ItemDto> productsFound = this.queryRepository
         .getItemsByIdList(filteredResults.getLeft());
 
+    List<ItemDto> sortedProducts = sortItems(productsFound, request);
+
     return getItemModelPage(request.getPageNum(), request.getPageSize(),
-        filteredResults.getRight(), productsFound);
+        filteredResults.getRight(), sortedProducts);
   }
 
   private Pair<List<Long>, Integer> getFilteredResults(SearchRequest request) {
@@ -77,6 +59,20 @@ public class ItemQueryFacade {
         .collect(toList());
 
     return Pair.of(productIds, totalElementsCount);
+  }
+
+  private List<ItemDto> sortItems(List<ItemDto> productDtos, SearchRequest request) {
+    String sortingType = request.getSortBy().toUpperCase() + "-" + request.getOrder().toUpperCase();
+    return productDtos.stream().sorted(pickItemComparator(sortingType)).toList();
+  }
+
+  private Comparator<ItemDto> pickItemComparator(String sortingType) {
+    return switch (sortingType) {
+      case "VALUE-ASC" -> Comparator.comparing(ItemDto::getValueGross);
+      case "VALUE-DESC" -> Comparator.comparing(ItemDto::getValueGross).reversed();
+      case "NAME-DESC" -> Comparator.comparing(ItemDto::getName).reversed();
+      default -> Comparator.comparing(ItemDto::getName);
+    };
   }
 
   private PageDto<ItemDto> getItemModelPage(int pageIndex, int pageSize, int totalCount,

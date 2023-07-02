@@ -16,7 +16,7 @@ class OrderRepositoryImpl implements OrderRepository {
 
   @Override
   public Order findOrderById(OrderId id) {
-    return psqlOrderRepository.findOrderById(id.id()).toOrderModel();
+    return psqlOrderRepository.findOrderById(id.asUUID()).toOrderModel();
   }
 
   @Override
@@ -27,7 +27,7 @@ class OrderRepositoryImpl implements OrderRepository {
   private OrderEntity toOrderEntity(Order order) {
     OrderSnapshot orderSnapshot = order.getSnapshot();
     OrderPrincipalSnapshot orderPrincipal = orderSnapshot.getOrderPrincipal();
-    return OrderEntity.builder().id(orderSnapshot.getId().id()).userId(orderPrincipal.id())
+    return OrderEntity.builder().id(orderSnapshot.getId().asUUID()).userId(orderPrincipal.id())
         .shippingAddressId(orderPrincipal.addressId())
         .paymentMethod(orderSnapshot.getOrderPrincipal().paymentMethod().name())
         .createdAt(orderSnapshot.getCreationDate()).status(orderSnapshot.getOrderStatus().name())

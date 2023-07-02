@@ -23,6 +23,7 @@ class CatalogQueryRepositoryImpl implements CatalogQueryRepository {
       CategoryEntity categoryEntity = objectMapper.readValue(catalog, CategoryEntity.class);
       return toDto(categoryEntity);
     } catch (JsonProcessingException e) {
+      // TODO dedicated exception
       throw new RuntimeException("Problems while fetching catalog!", e);
     }
   }

@@ -11,18 +11,19 @@ import com.example.javaopencommerce.order.Item.ItemSnapshot;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValidationException;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValueNotMatchingValidationException;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OutOfStockItemsValidationException;
-import com.example.javaopencommerce.statics.JsonConverter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 class OrderIntegrityValidator {
 
   void validate(CardSnapshot cardToValidate, CardSnapshot expected) {
     List<OrderValidationException> orderInaccuracies = new ArrayList<>();
 
-    orderInaccuracies.addAll(validateOrderValue(cardToValidate, expected));
+    orderInaccuracies.addAll(validateOrderGrossValue(cardToValidate, expected));
+    orderInaccuracies.addAll(validateOrderNettValue(cardToValidate, expected));
     orderInaccuracies.addAll(validateStocks(cardToValidate.items(), expected.items()));
 
     if (!orderInaccuracies.isEmpty()) {
@@ -30,16 +31,33 @@ class OrderIntegrityValidator {
     }
   }
 
-  private List<OrderValidationException> validateOrderValue(CardSnapshot toValidate,
+  private List<OrderValidationException> validateOrderGrossValue(CardSnapshot toValidate,
       CardSnapshot expected) {
     Map<ItemId, Value> currentItemPrices = expected.items().stream().filter(Objects::nonNull)
         .collect(toMap(CardItemSnapshot::id, CardItemSnapshot::valueGross));
 
-    Value currentOrderValue = calculateCurrentOrderValue(toValidate.items(), currentItemPrices);
+    Value currentOrderValueGross = calculateCurrentOrderValue(toValidate.items(),
+        currentItemPrices);
 
-    if (!currentOrderValue.equals(toValidate.cardValueGross())) {
-      return List.of(new OrderValueNotMatchingValidationException(toValidate.cardValueGross(),
-          currentOrderValue));
+    if (!currentOrderValueGross.equals(toValidate.cardValueGross())) {
+      return List.of(
+          new OrderValueNotMatchingValidationException("gross", toValidate.cardValueGross(),
+              currentOrderValueGross));
+    }
+    return emptyList();
+  }
+
+  private List<OrderValidationException> validateOrderNettValue(CardSnapshot toValidate,
+      CardSnapshot expected) {
+    Map<ItemId, Value> currentItemPrices = expected.items().stream().filter(Objects::nonNull)
+        .collect(toMap(CardItemSnapshot::id, CardItemSnapshot::valueNett));
+
+    Value currentOrderValueNett = calculateCurrentOrderValue(toValidate.items(), currentItemPrices);
+
+    if (!currentOrderValueNett.equals(toValidate.cardValueNett())) {
+      return List.of(
+          new OrderValueNotMatchingValidationException("nett", toValidate.cardValueNett(),
+              currentOrderValueNett));
     }
     return emptyList();
   }
@@ -50,7 +68,7 @@ class OrderIntegrityValidator {
         item -> ofNullable(currentPrices.get(item.id())).orElseThrow(
                 () -> new OrderValidationException(
                     String.format("Price for item with id: %s, not found!", item.id())))
-            .multiply(item.amount())).reduce(Value.zero(), Value::add);
+            .multiply(item.amount())).reduce(Value.ZERO, Value::add);
   }
 
   private List<OutOfStockItemsValidationException> validateStocks(
@@ -64,7 +82,10 @@ class OrderIntegrityValidator {
 
     if (!outOfStockItems.isEmpty()) {
       return List.of(
-          new OutOfStockItemsValidationException(JsonConverter.convertToJson(outOfStockItems)));
+          new OutOfStockItemsValidationException(
+              outOfStockItems.stream().map(CardItemSnapshot::id).map(ItemId::id)
+                  .map(String::valueOf).collect(
+                      Collectors.joining(", "))));
     }
     return emptyList();
   }
@@ -73,6 +94,6 @@ class OrderIntegrityValidator {
     Amount currentStock = ofNullable(currentStocks.get(orderedItem.id())).orElseThrow(
         () -> new OrderValidationException(
             String.format("Stock for item with id: %s, not found!", orderedItem.id())));
-    return !orderedItem.amount().isLessThan(currentStock);
+    return orderedItem.amount().isLessThan(currentStock);
   }
 }

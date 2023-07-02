@@ -10,7 +10,7 @@ class OrderMapper {
   }
 
   static OrderDto toDto(OrderSnapshot orderSnapshot) {
-    return OrderDto.builder().id(orderSnapshot.getId().id())
+    return OrderDto.builder().id(orderSnapshot.getId().asUUID())
         .status(orderSnapshot.getOrderStatus().name())
         .paymentStatus(orderSnapshot.getPaymentStatus().name())
         .valueNett(orderSnapshot.getOrderValueNett().getValue())

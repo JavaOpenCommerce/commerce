@@ -87,8 +87,8 @@ final class Card {
 
   private void calculateCardValue() {
     this.cardValueGross = this.items.values().stream().map(CardItem::valueGross)
-        .reduce(Value.zero(), Value::add);
+        .reduce(Value.ZERO, Value::add);
     this.cardValueNett = this.items.values().stream().map(CardItem::valueNett)
-        .reduce(Value.zero(), Value::add);
+        .reduce(Value.ZERO, Value::add);
   }
 }

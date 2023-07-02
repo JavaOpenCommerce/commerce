@@ -10,11 +10,14 @@ import org.junit.jupiter.api.Test;
 class CatalogTest {
 
   static final Category CATALOG_ROOT = Category.newCatalog();
-  static final Category ROAD_BIKES = CATALOG_ROOT.addChildToThisCategory("Road bikes", "Light racing bikes");
+  static final Category ROAD_BIKES = CATALOG_ROOT.addChildToThisCategory("Road bikes",
+      "Light racing bikes");
   static final Category GRAVELS = ROAD_BIKES.addChildToThisCategory("Gravels",
       "If u want speed but also want to go rough");
-  static final Category ENDURANCE = ROAD_BIKES.addChildToThisCategory("Endurance", "Go Fast and light.");
-  static final Category RACE = ROAD_BIKES.addChildToThisCategory("Race", "Racing bikes, no compromise.");
+  static final Category ENDURANCE = ROAD_BIKES.addChildToThisCategory("Endurance",
+      "Go Fast and light.");
+  static final Category RACE = ROAD_BIKES.addChildToThisCategory("Race",
+      "Racing bikes, no compromise.");
   static final Category MOUNTAIN_BIKES = CATALOG_ROOT.addChildToThisCategory("Mountain Bikes",
       "Something for mountain adventure enjoyers");
   static final Category ENDURO = MOUNTAIN_BIKES.addChildToThisCategory("Enduro",

@@ -22,10 +22,12 @@ log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "lo
 elasticsearch = { module = "org.elasticsearch:elasticsearch", version = "8.6.2" }
 commons-lang = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
 flyway = { module = "org.flywaydb:flyway-core", version = "9.15.0" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.15.2" }
 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 testImplementation = { module = "org.mockito:mockito-core", version = "" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.8.0" }
 [plugins]
 quarkus = { id = "io.quarkus", version.ref = "quarkus" }
 asciidoctor-convert = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }

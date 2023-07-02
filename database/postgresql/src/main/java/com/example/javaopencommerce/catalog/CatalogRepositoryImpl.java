@@ -17,7 +17,7 @@ class CatalogRepositoryImpl implements CatalogRepository {
   @Override
   public Category getCatalog() {
     String catalogJson = categoryRepository.getCatalog();
-    return recoverCategory(catalogJson);
+    return parseCategory(catalogJson);
   }
 
   @Override
@@ -29,18 +29,20 @@ class CatalogRepositoryImpl implements CatalogRepository {
     try {
       catalogJson = objectMapper.writeValueAsString(catalogEntity);
     } catch (JsonProcessingException e) {
+      // TODO custom exception
       throw new IllegalStateException("Problems with category tree save/update", e);
     }
 
     catalogJson = categoryRepository.saveCatalog(catalogJson);
-    return recoverCategory(catalogJson);
+    return parseCategory(catalogJson);
   }
 
-  private Category recoverCategory(String catalogJson) {
+  private Category parseCategory(String catalogJson) {
     CategoryEntity categoryEntity;
     try {
       categoryEntity = objectMapper.readValue(catalogJson, CategoryEntity.class);
     } catch (JsonProcessingException e) {
+      // TODO custom exception
       throw new RuntimeException("Problems with category tree recovery!", e);
     }
     return toModel(categoryEntity);

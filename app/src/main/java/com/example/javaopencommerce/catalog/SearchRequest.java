@@ -38,6 +38,10 @@ public class SearchRequest {
   }
 
   private int[] getSerialIdsArray(String ids) {
+    if (ids.isEmpty()) {
+      return new int[]{};
+    }
+
     try {
       return stream(ids.split(","))
           .map(Integer::parseInt)
@@ -49,6 +53,10 @@ public class SearchRequest {
   }
 
   private String[] getUUIDsArray(String ids) {
+    if (ids.isEmpty()) {
+      return new String[]{};
+    }
+
     try {
       return stream(ids.split(","))
           .toArray(String[]::new);

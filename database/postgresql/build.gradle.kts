@@ -15,7 +15,7 @@ dependencies {
 
     implementation("io.quarkus:quarkus-hibernate-orm")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation(libs.jackson.databind)
 
 
     implementation(libs.log4j.api)

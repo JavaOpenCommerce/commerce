@@ -3,10 +3,8 @@ package com.example.javaopencommerce.catalog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
-@Singleton
 class CategoryConfiguration {
 
   @Produces

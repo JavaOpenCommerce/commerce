@@ -2,10 +2,8 @@ package com.example.javaopencommerce.catalog;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
-@Singleton
 class ItemConfiguration {
 
   @Produces

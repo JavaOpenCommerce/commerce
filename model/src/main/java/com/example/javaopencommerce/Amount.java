@@ -32,7 +32,7 @@ public class Amount {
   }
 
   public Amount minusOne() {
-    int newAmount = value == 0 ? 0 : value - 1;
+    int newAmount = value <= 0 ? 0 : value - 1;
     return new Amount(newAmount);
   }
 

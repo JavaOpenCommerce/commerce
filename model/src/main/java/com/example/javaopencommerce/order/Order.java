@@ -70,7 +70,7 @@ class Order {
 
     Value calculatedValueGross = this.orderBody.stream()
         .map(item -> item.valueGross.multiply(item.amount.asDecimal()))
-        .reduce(Value.zero(), Value::add);
+        .reduce(Value.ZERO, Value::add);
 
     if (calculatedValueGross != this.valueGross) {
       throw new IllegalStateException(String.format(
@@ -80,7 +80,7 @@ class Order {
 
     Value calculatedValueNett = this.orderBody.stream()
         .map(item -> item.getValueGross().toNett(item.vat).multiply(item.valueGross.getValue()))
-        .reduce(Value.zero(), Value::add);
+        .reduce(Value.ZERO, Value::add);
 
     if (calculatedValueNett != this.valueNett) {
       throw new IllegalStateException(String.format(

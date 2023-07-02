@@ -26,7 +26,7 @@ dependencies {
 
     implementation("io.quarkus:quarkus-resteasy-jsonb")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation(libs.jackson.databind)
 
     implementation(libs.elasticsearch)
 

@@ -9,7 +9,7 @@ public class OutOfStockItemsValidationException extends OrderValidationException
   private final String outOfStockItems;
 
   public OutOfStockItemsValidationException(String outOfStockItems) {
-    super("Not enough items in a stock!");
+    super(String.format("Not enough items in a stock! Items exceeding stocks - ids: %s", outOfStockItems));
     this.outOfStockItems = outOfStockItems;
   }
 

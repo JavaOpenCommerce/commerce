@@ -18,7 +18,7 @@ class OrderId {
     return new OrderId(UUID.randomUUID());
   }
 
-  public UUID id() {
+  public UUID asUUID() {
     return id;
   }
 

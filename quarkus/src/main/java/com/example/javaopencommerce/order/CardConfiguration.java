@@ -4,9 +4,7 @@ import com.example.javaopencommerce.catalog.ItemQueryRepository;
 import io.quarkus.redis.datasource.RedisDataSource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.inject.Singleton;
 
-@Singleton
 class CardConfiguration {
 
   @Produces
