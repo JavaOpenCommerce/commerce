@@ -2,9 +2,9 @@ package com.example.javaopencommerce.catalog;
 
 interface CatalogRepository {
 
-  Category getCatalog();
+    Category getCatalog();
 
-  Category saveCatalog(Category catalog);
+    Category saveCatalog(Category catalog);
 
 
 }

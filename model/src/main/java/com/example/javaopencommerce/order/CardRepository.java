@@ -4,9 +4,9 @@ import java.util.List;
 
 interface CardRepository {
 
-  List<CardItem> getCardList(String id);
+    List<CardItem> getCardList(String id);
 
-  List<CardItem> saveCard(String id, List<CardItem> items);
+    List<CardItem> saveCard(String id, List<CardItem> items);
 
-  void flushCard(String id);
+    void flushCard(String id);
 }

@@ -3,7 +3,7 @@ package com.example.javaopencommerce.catalog;
 
 interface PsqlCategoryRepository {
 
-  String getCatalog();
+    String getCatalog();
 
-  String saveCatalog(String catalog);
+    String saveCatalog(String catalog);
 }

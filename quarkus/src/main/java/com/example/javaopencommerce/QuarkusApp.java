@@ -2,8 +2,9 @@ package com.example.javaopencommerce;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.annotations.QuarkusMain;
-import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
 
 /**
  * This file is not necessary. It's here, only to act as a starting point for IDE to run project. If
@@ -13,15 +14,15 @@ import lombok.extern.slf4j.Slf4j;
 @QuarkusMain
 public class QuarkusApp {
 
-  public static void main(String... args) throws InstantiationException {
-    log.info("Running quarkus application with parameters: {}", Arrays.asList(args));
+    public static void main(String... args) throws InstantiationException {
+        log.info("Running quarkus application with parameters: {}", Arrays.asList(args));
 
-    //TODO FIX!
+        //TODO FIX!
 //        if (UnixUtil.runningPrivilegedUser()) {
 //            throw new InstantiationException("This application cannot be run as a superuser (root) for security reasons.");
 //        }
-    Quarkus.run(args);
-  }
+        Quarkus.run(args);
+    }
 
 //    private static class UnixUtil {
 //        private static final long UID = 0L;

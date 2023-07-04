@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductOrder {
 
-  private Long itemId;
-  private int amount;
+    private Long itemId;
+    private int amount;
 }

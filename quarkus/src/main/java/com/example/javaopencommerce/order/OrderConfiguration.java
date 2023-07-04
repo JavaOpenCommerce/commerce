@@ -6,28 +6,28 @@ import javax.persistence.EntityManager;
 
 class OrderConfiguration {
 
-  @Produces
-  @ApplicationScoped
-  OrderRepository orderRepository(EntityManager entityManager) {
-    return new OrderRepositoryImpl(new PsqlOrderRepositoryImpl(entityManager));
-  }
+    @Produces
+    @ApplicationScoped
+    OrderRepository orderRepository(EntityManager entityManager) {
+        return new OrderRepositoryImpl(new PsqlOrderRepositoryImpl(entityManager));
+    }
 
-  @Produces
-  @ApplicationScoped
-  OrderQueryRepository orderQueryRepository(EntityManager entityManager) {
-    return new OrderQueryRepositoryImpl(new PsqlOrderRepositoryImpl(entityManager));
-  }
+    @Produces
+    @ApplicationScoped
+    OrderQueryRepository orderQueryRepository(EntityManager entityManager) {
+        return new OrderQueryRepositoryImpl(new PsqlOrderRepositoryImpl(entityManager));
+    }
 
-  @Produces
-  @ApplicationScoped
-  OrderFacade orderFacade(CardRepository cardRepository, OrderRepository orderRepository) {
-    return new OrderFacade(cardRepository, orderRepository);
-  }
+    @Produces
+    @ApplicationScoped
+    OrderFacade orderFacade(CardRepository cardRepository, OrderRepository orderRepository) {
+        return new OrderFacade(cardRepository, orderRepository);
+    }
 
-  @Produces
-  @ApplicationScoped
-  OrderController orderController(OrderFacade orderFacade,
-      OrderQueryRepository orderQueryRepository) {
-    return new OrderController(orderFacade, orderQueryRepository);
-  }
+    @Produces
+    @ApplicationScoped
+    OrderController orderController(OrderFacade orderFacade,
+                                    OrderQueryRepository orderQueryRepository) {
+        return new OrderController(orderFacade, orderQueryRepository);
+    }
 }

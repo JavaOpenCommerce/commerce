@@ -6,10 +6,10 @@ import java.util.UUID;
 
 interface PsqlOrderRepository {
 
-  List<OrderEntity> findOrderByUserId(UUID id);
+    List<OrderEntity> findOrderByUserId(UUID id);
 
-  OrderEntity findOrderById(UUID id);
+    OrderEntity findOrderById(UUID id);
 
-  OrderEntity saveOrder(OrderEntity order);
+    OrderEntity saveOrder(OrderEntity order);
 
 }

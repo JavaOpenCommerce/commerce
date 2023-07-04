@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProducerDto {
 
-  private Long id;
-  private String name;
-  private String logoUrl;
+    private Long id;
+    private String name;
+    private String logoUrl;
 }

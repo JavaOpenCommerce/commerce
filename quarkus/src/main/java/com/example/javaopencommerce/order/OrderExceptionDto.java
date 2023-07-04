@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderExceptionDto {
 
-  private String message;
-  private String type;
-  private String additionalData;
+    private String message;
+    private String type;
+    private String additionalData;
 }

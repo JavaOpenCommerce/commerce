@@ -4,17 +4,17 @@ import java.util.List;
 
 interface PsqlItemRepository {
 
-  List<ItemEntity> getAllItems();
+    List<ItemEntity> getAllItems();
 
-  ItemEntity getItemById(Long id);
+    ItemEntity getItemById(Long id);
 
-  List<ItemEntity> getItemsByIdList(List<Long> ids);
+    List<ItemEntity> getItemsByIdList(List<Long> ids);
 
-  List<ItemEntity> getAllShippingMethods();
+    List<ItemEntity> getAllShippingMethods();
 
-  ItemEntity saveItem(ItemEntity item);
+    ItemEntity saveItem(ItemEntity item);
 
-  Integer getItemStock(Long id);
+    Integer getItemStock(Long id);
 
-  Integer changeItemStock(Long id, int stock);
+    Integer changeItemStock(Long id, int stock);
 }

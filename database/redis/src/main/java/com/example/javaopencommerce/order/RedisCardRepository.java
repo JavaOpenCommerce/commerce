@@ -5,9 +5,9 @@ import java.util.List;
 
 interface RedisCardRepository {
 
-  List<CardItemEntity> getCardList(String id);
+    List<CardItemEntity> getCardList(String id);
 
-  List<CardItemEntity> saveCard(String id, List<CardItemEntity> products);
+    List<CardItemEntity> saveCard(String id, List<CardItemEntity> products);
 
-  void flushCard(String id);
+    void flushCard(String id);
 }
