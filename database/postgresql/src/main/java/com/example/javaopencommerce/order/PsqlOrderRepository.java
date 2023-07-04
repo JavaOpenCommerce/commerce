@@ -1,15 +1,15 @@
 package com.example.javaopencommerce.order;
 
-import io.smallrye.mutiny.Uni;
 import java.util.List;
+import java.util.UUID;
 
 
 interface PsqlOrderRepository {
 
-  Uni<List<OrderEntity>> findOrderByUserId(Long id);
+    List<OrderEntity> findOrderByUserId(UUID id);
 
-  Uni<OrderEntity> findOrderById(Long id);
+    OrderEntity findOrderById(UUID id);
 
-  Uni<OrderEntity> saveOrder(OrderEntity order, List<SimpleProductEntity> products);
+    OrderEntity saveOrder(OrderEntity order);
 
 }

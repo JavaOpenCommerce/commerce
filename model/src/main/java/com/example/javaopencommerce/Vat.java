@@ -1,32 +1,38 @@
 package com.example.javaopencommerce;
 
+import java.math.BigDecimal;
+
+import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.valueOf;
 
-import java.math.BigDecimal;
-import lombok.Value;
-
-@Value
+@lombok.Value
 public class Vat {
 
-  double value;
+    public final static Vat ZERO = new Vat(0);
 
-  private Vat(double vat) {
-    this.value = vat;
-  }
+    double value;
 
-  public static Vat of(double vat) {
-    if (vat < 0.00) {
-      vat = 0.00;
+    private Vat(double vat) {
+        this.value = vat;
     }
-    return new Vat(vat);
-  }
 
-  public BigDecimal asDecimal() {
-    return valueOf(this.value);
-  }
+    public static Vat of(double vat) {
+        if (vat < 0.00) {
+            vat = 0.00;
+        }
+        return new Vat(vat);
+    }
 
-  public double asDouble() {
-    return this.value;
-  }
+    public Value toNett(Value gross) {
+        return gross.divide(asDecimal().add(ONE));
+    }
+
+    public BigDecimal asDecimal() {
+        return valueOf(this.value);
+    }
+
+    public double asDouble() {
+        return this.value;
+    }
 
 }

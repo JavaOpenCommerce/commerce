@@ -10,12 +10,11 @@ dependencies {
 
     implementation(project(":database:apid"))
     implementation(project(":model"))
+    implementation(project(":app"))
     implementation(project(":commons"))
 
-    implementation("io.smallrye.reactive:mutiny")
+    implementation("io.quarkus:quarkus-redis-client")
     implementation("jakarta.json.bind:jakarta.json.bind-api")
-
-//    TODO: move redis integration to separate module.
     implementation("io.quarkus:quarkus-redis-client")
 
     implementation(libs.log4j.api)

@@ -1,57 +1,71 @@
 package com.example.javaopencommerce.order;
 
-import static java.util.stream.Collectors.toList;
-
-import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
+import com.example.javaopencommerce.order.Order.OrderItem;
+import com.example.javaopencommerce.order.OrderPrincipal.OrderPrincipalSnapshot;
 import com.example.javaopencommerce.statics.JsonConverter;
-import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 class OrderRepositoryImpl implements OrderRepository {
 
-  private final PsqlOrderRepository psqlOrderRepository;
+    private final PsqlOrderRepository psqlOrderRepository;
 
-  OrderRepositoryImpl(PsqlOrderRepository psqlOrderRepository) {
-    this.psqlOrderRepository = psqlOrderRepository;
-  }
+    OrderRepositoryImpl(PsqlOrderRepository psqlOrderRepository) {
+        this.psqlOrderRepository = psqlOrderRepository;
+    }
 
-  @Override
-  public List<OrderModel> findOrderByUserId(Long id) {
-    return psqlOrderRepository.findOrderByUserId(id)
-        .map(od -> od.stream().map(OrderEntity::toOrderModel).toList()).await().indefinitely();
-  }
+    @Override
+    public Order findOrderById(OrderId id) {
+        return psqlOrderRepository.findOrderById(id.asUUID())
+                .toOrderModel();
+    }
 
-  @Override
-  public OrderModel findOrderById(Long id) {
-    return psqlOrderRepository.findOrderById(id).map(OrderEntity::toOrderModel).await()
-        .indefinitely();
-  }
+    @Override
+    public Order saveOrder(Order order) {
+        return psqlOrderRepository.saveOrder(toOrderEntity(order))
+                .toOrderModel();
+    }
 
-  @Override
-  public OrderModel saveOrder(OrderModel orderModel) {
-    List<SimpleProductEntity> products = orderModel.getSnapshot().getOrderBody().stream()
-        .map(this::toSimpleProductEntity).toList();
-    return psqlOrderRepository.saveOrder(toOrderEntity(orderModel), products)
-        .map(OrderEntity::toOrderModel).await().indefinitely();
-  }
+    private OrderEntity toOrderEntity(Order order) {
+        OrderSnapshot orderSnapshot = order.getSnapshot();
+        OrderPrincipalSnapshot orderPrincipal = orderSnapshot.getOrderPrincipal();
+        return OrderEntity.builder()
+                .id(orderSnapshot.getId()
+                        .asUUID())
+                .userId(orderPrincipal.id())
+                .shippingAddressId(orderPrincipal.addressId())
+                .paymentMethod(orderSnapshot.getOrderPrincipal()
+                        .paymentMethod()
+                        .name())
+                .createdAt(orderSnapshot.getCreationDate())
+                .status(orderSnapshot.getOrderStatus()
+                        .name())
+                .paymentStatus(orderSnapshot.getPaymentStatus()
+                        .name())
+                .valueGross(orderSnapshot.getOrderValueGross()
+                        .asDecimal())
+                .valueNett(orderSnapshot.getOrderValueNett()
+                        .asDecimal())
+                .simpleProductsJson(
+                        JsonConverter.convertToJson(
+                                orderSnapshot.getOrderBody()
+                                        .stream()
+                                        .map(this::toSimpleProductEntity)
+                                        .collect(toList())))
+                .build();
+    }
 
-  private OrderEntity toOrderEntity(OrderModel orderModel) {
-    OrderSnapshot orderSnapshot = orderModel.getSnapshot();
-    return OrderEntity.builder().id(orderSnapshot.getId())
-        .creationDate(orderSnapshot.getCreationDate())
-        .orderStatus(orderSnapshot.getOrderStatus().name())
-        .paymentMethod(orderSnapshot.getPaymentMethod().name())
-        .paymentStatus(orderSnapshot.getPaymentStatus().name())
-        .valueGross(orderSnapshot.getOrderValueGross().asDecimal())
-        .valueNett(orderSnapshot.getOrderValueNett().asDecimal()).simpleProductsJson(
-            JsonConverter.convertToJson(
-                orderSnapshot.getOrderBody().stream().map(this::toSimpleProductEntity)
-                    .collect(toList()))).build();
-  }
-
-  private SimpleProductEntity toSimpleProductEntity(SimpleProduct simpleProduct) {
-    return SimpleProductEntity.builder().itemId(simpleProduct.getItemId())
-        .amount(simpleProduct.getAmount().asInteger()).name(simpleProduct.getName())
-        .valueGross(simpleProduct.getValueGross().asDecimal())
-        .vat(simpleProduct.getVat().asDouble()).build();
-  }
+    private SimpleProductEntity toSimpleProductEntity(OrderItem orderItem) {
+        return SimpleProductEntity.builder()
+                .itemId(orderItem.getItemId()
+                        .id())
+                .amount(orderItem.getAmount()
+                        .asInteger())
+                .name(orderItem.getName())
+                .valueGross(orderItem.getValueGross()
+                        .asDecimal())
+                .vat(orderItem.getVat()
+                        .asDouble())
+                .build();
+    }
 }

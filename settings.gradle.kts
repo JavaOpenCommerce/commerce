@@ -17,15 +17,15 @@ pluginManagement {
     }
 }
 include(
-    "bom",
-    "app",
-    "commons",
-    "core",
-    "database:apid",
-    "database:postgresql",
-    "database:redis",
-    "model",
-    "quarkus",
+        "bom",
+        "app",
+        "commons",
+        "core",
+        "database:apid",
+        "database:postgresql",
+        "database:redis",
+        "model",
+        "quarkus",
 )
 
 //findProject(':database:apid')?.name = 'apid'

@@ -1,29 +1,26 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
-import java.time.LocalDate;
-import java.util.List;
+import com.example.javaopencommerce.order.Order.OrderItem;
+import com.example.javaopencommerce.order.OrderPrincipal.OrderPrincipalSnapshot;
 import lombok.Builder;
 
+import java.time.Instant;
+import java.util.List;
 
-@lombok.Value
+
 @Builder
+@lombok.Value
 class OrderSnapshot {
 
-  Long id;
-  LocalDate creationDate;
+    OrderId id;
+    List<OrderItem> orderBody;
+    OrderPrincipalSnapshot orderPrincipal;
 
-  @Builder.Default
-  PaymentStatus paymentStatus = PaymentStatus.BEFORE_PAYMENT;
+    PaymentStatus paymentStatus;
+    OrderStatus orderStatus;
 
-  @Builder.Default
-  PaymentMethod paymentMethod = PaymentMethod.MONEY_TRANSFER;
-
-  @Builder.Default
-  OrderStatus orderStatus = OrderStatus.NEW;
-
-  Value orderValueGross;
-  Value orderValueNett;
-  List<SimpleProduct> orderBody;
+    Value orderValueGross;
+    Value orderValueNett;
+    Instant creationDate;
 }

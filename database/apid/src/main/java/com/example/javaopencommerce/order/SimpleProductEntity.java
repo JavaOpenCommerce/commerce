@@ -1,10 +1,11 @@
 package com.example.javaopencommerce.order;
 
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -12,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 class SimpleProductEntity {
 
-  private Long itemId;
-  private String name;
-  private Integer amount;
-  private BigDecimal valueGross;
-  private Double vat;
+    private Long itemId;
+    private String name;
+    private Integer amount;
+    private BigDecimal valueGross;
+    private Double vat;
 }

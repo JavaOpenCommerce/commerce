@@ -62,19 +62,19 @@ tasks {
         baseDirFollowsSourceFile()
 
         attributes(
-            mapOf(
-                "build-gradle" to file("build.gradle"),
-                "endpoint-url" to "http://example.org",
-                "source-highlighter" to "coderay",
-                "coderay-css" to "style",
-                "imagesdir" to "images",
-                "toc" to "left",
-                "icons" to "font",
-                "setanchors" to "",
-                "idprefix" to "",
-                "idseparator" to "-",
-                "docinfo" to "shared"
-            )
+                mapOf(
+                        "build-gradle" to file("build.gradle"),
+                        "endpoint-url" to "http://example.org",
+                        "source-highlighter" to "coderay",
+                        "coderay-css" to "style",
+                        "imagesdir" to "images",
+                        "toc" to "left",
+                        "icons" to "font",
+                        "setanchors" to "",
+                        "idprefix" to "",
+                        "idseparator" to "-",
+                        "docinfo" to "shared"
+                )
         )
 
         dependsOn("asciidoctorj")

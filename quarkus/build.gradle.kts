@@ -15,22 +15,18 @@ dependencies {
     implementation(project(":database:postgresql"))
     implementation(project(":database:redis"))
 
-    //implementation("io.quarkus:quarkus-oidc")
     implementation("io.quarkus:quarkus-config-yaml")
     implementation("io.quarkus:quarkus-vertx")
     implementation("io.quarkus:quarkus-vertx-web")
     implementation("io.quarkus:quarkus-scala")
     implementation("io.quarkus:quarkus-flyway")
     implementation("io.quarkus:quarkus-flyway-deployment")
+    implementation("io.quarkus:quarkus-hibernate-orm")
     implementation("io.quarkus:quarkus-redis-client")
 
-    implementation("org.flywaydb:flyway-core") // { exclude (module: "net.milkbowl:vault:1.2.27") }
-
     implementation("io.quarkus:quarkus-resteasy-jsonb")
-    implementation("io.quarkus:quarkus-resteasy-mutiny")
-    implementation("io.smallrye.reactive:mutiny")
     implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
-    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-pg-client")
+    implementation(libs.jackson.databind)
 
     implementation(libs.elasticsearch)
 
@@ -38,7 +34,6 @@ dependencies {
 
     implementation(libs.log4j.api)
     implementation(libs.log4j.core)
-    implementation("com.fasterxml.jackson.core:jackson-databind")
 
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured") {

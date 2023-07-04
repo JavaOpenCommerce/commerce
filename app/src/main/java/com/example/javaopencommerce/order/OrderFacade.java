@@ -1,31 +1,36 @@
 package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.order.dtos.CardDto;
+import com.example.javaopencommerce.order.dtos.CreateOrderDto;
 import com.example.javaopencommerce.order.dtos.OrderDto;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class OrderFacade {
 
-  private final OrderService orderService;
-  private final OrderIntegrityValidator integrityValidator;
-  private final OrderFactory orderFactory;
-  private final OrderDtoFactory orderDtoFactory;
 
-  public OrderFacade(OrderService orderService,
-      OrderIntegrityValidator integrityValidator,
-      OrderFactory orderFactory,
-      OrderDtoFactory orderDtoFactory) {
-    this.orderService = orderService;
-    this.integrityValidator = integrityValidator;
-    this.orderFactory = orderFactory;
-    this.orderDtoFactory = orderDtoFactory;
-  }
+    private final CardRepository cardRepository;
+    private final OrderRepository orderRepository;
 
-  public OrderDto makeOrder(OrderDto orderDto) {
-    integrityValidator.validateOrder(orderDto);
-    OrderModel orderModel = orderFactory.toOrderModel(orderDto);
-    orderModel = orderService.saveOrder(orderModel);
-    // TODO error handling
-    return orderDtoFactory.toDto(orderModel);
-  }
+    public OrderFacade(CardRepository cardRepository,
+                       OrderRepository orderRepository) {
+        this.cardRepository = cardRepository;
+        this.orderRepository = orderRepository;
+    }
+
+    public OrderDto createOrder(CreateOrderDto createOrderDto, String cardId) {
+        CardDto orderCard = createOrderDto.getCard();
+
+        Card card = Card.validateAndRecreate(CardMapper.toSnapshot(orderCard),
+                this.cardRepository.getCardList(cardId));
+
+        OrderPrincipal orderPrincipal = new OrderPrincipal(createOrderDto.getUserId(),
+                createOrderDto.getAddressId(), createOrderDto.getPaymentMethod());
+
+        Order order = card.createOrderFor(
+                orderPrincipal); // TODO this should emit events to drop stocks
+        orderRepository.saveOrder(order);
+
+        return OrderMapper.toDto(order.getSnapshot());
+    }
 }

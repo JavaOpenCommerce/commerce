@@ -1,70 +1,73 @@
 package com.example.javaopencommerce.order;
 
-import static java.util.stream.Collectors.toList;
-
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
-import com.example.javaopencommerce.order.OrderModel.SimpleProduct;
+import com.example.javaopencommerce.order.Order.OrderItem;
 import com.example.javaopencommerce.statics.JsonConverter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.UUID;
 
-@Data
+import static java.util.stream.Collectors.toList;
+
+@Getter
+@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "order_details")
 class OrderEntity {
 
-  private Long id;
-  private LocalDate creationDate;
+    @Id
+    private UUID id;
 
-  @Builder.Default
-  private Long shippingAddressId = 1L;
-  private String paymentStatus;
-  private String paymentMethod;
-  private String orderStatus;
-  private BigDecimal valueGross;
-  private BigDecimal valueNett;
+    @CreationTimestamp
+    private Instant createdAt;
 
-  @Builder.Default
-  private Long userEntityId = 1L;
+    @UpdateTimestamp
+    private Instant updatedAt;
 
-  @Builder.Default
-  private final String simpleProductsJson = "{}";
+    private String paymentStatus;
+    private String paymentMethod;
+    private String status;
+    private BigDecimal valueGross;
+    private BigDecimal valueNett;
 
-  OrderModel toOrderModel() {
-    List<SimpleProductEntity> products = JsonConverter.convertToObject(simpleProductsJson,
-        new ArrayList<SimpleProductEntity>() {
-        }.getClass().getGenericSuperclass());
+    private UUID userId;
+    private UUID shippingAddressId;
 
-    return OrderModel.builder()
-        .id(id)
-        .creationDate(creationDate)
-        .orderValueGross(Value.of(valueGross))
-        .orderValueNett(Value.of(valueNett))
-        .paymentMethod(PaymentMethod.valueOf(paymentMethod))
-        .paymentStatus(PaymentStatus.valueOf(paymentStatus))
-        .orderStatus(OrderStatus.valueOf(orderStatus))
-        .orderBody(products.stream()
-            .map(this::toSimpleProduct)
-            .collect(toList()))
-        .build();
-  }
+    private String simpleProductsJson;
 
-  SimpleProduct toSimpleProduct(SimpleProductEntity productEntity) {
-    return SimpleProduct.builder()
-        .itemId(productEntity.getItemId())
-        .name(productEntity.getName())
-        .vat(Vat.of(productEntity.getVat()))
-        .amount(Amount.of(productEntity.getAmount()))
-        .valueGross(Value.of(productEntity.getValueGross()))
-        .build();
-  }
+    Order toOrderModel() {
+        List<SimpleProductEntity> items = JsonConverter.convertToObject(simpleProductsJson,
+                new ArrayList<SimpleProductEntity>() {
+                }.getClass()
+                        .getGenericSuperclass());
+
+        List<OrderItem> orderItems = items.stream()
+                .map(this::toOrderItem)
+                .collect(toList());
+
+        OrderPrincipal op = new OrderPrincipal(userId, shippingAddressId, paymentMethod);
+
+        return new Order(OrderId.from(id), orderItems, op, PaymentStatus.valueOf(paymentStatus),
+                OrderStatus.valueOf(status), Value.of(valueGross), Value.of(valueNett), createdAt);
+    }
+
+    private OrderItem toOrderItem(SimpleProductEntity productEntity) {
+        return new OrderItem(ItemId.of(productEntity.getItemId()), productEntity.getName(),
+                Amount.of(productEntity.getAmount()), Value.of(productEntity.getValueGross()),
+                Vat.of(productEntity.getVat()));
+    }
 }
