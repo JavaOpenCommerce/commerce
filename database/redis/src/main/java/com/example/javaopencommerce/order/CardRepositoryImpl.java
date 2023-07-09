@@ -5,11 +5,13 @@ import com.example.javaopencommerce.catalog.ItemQueryRepository;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
 import lombok.extern.log4j.Log4j2;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Log4j2
+@ApplicationScoped
 class CardRepositoryImpl implements CardRepository {
 
     private final RedisCardRepository redisCardRepository;
@@ -25,18 +27,19 @@ class CardRepositoryImpl implements CardRepository {
 
 
     @Override
-    public List<CardItem> getCardList(String id) {
+    public Card getCard(String id) {
         return restoreCard(redisCardRepository.getCardList(id));
     }
 
     @Override
-    public List<CardItem> saveCard(String id, List<CardItem> products) {
-        List<CardItemEntity> productEntities = products.stream()
+    public Card saveCard(String cardId, Card card) {
+        List<CardItemEntity> productEntities = card.getCardItems()
+                .stream()
                 .map(CardItem::getSnapshot)
                 .map(CardItemEntity::fromSnapshot)
                 .toList();
 
-        return restoreCard(redisCardRepository.saveCard(id, productEntities));
+        return restoreCard(redisCardRepository.saveCard(cardId, productEntities));
     }
 
     @Override
@@ -44,7 +47,7 @@ class CardRepositoryImpl implements CardRepository {
         redisCardRepository.flushCard(id);
     }
 
-    private List<CardItem> restoreCard(List<CardItemEntity> cardItemEntities) {
+    private Card restoreCard(List<CardItemEntity> cardItemEntities) {
         List<Long> itemIds = cardItemEntities.stream()
                 .map(CardItemEntity::itemId)
                 .toList();
@@ -64,7 +67,7 @@ class CardRepositoryImpl implements CardRepository {
             Item matchedItemModel = itemMapper.fromCatalog(matchedItem.get());
             cardItems.add(CardItem.withAmount(matchedItemModel, Amount.of(cardItemEntity.amount())));
         }
-        return cardItems;
+        return Card.ofProducts(cardItems);
     }
 
     private boolean hasMatchingIds(ItemDto item, CardItemEntity itemEntity) {

@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-class OrderMapper {
+class QueryOrderMapper {
 
-    private OrderMapper() {
+    private QueryOrderMapper() {
     }
 
     static OrderDto toQuery(OrderEntity entity) {
@@ -27,7 +27,7 @@ class OrderMapper {
                 .valueGross(entity.getValueGross())
                 .creationDate(entity.getCreatedAt())
                 .items(items.stream()
-                        .map(OrderMapper::toDto)
+                        .map(QueryOrderMapper::toDto)
                         .toList())
                 .build();
     }

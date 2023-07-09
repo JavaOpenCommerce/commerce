@@ -1,7 +1,6 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.catalog.ItemQueryRepository;
-import io.quarkus.redis.datasource.RedisDataSource;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -12,13 +11,6 @@ class CardConfiguration {
     @ApplicationScoped
     ItemMapper itemMapper() {
         return new ItemMapper();
-    }
-
-    @Produces
-    @ApplicationScoped
-    CardRepository cardRepository(RedisDataSource redisClient, ItemQueryRepository itemRepository,
-                                  ItemMapper mapper) {
-        return new CardRepositoryImpl(new RedisCardRepositoryImpl(redisClient), itemRepository, mapper);
     }
 
     @Produces

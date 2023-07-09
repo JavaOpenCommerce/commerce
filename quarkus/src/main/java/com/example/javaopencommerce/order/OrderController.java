@@ -7,6 +7,7 @@ import io.vertx.core.http.HttpServerRequest;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class OrderController {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public OrderDto makeOrder(CreateOrderDto createOrderDto, HttpServerRequest request) {
+    public OrderDto makeOrder(CreateOrderDto createOrderDto, @Context HttpServerRequest request) {
         Cookie cardCookie = request.getCookie(COOKIE_NAME);
         if (isNull(cardCookie)) {
             throw new IllegalStateException("Card does not exists!"); // TODO REFACTOR

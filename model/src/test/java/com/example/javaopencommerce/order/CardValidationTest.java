@@ -7,7 +7,6 @@ import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValida
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValueNotMatchingValidationException;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OutOfStockItemsValidationException;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -16,10 +15,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
-public class CardValidationTest {
+class CardValidationTest {
 
     @Test
-    @Disabled // TO FIX!
     void shouldPassValidation() {
 
         // given
@@ -81,17 +79,24 @@ public class CardValidationTest {
     void shouldNotPassValidationBecauseOfExceededStock() {
 
         // given
-        CardItem testCardItem1 = CardItem.withAmount(TestItems.TEST_ITEM_1, Amount.of(10));
-        CardItem testCardItem2 = CardItem.withAmount(TestItems.TEST_ITEM_2, Amount.of(10));
+        CardItem testCardItem = CardItem.withAmount(TestItems.TEST_ITEM_1, Amount.of(10));
+        CardItem.CardItemSnapshot testCardItemSnapshot = testCardItem.getSnapshot();
+        CardItem.CardItemSnapshot testItemModifiedStock = new CardItem.CardItemSnapshot(
+                testCardItemSnapshot.itemSnapshot(),
+                Value.of(81.38),
+                Value.of(100.10),
+                Amount.of(10),
+                ""
+        );
 
         CardSnapshot cardToRecreate = new CardSnapshot(
-                List.of(testCardItem1.getSnapshot(), testCardItem2.getSnapshot()),
-                Value.of(BigDecimal.valueOf(276.56)),
-                Value.of(BigDecimal.valueOf(340.16)));
+                List.of(testItemModifiedStock),
+                Value.of(81.38),
+                Value.of(100.10));
 
         // when
         Throwable throwable = catchThrowable(
-                () -> Card.validateAndRecreate(cardToRecreate, List.of(testCardItem1, testCardItem2)));
+                () -> Card.validateAndRecreate(cardToRecreate, List.of(testCardItem)));
 
         OrderValidationException validationException = (OrderValidationException) throwable;
 
@@ -106,7 +111,7 @@ public class CardValidationTest {
             softly.assertThat(validationException.getDerivativeExceptions()
                             .get(0)
                             .getMessage())
-                    .contains("Items exceeding stocks - ids: 1, 2");
+                    .contains("Items exceeding stocks - ids: 1");
         });
     }
 

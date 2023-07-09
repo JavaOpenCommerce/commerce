@@ -5,6 +5,7 @@ import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
 import com.example.javaopencommerce.order.Item.ItemSnapshot;
+import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValueNotMatchingValidationException;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -25,6 +26,11 @@ class Order {
 
     private Order(List<OrderItem> orderBody, Value valueGross, Value valueNett,
                   OrderPrincipal orderPrincipal) {
+        requireNonNull(orderBody);
+        requireNonNull(orderPrincipal);
+        requireNonNull(valueGross);
+        requireNonNull(valueNett);
+
         this.id = OrderId.random();
         this.status = OrderStatus.NEW;
         this.paymentStatus = PaymentStatus.BEFORE_PAYMENT;
@@ -41,6 +47,15 @@ class Order {
     Order(OrderId id, List<OrderItem> orderBody, OrderPrincipal orderPrincipal,
           PaymentStatus paymentStatus, OrderStatus status, Value valueGross, Value valueNett,
           Instant createdAt) {
+        requireNonNull(id);
+        requireNonNull(orderBody);
+        requireNonNull(orderPrincipal);
+        requireNonNull(paymentStatus);
+        requireNonNull(status);
+        requireNonNull(valueGross);
+        requireNonNull(valueNett);
+        requireNonNull(createdAt);
+
         this.id = id;
         this.orderBody = orderBody;
         this.orderPrincipal = orderPrincipal;
@@ -82,31 +97,25 @@ class Order {
                 .map(item -> item.valueGross.multiply(item.amount.asDecimal()))
                 .reduce(Value.ZERO, Value::add);
 
-        if (calculatedValueGross != this.valueGross) {
-            throw new IllegalStateException(String.format(
-                    "Violation of order integrity, gross value not matching, calculated %s, expected: %s",
-                    calculatedValueGross, this.valueGross));
+        if (!calculatedValueGross.equals(this.valueGross)) {
+            throw new OrderValueNotMatchingValidationException("gross", calculatedValueGross, this.valueGross);
         }
 
         Value calculatedValueNett = this.orderBody.stream()
                 .map(item -> item.getValueGross()
-                        .toNett(item.vat)
-                        .multiply(item.valueGross.getValue()))
+                        .multiply(item.amount.asDecimal())
+                        .toNett(item.vat))
                 .reduce(Value.ZERO, Value::add);
 
-        if (calculatedValueNett != this.valueNett) {
-            throw new IllegalStateException(String.format(
-                    "Violation of order integrity, nett value not matching, calculated %s, expected: %s",
-                    calculatedValueNett, this.valueNett));
+        if (!calculatedValueNett.equals(this.valueNett)) {
+            throw new OrderValueNotMatchingValidationException("nett", calculatedValueNett, this.valueNett);
         }
-
-        // check if shipping method present
     }
 
     @lombok.Value
     static class OrderItem {
 
-        ItemId itemId;
+        ItemId id;
         String name;
         Amount amount;
         Value valueGross;
@@ -118,7 +127,6 @@ class Order {
             return new OrderItem(itemSnapshot.id(), itemSnapshot.name(), cardItem.amount(),
                     itemSnapshot.valueGross(), itemSnapshot.vat());
         }
-
     }
 }
 

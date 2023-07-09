@@ -18,9 +18,9 @@ class OrderMapper {
                 .paymentStatus(orderSnapshot.getPaymentStatus()
                         .name())
                 .valueNett(orderSnapshot.getOrderValueNett()
-                        .getValue())
+                        .asDecimal())
                 .valueGross(orderSnapshot.getOrderValueGross()
-                        .getValue())
+                        .asDecimal())
                 .creationDate(orderSnapshot.getCreationDate())
                 .items(orderSnapshot.getOrderBody()
                         .stream()
@@ -30,13 +30,13 @@ class OrderMapper {
     }
 
     private static OrderItemDto toDto(OrderItem orderItem) {
-        return new OrderItemDto(orderItem.getItemId()
+        return new OrderItemDto(orderItem.getId()
                 .id(), orderItem.getName(),
                 orderItem.getAmount()
                         .getValue(), orderItem.getValueGross()
-                .getValue(),
+                .asDecimal(),
                 orderItem.getValueGross()
-                        .getValue()
+                        .asDecimal()
                         .multiply(orderItem.getAmount()
                                 .asDecimal()),
                 orderItem.getVat()

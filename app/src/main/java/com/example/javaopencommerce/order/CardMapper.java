@@ -24,15 +24,15 @@ class CardMapper {
                 .map(CardMapper::toSnapshot)
                 .toList();
 
-        return new CardSnapshot(cardItems, Value.of(cardDto.getCardValueGross()),
-                Value.of(cardDto.getCardValueNett()));
+        return new CardSnapshot(cardItems,
+                Value.of(cardDto.getCardValueNett()), Value.of(cardDto.getCardValueGross()));
     }
 
     private static CardItemSnapshot toSnapshot(CardItemDto cardItemDto) {
         ItemDto itemDto = cardItemDto.item();
-        ItemSnapshot itemSnapshot = new ItemSnapshot(ItemId.of(itemDto.getId()),
-                Amount.of(itemDto.getStock()), itemDto.getName(), itemDto.getImageUri(),
-                Value.of(itemDto.getValueGross()), Vat.of(itemDto.getVat()));
+        ItemSnapshot itemSnapshot = new ItemSnapshot(ItemId.of(itemDto.id()),
+                Amount.of(itemDto.stock()), itemDto.name(), itemDto.imageUri(),
+                Value.of(itemDto.valueGross()), Vat.of(itemDto.vat()));
         return new CardItemSnapshot(itemSnapshot, Value.of(cardItemDto.valueNett()),
                 Value.of(cardItemDto.valueGross()), Amount.of(cardItemDto.amount()), null);
     }
@@ -47,9 +47,9 @@ class CardMapper {
         return CardDto.builder()
                 .products(itemDtos)
                 .cardValueGross(cardSnapshot.cardValueGross()
-                        .getValue())
+                        .asDecimal())
                 .cardValueNett(cardSnapshot.cardValueNett()
-                        .getValue())
+                        .asDecimal())
                 .build();
     }
 

@@ -11,15 +11,13 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.math.BigDecimal.ZERO;
-
 
 @EqualsAndHashCode
 final class Card {
 
     private final Map<ItemId, CardItem> items;
-    private Value cardValueNett = Value.of(ZERO);
-    private Value cardValueGross = Value.of(ZERO);
+    private Value cardValueNett = Value.ZERO;
+    private Value cardValueGross = Value.ZERO;
 
     private Card(Map<ItemId, CardItem> productsMap) {
         this.items = new HashMap<>(productsMap);
@@ -46,7 +44,9 @@ final class Card {
 
     Order createOrderFor(OrderPrincipal principal) {
         calculateCardValue();
-        return Order.newOrder(getSnapshot(), principal);
+        Order order = Order.newOrder(getSnapshot(), principal);
+        this.flush();
+        return order;
     }
 
     void addItem(Item item, Amount amount) {
@@ -74,6 +74,11 @@ final class Card {
         if (this.items.containsKey(itemId)) {
             items.remove(itemId);
         }
+        calculateCardValue();
+    }
+
+    void flush() {
+        items.clear();
         calculateCardValue();
     }
 

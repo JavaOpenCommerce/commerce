@@ -2,12 +2,14 @@ package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.exception.EntityNotFoundException;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.UUID;
 
 
+@ApplicationScoped
 class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
 
     private final EntityManager em;
@@ -27,7 +29,7 @@ class PsqlOrderRepositoryImpl implements PsqlOrderRepository {
     public OrderEntity findOrderById(UUID id) {
         try {
             return em.createQuery("SELECT o FROM OrderEntity o WHERE o.id = ?1", OrderEntity.class)
-                    .setParameter(1, id.toString())
+                    .setParameter(1, id)
                     .getSingleResult();
         } catch (NoResultException e) {
             throw new EntityNotFoundException("Order", id);

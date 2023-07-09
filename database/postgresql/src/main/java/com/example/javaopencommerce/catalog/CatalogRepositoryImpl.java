@@ -4,6 +4,9 @@ package com.example.javaopencommerce.catalog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 class CatalogRepositoryImpl implements CatalogRepository {
 
     private final PsqlCategoryRepository categoryRepository;

@@ -19,18 +19,19 @@ public class OrderFacade {
     }
 
     public OrderDto createOrder(CreateOrderDto createOrderDto, String cardId) {
-        CardDto orderCard = createOrderDto.getCard();
+        CardDto orderCard = createOrderDto.card();
 
         Card card = Card.validateAndRecreate(CardMapper.toSnapshot(orderCard),
-                this.cardRepository.getCardList(cardId));
+                this.cardRepository.getCard(cardId)
+                        .getCardItems());
 
-        OrderPrincipal orderPrincipal = new OrderPrincipal(createOrderDto.getUserId(),
-                createOrderDto.getAddressId(), createOrderDto.getPaymentMethod());
+        OrderPrincipal orderPrincipal = new OrderPrincipal(createOrderDto.userId(),
+                createOrderDto.addressId(), createOrderDto.paymentMethod());
 
         Order order = card.createOrderFor(
                 orderPrincipal); // TODO this should emit events to drop stocks
         orderRepository.saveOrder(order);
-
+        cardRepository.saveCard(cardId, card);
         return OrderMapper.toDto(order.getSnapshot());
     }
 }
