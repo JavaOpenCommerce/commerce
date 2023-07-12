@@ -2,8 +2,10 @@ package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.order.dtos.OrderDto;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.UUID;
 
+@ApplicationScoped
 class OrderQueryRepositoryImpl implements OrderQueryRepository {
 
     private final PsqlOrderRepository psqlOrderRepository;
@@ -15,6 +17,6 @@ class OrderQueryRepositoryImpl implements OrderQueryRepository {
     @Override
     public OrderDto findOrderById(UUID id) {
         OrderEntity order = psqlOrderRepository.findOrderById(id);
-        return OrderMapper.toQuery(order);
+        return QueryOrderMapper.toQuery(order);
     }
 }

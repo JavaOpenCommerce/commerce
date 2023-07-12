@@ -18,38 +18,34 @@ public class CardFacade {
     }
 
     public CardDto getCard(String cardId) {
-        Card card = getCardModel(cardId);
+        Card card = cardRepository.getCard(cardId);
         return CardMapper.toDto(card);
     }
 
     public CardDto addItemWithAmount(Long itemId, int amount, String cardId) {
-        Card card = getCardModel(cardId);
+        Card card = cardRepository.getCard(cardId);
         Item item = itemMapper.fromCatalog(this.itemRepository.getItemById(itemId));
         card.addItem(item, Amount.of(amount));
-        this.cardRepository.saveCard(cardId, card.getCardItems());
+        this.cardRepository.saveCard(cardId, card);
         return CardMapper.toDto(card);
     }
 
     public CardDto changeItemAmount(Long itemId, int amount, String cardId) {
-        Card card = getCardModel(cardId);
+        Card card = cardRepository.getCard(cardId);
         Item item = itemMapper.fromCatalog(this.itemRepository.getItemById(itemId));
         card.changeItemAmount(item, Amount.of(amount));
-        this.cardRepository.saveCard(cardId, card.getCardItems());
+        this.cardRepository.saveCard(cardId, card);
         return CardMapper.toDto(card);
     }
 
     public CardDto removeProduct(Long itemId, String cardId) {
-        Card card = Card.ofProducts(this.cardRepository.getCardList(cardId));
+        Card card = this.cardRepository.getCard(cardId);
         card.removeItem(ItemId.of(itemId));
-        this.cardRepository.saveCard(cardId, card.getCardItems());
+        this.cardRepository.saveCard(cardId, card);
         return CardMapper.toDto(card);
     }
 
     public void flushCard(String id) {
         this.cardRepository.flushCard(id);
-    }
-
-    private Card getCardModel(String cardId) {
-        return Card.ofProducts(this.cardRepository.getCardList(cardId));
     }
 }

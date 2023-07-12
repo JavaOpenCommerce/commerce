@@ -3,10 +3,12 @@ package com.example.javaopencommerce.catalog;
 
 import com.example.javaopencommerce.exception.EntityNotFoundException;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 
+@ApplicationScoped
 class PsqlItemRepositoryImpl implements PsqlItemRepository {
 
     private final EntityManager em;

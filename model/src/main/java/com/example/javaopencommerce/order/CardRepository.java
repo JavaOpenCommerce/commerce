@@ -1,12 +1,10 @@
 package com.example.javaopencommerce.order;
 
-import java.util.List;
-
 interface CardRepository {
 
-    List<CardItem> getCardList(String id);
+    Card getCard(String id);
 
-    List<CardItem> saveCard(String id, List<CardItem> items);
+    Card saveCard(String cardId, Card card);
 
     void flushCard(String id);
 }

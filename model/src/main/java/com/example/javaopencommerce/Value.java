@@ -3,23 +3,31 @@ package com.example.javaopencommerce;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Objects;
 
-@lombok.Value
+import static java.util.Objects.requireNonNull;
+
 public class Value {
 
-    public static final Value ZERO = new Value(BigDecimal.ZERO);
+    public static final Value ZERO = new Value(BigDecimal.valueOf(0, 2));
 
-    BigDecimal value;
+    private final BigDecimal value;
 
     private Value(BigDecimal value) {
-        this.value = value;
+        if (value.scale() > 2) {
+            throw new IllegalStateException(String.format("Scale for any value should not be higher than 2! Current scale: %s", value.scale()));
+        }
+        this.value = value.setScale(2, RoundingMode.HALF_UP);
     }
 
     public static Value of(BigDecimal value) {
-        if (value == null || value.signum() < 0) {
-            value = BigDecimal.valueOf(0L, 2);
-        }
+        requireNonNull(value);
         return new Value(value);
+    }
+
+    public static Value of(Double value) {
+        requireNonNull(value);
+        return new Value(BigDecimal.valueOf(value));
     }
 
     public BigDecimal asDecimal() {
@@ -43,7 +51,27 @@ public class Value {
     }
 
     public Value toNett(Vat vat) {
-        BigDecimal multiplier = BigDecimal.ONE.subtract(vat.asDecimal());
-        return this.multiply(multiplier);
+        BigDecimal divider = BigDecimal.ONE.add(vat.asDecimal());
+        return this.divide(divider);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Value value1 = (Value) o;
+        return Objects.equals(value, value1.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Value(" +
+                "value=" + value +
+                ')';
     }
 }

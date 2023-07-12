@@ -4,8 +4,12 @@ import com.example.javaopencommerce.order.Order.OrderItem;
 import com.example.javaopencommerce.order.OrderPrincipal.OrderPrincipalSnapshot;
 import com.example.javaopencommerce.statics.JsonConverter;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
+
 import static java.util.stream.Collectors.toList;
 
+@ApplicationScoped
 class OrderRepositoryImpl implements OrderRepository {
 
     private final PsqlOrderRepository psqlOrderRepository;
@@ -21,6 +25,7 @@ class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    @Transactional
     public Order saveOrder(Order order) {
         return psqlOrderRepository.saveOrder(toOrderEntity(order))
                 .toOrderModel();
@@ -57,7 +62,7 @@ class OrderRepositoryImpl implements OrderRepository {
 
     private SimpleProductEntity toSimpleProductEntity(OrderItem orderItem) {
         return SimpleProductEntity.builder()
-                .itemId(orderItem.getItemId()
+                .itemId(orderItem.getId()
                         .id())
                 .amount(orderItem.getAmount()
                         .asInteger())

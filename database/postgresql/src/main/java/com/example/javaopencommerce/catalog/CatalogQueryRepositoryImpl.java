@@ -4,8 +4,10 @@ import com.example.javaopencommerce.catalog.dtos.CategoryDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
+@ApplicationScoped
 class CatalogQueryRepositoryImpl implements CatalogQueryRepository {
 
     private final PsqlCategoryRepository categoryRepository;

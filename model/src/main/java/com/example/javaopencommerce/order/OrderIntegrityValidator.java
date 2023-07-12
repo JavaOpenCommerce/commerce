@@ -34,13 +34,14 @@ class OrderIntegrityValidator {
 
     private List<OrderValidationException> validateOrderGrossValue(CardSnapshot toValidate,
                                                                    CardSnapshot expected) {
-        Map<ItemId, Value> currentItemPrices = expected.items()
+        Map<ItemId, Value> currentItemGrossPrices = expected.items()
                 .stream()
                 .filter(Objects::nonNull)
-                .collect(toMap(CardItemSnapshot::id, CardItemSnapshot::valueGross));
+                .collect(toMap(CardItemSnapshot::id, cardItem -> cardItem.itemSnapshot()
+                        .valueGross()));
 
-        Value currentOrderValueGross = calculateCurrentOrderValue(toValidate.items(),
-                currentItemPrices);
+        Value currentOrderValueGross = calculateCurrentOrderGrossValue(toValidate.items(),
+                currentItemGrossPrices);
 
         if (!currentOrderValueGross.equals(toValidate.cardValueGross())) {
             return List.of(
@@ -52,12 +53,13 @@ class OrderIntegrityValidator {
 
     private List<OrderValidationException> validateOrderNettValue(CardSnapshot toValidate,
                                                                   CardSnapshot expected) {
-        Map<ItemId, Value> currentItemPrices = expected.items()
+        Map<ItemId, Value> currentItemGrossPrices = expected.items()
                 .stream()
                 .filter(Objects::nonNull)
-                .collect(toMap(CardItemSnapshot::id, CardItemSnapshot::valueNett));
+                .collect(toMap(CardItemSnapshot::id, cardItem -> cardItem.itemSnapshot()
+                        .valueGross()));
 
-        Value currentOrderValueNett = calculateCurrentOrderValue(toValidate.items(), currentItemPrices);
+        Value currentOrderValueNett = calculateCurrentOrderNettValue(toValidate.items(), currentItemGrossPrices);
 
         if (!currentOrderValueNett.equals(toValidate.cardValueNett())) {
             return List.of(
@@ -67,14 +69,31 @@ class OrderIntegrityValidator {
         return emptyList();
     }
 
-    private Value calculateCurrentOrderValue(List<CardItemSnapshot> orderedProducts,
-                                             Map<ItemId, Value> currentPrices) {
-        return orderedProducts.stream()
+    private Value calculateCurrentOrderGrossValue(List<CardItemSnapshot> orderedItems,
+                                                  Map<ItemId, Value> currentPrices) {
+        return orderedItems.stream()
+                .filter(item -> !item.amount()
+                        .isZero())
                 .map(
                         item -> ofNullable(currentPrices.get(item.id())).orElseThrow(
                                         () -> new OrderValidationException(
                                                 String.format("Price for item with id: %s, not found!", item.id())))
                                 .multiply(item.amount()))
+                .reduce(Value.ZERO, Value::add);
+    }
+
+    private Value calculateCurrentOrderNettValue(List<CardItemSnapshot> orderedItems,
+                                                 Map<ItemId, Value> currentPrices) {
+        return orderedItems.stream()
+                .filter(item -> !item.amount()
+                        .isZero())
+                .map(
+                        item -> ofNullable(currentPrices.get(item.id())).orElseThrow(
+                                        () -> new OrderValidationException(
+                                                String.format("Price for item with id: %s, not found!", item.id())))
+                                .multiply(item.amount())
+                                .toNett(item.itemSnapshot()
+                                        .vat()))
                 .reduce(Value.ZERO, Value::add);
     }
 

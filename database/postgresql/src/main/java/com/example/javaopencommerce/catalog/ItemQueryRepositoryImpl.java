@@ -3,8 +3,10 @@ package com.example.javaopencommerce.catalog;
 import com.example.javaopencommerce.catalog.dtos.FullItemDto;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
+@ApplicationScoped
 class ItemQueryRepositoryImpl implements ItemQueryRepository {
 
     private final PsqlItemRepository psqlProductRepository;

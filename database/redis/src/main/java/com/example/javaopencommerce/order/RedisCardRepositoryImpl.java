@@ -4,10 +4,12 @@ import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.list.ListCommands;
 import lombok.extern.log4j.Log4j2;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.Collections;
 import java.util.List;
 
 @Log4j2
+@ApplicationScoped
 class RedisCardRepositoryImpl implements RedisCardRepository {
 
     private final ListCommands<String, CardItemEntity> commands;

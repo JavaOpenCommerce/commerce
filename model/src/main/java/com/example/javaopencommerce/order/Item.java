@@ -24,6 +24,5 @@ class Item {
 
     record ItemSnapshot(ItemId id, Amount stock, String name, String imageUrl, Value valueGross,
                         Vat vat) {
-
     }
 }
