@@ -20,8 +20,9 @@ class ItemConfiguration {
 
     @Produces
     @ApplicationScoped
-    ItemController itemController(ItemQueryRepository queryRepository,
+    ItemController itemController(ItemQueryRepository itemQueryRepository,
+                                  ItemFamilyQueryRepository familyQueryRepository,
                                   ItemQueryFacade queryFacade) {
-        return new ItemController(queryRepository, queryFacade);
+        return new ItemController(itemQueryRepository, familyQueryRepository, queryFacade);
     }
 }

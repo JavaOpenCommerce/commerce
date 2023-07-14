@@ -42,6 +42,8 @@ quarkus:
       jdbc:
         url: jdbc:postgresql://localhost:5432/${com.example.database.name}?currentSchema=${com.example.database.schema}
     hibernate-orm:
+      log:
+        sql: true
       physical-naming-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
       database:
         generation: none
