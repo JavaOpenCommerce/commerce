@@ -79,6 +79,12 @@ INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
 VALUES ('3', 'Dell XPS 13, i7 16GB RAM 500GB SSD');
 INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
 VALUES ('4', 'Acer Nitro 50, i5-12400/16GB/512 RTX3060');
+INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
+VALUES ('5', 'Apple iPhone 14 Pro 512GB Space Black');
+INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
+VALUES ('6', 'Apple iPhone 14 Pro 1TB Deep Purple');
+INSERT INTO ${flyway:defaultSchema}.ITEM_DETAILS
+VALUES ('7', 'Apple iPhone 14 Pro 256GB Deep Purple');
 
 -- Item-Details-Image --
 
@@ -107,6 +113,12 @@ INSERT INTO ${flyway:defaultSchema}.ITEM
 VALUES ('3', 'Dell XPS 13', '5', '12000', '0.23', '3', '3', '3', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
 VALUES ('4', 'Acer Nitro 50', '8', '4399', '0.23', '10', '4', '4', false);
+INSERT INTO ${flyway:defaultSchema}.ITEM
+VALUES ('5', 'IPhone 14 Pro Space Black 520GB', '15', '7299', '0.23', '10', '5', '2', false);
+INSERT INTO ${flyway:defaultSchema}.ITEM
+VALUES ('6', 'IPhone 14 Pro Deep Purple 1TB', '15', '8499', '0.23', '10', '6', '2', false);
+INSERT INTO ${flyway:defaultSchema}.ITEM
+VALUES ('7', 'IPhone 14 Pro Deep Purple 256GB', '3', '6499', '0.23', '10', '7', '2', false);
 
 
 -- Item-Category --
@@ -117,3 +129,25 @@ INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
 VALUES ('3', '829c9c63-7f3a-4ac0-ad99-65998894bb61');
 INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
 VALUES ('4', 'f6eaf737-0a8c-454c-9b30-05492e1ece9d');
+INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
+VALUES ('5', '6522db9d-5347-4cee-9aca-67ca3c161e22');
+INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
+VALUES ('6', '6522db9d-5347-4cee-9aca-67ca3c161e22');
+INSERT INTO ${flyway:defaultSchema}.ITEM_CATEGORY
+VALUES ('7', '6522db9d-5347-4cee-9aca-67ca3c161e22');
+
+-- Item-Family --
+
+INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY
+VALUES ('1');
+
+-- Item-Family-Item --
+
+INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY_ITEM
+VALUES ('5', '1', 'Space Black 520GB');
+
+INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY_ITEM
+VALUES ('6', '1', 'Deep Purple 1TB');
+
+INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY_ITEM
+VALUES ('7', '1', 'Deep Purple 256GB');
