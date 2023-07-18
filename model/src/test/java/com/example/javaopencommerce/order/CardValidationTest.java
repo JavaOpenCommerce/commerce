@@ -2,6 +2,7 @@ package com.example.javaopencommerce.order;
 
 
 import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValidationException;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValueNotMatchingValidationException;
@@ -33,6 +34,31 @@ class CardValidationTest {
         // when & then
         assertThatCode(() -> Card.validateAndRecreate(cardToRecreate,
                 List.of(testCardItem1, testCardItem2, testCardItem3))).doesNotThrowAnyException();
+    }
+
+    @Test
+    void shouldNotPassValidationBecauseOfNonMatchingOrderAndCardSize() {
+
+        // given
+        CardItem testCardItem1 = CardItem.withAmount(TestItems.TEST_ITEM_1, Amount.of(1));
+        CardItem testCardItem2 = CardItem.withAmount(TestItems.TEST_ITEM_2, Amount.of(1));
+
+        CardSnapshot cardToRecreate = new CardSnapshot(
+                List.of(testCardItem1.getSnapshot()), Value.of(BigDecimal.ONE),
+                Value.of(BigDecimal.ONE));
+
+        // when
+        Throwable throwable = catchThrowable(
+                () -> Card.validateAndRecreate(cardToRecreate, List.of(testCardItem1, testCardItem2)));
+
+        OrderValidationException validationException = (OrderValidationException) throwable;
+
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(validationException.getDerivativeExceptions())
+                    .hasSize(0);
+            softly.assertThat(validationException.getMessage())
+                    .contains("Order body is different than actual card body!");
+        });
     }
 
     @Test
@@ -122,8 +148,17 @@ class CardValidationTest {
         CardItem testCardItem1 = CardItem.withAmount(TestItems.TEST_ITEM_1, Amount.of(10));
         CardItem testCardItem2 = CardItem.withAmount(TestItems.TEST_ITEM_2, Amount.of(10));
 
+        CardItem.CardItemSnapshot testItemModifiedStock1 = new CardItem.CardItemSnapshot(
+                testCardItem1.getSnapshot()
+                        .itemSnapshot(),
+                Value.of(81.38),
+                Value.of(100.10),
+                Amount.of(10),
+                ""
+        );
+
         CardSnapshot cardToRecreate = new CardSnapshot(
-                List.of(testCardItem1.getSnapshot(), testCardItem2.getSnapshot()),
+                List.of(testItemModifiedStock1, testCardItem2.getSnapshot()),
                 Value.of(BigDecimal.valueOf(277.56)),
                 Value.of(BigDecimal.valueOf(341.16)));
 

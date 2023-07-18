@@ -31,7 +31,7 @@ class OrderMapper {
 
     private static OrderItemDto toDto(OrderItem orderItem) {
         return new OrderItemDto(orderItem.getId()
-                .id(), orderItem.getName(),
+                .asLong(), orderItem.getName(),
                 orderItem.getAmount()
                         .getValue(), orderItem.getValueGross()
                 .asDecimal(),

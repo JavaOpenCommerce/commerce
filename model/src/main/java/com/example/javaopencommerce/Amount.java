@@ -32,13 +32,17 @@ public class Amount {
         return new Amount(value + amount.getValue());
     }
 
-    public Amount minusOne() {
-        int newAmount = value <= 0 ? 0 : value - 1;
+    public Amount minus(Amount amount) {
+        int newAmount = Math.max((this.value - amount.value), 0);
         return new Amount(newAmount);
     }
 
     public boolean isLessThan(Amount amount) {
         return value < amount.getValue();
+    }
+
+    public boolean isLessOrEqualThan(Amount amount) {
+        return value <= amount.getValue();
     }
 
     public boolean isZero() {

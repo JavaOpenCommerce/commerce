@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.catalog;
 
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
 import io.vertx.core.json.JsonObject;
@@ -26,8 +27,13 @@ public class ItemQueryFacade {
     public PageDto<ItemDto> getFilteredItems(SearchRequest request) {
         Pair<List<Long>, Integer> filteredResults = getFilteredResults(request);
 
+        List<ItemId> itemIds = filteredResults.getLeft()
+                .stream()
+                .map(ItemId::of)
+                .toList();
+
         List<ItemDto> productsFound = this.queryRepository
-                .getItemsByIdList(filteredResults.getLeft());
+                .getItemsByIdList(itemIds);
 
         List<ItemDto> sortedProducts = sortItems(productsFound, request);
 

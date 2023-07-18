@@ -1,8 +1,7 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.Vat;
+import com.example.javaopencommerce.*;
 import com.example.javaopencommerce.order.Order.OrderItem;
 import com.example.javaopencommerce.statics.JsonConverter;
 import lombok.*;

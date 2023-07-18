@@ -1,8 +1,6 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.Amount;
-import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.Vat;
+import com.example.javaopencommerce.*;
 import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
 import com.example.javaopencommerce.order.Item.ItemSnapshot;
 import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderValueNotMatchingValidationException;
@@ -26,20 +24,15 @@ class Order {
 
     private Order(List<OrderItem> orderBody, Value valueGross, Value valueNett,
                   OrderPrincipal orderPrincipal) {
-        requireNonNull(orderBody);
-        requireNonNull(orderPrincipal);
-        requireNonNull(valueGross);
-        requireNonNull(valueNett);
-
         this.id = OrderId.random();
         this.status = OrderStatus.NEW;
         this.paymentStatus = PaymentStatus.BEFORE_PAYMENT;
         this.createdAt = Instant.now();
 
-        this.orderPrincipal = orderPrincipal;
-        this.orderBody = orderBody;
-        this.valueGross = valueGross;
-        this.valueNett = valueNett;
+        this.orderPrincipal = requireNonNull(orderPrincipal);
+        this.orderBody = requireNonNull(orderBody);
+        this.valueGross = requireNonNull(valueGross);
+        this.valueNett = requireNonNull(valueNett);
 
         validateOrderIntegrity();
     }
@@ -73,6 +66,8 @@ class Order {
         requireNonNull(orderPrincipal);
         List<OrderItem> orderBody = card.items()
                 .stream()
+                .filter(item -> !item.amount()
+                        .isZero())
                 .map(OrderItem::fromCardItem)
                 .toList();
         return new Order(orderBody, card.cardValueGross(), card.cardValueNett(), orderPrincipal);

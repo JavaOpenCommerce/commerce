@@ -1,8 +1,8 @@
-package com.example.javaopencommerce.order;
+package com.example.javaopencommerce;
 
 import java.util.Objects;
 
-class ItemId {
+public class ItemId {
 
     private final Long id;
 
@@ -14,7 +14,7 @@ class ItemId {
         return new ItemId(id);
     }
 
-    Long id() {
+    public Long asLong() {
         return id;
     }
 

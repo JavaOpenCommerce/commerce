@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.catalog;
 
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.PageDto;
 import com.example.javaopencommerce.catalog.dtos.FullItemDto;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
@@ -29,7 +30,8 @@ public class ItemController {
     @GET
     @Path("/{id}")
     public FullItemDto getItemById(@PathParam("id") Long id) {
-        return this.itemRepository.getItemById(id);
+        ItemId itemId = ItemId.of(id);
+        return this.itemRepository.getItemById(itemId);
     }
 
     @GET

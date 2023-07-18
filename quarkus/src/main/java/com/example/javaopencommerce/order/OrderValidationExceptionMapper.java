@@ -17,6 +17,13 @@ public class OrderValidationExceptionMapper implements ExceptionMapper<OrderVali
 
     @Override
     public Response toResponse(OrderValidationException exception) {
+        if (exception.getDerivativeExceptions()
+                .isEmpty()) {
+            return Response.status(Status.PRECONDITION_FAILED)
+                    .entity(getOrderExceptionDto(exception))
+                    .build();
+        }
+
         return Response.status(Status.PRECONDITION_FAILED)
                 .entity(prepareExceptionResponseBody(exception.getDerivativeExceptions()))
                 .build();
