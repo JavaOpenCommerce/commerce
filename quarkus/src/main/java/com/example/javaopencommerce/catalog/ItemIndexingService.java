@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.catalog;
 
+import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
 import com.example.javaopencommerce.elasticsearch.ElasticAddress;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;

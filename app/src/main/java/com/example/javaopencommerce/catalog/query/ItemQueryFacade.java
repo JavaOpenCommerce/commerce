@@ -1,8 +1,7 @@
-package com.example.javaopencommerce.catalog;
+package com.example.javaopencommerce.catalog.query;
 
 import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.PageDto;
-import com.example.javaopencommerce.catalog.dtos.ItemDto;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.tuple.Pair;
 

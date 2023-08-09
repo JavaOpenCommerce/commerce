@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.order.dtos.OrderDto;
+import com.example.javaopencommerce.order.query.OrderDto;
+import com.example.javaopencommerce.order.query.OrderQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.UUID;

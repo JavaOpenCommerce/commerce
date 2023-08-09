@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order.dtos;
+package com.example.javaopencommerce.order.query;
 
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.Value;

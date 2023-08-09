@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.catalog;
 
-import com.example.javaopencommerce.catalog.dtos.ItemFamilyMemberDto;
+import com.example.javaopencommerce.catalog.query.ItemFamilyMemberDto;
+import com.example.javaopencommerce.catalog.query.ItemFamilyQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;

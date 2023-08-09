@@ -2,10 +2,10 @@ package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.catalog.ItemQueryRepository;
-import com.example.javaopencommerce.catalog.dtos.ItemDto;
-import com.example.javaopencommerce.order.dtos.CardDto;
-import com.example.javaopencommerce.order.dtos.ProductOrder;
+import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
+import com.example.javaopencommerce.catalog.query.ItemDto;
+import com.example.javaopencommerce.order.query.CardDto;
+import com.example.javaopencommerce.order.query.ProductOrder;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +24,13 @@ import static java.util.Optional.ofNullable;
 public class CardController {
 
     static final String COOKIE_NAME = "CardCookie";
-    private final CardFacade cardFacade;
+    private final CardOperations cardOperations;
     private final ItemQueryRepository productQueryRepository;
     @Context
     private HttpServerRequest request;
 
-    public CardController(CardFacade cardFacade, ItemQueryRepository productQueryRepository) {
-        this.cardFacade = cardFacade;
+    public CardController(CardOperations cardOperations, ItemQueryRepository productQueryRepository) {
+        this.cardOperations = cardOperations;
         this.productQueryRepository = productQueryRepository;
     }
 
@@ -39,7 +39,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto getCard(@Context HttpServerRequest request) {
         addCookieIfNotPresent();
-        return this.cardFacade.getCard(request.getCookie(COOKIE_NAME)
+        return this.cardOperations.getCard(request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
@@ -51,7 +51,7 @@ public class CardController {
         addCookieIfNotPresent();
         ItemId itemId = ItemId.of(product.getItemId());
         Amount amount = Amount.of(product.getAmount());
-        return this.cardFacade.addItemWithAmount(itemId, amount, this.request.getCookie(COOKIE_NAME)
+        return this.cardOperations.addItemWithAmount(itemId, amount, this.request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
@@ -61,7 +61,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto increaseItemAmount(@QueryParam("id") Long id) {
         ItemId itemId = ItemId.of(id);
-        return this.cardFacade.addItemWithAmount(itemId, Amount.of(1), this.request.getCookie(COOKIE_NAME)
+        return this.cardOperations.addItemWithAmount(itemId, Amount.of(1), this.request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
@@ -72,7 +72,7 @@ public class CardController {
     public CardDto changeItemAmount(ProductOrder product) {
         ItemId itemId = ItemId.of(product.getItemId());
         Amount amount = Amount.of(product.getAmount());
-        return this.cardFacade.changeItemAmount(itemId, amount, this.request.getCookie(COOKIE_NAME)
+        return this.cardOperations.changeItemAmount(itemId, amount, this.request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
@@ -82,7 +82,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto removeProduct(@QueryParam("id") Long id) {
         ItemId itemId = ItemId.of(id);
-        return this.cardFacade.removeProduct(itemId, this.request.getCookie(COOKIE_NAME)
+        return this.cardOperations.removeProduct(itemId, this.request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
@@ -91,7 +91,7 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public String flushCard() {
         if (!cookieCheck()) {
-            this.cardFacade.flushCard(this.request.getCookie(COOKIE_NAME)
+            this.cardOperations.flushCard(this.request.getCookie(COOKIE_NAME)
                     .getValue());
             log.info("Card flushed");
         }

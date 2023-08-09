@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.warehouse;
+package com.example.javaopencommerce.warehouse.query;
 
 import java.util.List;
 import java.util.UUID;

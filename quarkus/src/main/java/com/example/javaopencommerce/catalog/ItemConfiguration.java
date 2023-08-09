@@ -1,5 +1,9 @@
 package com.example.javaopencommerce.catalog;
 
+import com.example.javaopencommerce.catalog.query.ItemFamilyQueryRepository;
+import com.example.javaopencommerce.catalog.query.ItemQueryFacade;
+import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 

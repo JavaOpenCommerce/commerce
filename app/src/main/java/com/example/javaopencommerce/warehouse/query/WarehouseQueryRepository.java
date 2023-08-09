@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.warehouse;
+package com.example.javaopencommerce.warehouse.query;
 
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.ItemId;

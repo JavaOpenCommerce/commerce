@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.catalog;
+package com.example.javaopencommerce.catalog.query;
 
 import lombok.AccessLevel;
 import lombok.Getter;

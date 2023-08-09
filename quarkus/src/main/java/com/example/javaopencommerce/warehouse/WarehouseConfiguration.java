@@ -1,5 +1,7 @@
 package com.example.javaopencommerce.warehouse;
 
+import com.example.javaopencommerce.warehouse.query.WarehouseQueryRepository;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 

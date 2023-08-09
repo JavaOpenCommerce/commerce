@@ -1,8 +1,8 @@
-package com.example.javaopencommerce.catalog;
+package com.example.javaopencommerce.catalog.query;
 
 import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.catalog.dtos.FullItemDto;
-import com.example.javaopencommerce.catalog.dtos.ItemDto;
+import com.example.javaopencommerce.catalog.query.FullItemDto;
+import com.example.javaopencommerce.catalog.query.ItemDto;
 
 import java.util.List;
 

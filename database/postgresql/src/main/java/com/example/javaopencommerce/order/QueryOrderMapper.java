@@ -1,7 +1,7 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.order.dtos.OrderDto;
-import com.example.javaopencommerce.order.dtos.OrderDto.OrderItemDto;
+import com.example.javaopencommerce.order.query.OrderDto;
+import com.example.javaopencommerce.order.query.OrderDto.OrderItemDto;
 import com.example.javaopencommerce.statics.JsonConverter;
 
 import java.math.BigDecimal;

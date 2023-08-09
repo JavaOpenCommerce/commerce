@@ -1,8 +1,8 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.order.Order.OrderItem;
-import com.example.javaopencommerce.order.dtos.OrderDto;
-import com.example.javaopencommerce.order.dtos.OrderDto.OrderItemDto;
+import com.example.javaopencommerce.order.query.OrderDto;
+import com.example.javaopencommerce.order.query.OrderDto.OrderItemDto;
 
 class OrderMapper {
 

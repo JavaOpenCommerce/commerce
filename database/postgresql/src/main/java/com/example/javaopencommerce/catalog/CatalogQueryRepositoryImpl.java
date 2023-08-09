@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.catalog;
 
-import com.example.javaopencommerce.catalog.dtos.CategoryDto;
+import com.example.javaopencommerce.catalog.query.CatalogQueryRepository;
+import com.example.javaopencommerce.catalog.query.CategoryDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

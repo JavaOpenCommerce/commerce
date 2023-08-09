@@ -6,9 +6,9 @@ import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
 import com.example.javaopencommerce.order.Item.ItemSnapshot;
-import com.example.javaopencommerce.order.dtos.CardDto;
-import com.example.javaopencommerce.order.dtos.CardItemDto;
-import com.example.javaopencommerce.order.dtos.ItemDto;
+import com.example.javaopencommerce.order.query.CardDto;
+import com.example.javaopencommerce.order.query.CardItemDto;
+import com.example.javaopencommerce.order.query.ItemDto;
 
 import java.util.List;
 

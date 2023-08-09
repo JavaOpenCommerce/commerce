@@ -1,8 +1,8 @@
-package com.example.javaopencommerce.catalog;
+package com.example.javaopencommerce.catalog.query;
 
 import io.vertx.core.json.JsonObject;
 
-interface ItemSearchService {
+public interface ItemSearchService {
 
     JsonObject searchProductsBySearchRequest(SearchRequest request);
 

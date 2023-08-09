@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.catalog.dtos;
+package com.example.javaopencommerce.catalog.query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

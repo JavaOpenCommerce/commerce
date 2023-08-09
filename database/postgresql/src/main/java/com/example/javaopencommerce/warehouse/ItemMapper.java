@@ -3,11 +3,12 @@ package com.example.javaopencommerce.warehouse;
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.OrderId;
+import com.example.javaopencommerce.warehouse.query.ItemStockDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.javaopencommerce.warehouse.ItemStockDto.StockReservationDto;
+import static com.example.javaopencommerce.warehouse.query.ItemStockDto.StockReservationDto;
 
 class ItemMapper {
 

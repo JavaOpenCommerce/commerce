@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.catalog;
 
-import com.example.javaopencommerce.catalog.dtos.FullItemDto;
+import com.example.javaopencommerce.catalog.query.FullItemDto;
 
 import java.util.HashSet;
 import java.util.UUID;

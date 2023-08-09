@@ -1,8 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.OrderId;
-import com.example.javaopencommerce.order.dtos.CardDto;
-import com.example.javaopencommerce.order.dtos.CreateOrderDto;
+import com.example.javaopencommerce.order.query.CardDto;
 import com.example.javaopencommerce.warehouse.ReserveItemScenario;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -10,7 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
-public class OrderFacade {
+public class CreateOrderScenario {
 
 
     private final CardRepository cardRepository;
@@ -18,10 +17,10 @@ public class OrderFacade {
     private final ReserveItemScenario reserveItemScenario;
     private final CardFactory cardFactory;
 
-    public OrderFacade(CardRepository cardRepository,
-                       OrderRepository orderRepository,
-                       CardFactory cardFactory,
-                       ReserveItemScenario reserveItemScenario) {
+    public CreateOrderScenario(CardRepository cardRepository,
+                               OrderRepository orderRepository,
+                               CardFactory cardFactory,
+                               ReserveItemScenario reserveItemScenario) {
         this.cardRepository = cardRepository;
         this.orderRepository = orderRepository;
         this.cardFactory = cardFactory;
@@ -29,14 +28,15 @@ public class OrderFacade {
     }
 
     @Transactional
-    public OrderId createOrder(CreateOrderDto createOrderDto, String cardId) {
-        CardDto orderCard = createOrderDto.card();
+    public OrderId createOrder(CreateOrderCommand createOrderCommand) {
+        CardDto orderCard = createOrderCommand.card();
+        String cardId = createOrderCommand.cardId();
         List<CardItem> cardItems = cardFactory.restoreCard(this.cardRepository.getCard(cardId))
                 .getCardItems();
         Card card = Card.validateAndRecreate(CardMapper.toSnapshot(orderCard), cardItems);
 
-        OrderPrincipal orderPrincipal = new OrderPrincipal(createOrderDto.userId(),
-                createOrderDto.addressId(), createOrderDto.paymentMethod());
+        OrderPrincipal orderPrincipal = new OrderPrincipal(createOrderCommand.userId(),
+                createOrderCommand.addressId(), createOrderCommand.paymentMethod());
 
         Order order = card.createOrderFor(
                 orderPrincipal);

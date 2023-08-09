@@ -1,9 +1,9 @@
 package com.example.javaopencommerce.catalog;
 
-import com.example.javaopencommerce.catalog.dtos.FullItemDto;
-import com.example.javaopencommerce.catalog.dtos.ImageDto;
-import com.example.javaopencommerce.catalog.dtos.ItemDto;
-import com.example.javaopencommerce.catalog.dtos.ProducerDto;
+import com.example.javaopencommerce.catalog.query.FullItemDto;
+import com.example.javaopencommerce.catalog.query.ImageDto;
+import com.example.javaopencommerce.catalog.query.ItemDto;
+import com.example.javaopencommerce.catalog.query.ProducerDto;
 
 class ItemDtoFactory {
 

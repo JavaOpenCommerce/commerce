@@ -2,11 +2,11 @@ package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.catalog.ItemQueryRepository;
-import com.example.javaopencommerce.order.dtos.CardDto;
-import com.example.javaopencommerce.warehouse.WarehouseQueryRepository;
+import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
+import com.example.javaopencommerce.order.query.CardDto;
+import com.example.javaopencommerce.warehouse.query.WarehouseQueryRepository;
 
-public class CardFacade {
+public class CardOperations {
 
     private final CardFactory cardFactory;
     private final ItemQueryRepository itemRepository;
@@ -14,8 +14,8 @@ public class CardFacade {
     private final CardRepository cardRepository;
     private final ItemMapper itemMapper;
 
-    public CardFacade(CardFactory cardFactory, ItemQueryRepository itemRepository, WarehouseQueryRepository warehouseRepository, CardRepository cardRepository,
-                      ItemMapper itemMapper) {
+    CardOperations(CardFactory cardFactory, ItemQueryRepository itemRepository, WarehouseQueryRepository warehouseRepository, CardRepository cardRepository,
+                          ItemMapper itemMapper) {
         this.cardFactory = cardFactory;
         this.itemRepository = itemRepository;
         this.warehouseRepository = warehouseRepository;

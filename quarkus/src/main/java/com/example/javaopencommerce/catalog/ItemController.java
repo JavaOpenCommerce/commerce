@@ -2,9 +2,7 @@ package com.example.javaopencommerce.catalog;
 
 import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.PageDto;
-import com.example.javaopencommerce.catalog.dtos.FullItemDto;
-import com.example.javaopencommerce.catalog.dtos.ItemDto;
-import com.example.javaopencommerce.catalog.dtos.ItemFamilyMemberDto;
+import com.example.javaopencommerce.catalog.query.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

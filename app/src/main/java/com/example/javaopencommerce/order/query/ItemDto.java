@@ -1,4 +1,4 @@
-package com.example.javaopencommerce.order.dtos;
+package com.example.javaopencommerce.order.query;
 
 import lombok.Builder;
 

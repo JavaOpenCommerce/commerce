@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.catalog;
 
-import com.example.javaopencommerce.catalog.dtos.CategoryDto;
+import com.example.javaopencommerce.catalog.query.CatalogQueryRepository;
+import com.example.javaopencommerce.catalog.query.CategoryDto;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

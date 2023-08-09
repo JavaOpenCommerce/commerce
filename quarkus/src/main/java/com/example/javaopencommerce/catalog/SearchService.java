@@ -1,5 +1,7 @@
 package com.example.javaopencommerce.catalog;
 
+import com.example.javaopencommerce.catalog.query.ItemSearchService;
+import com.example.javaopencommerce.catalog.query.SearchRequest;
 import com.example.javaopencommerce.elasticsearch.ElasticAddress;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;

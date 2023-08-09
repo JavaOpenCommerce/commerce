@@ -1,7 +1,7 @@
 package com.example.javaopencommerce.order;
 
-import com.example.javaopencommerce.catalog.ItemQueryRepository;
-import com.example.javaopencommerce.warehouse.WarehouseQueryRepository;
+import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
+import com.example.javaopencommerce.warehouse.query.WarehouseQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -24,17 +24,17 @@ class CardConfiguration {
 
     @Produces
     @ApplicationScoped
-    CardFacade cardFacade(ItemQueryRepository itemRepository,
-                          WarehouseQueryRepository warehouseRepository,
-                          CardRepository cardRepository,
-                          CardFactory cardFactory,
-                          ItemMapper mapper) {
-        return new CardFacade(cardFactory, itemRepository, warehouseRepository, cardRepository, mapper);
+    CardOperations cardFacade(ItemQueryRepository itemRepository,
+                              WarehouseQueryRepository warehouseRepository,
+                              CardRepository cardRepository,
+                              CardFactory cardFactory,
+                              ItemMapper mapper) {
+        return new CardOperations(cardFactory, itemRepository, warehouseRepository, cardRepository, mapper);
     }
 
     @Produces
     @ApplicationScoped
-    CardController cardController(CardFacade cardFacade, ItemQueryRepository productQueryRepository) {
-        return new CardController(cardFacade, productQueryRepository);
+    CardController cardController(CardOperations cardOperations, ItemQueryRepository productQueryRepository) {
+        return new CardController(cardOperations, productQueryRepository);
     }
 }

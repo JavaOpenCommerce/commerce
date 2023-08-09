@@ -2,6 +2,8 @@ package com.example.javaopencommerce.warehouse;
 
 import com.example.javaopencommerce.Amount;
 import com.example.javaopencommerce.ItemId;
+import com.example.javaopencommerce.warehouse.query.ItemStockDto;
+import com.example.javaopencommerce.warehouse.query.WarehouseQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;

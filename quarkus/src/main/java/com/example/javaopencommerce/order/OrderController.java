@@ -1,8 +1,8 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.OrderId;
-import com.example.javaopencommerce.order.dtos.CreateOrderDto;
-import com.example.javaopencommerce.order.dtos.OrderDto;
+import com.example.javaopencommerce.order.query.OrderDto;
+import com.example.javaopencommerce.order.query.OrderQueryRepository;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -22,24 +22,24 @@ import static java.util.Objects.isNull;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrderController {
 
-    private final OrderFacade orderFacade;
+    private final CreateOrderScenario createOrderScenario;
     private final OrderQueryRepository queryRepository;
 
-    OrderController(OrderFacade orderFacade, OrderQueryRepository queryRepository) {
-        this.orderFacade = orderFacade;
+    OrderController(CreateOrderScenario createOrderScenario, OrderQueryRepository queryRepository) {
+        this.createOrderScenario = createOrderScenario;
         this.queryRepository = queryRepository;
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response makeOrder(CreateOrderDto createOrderDto, @Context HttpServerRequest request) {
+    public Response makeOrder(CreateOrderCommand createOrderCommand, @Context HttpServerRequest request) {
         Cookie cardCookie = request.getCookie(COOKIE_NAME);
         if (isNull(cardCookie)) {
             return Response.status(Response.Status.BAD_REQUEST)
                     .entity("Card does not exists!")
                     .build();
         }
-        OrderId orderId = orderFacade.createOrder(createOrderDto, cardCookie.getValue());
+        OrderId orderId = createOrderScenario.createOrder(createOrderCommand.withCardId(cardCookie.getValue()));
         deleteCookie(request);
         return Response.ok(toJson(orderId))
                 .build();
