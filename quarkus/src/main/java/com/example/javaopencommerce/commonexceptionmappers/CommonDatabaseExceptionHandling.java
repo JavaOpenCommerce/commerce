@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.commonexceptionmappers;
 
-import com.example.javaopencommerce.exception.EntityNotFoundException;
+import com.example.opencommerce.adapters.database.EntityNotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;

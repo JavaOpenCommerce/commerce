@@ -1,6 +1,6 @@
 package com.example.javaopencommerce.catalog;
 
-interface CatalogRepository {
+public interface CatalogRepository {
 
     Category getCatalog();
 

@@ -9,12 +9,6 @@ class WarehouseConfiguration {
 
     @Produces
     @ApplicationScoped
-    ItemMapper itemMapper() {
-        return new ItemMapper();
-    }
-
-    @Produces
-    @ApplicationScoped
     AddStockScenario addStockScenario(WarehouseItemRepository itemRepository) {
         return new AddStockScenario(itemRepository);
     }

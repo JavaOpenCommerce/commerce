@@ -2,7 +2,7 @@ package com.example.javaopencommerce.warehouse;
 
 import java.util.Objects;
 
-class ItemReservationId {
+public class ItemReservationId {
 
     private final Long id;
 
@@ -10,7 +10,7 @@ class ItemReservationId {
         this.id = id;
     }
 
-    static ItemReservationId of(Long id) {
+    public static ItemReservationId of(Long id) {
         return new ItemReservationId(id);
     }
 
@@ -18,7 +18,7 @@ class ItemReservationId {
         return new ItemReservationId(null);
     }
 
-    Long asLong() {
+    public Long asLong() {
         return id;
     }
 

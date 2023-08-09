@@ -8,13 +8,13 @@ import static java.lang.String.join;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 
-class OrderPrincipal {
+public class OrderPrincipal {
 
     private final UUID id;
     private final UUID addressId;
     private final PaymentMethod paymentMethod;
 
-    OrderPrincipal(UUID id, UUID addressId, String paymentMethod) {
+    public OrderPrincipal(UUID id, UUID addressId, String paymentMethod) {
         requireNonNull(id);
         requireNonNull(addressId);
         requireNonNull(paymentMethod);
@@ -37,7 +37,7 @@ class OrderPrincipal {
         return new OrderPrincipalSnapshot(id, addressId, paymentMethod);
     }
 
-    record OrderPrincipalSnapshot(UUID id, UUID addressId, PaymentMethod paymentMethod) {
+    public record OrderPrincipalSnapshot(UUID id, UUID addressId, PaymentMethod paymentMethod) {
 
     }
 }

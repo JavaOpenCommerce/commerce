@@ -2,7 +2,7 @@ package com.example.javaopencommerce.warehouse;
 
 import com.example.javaopencommerce.ItemId;
 
-interface WarehouseItemRepository {
+public interface WarehouseItemRepository {
 
     ItemStock getItemById(ItemId id);
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Builder
 @lombok.Value
-class OrderSnapshot {
+public class OrderSnapshot {
 
     OrderId id;
     List<OrderItem> orderBody;

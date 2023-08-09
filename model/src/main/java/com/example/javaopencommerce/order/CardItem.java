@@ -8,7 +8,7 @@ import com.example.javaopencommerce.order.Item.ItemSnapshot;
 import static java.math.BigDecimal.ZERO;
 import static java.util.Objects.requireNonNull;
 
-final class CardItem {
+public final class CardItem {
 
     private final Item item;
     private Amount amount;
@@ -65,7 +65,7 @@ final class CardItem {
         return this.amount.isZero();
     }
 
-    CardItemSnapshot getSnapshot() {
+    public CardItemSnapshot getSnapshot() {
         return new CardItemSnapshot(this.item.getSnapshot(), valueNett, valueGross, amount,
                 status.ok() ? "OK" : status.getCause()
                         .name());
@@ -78,10 +78,10 @@ final class CardItem {
                 .toNett(valueGross);
     }
 
-    record CardItemSnapshot(ItemSnapshot itemSnapshot, Value valueNett, Value valueGross,
-                            Amount amount, String status) {
+    public record CardItemSnapshot(ItemSnapshot itemSnapshot, Value valueNett, Value valueGross,
+                                   Amount amount, String status) {
 
-        ItemId id() {
+        public ItemId id() {
             return itemSnapshot.id();
         }
     }

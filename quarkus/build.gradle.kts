@@ -11,9 +11,7 @@ dependencies {
     implementation(project(":model"))
     implementation(project(":commons"))
     implementation(project(":app"))
-    implementation(project(":database:apid"))
-    implementation(project(":database:postgresql"))
-    implementation(project(":database:redis"))
+    implementation(project(":adapters"))
 
     implementation("io.quarkus:quarkus-config-yaml")
     implementation("io.quarkus:quarkus-vertx")

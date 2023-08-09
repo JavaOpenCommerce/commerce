@@ -13,7 +13,7 @@ import java.util.Set;
 import static com.example.javaopencommerce.OperationResult.*;
 import static java.util.Objects.requireNonNull;
 
-class ItemStock {
+public class ItemStock {
 
     private final Set<ItemReservation> reservations = new HashSet<>();
     private final ItemId id;
@@ -34,19 +34,19 @@ class ItemStock {
         return new ItemStock(itemId, Amount.ZERO);
     }
 
-    static ItemStock from(ItemId itemId, Amount stock, Set<ItemReservation> reservationList) {
+    public static ItemStock from(ItemId itemId, Amount stock, Set<ItemReservation> reservationList) {
         return new ItemStock(itemId, stock, reservationList);
     }
 
-    ItemId id() {
+    public ItemId id() {
         return this.id;
     }
 
-    Amount quantityOnHand() {
+    public Amount quantityOnHand() {
         return quantityOnHand;
     }
 
-    List<ItemReservation> reservations() {
+    public List<ItemReservation> reservations() {
         return reservations.stream()
                 .toList();
     }
@@ -97,7 +97,7 @@ class ItemStock {
         return OK;
     }
 
-    Amount freeStock() {
+    public Amount freeStock() {
         Amount reserved = reservations.stream()
                 .map(ItemReservation::reservedAmount)
                 .reduce(Amount.ZERO, Amount::plus);

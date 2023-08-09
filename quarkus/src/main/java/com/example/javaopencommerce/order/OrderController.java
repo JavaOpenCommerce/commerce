@@ -30,6 +30,13 @@ public class OrderController {
         this.queryRepository = queryRepository;
     }
 
+    private static void deleteCookie(HttpServerRequest request) {
+        request.cookies()
+                .add(Cookie.cookie(COOKIE_NAME, "")
+                        .setMaxAge(0)
+                        .setHttpOnly(true));
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response makeOrder(CreateOrderCommand createOrderCommand, @Context HttpServerRequest request) {
@@ -49,13 +56,6 @@ public class OrderController {
     @Path("/{id}")
     public OrderDto getOrderById(@PathParam("id") UUID id) {
         return queryRepository.findOrderById(id);
-    }
-
-    private static void deleteCookie(HttpServerRequest request) {
-        request.cookies()
-                .add(Cookie.cookie(COOKIE_NAME, "")
-                        .setMaxAge(0)
-                        .setHttpOnly(true));
     }
 
     private String toJson(OrderId orderId) {

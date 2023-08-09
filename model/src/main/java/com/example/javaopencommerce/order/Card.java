@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 
 @EqualsAndHashCode
-final class Card {
+public final class Card {
 
     private final Map<ItemId, CardItem> items;
     private Value cardValueNett = Value.ZERO;
@@ -77,11 +77,11 @@ final class Card {
         calculateCardValue();
     }
 
-    List<CardItem> getCardItems() {
+    public List<CardItem> getCardItems() {
         return new ArrayList<>(items.values());
     }
 
-    CardSnapshot getSnapshot() {
+    public CardSnapshot getSnapshot() {
         calculateCardValue();
         return CardSnapshot.builder()
                 .items(new ArrayList<>(items.values()

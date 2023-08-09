@@ -21,9 +21,7 @@ include(
         "app",
         "commons",
         "core",
-        "database:apid",
-        "database:postgresql",
-        "database:redis",
+        "adapters",
         "model",
         "quarkus",
 )

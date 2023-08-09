@@ -11,7 +11,7 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-class Order {
+public class Order {
 
     private final OrderId id;
     private final List<OrderItem> orderBody;
@@ -37,9 +37,9 @@ class Order {
         validateOrderIntegrity();
     }
 
-    Order(OrderId id, List<OrderItem> orderBody, OrderPrincipal orderPrincipal,
-          PaymentStatus paymentStatus, OrderStatus status, Value valueGross, Value valueNett,
-          Instant createdAt) {
+    public Order(OrderId id, List<OrderItem> orderBody, OrderPrincipal orderPrincipal,
+                 PaymentStatus paymentStatus, OrderStatus status, Value valueGross, Value valueNett,
+                 Instant createdAt) {
         requireNonNull(id);
         requireNonNull(orderBody);
         requireNonNull(orderPrincipal);
@@ -73,7 +73,7 @@ class Order {
         return new Order(orderBody, card.cardValueGross(), card.cardValueNett(), orderPrincipal);
     }
 
-    OrderSnapshot getSnapshot() {
+    public OrderSnapshot getSnapshot() {
         return OrderSnapshot.builder()
                 .id(id)
                 .orderValueNett(valueNett)
@@ -108,7 +108,7 @@ class Order {
     }
 
     @lombok.Value
-    static class OrderItem {
+    public static class OrderItem {
 
         ItemId id;
         String name;

@@ -1,5 +1,5 @@
 package com.example.javaopencommerce.order;
 
-enum PaymentStatus {
+public enum PaymentStatus {
     BEFORE_PAYMENT, IN_PROGRESS, COMPLETED, FAILED
 }

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
-class ItemReservation {
+public class ItemReservation {
     private ItemReservationId id;
     private OrderId orderId;
     private Amount reservedAmount;
@@ -18,7 +18,7 @@ class ItemReservation {
         this.reservedAmount = requireNonNull(reservedAmount);
     }
 
-    static ItemReservation restore(ItemReservationId id, OrderId orderId, Amount amount) {
+    public static ItemReservation restore(ItemReservationId id, OrderId orderId, Amount amount) {
         return new ItemReservation(id, orderId, amount);
     }
 
@@ -26,15 +26,15 @@ class ItemReservation {
         return new ItemReservation(ItemReservationId.empty(), orderId, amount);
     }
 
-    OrderId orderId() {
+    public OrderId orderId() {
         return orderId;
     }
 
-    Amount reservedAmount() {
+    public Amount reservedAmount() {
         return reservedAmount;
     }
 
-    ItemReservationId id() {
+    public ItemReservationId id() {
         return id;
     }
 

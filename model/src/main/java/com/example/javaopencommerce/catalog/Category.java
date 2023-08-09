@@ -7,7 +7,7 @@ import java.util.*;
 import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
-class Category {
+public class Category {
 
     private final static String ROOT = "root";
 
@@ -27,14 +27,14 @@ class Category {
         return new Category(CategoryId.random(), ROOT, ROOT);
     }
 
-    static Category recover(UUID id, String title, String description) {
+    public static Category recover(UUID id, String title, String description) {
         requireNonNull(id);
         requireNonNull(title);
         requireNonNull(description);
         return new Category(CategoryId.of(id), title, description);
     }
 
-    void addChildToThisCategory(Category categoryToAdd) {
+    public void addChildToThisCategory(Category categoryToAdd) {
         // TODO check if id of this category is not already present
         requireNonNull(categoryToAdd);
         categoryToAdd.setParent(this);
@@ -145,7 +145,7 @@ class Category {
         return new HashSet<>(children);
     }
 
-    CategorySnapshot toSnapshot() {
+    public CategorySnapshot toSnapshot() {
         List<CategorySnapshot> children;
         if (this.children.isEmpty()) {
             children = Collections.emptyList();
@@ -174,8 +174,8 @@ class Category {
         return Objects.hash(id);
     }
 
-    record CategorySnapshot(CategoryId id, String name, String description,
-                            List<CategorySnapshot> children) {
+    public record CategorySnapshot(CategoryId id, String name, String description,
+                                   List<CategorySnapshot> children) {
 
     }
 }

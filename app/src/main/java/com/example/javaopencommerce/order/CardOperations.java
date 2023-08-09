@@ -15,7 +15,7 @@ public class CardOperations {
     private final ItemMapper itemMapper;
 
     CardOperations(CardFactory cardFactory, ItemQueryRepository itemRepository, WarehouseQueryRepository warehouseRepository, CardRepository cardRepository,
-                          ItemMapper itemMapper) {
+                   ItemMapper itemMapper) {
         this.cardFactory = cardFactory;
         this.itemRepository = itemRepository;
         this.warehouseRepository = warehouseRepository;

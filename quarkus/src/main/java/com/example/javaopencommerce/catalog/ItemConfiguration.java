@@ -11,12 +11,6 @@ class ItemConfiguration {
 
     @Produces
     @ApplicationScoped
-    ItemDtoFactory dtoFactory() {
-        return new ItemDtoFactory();
-    }
-
-    @Produces
-    @ApplicationScoped
     ItemQueryFacade itemQueryFacade(SearchService searchService,
                                     ItemQueryRepository repository) {
         return new ItemQueryFacade(searchService, repository);
