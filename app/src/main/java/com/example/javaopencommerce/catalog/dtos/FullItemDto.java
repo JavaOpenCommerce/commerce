@@ -21,5 +21,4 @@ public class FullItemDto {
     List<ImageDto> additionalImages;
     BigDecimal valueGross;
     double vat;
-    int stock;
 }

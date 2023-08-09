@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.Vat;
 import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
@@ -67,7 +68,7 @@ class CardMapper {
     private static ItemDto fromSnapshot(ItemSnapshot itemSnapshot) {
         return ItemDto.builder()
                 .id(itemSnapshot.id()
-                        .id())
+                        .asLong())
                 .stock(itemSnapshot.stock()
                         .asInteger())
                 .valueGross(itemSnapshot.valueGross()

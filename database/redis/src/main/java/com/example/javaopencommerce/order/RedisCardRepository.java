@@ -9,5 +9,5 @@ interface RedisCardRepository {
 
     List<CardItemEntity> saveCard(String id, List<CardItemEntity> products);
 
-    void flushCard(String id);
+    void removeCard(String id);
 }

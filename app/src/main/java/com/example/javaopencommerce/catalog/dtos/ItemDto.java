@@ -11,7 +11,6 @@ public class ItemDto {
 
     Long id;
     String name;
-    int stock;
     BigDecimal valueGross;
     ImageDto image;
     double vat;

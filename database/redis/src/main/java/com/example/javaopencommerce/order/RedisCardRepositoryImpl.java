@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import io.quarkus.redis.datasource.RedisDataSource;
+import io.quarkus.redis.datasource.keys.KeyCommands;
 import io.quarkus.redis.datasource.list.ListCommands;
 import lombok.extern.log4j.Log4j2;
 
@@ -12,10 +13,12 @@ import java.util.List;
 @ApplicationScoped
 class RedisCardRepositoryImpl implements RedisCardRepository {
 
-    private final ListCommands<String, CardItemEntity> commands;
+    private final ListCommands<String, CardItemEntity> listCommands;
+    private final KeyCommands<String> keyCommands;
 
     public RedisCardRepositoryImpl(RedisDataSource redisClient) {
-        this.commands = redisClient.list(CardItemEntity.class);
+        this.listCommands = redisClient.list(CardItemEntity.class);
+        this.keyCommands = redisClient.key(String.class);
     }
 
     @Override
@@ -25,26 +28,26 @@ class RedisCardRepositoryImpl implements RedisCardRepository {
 
     @Override
     public List<CardItemEntity> saveCard(String key, List<CardItemEntity> products) {
-        if ((int) commands.llen(key) != 0) {
+        if ((int) listCommands.llen(key) != 0) {
             pruneList(key);
         }
         if (products.isEmpty()) {
             return Collections.emptyList();
         }
-        commands.lpush(key, products.toArray(new CardItemEntity[0]));
+        listCommands.lpush(key, products.toArray(new CardItemEntity[0]));
         return getAll(key);
     }
 
     @Override
-    public void flushCard(String key) {
-        pruneList(key);
+    public void removeCard(String key) {
+        keyCommands.del(key);
     }
 
     private void pruneList(String key) {
-        commands.ltrim(key, 1, 0);
+        listCommands.ltrim(key, 1, 0);
     }
 
     private List<CardItemEntity> getAll(String key) {
-        return commands.lrange(key, 0, -1);
+        return listCommands.lrange(key, 0, -1);
     }
 }

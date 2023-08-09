@@ -106,19 +106,19 @@ VALUES ('4', '10');
 -- Items --
 
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('1', 'shippingMethod', '9999', '10', '0.23', '1', '1', '1', true); -- Shipping
+VALUES ('1', 'shippingMethod', '10', '0.23', '1', '1', '1', true); -- Shipping
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('2', 'MacbookPro', '5', '33000', '0.23', '2', '2', '2', false);
+VALUES ('2', 'MacbookPro', '33000', '0.23', '2', '2', '2', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('3', 'Dell XPS 13', '5', '12000', '0.23', '3', '3', '3', false);
+VALUES ('3', 'Dell XPS 13', '12000', '0.23', '3', '3', '3', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('4', 'Acer Nitro 50', '8', '4399', '0.23', '10', '4', '4', false);
+VALUES ('4', 'Acer Nitro 50', '4399', '0.23', '10', '4', '4', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('5', 'IPhone 14 Pro Space Black 520GB', '15', '7299', '0.23', '10', '5', '2', false);
+VALUES ('5', 'IPhone 14 Pro Space Black 520GB', '7299', '0.23', '10', '5', '2', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('6', 'IPhone 14 Pro Deep Purple 1TB', '15', '8499', '0.23', '10', '6', '2', false);
+VALUES ('6', 'IPhone 14 Pro Deep Purple 1TB', '8499', '0.23', '10', '6', '2', false);
 INSERT INTO ${flyway:defaultSchema}.ITEM
-VALUES ('7', 'IPhone 14 Pro Deep Purple 256GB', '3', '6499', '0.23', '10', '7', '2', false);
+VALUES ('7', 'IPhone 14 Pro Deep Purple 256GB', '6499', '0.23', '10', '7', '2', false);
 
 
 -- Item-Category --
@@ -145,9 +145,41 @@ VALUES ('1');
 
 INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY_ITEM
 VALUES ('5', '1', 'Space Black 520GB');
-
 INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY_ITEM
 VALUES ('6', '1', 'Deep Purple 1TB');
-
 INSERT INTO ${flyway:defaultSchema}.ITEM_FAMILY_ITEM
 VALUES ('7', '1', 'Deep Purple 256GB');
+
+-- Warehouse-Item-Details --
+
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('1', 'shipping', '-', '0.0', '-');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('2', 'Macbook Pro', 'Warehouse xyz', '2.0', '35x15x5');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('3', 'Dell XPS 13', 'Warehouse xyz', '2.0', '35x15x5');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('4', 'Acer Nitro 50', 'Warehouse xyz', '2.0', '35x15x5');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('5', 'IPhone 14 Pro', 'Warehouse xyz', '2.0', '35x15x5');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('6', 'IPhone 14 Pro', 'Warehouse xyz', '2.0', '35x15x5');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM_DETAILS
+VALUES ('7', 'IPhone 14 Pro', 'Warehouse xyz', '2.0', '35x15x5');
+
+-- Warehouse-Item --
+
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('1', '99999', '1');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('2', '3', '2');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('3', '13', '3');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('4', '1', '4');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('5', '8', '5');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('6', '23', '6');
+INSERT INTO ${flyway:defaultSchema}.WAREHOUSE_ITEM
+VALUES ('7', '3', '7');

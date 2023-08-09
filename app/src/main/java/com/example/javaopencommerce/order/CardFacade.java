@@ -1,51 +1,57 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.catalog.ItemQueryRepository;
 import com.example.javaopencommerce.order.dtos.CardDto;
+import com.example.javaopencommerce.warehouse.WarehouseQueryRepository;
 
 public class CardFacade {
 
+    private final CardFactory cardFactory;
     private final ItemQueryRepository itemRepository;
+    private final WarehouseQueryRepository warehouseRepository;
     private final CardRepository cardRepository;
     private final ItemMapper itemMapper;
 
-    public CardFacade(ItemQueryRepository itemRepository, CardRepository cardRepository,
+    public CardFacade(CardFactory cardFactory, ItemQueryRepository itemRepository, WarehouseQueryRepository warehouseRepository, CardRepository cardRepository,
                       ItemMapper itemMapper) {
+        this.cardFactory = cardFactory;
         this.itemRepository = itemRepository;
+        this.warehouseRepository = warehouseRepository;
         this.cardRepository = cardRepository;
         this.itemMapper = itemMapper;
     }
 
     public CardDto getCard(String cardId) {
-        Card card = cardRepository.getCard(cardId);
+        Card card = cardFactory.restoreCard(cardRepository.getCard(cardId));
         return CardMapper.toDto(card);
     }
 
-    public CardDto addItemWithAmount(Long itemId, int amount, String cardId) {
-        Card card = cardRepository.getCard(cardId);
-        Item item = itemMapper.fromCatalog(this.itemRepository.getItemById(itemId));
-        card.addItem(item, Amount.of(amount));
+    public CardDto addItemWithAmount(ItemId itemId, Amount amount, String cardId) {
+        Card card = cardFactory.restoreCard(cardRepository.getCard(cardId));
+        Item item = itemMapper.toModel(this.itemRepository.getItemById(itemId), warehouseRepository.getAvailableStockById(itemId));
+        card.addItem(item, amount);
         this.cardRepository.saveCard(cardId, card);
         return CardMapper.toDto(card);
     }
 
-    public CardDto changeItemAmount(Long itemId, int amount, String cardId) {
-        Card card = cardRepository.getCard(cardId);
-        Item item = itemMapper.fromCatalog(this.itemRepository.getItemById(itemId));
-        card.changeItemAmount(item, Amount.of(amount));
+    public CardDto changeItemAmount(ItemId itemId, Amount amount, String cardId) {
+        Card card = cardFactory.restoreCard(cardRepository.getCard(cardId));
+        Item item = itemMapper.toModel(this.itemRepository.getItemById(itemId), warehouseRepository.getAvailableStockById(itemId));
+        card.changeItemAmount(item, amount);
         this.cardRepository.saveCard(cardId, card);
         return CardMapper.toDto(card);
     }
 
-    public CardDto removeProduct(Long itemId, String cardId) {
-        Card card = this.cardRepository.getCard(cardId);
-        card.removeItem(ItemId.of(itemId));
+    public CardDto removeProduct(ItemId itemId, String cardId) {
+        Card card = cardFactory.restoreCard(cardRepository.getCard(cardId));
+        card.removeItem(itemId);
         this.cardRepository.saveCard(cardId, card);
         return CardMapper.toDto(card);
     }
 
     public void flushCard(String id) {
-        this.cardRepository.flushCard(id);
+        this.cardRepository.removeCard(id);
     }
 }

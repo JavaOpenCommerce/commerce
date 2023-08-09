@@ -1,10 +1,15 @@
 package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
+
+import java.util.Map;
+
 interface CardRepository {
 
-    Card getCard(String id);
+    Map<ItemId, Amount> getCard(String id);
 
-    Card saveCard(String cardId, Card card);
+    void saveCard(String cardId, Card card);
 
-    void flushCard(String id);
+    void removeCard(String id);
 }

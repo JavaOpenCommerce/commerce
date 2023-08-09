@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.OrderId;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.order.Order.OrderItem;
 import com.example.javaopencommerce.order.OrderPrincipal.OrderPrincipalSnapshot;

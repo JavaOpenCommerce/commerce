@@ -34,7 +34,6 @@ class ItemEntity {
     private String name;
     private BigDecimal valueGross;
     private double vat;
-    private int stock;
     private boolean shipping;
 
     @OneToOne(fetch = FetchType.LAZY)

@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.OrderId;
 import com.example.javaopencommerce.order.Order.OrderItem;
 import com.example.javaopencommerce.order.OrderPrincipal.OrderPrincipalSnapshot;
 import com.example.javaopencommerce.statics.JsonConverter;
@@ -63,7 +64,7 @@ class OrderRepositoryImpl implements OrderRepository {
     private SimpleProductEntity toSimpleProductEntity(OrderItem orderItem) {
         return SimpleProductEntity.builder()
                 .itemId(orderItem.getId()
-                        .id())
+                        .asLong())
                 .amount(orderItem.getAmount()
                         .asInteger())
                 .name(orderItem.getName())

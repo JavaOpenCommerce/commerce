@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.Value;
 import lombok.EqualsAndHashCode;
 
@@ -32,7 +33,6 @@ final class Card {
 
     static Card validateAndRecreate(CardSnapshot cardToValidate, List<CardItem> cardItems) {
         Map<ItemId, CardItem> card = cardItems.stream()
-                .filter(item -> !item.hasZeroAmount())
                 .collect(Collectors.toMap(CardItem::id, Function.identity()));
 
         Card actualCard = new Card(card);
@@ -77,11 +77,6 @@ final class Card {
         calculateCardValue();
     }
 
-    void flush() {
-        items.clear();
-        calculateCardValue();
-    }
-
     List<CardItem> getCardItems() {
         return new ArrayList<>(items.values());
     }
@@ -96,6 +91,11 @@ final class Card {
                 .cardValueGross(cardValueGross)
                 .cardValueNett(cardValueNett)
                 .build();
+    }
+
+    private void flush() {
+        items.clear();
+        calculateCardValue();
     }
 
     private void calculateCardValue() {

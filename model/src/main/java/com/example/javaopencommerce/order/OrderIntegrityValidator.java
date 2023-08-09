@@ -1,6 +1,7 @@
 package com.example.javaopencommerce.order;
 
 import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.Value;
 import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
 import com.example.javaopencommerce.order.Item.ItemSnapshot;
@@ -20,8 +21,29 @@ import static java.util.stream.Collectors.toMap;
 
 class OrderIntegrityValidator {
 
+    private static void validateOrderSize(CardSnapshot cardToValidate, CardSnapshot expected) {
+        if (cardToValidate.items()
+                .size() != expected.items()
+                .size()) {
+            throw new OrderValidationException(
+                    String.format("Order body is different than actual card body! Order items: %s, card items: %s",
+                            cardToValidate.items()
+                                    .stream()
+                                    .map(CardItemSnapshot::id)
+                                    .map(ItemId::asLong)
+                                    .toList(),
+                            expected.items()
+                                    .stream()
+                                    .map(CardItemSnapshot::id)
+                                    .map(ItemId::asLong)
+                                    .toList()));
+        }
+    }
+
     void validate(CardSnapshot cardToValidate, CardSnapshot expected) {
         List<OrderValidationException> orderInaccuracies = new ArrayList<>();
+
+        validateOrderSize(cardToValidate, expected);
 
         orderInaccuracies.addAll(validateOrderGrossValue(cardToValidate, expected));
         orderInaccuracies.addAll(validateOrderNettValue(cardToValidate, expected));
@@ -98,13 +120,13 @@ class OrderIntegrityValidator {
     }
 
     private List<OutOfStockItemsValidationException> validateStocks(
-            List<CardItemSnapshot> currentItems, List<CardItemSnapshot> orderedItems) {
+            List<CardItemSnapshot> itemsToValidate, List<CardItemSnapshot> expectedItems) {
 
-        Map<ItemId, Amount> currentStocks = currentItems.stream()
+        Map<ItemId, Amount> currentStocks = expectedItems.stream()
                 .map(CardItemSnapshot::itemSnapshot)
                 .collect(toMap(ItemSnapshot::id, ItemSnapshot::stock));
 
-        List<CardItemSnapshot> outOfStockItems = orderedItems.stream()
+        List<CardItemSnapshot> outOfStockItems = itemsToValidate.stream()
                 .filter(product -> !isEnoughInStock(currentStocks, product))
                 .toList();
 
@@ -113,7 +135,7 @@ class OrderIntegrityValidator {
                     new OutOfStockItemsValidationException(
                             outOfStockItems.stream()
                                     .map(CardItemSnapshot::id)
-                                    .map(ItemId::id)
+                                    .map(ItemId::asLong)
                                     .map(String::valueOf)
                                     .collect(
                                             Collectors.joining(", "))));
@@ -126,6 +148,6 @@ class OrderIntegrityValidator {
                 () -> new OrderValidationException(
                         String.format("Stock for item with id: %s, not found!", orderedItem.id())));
         return orderedItem.amount()
-                .isLessThan(currentStock);
+                .isLessOrEqualThan(currentStock);
     }
 }

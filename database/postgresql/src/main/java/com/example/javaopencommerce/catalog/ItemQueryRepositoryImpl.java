@@ -1,5 +1,6 @@
 package com.example.javaopencommerce.catalog;
 
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.catalog.dtos.FullItemDto;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
 
@@ -19,8 +20,8 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
     }
 
     @Override
-    public FullItemDto getItemById(Long id) {
-        ItemEntity itemEntity = psqlProductRepository.getItemById(id);
+    public FullItemDto getItemById(ItemId id) {
+        ItemEntity itemEntity = psqlProductRepository.getItemById(id.asLong());
         return dtoFactory.toFullProductDto(itemEntity);
     }
 
@@ -41,8 +42,10 @@ class ItemQueryRepositoryImpl implements ItemQueryRepository {
     }
 
     @Override
-    public List<ItemDto> getItemsByIdList(List<Long> ids) {
-        List<ItemEntity> itemsList = psqlProductRepository.getItemsByIdList(ids);
+    public List<ItemDto> getItemsByIdList(List<ItemId> ids) {
+        List<ItemEntity> itemsList = psqlProductRepository.getItemsByIdList(ids.stream()
+                .map(ItemId::asLong)
+                .toList());
         return itemsList.stream()
                 .map(dtoFactory::productToDto)
                 .toList();

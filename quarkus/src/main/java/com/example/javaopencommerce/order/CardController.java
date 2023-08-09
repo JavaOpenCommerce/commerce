@@ -1,5 +1,7 @@
 package com.example.javaopencommerce.order;
 
+import com.example.javaopencommerce.Amount;
+import com.example.javaopencommerce.ItemId;
 import com.example.javaopencommerce.catalog.ItemQueryRepository;
 import com.example.javaopencommerce.catalog.dtos.ItemDto;
 import com.example.javaopencommerce.order.dtos.CardDto;
@@ -47,9 +49,10 @@ public class CardController {
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto addItem(ProductOrder product) {
         addCookieIfNotPresent();
-        return this.cardFacade.addItemWithAmount(product.getItemId(), product.getAmount(),
-                this.request.getCookie(COOKIE_NAME)
-                        .getValue());
+        ItemId itemId = ItemId.of(product.getItemId());
+        Amount amount = Amount.of(product.getAmount());
+        return this.cardFacade.addItemWithAmount(itemId, amount, this.request.getCookie(COOKIE_NAME)
+                .getValue());
     }
 
     @PUT
@@ -57,7 +60,8 @@ public class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto increaseItemAmount(@QueryParam("id") Long id) {
-        return this.cardFacade.addItemWithAmount(id, 1, this.request.getCookie(COOKIE_NAME)
+        ItemId itemId = ItemId.of(id);
+        return this.cardFacade.addItemWithAmount(itemId, Amount.of(1), this.request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
@@ -66,9 +70,10 @@ public class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto changeItemAmount(ProductOrder product) {
-        return this.cardFacade.changeItemAmount(product.getItemId(), product.getAmount(),
-                this.request.getCookie(COOKIE_NAME)
-                        .getValue());
+        ItemId itemId = ItemId.of(product.getItemId());
+        Amount amount = Amount.of(product.getAmount());
+        return this.cardFacade.changeItemAmount(itemId, amount, this.request.getCookie(COOKIE_NAME)
+                .getValue());
     }
 
     @DELETE
@@ -76,7 +81,8 @@ public class CardController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public CardDto removeProduct(@QueryParam("id") Long id) {
-        return this.cardFacade.removeProduct(id, this.request.getCookie(COOKIE_NAME)
+        ItemId itemId = ItemId.of(id);
+        return this.cardFacade.removeProduct(itemId, this.request.getCookie(COOKIE_NAME)
                 .getValue());
     }
 
