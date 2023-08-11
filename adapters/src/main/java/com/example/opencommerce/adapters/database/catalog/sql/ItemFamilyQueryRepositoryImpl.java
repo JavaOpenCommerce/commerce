@@ -1,7 +1,7 @@
 package com.example.opencommerce.adapters.database.catalog.sql;
 
-import com.example.javaopencommerce.catalog.query.ItemFamilyMemberDto;
-import com.example.javaopencommerce.catalog.query.ItemFamilyQueryRepository;
+import com.example.opencommerce.app.catalog.query.ItemFamilyMemberDto;
+import com.example.opencommerce.app.catalog.query.ItemFamilyQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;

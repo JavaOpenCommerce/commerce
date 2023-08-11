@@ -1,9 +1,9 @@
 package com.example.opencommerce.adapters.database.catalog.sql;
 
-import com.example.javaopencommerce.catalog.query.FullItemDto;
-import com.example.javaopencommerce.catalog.query.ImageDto;
-import com.example.javaopencommerce.catalog.query.ItemDto;
-import com.example.javaopencommerce.catalog.query.ProducerDto;
+import com.example.opencommerce.app.catalog.query.FullItemDto;
+import com.example.opencommerce.app.catalog.query.ImageDto;
+import com.example.opencommerce.app.catalog.query.ItemDto;
+import com.example.opencommerce.app.catalog.query.ProducerDto;
 
 import javax.enterprise.context.ApplicationScoped;
 

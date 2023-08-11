@@ -1,7 +1,7 @@
 package com.example.opencommerce.infra.warehouse;
 
-import com.example.javaopencommerce.warehouse.AddStockScenario;
-import com.example.javaopencommerce.warehouse.query.WarehouseQueryRepository;
+import com.example.opencommerce.app.warehouse.AddStockScenario;
+import com.example.opencommerce.app.warehouse.query.WarehouseQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

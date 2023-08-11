@@ -1,11 +1,11 @@
 package com.example.opencommerce.infra.catalog;
 
-import com.example.javaopencommerce.catalog.CatalogFacade;
-import com.example.javaopencommerce.catalog.CategoryEnricher;
-import com.example.javaopencommerce.catalog.query.FullItemDto;
-import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
 import com.example.opencommerce.adapters.database.catalog.elastic.ElasticSearchClient;
 import com.example.opencommerce.adapters.database.catalog.elastic.SearchItem;
+import com.example.opencommerce.app.catalog.CatalogFacade;
+import com.example.opencommerce.app.catalog.CategoryEnricher;
+import com.example.opencommerce.app.catalog.query.FullItemDto;
+import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -8,7 +8,6 @@ import javax.enterprise.inject.Produces;
 class CategoryConfiguration {
 
 
-
     @Produces
     @ApplicationScoped
     ObjectMapper objectMapper() {

@@ -1,12 +1,12 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
-import com.example.javaopencommerce.OrderId;
-import com.example.javaopencommerce.order.Order;
-import com.example.javaopencommerce.order.Order.OrderItem;
-import com.example.javaopencommerce.order.OrderPrincipal.OrderPrincipalSnapshot;
-import com.example.javaopencommerce.order.OrderRepository;
-import com.example.javaopencommerce.order.OrderSnapshot;
-import com.example.javaopencommerce.statics.JsonConverter;
+import com.example.opencommerce.statics.JsonConverter;
+import com.example.opencommerce.domain.OrderId;
+import com.example.opencommerce.domain.order.Order;
+import com.example.opencommerce.domain.order.Order.OrderItem;
+import com.example.opencommerce.domain.order.OrderPrincipal.OrderPrincipalSnapshot;
+import com.example.opencommerce.domain.order.OrderRepository;
+import com.example.opencommerce.domain.order.OrderSnapshot;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;

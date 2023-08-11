@@ -1,6 +1,6 @@
 package com.example.opencommerce.adapters.database.catalog.sql;
 
-import com.example.javaopencommerce.catalog.Category;
+import com.example.opencommerce.domain.catalog.Category;
 
 import java.util.List;
 import java.util.UUID;

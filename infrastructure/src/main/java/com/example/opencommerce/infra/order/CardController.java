@@ -1,12 +1,12 @@
 package com.example.opencommerce.infra.order;
 
-import com.example.javaopencommerce.Amount;
-import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.catalog.query.ItemDto;
-import com.example.javaopencommerce.catalog.query.ItemQueryRepository;
-import com.example.javaopencommerce.order.CardOperations;
-import com.example.javaopencommerce.order.query.CardDto;
-import com.example.javaopencommerce.order.query.ProductOrder;
+import com.example.opencommerce.app.catalog.query.ItemDto;
+import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
+import com.example.opencommerce.app.order.CardOperations;
+import com.example.opencommerce.app.order.query.CardDto;
+import com.example.opencommerce.app.order.query.ProductOrder;
+import com.example.opencommerce.domain.Amount;
+import com.example.opencommerce.domain.ItemId;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.javaopencommerce.statics.MessagesStore.OK;
+import static com.example.opencommerce.statics.MessagesStore.OK;
 import static java.util.Optional.ofNullable;
 
 @Slf4j

@@ -1,8 +1,8 @@
 package com.example.opencommerce.adapters.database.warehouse.sql;
 
-import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.warehouse.ItemStock;
-import com.example.javaopencommerce.warehouse.WarehouseItemRepository;
+import com.example.opencommerce.domain.ItemId;
+import com.example.opencommerce.domain.warehouse.ItemStock;
+import com.example.opencommerce.domain.warehouse.WarehouseItemRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;

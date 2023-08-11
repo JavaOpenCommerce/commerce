@@ -1,8 +1,8 @@
 package com.example.opencommerce.adapters.database.catalog.sql;
 
 
-import com.example.javaopencommerce.catalog.CatalogRepository;
-import com.example.javaopencommerce.catalog.Category;
+import com.example.opencommerce.domain.catalog.CatalogRepository;
+import com.example.opencommerce.domain.catalog.Category;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

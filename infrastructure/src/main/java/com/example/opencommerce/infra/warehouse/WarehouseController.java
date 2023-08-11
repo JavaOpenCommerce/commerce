@@ -1,10 +1,10 @@
 package com.example.opencommerce.infra.warehouse;
 
-import com.example.javaopencommerce.Amount;
-import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.warehouse.AddStockScenario;
-import com.example.javaopencommerce.warehouse.query.ItemStockDto;
-import com.example.javaopencommerce.warehouse.query.WarehouseQueryRepository;
+import com.example.opencommerce.app.warehouse.AddStockScenario;
+import com.example.opencommerce.app.warehouse.query.ItemStockDto;
+import com.example.opencommerce.app.warehouse.query.WarehouseQueryRepository;
+import com.example.opencommerce.domain.Amount;
+import com.example.opencommerce.domain.ItemId;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.ws.rs.GET;

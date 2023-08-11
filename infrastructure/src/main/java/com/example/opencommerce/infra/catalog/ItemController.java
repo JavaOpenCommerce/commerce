@@ -1,8 +1,8 @@
 package com.example.opencommerce.infra.catalog;
 
-import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.PageDto;
-import com.example.javaopencommerce.catalog.query.*;
+import com.example.opencommerce.app.PageDto;
+import com.example.opencommerce.app.catalog.query.*;
+import com.example.opencommerce.domain.ItemId;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

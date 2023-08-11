@@ -1,10 +1,10 @@
 package com.example.opencommerce.infra.order;
 
-import com.example.javaopencommerce.OrderId;
-import com.example.javaopencommerce.order.CreateOrderCommand;
-import com.example.javaopencommerce.order.CreateOrderScenario;
-import com.example.javaopencommerce.order.query.OrderDto;
-import com.example.javaopencommerce.order.query.OrderQueryRepository;
+import com.example.opencommerce.app.order.CreateOrderCommand;
+import com.example.opencommerce.app.order.CreateOrderScenario;
+import com.example.opencommerce.app.order.query.OrderDto;
+import com.example.opencommerce.app.order.query.OrderQueryRepository;
+import com.example.opencommerce.domain.OrderId;
 import io.vertx.core.http.Cookie;
 import io.vertx.core.http.HttpServerRequest;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,11 @@
 package com.example.opencommerce.adapters.database.catalog.elastic;
 
-import com.example.javaopencommerce.catalog.query.ItemSearchService;
-import com.example.javaopencommerce.catalog.query.SearchRequest;
+import com.example.opencommerce.app.catalog.query.ItemSearchService;
+import com.example.opencommerce.app.catalog.query.SearchRequest;
 import io.vertx.core.json.JsonObject;
+import io.vertx.mutiny.core.buffer.Buffer;
 import io.vertx.mutiny.ext.web.client.HttpResponse;
 import io.vertx.mutiny.ext.web.client.WebClient;
-import io.vertx.mutiny.core.buffer.Buffer;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -30,10 +30,12 @@ class SearchService implements ItemSearchService {
         String query = ssb.query(QueryBuilders.boolQuery()
                         .must(ifTrueOrElse(request.getPriceMin() == null,
                                 QueryBuilders::matchAllQuery,
-                                () -> QueryBuilders.rangeQuery("valueGross").gte(request.getPriceMin())))
+                                () -> QueryBuilders.rangeQuery("valueGross")
+                                        .gte(request.getPriceMin())))
                         .must(ifTrueOrElse(request.getPriceMax() == null,
                                 QueryBuilders::matchAllQuery,
-                                () -> QueryBuilders.rangeQuery("valueGross").lte(request.getPriceMax())))
+                                () -> QueryBuilders.rangeQuery("valueGross")
+                                        .lte(request.getPriceMax())))
                         .must(ifTrueOrElse(noCategoryCriteria(request),
                                 QueryBuilders::matchAllQuery,
                                 () -> QueryBuilders.termsQuery("categoryIds.keyword", request.getCategoryIds())))

@@ -1,6 +1,6 @@
 package com.example.opencommerce.infra.order;
 
-import com.example.javaopencommerce.order.exceptions.ordervalidation.OrderException;
+import com.example.opencommerce.domain.order.exceptions.ordervalidation.OrderException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;

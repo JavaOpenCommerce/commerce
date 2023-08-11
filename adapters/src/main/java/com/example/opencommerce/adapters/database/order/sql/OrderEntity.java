@@ -1,13 +1,13 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
-import com.example.javaopencommerce.Value;
-import com.example.javaopencommerce.*;
-import com.example.javaopencommerce.order.Order;
-import com.example.javaopencommerce.order.Order.OrderItem;
-import com.example.javaopencommerce.order.OrderPrincipal;
-import com.example.javaopencommerce.order.OrderStatus;
-import com.example.javaopencommerce.order.PaymentStatus;
-import com.example.javaopencommerce.statics.JsonConverter;
+import com.example.opencommerce.statics.JsonConverter;
+import com.example.opencommerce.domain.Value;
+import com.example.opencommerce.domain.*;
+import com.example.opencommerce.domain.order.Order;
+import com.example.opencommerce.domain.order.Order.OrderItem;
+import com.example.opencommerce.domain.order.OrderPrincipal;
+import com.example.opencommerce.domain.order.OrderStatus;
+import com.example.opencommerce.domain.order.PaymentStatus;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

@@ -1,18 +1,18 @@
 package com.example.opencommerce.adapters.database.warehouse.sql;
 
-import com.example.javaopencommerce.Amount;
-import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.OrderId;
-import com.example.javaopencommerce.warehouse.ItemReservation;
-import com.example.javaopencommerce.warehouse.ItemReservationId;
-import com.example.javaopencommerce.warehouse.ItemStock;
-import com.example.javaopencommerce.warehouse.query.ItemStockDto;
+import com.example.opencommerce.app.warehouse.query.ItemStockDto;
+import com.example.opencommerce.domain.Amount;
+import com.example.opencommerce.domain.ItemId;
+import com.example.opencommerce.domain.OrderId;
+import com.example.opencommerce.domain.warehouse.ItemReservation;
+import com.example.opencommerce.domain.warehouse.ItemReservationId;
+import com.example.opencommerce.domain.warehouse.ItemStock;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.javaopencommerce.warehouse.query.ItemStockDto.StockReservationDto;
+import static com.example.opencommerce.app.warehouse.query.ItemStockDto.StockReservationDto;
 
 @ApplicationScoped
 class ItemMapper {

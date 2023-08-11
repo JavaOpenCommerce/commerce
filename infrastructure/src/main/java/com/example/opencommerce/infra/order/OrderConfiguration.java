@@ -1,7 +1,7 @@
 package com.example.opencommerce.infra.order;
 
-import com.example.javaopencommerce.order.CreateOrderScenario;
-import com.example.javaopencommerce.order.query.OrderQueryRepository;
+import com.example.opencommerce.app.order.CreateOrderScenario;
+import com.example.opencommerce.app.order.query.OrderQueryRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

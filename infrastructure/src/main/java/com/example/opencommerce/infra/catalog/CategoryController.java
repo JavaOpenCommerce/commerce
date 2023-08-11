@@ -1,7 +1,7 @@
 package com.example.opencommerce.infra.catalog;
 
-import com.example.javaopencommerce.catalog.query.CatalogQueryRepository;
-import com.example.javaopencommerce.catalog.query.CategoryDto;
+import com.example.opencommerce.app.catalog.query.CatalogQueryRepository;
+import com.example.opencommerce.app.catalog.query.CategoryDto;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

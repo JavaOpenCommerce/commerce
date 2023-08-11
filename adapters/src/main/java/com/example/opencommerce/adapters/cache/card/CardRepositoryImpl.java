@@ -1,10 +1,10 @@
 package com.example.opencommerce.adapters.cache.card;
 
-import com.example.javaopencommerce.Amount;
-import com.example.javaopencommerce.ItemId;
-import com.example.javaopencommerce.order.Card;
-import com.example.javaopencommerce.order.CardItem;
-import com.example.javaopencommerce.order.CardRepository;
+import com.example.opencommerce.domain.Amount;
+import com.example.opencommerce.domain.ItemId;
+import com.example.opencommerce.domain.order.Card;
+import com.example.opencommerce.domain.order.CardItem;
+import com.example.opencommerce.domain.order.CardRepository;
 import lombok.extern.log4j.Log4j2;
 
 import javax.enterprise.context.ApplicationScoped;

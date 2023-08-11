@@ -1,6 +1,6 @@
 package com.example.opencommerce.adapters.cache.card;
 
-import com.example.javaopencommerce.order.CardItem.CardItemSnapshot;
+import com.example.opencommerce.domain.order.CardItem.CardItemSnapshot;
 
 record CardItemEntity(Long itemId, int amount) {
 
