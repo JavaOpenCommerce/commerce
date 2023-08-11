@@ -1,12 +1,12 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
-import com.example.opencommerce.statics.JsonConverter;
 import com.example.opencommerce.domain.OrderId;
 import com.example.opencommerce.domain.order.Order;
 import com.example.opencommerce.domain.order.Order.OrderItem;
 import com.example.opencommerce.domain.order.OrderPrincipal.OrderPrincipalSnapshot;
 import com.example.opencommerce.domain.order.OrderRepository;
 import com.example.opencommerce.domain.order.OrderSnapshot;
+import com.example.opencommerce.statics.JsonConverter;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
@@ -44,13 +44,10 @@ class OrderRepositoryImpl implements OrderRepository {
                 .userId(orderPrincipal.id())
                 .shippingAddressId(orderPrincipal.addressId())
                 .paymentMethod(orderSnapshot.getOrderPrincipal()
-                        .paymentMethod()
-                        .name())
+                        .paymentMethod())
                 .createdAt(orderSnapshot.getCreationDate())
-                .status(orderSnapshot.getOrderStatus()
-                        .name())
-                .paymentStatus(orderSnapshot.getPaymentStatus()
-                        .name())
+                .status(orderSnapshot.getOrderStatus())
+                .paymentStatus(orderSnapshot.getPaymentStatus())
                 .valueGross(orderSnapshot.getOrderValueGross()
                         .asDecimal())
                 .valueNett(orderSnapshot.getOrderValueNett()

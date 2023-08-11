@@ -3,7 +3,6 @@ package com.example.opencommerce.adapters.cache.card;
 import com.example.opencommerce.domain.Amount;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.order.Card;
-import com.example.opencommerce.domain.order.CardItem;
 import com.example.opencommerce.domain.order.CardRepository;
 import lombok.extern.log4j.Log4j2;
 
@@ -32,9 +31,9 @@ class CardRepositoryImpl implements CardRepository {
 
     @Override
     public void saveCard(String cardId, Card card) {
-        List<CardItemEntity> productEntities = card.getCardItems()
+        List<CardItemEntity> productEntities = card.getSnapshot()
+                .items()
                 .stream()
-                .map(CardItem::getSnapshot)
                 .map(CardItemEntity::fromSnapshot)
                 .toList();
 

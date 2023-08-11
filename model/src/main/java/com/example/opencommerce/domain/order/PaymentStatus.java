@@ -1,5 +1,5 @@
 package com.example.opencommerce.domain.order;
 
-public enum PaymentStatus {
+enum PaymentStatus {
     BEFORE_PAYMENT, IN_PROGRESS, COMPLETED, FAILED
 }

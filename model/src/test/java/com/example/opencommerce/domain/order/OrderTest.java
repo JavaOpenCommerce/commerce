@@ -36,7 +36,8 @@ class OrderTest {
         Order order = card.createOrderFor(principal);
 
         // then
-        assertThat(card.getCardItems()).isEmpty();
+        assertThat(card.getSnapshot()
+                .items()).isEmpty();
 
         OrderSnapshot snapshot = order.getSnapshot();
 
@@ -60,7 +61,7 @@ class OrderTest {
                     .usingRecursiveAssertion()
                     .isEqualTo(principal.getSnapshot());
             softly.assertThat(snapshot.getOrderStatus())
-                    .isEqualTo(OrderStatus.NEW);
+                    .isEqualTo("NEW");
         });
     }
 
@@ -77,8 +78,8 @@ class OrderTest {
                         List.of(Order.OrderItem.fromCardItem(CardItem.withAmount(TestItems.TEST_ITEM_2, Amount.of(3))
                                 .getSnapshot())),
                         principal,
-                        PaymentStatus.BEFORE_PAYMENT,
-                        OrderStatus.NEW,
+                        "BEFORE_PAYMENT",
+                        "NEW",
                         Value.of(29.98),
                         Value.of(29.98),
                         Instant.now()))
@@ -99,8 +100,8 @@ class OrderTest {
                         List.of(Order.OrderItem.fromCardItem(CardItem.withAmount(TestItems.TEST_ITEM_2, Amount.of(3))
                                 .getSnapshot())),
                         principal,
-                        PaymentStatus.BEFORE_PAYMENT,
-                        OrderStatus.NEW,
+                        "BEFORE_PAYMENT",
+                        "NEW",
                         Value.of(29.97),
                         Value.of(11.11),
                         Instant.now()))

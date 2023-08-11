@@ -1,8 +1,8 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
-import com.example.opencommerce.statics.JsonConverter;
 import com.example.opencommerce.app.order.query.OrderDto;
 import com.example.opencommerce.app.order.query.OrderDto.OrderItemDto;
+import com.example.opencommerce.statics.JsonConverter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

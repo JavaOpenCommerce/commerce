@@ -37,7 +37,7 @@ public class Order {
     }
 
     public Order(OrderId id, List<OrderItem> orderBody, OrderPrincipal orderPrincipal,
-                 PaymentStatus paymentStatus, OrderStatus status, Value valueGross, Value valueNett,
+                 String paymentStatus, String status, Value valueGross, Value valueNett,
                  Instant createdAt) {
         requireNonNull(id);
         requireNonNull(orderBody);
@@ -51,8 +51,8 @@ public class Order {
         this.id = id;
         this.orderBody = orderBody;
         this.orderPrincipal = orderPrincipal;
-        this.paymentStatus = paymentStatus;
-        this.status = status;
+        this.paymentStatus = PaymentStatus.valueOf(paymentStatus);
+        this.status = OrderStatus.valueOf(status);
         this.valueGross = valueGross;
         this.valueNett = valueNett;
         this.createdAt = createdAt;
@@ -78,8 +78,8 @@ public class Order {
                 .orderValueNett(valueNett)
                 .orderValueGross(valueGross)
                 .creationDate(createdAt)
-                .orderStatus(status)
-                .paymentStatus(paymentStatus)
+                .orderStatus(status.name())
+                .paymentStatus(paymentStatus.name())
                 .orderPrincipal(orderPrincipal.getSnapshot())
                 .orderBody(Collections.unmodifiableList(orderBody))
                 .build();

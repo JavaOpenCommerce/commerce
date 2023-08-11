@@ -32,8 +32,8 @@ public class CreateOrderScenario {
     public OrderId createOrder(CreateOrderCommand createOrderCommand) {
         CardDto orderCard = createOrderCommand.card();
         String cardId = createOrderCommand.cardId();
-        List<CardItem> cardItems = cardFactory.restoreCard(this.cardRepository.getCard(cardId))
-                .getCardItems();
+        List<CardItem> cardItems = cardFactory.restoreCardBody(this.cardRepository.getCard(cardId));
+
         Card card = Card.validateAndRecreate(CardMapper.toSnapshot(orderCard), cardItems);
 
         OrderPrincipal orderPrincipal = new OrderPrincipal(createOrderCommand.userId(),

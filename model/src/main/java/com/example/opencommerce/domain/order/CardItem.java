@@ -61,10 +61,6 @@ public final class CardItem {
         return valueGross;
     }
 
-    boolean hasZeroAmount() {
-        return this.amount.isZero();
-    }
-
     public CardItemSnapshot getSnapshot() {
         return new CardItemSnapshot(this.item.getSnapshot(), valueNett, valueGross, amount,
                 status.ok() ? "OK" : status.getCause()

@@ -1,13 +1,11 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
-import com.example.opencommerce.statics.JsonConverter;
 import com.example.opencommerce.domain.Value;
 import com.example.opencommerce.domain.*;
 import com.example.opencommerce.domain.order.Order;
 import com.example.opencommerce.domain.order.Order.OrderItem;
 import com.example.opencommerce.domain.order.OrderPrincipal;
-import com.example.opencommerce.domain.order.OrderStatus;
-import com.example.opencommerce.domain.order.PaymentStatus;
+import com.example.opencommerce.statics.JsonConverter;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -64,8 +62,8 @@ class OrderEntity {
 
         OrderPrincipal op = new OrderPrincipal(userId, shippingAddressId, paymentMethod);
 
-        return new Order(OrderId.from(id), orderItems, op, PaymentStatus.valueOf(paymentStatus),
-                OrderStatus.valueOf(status), Value.of(valueGross), Value.of(valueNett), createdAt);
+        return new Order(OrderId.from(id), orderItems, op, paymentStatus,
+                status, Value.of(valueGross), Value.of(valueNett), createdAt);
     }
 
     private OrderItem toOrderItem(SimpleProductEntity productEntity) {

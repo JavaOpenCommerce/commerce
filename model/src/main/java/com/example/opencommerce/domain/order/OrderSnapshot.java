@@ -17,8 +17,8 @@ public class OrderSnapshot {
     List<Order.OrderItem> orderBody;
     OrderPrincipalSnapshot orderPrincipal;
 
-    PaymentStatus paymentStatus;
-    OrderStatus orderStatus;
+    String paymentStatus;
+    String orderStatus;
 
     Value orderValueGross;
     Value orderValueNett;

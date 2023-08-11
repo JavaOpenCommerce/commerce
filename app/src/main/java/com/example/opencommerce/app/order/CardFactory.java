@@ -28,6 +28,10 @@ class CardFactory {
     }
 
     Card restoreCard(Map<ItemId, Amount> cardBody) {
+        return Card.ofProducts(restoreCardBody(cardBody));
+    }
+
+    List<CardItem> restoreCardBody(Map<ItemId, Amount> cardBody) {
         List<ItemId> itemIds = cardBody.keySet()
                 .stream()
                 .toList();
@@ -36,7 +40,6 @@ class CardFactory {
         Map<ItemId, Amount> itemStocks = warehouseRepository.getAvailableStocksByItemIds(itemIds);
 
         List<CardItem> cardItems = new ArrayList<>();
-
 
         for (Map.Entry<ItemId, Amount> cardItem : cardBody.entrySet()) {
             Optional<ItemDto> matchedItem = items.stream()
@@ -54,6 +57,6 @@ class CardFactory {
             Item matchedItemModel = itemMapper.toModel(matchedItem.get(), itemStocks.get(itemId));
             cardItems.add(CardItem.withAmount(matchedItemModel, cardItem.getValue()));
         }
-        return Card.ofProducts(cardItems);
+        return cardItems;
     }
 }

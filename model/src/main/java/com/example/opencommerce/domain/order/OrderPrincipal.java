@@ -34,10 +34,10 @@ public class OrderPrincipal {
     }
 
     OrderPrincipalSnapshot getSnapshot() {
-        return new OrderPrincipalSnapshot(id, addressId, paymentMethod);
+        return new OrderPrincipalSnapshot(id, addressId, paymentMethod.name());
     }
 
-    public record OrderPrincipalSnapshot(UUID id, UUID addressId, PaymentMethod paymentMethod) {
+    public record OrderPrincipalSnapshot(UUID id, UUID addressId, String paymentMethod) {
 
     }
 }

@@ -1,8 +1,8 @@
 package com.example.opencommerce.infra.order;
 
-import com.example.opencommerce.statics.JsonConverter;
 import com.example.opencommerce.domain.order.exceptions.ExceptionWithPayload;
 import com.example.opencommerce.domain.order.exceptions.ordervalidation.OrderValidationException;
+import com.example.opencommerce.statics.JsonConverter;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;

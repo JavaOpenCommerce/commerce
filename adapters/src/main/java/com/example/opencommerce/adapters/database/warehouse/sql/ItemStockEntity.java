@@ -25,5 +25,7 @@ class ItemStockEntity {
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
+
+    @Builder.Default
     private List<ItemReservationEntity> reservations = new ArrayList<>();
 }

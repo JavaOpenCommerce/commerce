@@ -77,10 +77,6 @@ public final class Card {
         calculateCardValue();
     }
 
-    public List<CardItem> getCardItems() {
-        return new ArrayList<>(items.values());
-    }
-
     public CardSnapshot getSnapshot() {
         calculateCardValue();
         return CardSnapshot.builder()
