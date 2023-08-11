@@ -16,7 +16,9 @@ dependencies {
     implementation("io.quarkus:quarkus-jdbc-postgresql")
     implementation("jakarta.json.bind:jakarta.json.bind-api")
     implementation("io.quarkus:quarkus-redis-client")
+    implementation("io.smallrye.reactive:smallrye-mutiny-vertx-web-client")
     implementation(libs.jackson.databind)
+    implementation(libs.elasticsearch)
 
 
     implementation(libs.log4j.api)

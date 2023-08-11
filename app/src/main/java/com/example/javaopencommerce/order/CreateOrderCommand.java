@@ -17,7 +17,7 @@ public record CreateOrderCommand(String paymentMethod, UUID addressId, UUID user
         this(paymentMethod, addressId, userId, card, "");
     }
 
-    CreateOrderCommand withCardId(String cardId) {
+    public CreateOrderCommand withCardId(String cardId) {
         return new CreateOrderCommand(paymentMethod, addressId, userId, card, cardId);
     }
 

@@ -8,7 +8,7 @@ public class CatalogFacade {
         this.repository = repository;
     }
 
-    CategoryEnricher getCategoryEnricher() {
+    public CategoryEnricher getCategoryEnricher() {
         Category catalog = repository.getCatalog();
         return new CategoryEnricher(catalog);
     }

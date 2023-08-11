@@ -23,7 +23,7 @@ include(
         "core",
         "adapters",
         "model",
-        "quarkus",
+        "infrastructure",
 )
 
 //findProject(':database:apid')?.name = 'apid'
