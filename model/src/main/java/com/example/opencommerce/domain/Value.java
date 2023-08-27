@@ -35,11 +35,13 @@ public class Value {
     }
 
     public Value multiply(BigDecimal multiplier) {
-        return Value.of(this.value.multiply(multiplier, MathContext.DECIMAL32));
+        return Value.of(this.value.multiply(multiplier, MathContext.DECIMAL32)
+                .setScale(2, RoundingMode.HALF_UP));
     }
 
     public Value multiply(Amount multiplier) {
-        return Value.of(this.value.multiply(multiplier.asDecimal(), MathContext.DECIMAL32));
+        return Value.of(this.value.multiply(multiplier.asDecimal(), MathContext.DECIMAL32)
+                .setScale(2, RoundingMode.HALF_UP));
     }
 
     public Value divide(BigDecimal divider) {
@@ -48,6 +50,19 @@ public class Value {
 
     public Value add(Value toAdd) {
         return Value.of(this.value.add(toAdd.value));
+    }
+
+    public Value subtract(Value toSubtract) {
+        return Value.of(this.value.subtract(toSubtract.value));
+    }
+
+    public boolean isNegative() {
+        return value.signum() < 0;
+    }
+
+    public Value toGross(Vat vat) {
+        BigDecimal multiplier = BigDecimal.ONE.add(vat.asDecimal());
+        return this.multiply(multiplier);
     }
 
     public Value toNett(Vat vat) {
@@ -70,8 +85,6 @@ public class Value {
 
     @Override
     public String toString() {
-        return "Value(" +
-                "value=" + value +
-                ')';
+        return String.valueOf(value);
     }
 }

@@ -18,9 +18,9 @@ public class AddStockScenario {
     public void addToStock(ItemId itemId, Amount stockToAdd) {
         ItemStock item = repository.getItemById(itemId);
 
-        OperationResult operationResult = item.increaseStockBy(stockToAdd);
+        OperationResult<ItemStock> operationResult = item.increaseStockBy(stockToAdd);
 
-        if (!operationResult.succesful()) {
+        if (!operationResult.successful()) {
             throw StockOperationException.addStockFailed(operationResult.getErrors());
         }
         repository.updateStock(item);

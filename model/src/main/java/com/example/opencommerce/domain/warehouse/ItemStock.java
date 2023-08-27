@@ -50,12 +50,12 @@ public class ItemStock {
                 .toList();
     }
 
-    public OperationResult increaseStockBy(Amount stockToAdd) {
+    public OperationResult<ItemStock> increaseStockBy(Amount stockToAdd) {
         this.quantityOnHand = this.quantityOnHand.plus(stockToAdd);
-        return OperationResult.OK;
+        return OperationResult.success(this);
     }
 
-    public OperationResult makeStockReservation(ItemReservation reservation) {
+    public OperationResult<ItemStock> makeStockReservation(ItemReservation reservation) {
         if (freeStock().isLessThan(reservation.reservedAmount())) {
             return OperationResult.failed(
                     String.format("Not enough free items in a stock! Requested: %s, available: %s.",
@@ -63,23 +63,23 @@ public class ItemStock {
                             freeStock()));
         }
         this.reservations.add(reservation); // what if there are already reservations for this order and item?
-        return OperationResult.OK;
+        return OperationResult.success(this);
     }
 
-    public OperationResult cancelReservationFromOrderWithId(OrderId id) {
+    public OperationResult<ItemStock> cancelReservationFromOrderWithId(OrderId id) {
         reservations.removeIf(reservation -> reservation.orderId()
                 .equals(id));
-        return OperationResult.OK;
+        return OperationResult.success(this);
     }
 
-    public OperationResult executeReservationFromOrderWithId(OrderId orderId) {
+    public OperationResult<ItemStock> executeReservationFromOrderWithId(OrderId orderId) {
         Optional<ItemReservation> expectedReservation = reservations.stream()
                 .filter(reservation -> reservation.orderId()
                         .equals(orderId))
                 .findAny();
 
         if (expectedReservation.isEmpty()) {
-            return OperationResult.FAILED;
+            return OperationResult.failed("Reservation does not exists!");
         }
 
         ItemReservation reservationToExecute = expectedReservation.get();
@@ -93,7 +93,7 @@ public class ItemStock {
 
         this.quantityOnHand = this.quantityOnHand.minus(reservationToExecute.reservedAmount());
         reservations.remove(reservationToExecute);
-        return OperationResult.OK;
+        return OperationResult.success(this);
     }
 
     public Amount freeStock() {

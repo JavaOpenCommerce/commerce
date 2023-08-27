@@ -161,5 +161,18 @@ create table item_stock_reservation
 alter table ${flyway:defaultSchema}.item_stock_reservation
     owner to ${flyway:user};
 
+create table item_price_event
+(
+    id         uuid   not null unique,
+    item_id    bigint not null
+        constraint item_id_fk references item,
+    type       varchar(255),
+    data       text,
+    valid_from timestamp,
+    issued_at  timestamp
+);
+
+alter table ${flyway:defaultSchema}.item_price_event
+    owner to ${flyway:user};
 
 create sequence hibernate_sequence start 1 increment 1;

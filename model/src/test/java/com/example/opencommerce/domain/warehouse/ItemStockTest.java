@@ -20,11 +20,11 @@ public class ItemStockTest {
         Amount stockToAdd = Amount.of(10);
 
         // when
-        OperationResult operationResult = itemStock.increaseStockBy(stockToAdd);
+        OperationResult<ItemStock> operationResult = itemStock.increaseStockBy(stockToAdd);
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(operationResult.succesful())
+            softly.assertThat(operationResult.successful())
                     .isTrue();
             softly.assertThat(itemStock.freeStock())
                     .isEqualTo(stockToAdd);
@@ -46,17 +46,17 @@ public class ItemStockTest {
         Amount stockToAdd = Amount.of(15);
 
         // when
-        OperationResult stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
-        OperationResult stockReservationResult1 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId1, Amount.of(3)));
-        OperationResult stockReservationResult2 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId2, Amount.of(5)));
+        OperationResult<ItemStock> stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
+        OperationResult<ItemStock> stockReservationResult1 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId1, Amount.of(3)));
+        OperationResult<ItemStock> stockReservationResult2 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId2, Amount.of(5)));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(stockIncreaseResult.succesful())
+            softly.assertThat(stockIncreaseResult.successful())
                     .isTrue();
-            softly.assertThat(stockReservationResult1.succesful())
+            softly.assertThat(stockReservationResult1.successful())
                     .isTrue();
-            softly.assertThat(stockReservationResult2.succesful())
+            softly.assertThat(stockReservationResult2.successful())
                     .isTrue();
             softly.assertThat(itemStock.freeStock())
                     .isEqualTo(Amount.of(7));
@@ -77,17 +77,17 @@ public class ItemStockTest {
         Amount stockToAdd = Amount.of(15);
 
         // when
-        OperationResult stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
-        OperationResult stockReservationResult = itemStock.makeStockReservation(ItemReservation.newReservation(orderId, Amount.of(10)));
-        OperationResult executionResult = itemStock.executeReservationFromOrderWithId(orderId);
+        OperationResult<ItemStock> stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
+        OperationResult<ItemStock> stockReservationResult = itemStock.makeStockReservation(ItemReservation.newReservation(orderId, Amount.of(10)));
+        OperationResult<ItemStock> executionResult = itemStock.executeReservationFromOrderWithId(orderId);
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(stockIncreaseResult.succesful())
+            softly.assertThat(stockIncreaseResult.successful())
                     .isTrue();
-            softly.assertThat(stockReservationResult.succesful())
+            softly.assertThat(stockReservationResult.successful())
                     .isTrue();
-            softly.assertThat(executionResult.succesful())
+            softly.assertThat(executionResult.successful())
                     .isTrue();
             softly.assertThat(itemStock.freeStock())
                     .isEqualTo(Amount.of(5));
@@ -108,17 +108,17 @@ public class ItemStockTest {
         Amount stockToAdd = Amount.of(15);
 
         // when
-        OperationResult stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
-        OperationResult stockReservationResult = itemStock.makeStockReservation(ItemReservation.newReservation(orderId, Amount.of(10)));
-        OperationResult cancellationResult = itemStock.cancelReservationFromOrderWithId(orderId);
+        OperationResult<ItemStock> stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
+        OperationResult<ItemStock> stockReservationResult = itemStock.makeStockReservation(ItemReservation.newReservation(orderId, Amount.of(10)));
+        OperationResult<ItemStock> cancellationResult = itemStock.cancelReservationFromOrderWithId(orderId);
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(stockIncreaseResult.succesful())
+            softly.assertThat(stockIncreaseResult.successful())
                     .isTrue();
-            softly.assertThat(stockReservationResult.succesful())
+            softly.assertThat(stockReservationResult.successful())
                     .isTrue();
-            softly.assertThat(cancellationResult.succesful())
+            softly.assertThat(cancellationResult.successful())
                     .isTrue();
             softly.assertThat(itemStock.freeStock())
                     .isEqualTo(Amount.of(15));
@@ -140,17 +140,17 @@ public class ItemStockTest {
         Amount stockToAdd = Amount.of(10);
 
         // when
-        OperationResult stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
-        OperationResult stockReservationResult1 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId1, Amount.of(8)));
-        OperationResult stockReservationResult2 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId2, Amount.of(3)));
+        OperationResult<ItemStock> stockIncreaseResult = itemStock.increaseStockBy(stockToAdd);
+        OperationResult<ItemStock> stockReservationResult1 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId1, Amount.of(8)));
+        OperationResult<ItemStock> stockReservationResult2 = itemStock.makeStockReservation(ItemReservation.newReservation(orderId2, Amount.of(3)));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(stockIncreaseResult.succesful())
+            softly.assertThat(stockIncreaseResult.successful())
                     .isTrue();
-            softly.assertThat(stockReservationResult1.succesful())
+            softly.assertThat(stockReservationResult1.successful())
                     .isTrue();
-            softly.assertThat(stockReservationResult2.succesful())
+            softly.assertThat(stockReservationResult2.successful())
                     .isFalse();
             softly.assertThat(stockReservationResult2.getErrors())
                     .element(0)
@@ -174,11 +174,11 @@ public class ItemStockTest {
 
         // when
         itemStock.increaseStockBy(stockToAdd);
-        OperationResult operationResult = itemStock.executeReservationFromOrderWithId(OrderId.random());
+        OperationResult<ItemStock> operationResult = itemStock.executeReservationFromOrderWithId(OrderId.random());
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(operationResult.succesful())
+            softly.assertThat(operationResult.successful())
                     .isFalse();
             softly.assertThat(itemStock.freeStock())
                     .isEqualTo(stockToAdd);
@@ -207,11 +207,11 @@ public class ItemStockTest {
         quantityOnHand.setAccessible(true);
         quantityOnHand.set(itemStock, Amount.of(4));
 
-        OperationResult operationResult = itemStock.executeReservationFromOrderWithId(orderId);
+        OperationResult<ItemStock> operationResult = itemStock.executeReservationFromOrderWithId(orderId);
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            softly.assertThat(operationResult.succesful())
+            softly.assertThat(operationResult.successful())
                     .isFalse();
             softly.assertThat(operationResult.getErrors())
                     .element(0)

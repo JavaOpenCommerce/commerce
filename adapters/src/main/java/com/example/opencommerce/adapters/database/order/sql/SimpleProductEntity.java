@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SimpleProductEntity {
+class SimpleProductEntity {
 
     private Long itemId;
     private String name;

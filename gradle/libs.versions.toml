@@ -23,6 +23,7 @@ elasticsearch = { module = "org.elasticsearch:elasticsearch", version = "8.6.2" 
 commons-lang = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
 flyway = { module = "org.flywaydb:flyway-core", version = "9.15.0" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.15.2" }
+jackson-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version = "2.15.2" }
 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
@@ -38,3 +39,4 @@ spotless = { id = "com.diffplug.spotless", version = "6.19.0" }
 
 [bundles]
 spock = ["spock", "groovy", "hamcrest", "bytebuddy", "objenesis"]
+jackson = ["jackson-databind", "jackson-jsr310"]
