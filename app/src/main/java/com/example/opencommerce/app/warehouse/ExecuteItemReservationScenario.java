@@ -17,8 +17,8 @@ public class ExecuteItemReservationScenario {
 
     public void executeItemReservation(ItemId itemId, OrderId orderId) {
         ItemStock item = repository.getItemById(itemId);
-        OperationResult operationResult = item.executeReservationFromOrderWithId(orderId);
-        if (!operationResult.succesful()) {
+        OperationResult<ItemStock> operationResult = item.executeReservationFromOrderWithId(orderId);
+        if (!operationResult.successful()) {
             throw StockOperationException.executeReservationFailed(operationResult.getErrors());
         }
         repository.save(item);

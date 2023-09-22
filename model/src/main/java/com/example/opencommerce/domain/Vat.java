@@ -23,6 +23,13 @@ public class Vat {
         return new Vat(vat);
     }
 
+    public static Vat of(BigDecimal vat) {
+        if (vat.signum() < 0) {
+            vat = BigDecimal.ZERO;
+        }
+        return new Vat(vat.doubleValue());
+    }
+
     public Value toNett(Value gross) {
         return gross.divide(asDecimal().add(ONE));
     }

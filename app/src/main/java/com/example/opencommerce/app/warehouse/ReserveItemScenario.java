@@ -20,8 +20,8 @@ public class ReserveItemScenario {
     public void reserve(ReserveItemCommand command) {
         ItemStock item = repository.getItemById(command.itemId());
         ItemReservation reservation = ItemReservation.newReservation(command.orderId(), command.amountToReserve());
-        OperationResult operationResult = item.makeStockReservation(reservation);
-        if (!operationResult.succesful()) {
+        OperationResult<ItemStock> operationResult = item.makeStockReservation(reservation);
+        if (!operationResult.successful()) {
             throw StockOperationException.reserveStockFailed(operationResult.getErrors());
         }
         repository.save(item);

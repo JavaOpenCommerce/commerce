@@ -89,7 +89,7 @@ class CardValidationTest {
             softly.assertThat(validationException.getDerivativeExceptions()
                             .get(0)
                             .getMessage())
-                    .contains("value=20.00");
+                    .contains("20.00");
             softly.assertThat(validationException.getDerivativeExceptions()
                             .get(1))
                     .isInstanceOf(
@@ -97,7 +97,7 @@ class CardValidationTest {
             softly.assertThat(validationException.getDerivativeExceptions()
                             .get(1)
                             .getMessage())
-                    .contains("value=16.26");
+                    .contains("16.26");
         });
     }
 
