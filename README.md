@@ -1,55 +1,31 @@
 ## Java Commerce
 
-Java app for learning purposes.
+Java Open e-Commerce project for learning purposes.
 
-## Building & Running
+We are creating fully operational, versatile, complex backend for e-commerce store of any kind. 
 
-@see quarkus README.md
+This is an experimental playground for lerning, testing & implementing veriety of architectural & clean code ideas such as:
 
-# Commerce-app project
+- DDD Domain Driven Design
+- Simple CQRS
+- Hexagonal & modular monolith code arrangement
+- Event Sourcing + BiTemporal events
+
+# Tech stack
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
-## Running the application in dev mode
+Other technologies:
+- Postgres
+- Hibernate
+- Elestic search
+- Flyway
+- Redis
 
-### Configuration
+# Join Us
 
-Place all environment variables in file `.env`. That file has being added to `.gitignore`, and
-should not be committed.
+If you are eager to learn more about the right way to create software, clean code, architectural concepts etc. Join us!
 
-### Running application in DEV mode
-
-You can run your application in dev mode that enables live coding using:
-
-```
-./gradlew quarkusDev
-```
-
-### Packaging and running the application for production
-
-The application can be packaged using `./gradlew quarkusBuild`. It produces
-the `react-app-1.0.0-SNAPSHOT-runner.jar`
-file in the `build` directory. Be aware that it’s not an self containing _über-jar_, as the
-dependencies had been copied
-into the `build/lib` directory. If you were to run application 'as is', it would run without
-problems, because of
-dependencies being in `lib` folder.
-
-The application is now runnable using `java -jar build/react-app-1.0.0-SNAPSHOT-runner.jar`.
-
-If you want to build an _über-jar_, just add the `--uber-jar` option to the command line:
-
-```
-./gradlew quarkusBuild --uber-jar
-```
-
-## Creating a native executable
-
-You can create a native executable using: `./gradlew build -Dquarkus.package.type=native`.
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container
-using: `./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true`.
-
-You can then execute your native executable with: `./build/react-app-1.0.0-SNAPSHOT-runner`
+![image](https://github.com/JavaOpenCommerce/parent/assets/59369050/c6354d93-7c1c-4fb8-a599-c7d7e8c68635)
