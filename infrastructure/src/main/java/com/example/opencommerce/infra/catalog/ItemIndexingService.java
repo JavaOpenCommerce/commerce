@@ -6,9 +6,13 @@ import com.example.opencommerce.app.catalog.CatalogFacade;
 import com.example.opencommerce.app.catalog.CategoryEnricher;
 import com.example.opencommerce.app.catalog.query.FullItemDto;
 import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
+import com.example.opencommerce.app.pricing.query.PriceDto;
+import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
+import com.example.opencommerce.domain.ItemId;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.quarkus.arc.Priority;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.client.WebClient;
@@ -30,21 +34,25 @@ class ItemIndexingService {
 
     private final WebClient client;
     private final ItemQueryRepository itemQueryRepository;
+    private final PriceQueryRepository priceRepository;
     private final ObjectMapper mapper;
     private final CatalogFacade catalogFacade;
 
     private List<SearchItem> catalog = new ArrayList<>();
 
 
-    ItemIndexingService(@ElasticSearchClient WebClient client, ItemQueryRepository itemQueryRepository,
+    ItemIndexingService(@ElasticSearchClient WebClient client,
+                        ItemQueryRepository itemQueryRepository,
+                        PriceQueryRepository priceRepository,
                         CatalogFacade catalogFacade) {
         this.itemQueryRepository = itemQueryRepository;
         this.catalogFacade = catalogFacade;
+        this.priceRepository = priceRepository;
         this.mapper = new ObjectMapper();
         this.client = client;
     }
 
-    void cleanAndFetchIndexOnStartup(@Observes StartupEvent ev) {
+    void cleanAndFetchIndexOnStartup(@Observes @Priority(Integer.MAX_VALUE) StartupEvent ev) {
         catalog = getSearchItems(); // db operations on main thread.
         refreshIndex();
     }
@@ -140,9 +148,17 @@ class ItemIndexingService {
 
 
     private List<SearchItem> getSearchItems() {
-        List<SearchItem> searchItems = itemQueryRepository.getAllFullItems()
+        List<FullItemDto> allFullItems = itemQueryRepository.getAllFullItems();
+        List<ItemId> ids = allFullItems.stream()
+                .map(FullItemDto::getId)
+                .map(ItemId::of)
+                .toList();
+
+        Map<ItemId, PriceDto> prices = priceRepository.getPricesForItemsWithIds(ids);
+
+        List<SearchItem> searchItems = allFullItems
                 .stream()
-                .map(this::convertToSearchItem)
+                .map(item -> convertToSearchItem(item, prices.get(ItemId.of(item.getId()))))
                 .collect(toList());
         enrichCategories(searchItems);
         return searchItems;
@@ -162,14 +178,20 @@ class ItemIndexingService {
         }
     }
 
-    private SearchItem convertToSearchItem(FullItemDto item) {
-        return new SearchItem(item.getId(), item.getName(), item.getDescription(),
-                item.getValueGross()
-                        .doubleValue(), item.getProducer()
-                .getId(),
-                new HashSet<>(item.getCategoryIds()
-                        .stream()
-                        .map(UUID::toString)
-                        .toList()));
+    private SearchItem convertToSearchItem(FullItemDto item, PriceDto priceDto) {
+        HashSet<String> categoryIds = new HashSet<>(item.getCategoryIds()
+                .stream()
+                .map(UUID::toString)
+                .toList());
+        return new SearchItem(
+                item.getId(),
+                item.getName(),
+                item.getDescription(),
+                priceDto.getFinalPrice()
+                        .doubleValue(),
+                priceDto.discounted(),
+                item.getProducer()
+                        .getId(),
+                categoryIds);
     }
 }

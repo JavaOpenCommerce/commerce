@@ -10,12 +10,14 @@ public class PriceSnapshot {
     private final ItemId itemId;
     private final Value basePriceNett;
     private final Value basePriceGross;
+    private final Vat vat;
     private final Discount discount;
 
-    private PriceSnapshot(ItemId itemId, Value basePriceNett, Value basePriceGross, Discount discount) {
+    private PriceSnapshot(ItemId itemId, Value basePriceNett, Value basePriceGross, Vat vat, Discount discount) {
         this.itemId = requireNonNull(itemId);
         this.basePriceNett = requireNonNull(basePriceNett);
         this.basePriceGross = requireNonNull(basePriceGross);
+        this.vat = requireNonNull(vat);
         this.discount = discount;
     }
 
@@ -25,13 +27,13 @@ public class PriceSnapshot {
         Discount discount = new Discount(discountedPriceNett, discountedPriceGross, lowestPriceBeforeDiscountGross);
         Value basePriceGross = basePriceNett.toGross(vat);
 
-        return new PriceSnapshot(itemId, basePriceNett, basePriceGross, discount);
+        return new PriceSnapshot(itemId, basePriceNett, basePriceGross, vat, discount);
     }
 
     static PriceSnapshot regularPrice(ItemId itemId, Value basePriceNett, Vat vat) {
         Value basePriceGross = basePriceNett.toGross(vat);
 
-        return new PriceSnapshot(itemId, basePriceNett, basePriceGross, null);
+        return new PriceSnapshot(itemId, basePriceNett, basePriceGross, vat,null);
     }
 
     public ItemId getItemId() {
@@ -44,6 +46,10 @@ public class PriceSnapshot {
 
     public Value getBasePriceGross() {
         return basePriceGross;
+    }
+
+    public Vat getVat() {
+        return vat;
     }
 
     public Discount getDiscount() {

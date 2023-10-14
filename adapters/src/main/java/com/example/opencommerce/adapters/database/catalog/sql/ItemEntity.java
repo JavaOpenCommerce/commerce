@@ -32,8 +32,6 @@ class ItemEntity {
     @Column(name = "category_id")
     private List<UUID> categoryIds;
     private String name;
-    private BigDecimal valueGross;
-    private double vat;
     private boolean shipping;
 
     @OneToOne(fetch = FetchType.LAZY)

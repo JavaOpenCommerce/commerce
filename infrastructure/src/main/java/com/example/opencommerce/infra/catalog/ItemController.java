@@ -1,35 +1,50 @@
 package com.example.opencommerce.infra.catalog;
 
 import com.example.opencommerce.app.PageDto;
+import com.example.opencommerce.app.PageDto.CreatePageCommand;
 import com.example.opencommerce.app.catalog.query.*;
+import com.example.opencommerce.app.pricing.query.PriceDto;
+import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
 import com.example.opencommerce.domain.ItemId;
+import com.example.opencommerce.infra.catalog.views.BaseItemView;
+import com.example.opencommerce.infra.catalog.views.FullItemView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.opencommerce.app.catalog.query.ItemQueryFacade.SearchResult;
 
 @Path("items")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ItemController {
 
-    private final ItemQueryRepository itemRepository;
     private final ItemFamilyQueryRepository familyRepository;
     private final ItemQueryFacade queryFacade;
+    private final PriceQueryRepository priceQueryRepository;
+    private final ItemViewMapper mapper;
+    private final ItemSorter sorter;
 
-    ItemController(ItemQueryRepository itemRepository,
-                   ItemFamilyQueryRepository familyRepository,
-                   ItemQueryFacade queryFacade) {
-        this.itemRepository = itemRepository;
+    ItemController(ItemFamilyQueryRepository familyRepository,
+                   ItemQueryFacade itemQueryFacade,
+                   PriceQueryRepository priceQueryRepository,
+                   ItemViewMapper mapper, ItemSorter sorter) {
         this.familyRepository = familyRepository;
-        this.queryFacade = queryFacade;
+        this.queryFacade = itemQueryFacade;
+        this.priceQueryRepository = priceQueryRepository;
+        this.mapper = mapper;
+        this.sorter = sorter;
     }
 
     @GET
     @Path("/{id}")
-    public FullItemDto getItemById(@PathParam("id") Long id) {
+    public FullItemView getItemById(@PathParam("id") Long id) {
         ItemId itemId = ItemId.of(id);
-        return this.itemRepository.getItemById(itemId);
+        FullItemDto itemDto = this.queryFacade.getItemById(itemId);
+        PriceDto priceDto = this.priceQueryRepository.getPriceByItemId(itemId);
+        return this.mapper.toFullItemView(itemDto, priceDto);
     }
 
     @GET
@@ -39,7 +54,24 @@ public class ItemController {
     }
 
     @POST
-    public PageDto<ItemDto> search(SearchRequest request) {
-        return this.queryFacade.getFilteredItems(request);
+    public PageDto<BaseItemView> search(SearchRequest request) {
+        SearchResult result = this.queryFacade.getFilteredItems(request);
+
+        List<ItemDto> foundItems = result.items();
+        Map<ItemId, PriceDto> itemPrices = this.priceQueryRepository.getPricesForItemsWithIds(foundItems.stream()
+                .map(ItemDto::getId)
+                .map(ItemId::of)
+                .toList());
+
+        List<BaseItemView> items = foundItems.stream()
+                .map(item -> this.mapper.toBaseItemView(item, itemPrices.get(ItemId.of(item.getId()))))
+                .toList();
+
+        items = sorter.sortItems(items, request);
+
+        CreatePageCommand<BaseItemView> command =
+                new CreatePageCommand<>(items, result.total(), request.getPageNum(), request.getPageSize());
+
+        return PageDto.fromCommand(command);
     }
 }

@@ -2,6 +2,8 @@ package com.example.opencommerce.app.order;
 
 import com.example.opencommerce.app.catalog.query.ItemDto;
 import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
+import com.example.opencommerce.app.pricing.query.PriceDto;
+import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
 import com.example.opencommerce.app.warehouse.query.WarehouseQueryRepository;
 import com.example.opencommerce.domain.Amount;
 import com.example.opencommerce.domain.ItemId;
@@ -18,12 +20,17 @@ class CardFactory {
 
     private final ItemQueryRepository itemRepository;
     private final WarehouseQueryRepository warehouseRepository;
+    private final PriceQueryRepository priceRepository;
     private final ItemMapper itemMapper;
 
 
-    CardFactory(ItemQueryRepository itemRepository, WarehouseQueryRepository warehouseRepository, ItemMapper itemMapper) {
+    CardFactory(ItemQueryRepository itemRepository,
+                WarehouseQueryRepository warehouseRepository,
+                PriceQueryRepository priceRepository,
+                ItemMapper itemMapper) {
         this.itemRepository = itemRepository;
         this.warehouseRepository = warehouseRepository;
+        this.priceRepository = priceRepository;
         this.itemMapper = itemMapper;
     }
 
@@ -38,6 +45,7 @@ class CardFactory {
 
         List<ItemDto> items = itemRepository.getItemsByIdList(itemIds);
         Map<ItemId, Amount> itemStocks = warehouseRepository.getAvailableStocksByItemIds(itemIds);
+        Map<ItemId, PriceDto> itemPrices = priceRepository.getPricesForItemsWithIds(itemIds);
 
         List<CardItem> cardItems = new ArrayList<>();
 
@@ -49,12 +57,12 @@ class CardFactory {
                     .findFirst();
 
             ItemId itemId = cardItem.getKey();
-            if (matchedItem.isEmpty() || !itemStocks.containsKey(itemId)) {
+            if (matchedItem.isEmpty() || !itemStocks.containsKey(itemId) || !itemPrices.containsKey(itemId)) {
                 cardItems.add(CardItem.empty(itemId, ""));
                 continue;
             }
 
-            Item matchedItemModel = itemMapper.toModel(matchedItem.get(), itemStocks.get(itemId));
+            Item matchedItemModel = itemMapper.toModel(matchedItem.get(), itemStocks.get(itemId), itemPrices.get(itemId));
             cardItems.add(CardItem.withAmount(matchedItemModel, cardItem.getValue()));
         }
         return cardItems;

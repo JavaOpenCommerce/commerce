@@ -3,7 +3,6 @@ package com.example.opencommerce.app.catalog.query;
 import lombok.Builder;
 import lombok.Value;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +18,4 @@ public class FullItemDto {
     String description;
     ImageDto mainImage;
     List<ImageDto> additionalImages;
-    BigDecimal valueGross;
-    double vat;
 }
