@@ -4,7 +4,7 @@ Java Open e-Commerce project for learning purposes.
 
 We are creating fully operational, versatile, complex backend for e-commerce store of any kind. 
 
-This is an experimental playground for lerning, testing & implementing veriety of architectural & clean code ideas such as:
+This is an experimental playground for lerning, testing & implementing variety of architectural & clean code ideas such as:
 
 - DDD Domain Driven Design
 - Simple CQRS
@@ -18,9 +18,10 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
 Other technologies:
+
 - Postgres
 - Hibernate
-- Elestic search
+- Elastic search
 - Flyway
 - Redis
 
