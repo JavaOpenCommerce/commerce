@@ -13,8 +13,6 @@ class ItemDtoFactory {
     ItemDto productToDto(ItemEntity itemEntity) {
         return ItemDto.builder()
                 .id(itemEntity.getId())
-                .valueGross(itemEntity.getValueGross())
-                .vat(itemEntity.getVat())
                 .name(itemEntity.getName())
                 .image(toDto(itemEntity.getImage()))
                 .build();
@@ -25,8 +23,6 @@ class ItemDtoFactory {
         ProducerEntity producer = itemEntity.getProducer();
         return FullItemDto.builder()
                 .id(itemEntity.getId())
-                .valueGross(itemEntity.getValueGross())
-                .vat(itemEntity.getVat())
                 .description(details.getDescription())
                 .name(itemEntity.getName())
                 .mainImage(toDto(itemEntity.getImage()))

@@ -1,11 +1,9 @@
 package com.example.opencommerce.app.catalog.query;
 
-import com.example.opencommerce.app.PageDto;
 import com.example.opencommerce.domain.ItemId;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.Long.parseLong;
@@ -23,7 +21,11 @@ public class ItemQueryFacade {
         this.queryRepository = queryRepository;
     }
 
-    public PageDto<ItemDto> getFilteredItems(SearchRequest request) {
+    public FullItemDto getItemById(ItemId itemId) {
+        return this.queryRepository.getItemById(itemId);
+    }
+
+    public SearchResult getFilteredItems(SearchRequest request) {
         Pair<List<Long>, Integer> filteredResults = getFilteredResults(request);
 
         List<ItemId> itemIds = filteredResults.getLeft()
@@ -34,10 +36,7 @@ public class ItemQueryFacade {
         List<ItemDto> productsFound = this.queryRepository
                 .getItemsByIdList(itemIds);
 
-        List<ItemDto> sortedProducts = sortItems(productsFound, request);
-
-        return getItemModelPage(request.getPageNum(), request.getPageSize(),
-                filteredResults.getRight(), sortedProducts);
+        return new SearchResult(productsFound, filteredResults.getRight());
     }
 
     private Pair<List<Long>, Integer> getFilteredResults(SearchRequest request) {
@@ -68,37 +67,5 @@ public class ItemQueryFacade {
         return Pair.of(productIds, totalElementsCount);
     }
 
-    private List<ItemDto> sortItems(List<ItemDto> productDtos, SearchRequest request) {
-        String sortingType = request.getSortBy()
-                .toUpperCase() + "-" + request.getOrder()
-                .toUpperCase();
-        return productDtos.stream()
-                .sorted(pickItemComparator(sortingType))
-                .toList();
-    }
-
-    private Comparator<ItemDto> pickItemComparator(String sortingType) {
-        return switch (sortingType) {
-            case "VALUE-ASC" -> Comparator.comparing(ItemDto::getValueGross);
-            case "VALUE-DESC" -> Comparator.comparing(ItemDto::getValueGross)
-                    .reversed();
-            case "NAME-DESC" -> Comparator.comparing(ItemDto::getName)
-                    .reversed();
-            default -> Comparator.comparing(ItemDto::getName);
-        };
-    }
-
-    private PageDto<ItemDto> getItemModelPage(int pageIndex, int pageSize, int totalCount,
-                                              List<ItemDto> products) {
-        int pageCount = Double.valueOf(Math.ceil(totalCount / (double) pageSize))
-                .intValue();
-
-        return PageDto.<ItemDto>builder()
-                .pageCount(pageCount)
-                .pageNumber(pageIndex)
-                .pageSize(pageSize)
-                .totalElementsCount(totalCount)
-                .items(products)
-                .build();
-    }
+    public record SearchResult(List<ItemDto> items, int total) {}
 }

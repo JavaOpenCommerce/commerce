@@ -20,7 +20,7 @@ public class DiscountScenarios {
     public void applyDiscount(ApplyDiscountCommand command) {
         ItemId id = command.id();
         ItemPrice price = store.getPriceByItemId(id);
-        OperationResult<DiscountAppliedEvent> result = price.addNewDiscount(command.newBasePrice(), command.executionDate());
+        OperationResult<DiscountAppliedEvent> result = price.addNewDiscount(command.discountValue(), command.executionDate());
         if (!result.successful()) {
             throw new PriceOperationException(result.getErrors());
         }

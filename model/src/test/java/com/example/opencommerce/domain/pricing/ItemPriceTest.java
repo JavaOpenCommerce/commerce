@@ -107,7 +107,7 @@ public class ItemPriceTest {
                     .isEqualTo(Value.of(16.00));
             softly.assertThat(snapshot.getDiscount()
                             .lowestPriceBeforeDiscountGross())
-                    .isEqualTo(thirdChange);
+                    .isEqualTo(thirdChange.toGross(VAT));
         });
     }
 
@@ -158,7 +158,7 @@ public class ItemPriceTest {
                     .isEqualTo(Value.of(2.15));
             softly.assertThat(snapshot.getDiscount()
                             .lowestPriceBeforeDiscountGross())
-                    .isEqualTo(Value.of(1.15));
+                    .isEqualTo(Value.of(1.41));
         });
     }
 

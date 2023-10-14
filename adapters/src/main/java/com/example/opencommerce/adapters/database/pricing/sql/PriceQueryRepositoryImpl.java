@@ -8,6 +8,8 @@ import com.example.opencommerce.domain.pricing.PriceEventStore;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 class PriceQueryRepositoryImpl implements PriceQueryRepository {
@@ -25,11 +27,11 @@ class PriceQueryRepositoryImpl implements PriceQueryRepository {
     }
 
     @Override
-    public List<PriceDto> getPricesForItemsWithIds(List<ItemId> ids) {
+    public Map<ItemId, PriceDto> getPricesForItemsWithIds(List<ItemId> ids) {
         return ids.stream()
                 .map(store::getPriceByItemId)
                 .map(ItemPrice::getSnapshot)
                 .map(PriceDto::fromSnapshot)
-                .toList();
+                .collect(Collectors.toMap(PriceDto::getItemId, price -> price));
     }
 }

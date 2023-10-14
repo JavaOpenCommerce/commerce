@@ -5,5 +5,5 @@ import com.example.opencommerce.domain.Value;
 
 import java.time.Instant;
 
-public record ApplyDiscountCommand(ItemId id, Value newBasePrice, Instant executionDate) {
+public record ApplyDiscountCommand(ItemId id, Value discountValue, Instant executionDate) {
 }

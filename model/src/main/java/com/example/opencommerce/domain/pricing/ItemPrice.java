@@ -57,7 +57,7 @@ public class ItemPrice {
         return executeDiscountRemoval(executionDate);
     }
 
-    private Value lowestPriceWithinPeriod(Period timePeriod) {
+    private Value lowestPriceGrossWithinPeriod(Period timePeriod) {
         Instant startDate = Instant.now()
                 .minus(timePeriod);
         return this.history.stream()
@@ -66,12 +66,12 @@ public class ItemPrice {
                 .min(Comparator.comparing(p -> p.getPriceNett()
                         .asDecimal()))
                 .map(HistoricalPrice::getPriceNett)
-                .orElse(this.basePriceNett);
+                .orElse(this.basePriceNett).toGross(this.vat);
     }
 
     public PriceSnapshot getSnapshot() {
         if (discounted()) {
-            return PriceSnapshot.discountedPrice(this.id, this.basePriceNett, this.discount, lowestPriceWithinPeriod(Period.ofDays(30)), this.vat);
+            return PriceSnapshot.discountedPrice(this.id, this.basePriceNett, this.discount, lowestPriceGrossWithinPeriod(Period.ofDays(30)), this.vat);
         } else {
             return PriceSnapshot.regularPrice(this.id, this.basePriceNett, this.vat);
         }

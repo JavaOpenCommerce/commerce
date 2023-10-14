@@ -11,7 +11,5 @@ public class ItemDto {
 
     Long id;
     String name;
-    BigDecimal valueGross;
     ImageDto image;
-    double vat;
 }
