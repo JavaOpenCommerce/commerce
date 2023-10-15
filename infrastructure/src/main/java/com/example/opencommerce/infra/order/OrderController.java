@@ -1,6 +1,6 @@
 package com.example.opencommerce.infra.order;
 
-import com.example.opencommerce.app.order.CreateOrderCommand;
+import com.example.opencommerce.app.order.commands.CreateOrderCommand;
 import com.example.opencommerce.app.order.CreateOrderScenario;
 import com.example.opencommerce.app.order.query.OrderDto;
 import com.example.opencommerce.app.order.query.OrderQueryRepository;

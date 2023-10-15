@@ -1,10 +1,12 @@
 package com.example.opencommerce.app.warehouse.exceptions;
 
+import com.example.opencommerce.app.BaseAppException;
+
 import java.util.List;
 
 import static java.lang.String.format;
 
-public class StockOperationException extends RuntimeException {
+public class StockOperationException extends BaseAppException {
 
     private static final String STOCK_ADDITION_FAILURE_MSG = "Failure when trying to increase stock, errors: %s";
     private static final String STOCK_RESERVATION_FAILURE_MSG = "Failure when trying to reserve stock, errors: %s";
