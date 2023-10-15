@@ -2,6 +2,7 @@ package com.example.opencommerce.infra.order;
 
 import com.example.opencommerce.domain.order.exceptions.ExceptionWithPayload;
 import com.example.opencommerce.domain.order.exceptions.ordervalidation.OrderValidationException;
+import com.example.opencommerce.infra.commonexceptionmappers.BaseExceptionDto;
 import com.example.opencommerce.statics.JsonConverter;
 
 import javax.ws.rs.core.Response;
@@ -20,7 +21,7 @@ public class OrderValidationExceptionMapper implements ExceptionMapper<OrderVali
         if (exception.getDerivativeExceptions()
                 .isEmpty()) {
             return Response.status(Status.PRECONDITION_FAILED)
-                    .entity(getOrderExceptionDto(exception))
+                    .entity(getBaseExceptionDto(exception))
                     .build();
         }
 
@@ -32,12 +33,12 @@ public class OrderValidationExceptionMapper implements ExceptionMapper<OrderVali
     private Object prepareExceptionResponseBody(List<OrderValidationException> orderInaccuracies) {
         return JsonConverter.convertToJson(
                 orderInaccuracies.stream()
-                        .map(this::getOrderExceptionDto)
+                        .map(this::getBaseExceptionDto)
                         .collect(toList()));
     }
 
-    private OrderExceptionDto getOrderExceptionDto(OrderValidationException e) {
-        OrderExceptionDto dto = OrderExceptionDto.builder()
+    private BaseExceptionDto getBaseExceptionDto(OrderValidationException e) {
+        BaseExceptionDto dto = BaseExceptionDto.builder()
                 .message(e.getMessage())
                 .type(e.getClass()
                         .getSimpleName())

@@ -1,15 +1,10 @@
 package com.example.opencommerce.app.catalog.exceptions;
 
-public class CategoryException extends RuntimeException {
+import com.example.opencommerce.app.BaseAppException;
 
-    public CategoryException() {
-    }
+public class CategoryException extends BaseAppException {
 
     public CategoryException(String message) {
         super(message);
-    }
-
-    public CategoryException(String message, Throwable cause) {
-        super(message, cause);
     }
 }

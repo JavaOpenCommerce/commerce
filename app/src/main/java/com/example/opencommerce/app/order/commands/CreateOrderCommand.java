@@ -1,4 +1,4 @@
-package com.example.opencommerce.app.order;
+package com.example.opencommerce.app.order.commands;
 
 import com.example.opencommerce.app.order.query.CardDto;
 

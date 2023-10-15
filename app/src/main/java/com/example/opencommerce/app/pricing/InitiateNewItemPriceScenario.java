@@ -1,6 +1,7 @@
 package com.example.opencommerce.app.pricing;
 
 import com.example.opencommerce.app.pricing.commands.InitiateNewPriceCommand;
+import com.example.opencommerce.app.pricing.exceptions.PriceOperationException;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.OperationResult;
 import com.example.opencommerce.domain.pricing.ItemPrice;
