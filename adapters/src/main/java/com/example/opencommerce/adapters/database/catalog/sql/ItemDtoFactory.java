@@ -4,8 +4,8 @@ import com.example.opencommerce.app.catalog.query.FullItemDto;
 import com.example.opencommerce.app.catalog.query.ImageDto;
 import com.example.opencommerce.app.catalog.query.ItemDto;
 import com.example.opencommerce.app.catalog.query.ProducerDto;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 class ItemDtoFactory {

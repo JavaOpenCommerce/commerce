@@ -1,9 +1,8 @@
 package com.example.opencommerce.infra.elasticsearch;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.Getter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import javax.enterprise.context.ApplicationScoped;
 
 @Getter
 @ApplicationScoped

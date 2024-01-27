@@ -1,7 +1,8 @@
 package com.example.opencommerce.adapters.database.pricing.sql;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+
 import java.util.List;
 
 @ApplicationScoped

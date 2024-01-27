@@ -5,8 +5,8 @@ import com.example.opencommerce.domain.catalog.CatalogRepository;
 import com.example.opencommerce.domain.catalog.Category;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 class CatalogRepositoryImpl implements CatalogRepository {

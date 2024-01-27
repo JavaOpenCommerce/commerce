@@ -1,10 +1,10 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
 import com.example.opencommerce.adapters.database.EntityNotFoundException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.UUID;
 

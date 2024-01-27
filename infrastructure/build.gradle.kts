@@ -15,7 +15,7 @@ dependencies {
 
     implementation("io.quarkus:quarkus-config-yaml")
     implementation("io.quarkus:quarkus-vertx")
-    implementation("io.quarkus:quarkus-vertx-web")
+    implementation("io.quarkus:quarkus-reactive-routes")
     implementation("io.quarkus:quarkus-scala")
     implementation("io.quarkus:quarkus-flyway")
     implementation("io.quarkus:quarkus-flyway-deployment")
@@ -37,13 +37,13 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured") {
         exclude("org.codehaus.groovy")
     }
+    testImplementation(libs.bundles.spock)
+
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
-
-    testImplementation(libs.bundles.spock)
 }
 
 tasks.withType<JavaCompile> {

@@ -5,8 +5,8 @@ import com.example.opencommerce.app.warehouse.query.WarehouseQueryRepository;
 import com.example.opencommerce.domain.Amount;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.warehouse.ItemStock;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

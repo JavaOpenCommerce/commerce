@@ -1,11 +1,9 @@
 package com.example.opencommerce.infra.commonexceptionmappers;
 
 import com.example.opencommerce.adapters.database.EntityNotFoundException;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 import static org.apache.commons.lang3.exception.ExceptionUtils.getRootCause;
 
@@ -16,7 +14,7 @@ public class CommonDatabaseExceptionHandling implements ExceptionMapper<EntityNo
 
     @Override
     public Response toResponse(EntityNotFoundException exception) {
-        return Response.status(Status.NOT_FOUND)
+        return Response.status(Response.Status.NOT_FOUND)
                 .entity(getRootCause(exception).getMessage())
                 .build();
     }

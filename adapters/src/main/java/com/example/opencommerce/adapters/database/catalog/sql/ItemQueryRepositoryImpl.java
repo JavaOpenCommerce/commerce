@@ -4,8 +4,8 @@ import com.example.opencommerce.app.catalog.query.FullItemDto;
 import com.example.opencommerce.app.catalog.query.ItemDto;
 import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
 import com.example.opencommerce.domain.ItemId;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 
 @ApplicationScoped

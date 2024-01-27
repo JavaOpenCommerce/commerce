@@ -4,9 +4,9 @@ import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
 import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
 import com.example.opencommerce.app.warehouse.query.WarehouseQueryRepository;
 import com.example.opencommerce.domain.order.CardRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 
 class CardConfiguration {
 

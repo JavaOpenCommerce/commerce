@@ -5,13 +5,12 @@ import com.example.opencommerce.app.warehouse.query.ItemStockDto;
 import com.example.opencommerce.app.warehouse.query.WarehouseQueryRepository;
 import com.example.opencommerce.domain.Amount;
 import com.example.opencommerce.domain.ItemId;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
 
 @Slf4j
 @Path("items")

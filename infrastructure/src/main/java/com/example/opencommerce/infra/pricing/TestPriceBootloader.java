@@ -7,12 +7,12 @@ import com.example.opencommerce.app.pricing.commands.InitiateNewPriceCommand;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.Value;
 import com.example.opencommerce.domain.Vat;
-import io.quarkus.arc.Priority;
 import io.quarkus.runtime.StartupEvent;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import java.time.Instant;
 
 @Slf4j

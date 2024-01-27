@@ -17,10 +17,14 @@ import com.example.opencommerce.infra.pricing.requestdtos.ApplyDiscountRequest;
 import com.example.opencommerce.infra.pricing.requestdtos.ChangePriceRequest;
 import com.example.opencommerce.infra.pricing.requestdtos.InitiatePriceRequest;
 import com.example.opencommerce.infra.pricing.requestdtos.RemoveDiscountRequest;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("price")
 @Consumes(MediaType.APPLICATION_JSON)

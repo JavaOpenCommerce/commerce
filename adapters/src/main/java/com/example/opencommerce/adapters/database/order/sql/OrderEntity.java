@@ -1,25 +1,30 @@
 package com.example.opencommerce.adapters.database.order.sql;
 
+import com.example.opencommerce.domain.Amount;
+import com.example.opencommerce.domain.ItemId;
+import com.example.opencommerce.domain.OrderId;
 import com.example.opencommerce.domain.Value;
-import com.example.opencommerce.domain.*;
+import com.example.opencommerce.domain.Vat;
 import com.example.opencommerce.domain.order.Order;
 import com.example.opencommerce.domain.order.Order.OrderItem;
 import com.example.opencommerce.domain.order.OrderPrincipal;
 import com.example.opencommerce.statics.JsonConverter;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.stream.Collectors.toList;
 
 @Getter
 @Setter
@@ -51,14 +56,11 @@ class OrderEntity {
     private String simpleProductsJson;
 
     Order toOrderModel() {
-        List<SimpleProductEntity> items = JsonConverter.convertToObject(simpleProductsJson,
-                new ArrayList<SimpleProductEntity>() {
-                }.getClass()
-                        .getGenericSuperclass());
+        List<SimpleProductEntity> items = JsonConverter.convertToObject(simpleProductsJson, ArrayList.class);
 
         List<OrderItem> orderItems = items.stream()
                 .map(this::toOrderItem)
-                .collect(toList());
+                .toList();
 
         OrderPrincipal op = new OrderPrincipal(userId, shippingAddressId, paymentMethod);
 

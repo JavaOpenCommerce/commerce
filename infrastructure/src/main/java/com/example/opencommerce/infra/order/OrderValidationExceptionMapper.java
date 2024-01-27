@@ -4,14 +4,13 @@ import com.example.opencommerce.domain.order.exceptions.ExceptionWithPayload;
 import com.example.opencommerce.domain.order.exceptions.ordervalidation.OrderValidationException;
 import com.example.opencommerce.infra.commonexceptionmappers.BaseExceptionDto;
 import com.example.opencommerce.statics.JsonConverter;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+import static jakarta.ws.rs.core.Response.Status.PRECONDITION_FAILED;
 
 @Provider
 public class OrderValidationExceptionMapper implements ExceptionMapper<OrderValidationException> {
@@ -20,12 +19,12 @@ public class OrderValidationExceptionMapper implements ExceptionMapper<OrderVali
     public Response toResponse(OrderValidationException exception) {
         if (exception.getDerivativeExceptions()
                 .isEmpty()) {
-            return Response.status(Status.PRECONDITION_FAILED)
+            return Response.status(PRECONDITION_FAILED)
                     .entity(getBaseExceptionDto(exception))
                     .build();
         }
 
-        return Response.status(Status.PRECONDITION_FAILED)
+        return Response.status(PRECONDITION_FAILED)
                 .entity(prepareExceptionResponseBody(exception.getDerivativeExceptions()))
                 .build();
     }
@@ -34,7 +33,7 @@ public class OrderValidationExceptionMapper implements ExceptionMapper<OrderVali
         return JsonConverter.convertToJson(
                 orderInaccuracies.stream()
                         .map(this::getBaseExceptionDto)
-                        .collect(toList()));
+                        .toList());
     }
 
     private BaseExceptionDto getBaseExceptionDto(OrderValidationException e) {
@@ -43,8 +42,8 @@ public class OrderValidationExceptionMapper implements ExceptionMapper<OrderVali
                 .type(e.getClass()
                         .getSimpleName())
                 .build();
-        if (e instanceof ExceptionWithPayload) {
-            dto.setAdditionalData(((ExceptionWithPayload) e).getPayload());
+        if (e instanceof ExceptionWithPayload ex) {
+            dto.setAdditionalData(ex.getPayload());
         }
         return dto;
     }

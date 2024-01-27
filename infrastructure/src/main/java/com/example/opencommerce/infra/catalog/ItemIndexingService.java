@@ -12,21 +12,26 @@ import com.example.opencommerce.domain.ItemId;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.quarkus.arc.Priority;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.client.WebClient;
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import lombok.extern.log4j.Log4j2;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static java.util.Optional.empty;
-import static java.util.stream.Collectors.toList;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Log4j2
 @ApplicationScoped
@@ -159,7 +164,7 @@ class ItemIndexingService {
         List<SearchItem> searchItems = allFullItems
                 .stream()
                 .map(item -> convertToSearchItem(item, prices.get(ItemId.of(item.getId()))))
-                .collect(toList());
+                .toList();
         enrichCategories(searchItems);
         return searchItems;
     }

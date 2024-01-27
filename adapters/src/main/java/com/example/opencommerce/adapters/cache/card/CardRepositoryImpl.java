@@ -4,9 +4,9 @@ import com.example.opencommerce.domain.Amount;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.order.Card;
 import com.example.opencommerce.domain.order.CardRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.log4j.Log4j2;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

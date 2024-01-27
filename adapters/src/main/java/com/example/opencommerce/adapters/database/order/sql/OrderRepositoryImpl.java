@@ -7,11 +7,8 @@ import com.example.opencommerce.domain.order.OrderPrincipal.OrderPrincipalSnapsh
 import com.example.opencommerce.domain.order.OrderRepository;
 import com.example.opencommerce.domain.order.OrderSnapshot;
 import com.example.opencommerce.statics.JsonConverter;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
-
-import static java.util.stream.Collectors.toList;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 class OrderRepositoryImpl implements OrderRepository {
@@ -57,7 +54,7 @@ class OrderRepositoryImpl implements OrderRepository {
                                 orderSnapshot.getOrderBody()
                                         .stream()
                                         .map(this::toSimpleProductEntity)
-                                        .collect(toList())))
+                                        .toList()))
                 .build();
     }
 

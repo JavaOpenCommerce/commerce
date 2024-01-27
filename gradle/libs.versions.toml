@@ -1,10 +1,10 @@
 [versions]
-#TODO: upgrade to 3.0.0.Final:
-quarkus = "2.16.6.Final"
-log4j = "2.19.0"
+quarkus = "3.6.7"
+log4j = "2.22.1"
 spock = "2.4-M1-groovy-4.0"
 asciidoctor = "3.3.2"
-junit = "5.10.0-M1"
+junit = "5.10.1"
+jackson = "2.16.1"
 
 [libraries]
 quarkus = { module = "io.quarkus:quarkus-universe-bom", version.ref = "quarkus" }
@@ -12,30 +12,30 @@ quarkus-pgclient = { module = "io.quarkus:quarkus-reactive-pg-client", version.r
 quarkus-resteasy-jsonb = { module = "io.quarkus:quarkus-resteasy-jsonb", version.ref = "quarkus" }
 spock-bom = { module = "org.spockframework:spock-bom", version.ref = "spock" }
 spock = { module = "org.spockframework:spock-core", version.ref = "spock" }
-groovy = { module = "org.apache.groovy:groovy-all", version = "4.0.12" }
-hamcrest = { module = "org.hamcrest:hamcrest-core", version = "2.2" }
-bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.10.10" }
-objenesis = { module = "org.objenesis:objenesis", version = "3.1" }
-lombok = { module = "org.projectlombok:lombok", version = "1.18.28" }
+groovy = { module = "org.apache.groovy:groovy-all", version = "4.0.18" }
+hamcrest = { module = "org.hamcrest:hamcrest", version = "2.2" }
+bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.14.11" }
+objenesis = { module = "org.objenesis:objenesis", version = "3.3" }
+lombok = { module = "org.projectlombok:lombok", version = "1.18.30" }
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
-elasticsearch = { module = "org.elasticsearch:elasticsearch", version = "8.6.2" }
-commons-lang = { module = "org.apache.commons:commons-lang3", version = "3.12.0" }
-flyway = { module = "org.flywaydb:flyway-core", version = "9.15.0" }
-jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version = "2.15.2" }
-jackson-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version = "2.15.2" }
+elasticsearch = { module = "org.elasticsearch:elasticsearch", version = "8.12.0" }
+commons-lang = { module = "org.apache.commons:commons-lang3", version = "3.14.0" }
+flyway = { module = "org.flywaydb:flyway-core", version = "10.6.0" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 testImplementation = { module = "org.mockito:mockito-core", version = "" }
-assertj-core = { module = "org.assertj:assertj-core", version = "3.8.0" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.25.2" }
 [plugins]
 quarkus = { id = "io.quarkus", version.ref = "quarkus" }
-asciidoctor-convert = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }
-asciidoctor-gems = { id = "org.asciidoctor.jvm.gems", version.ref = "asciidoctor" }
-asciidoctor-pdf = { id = "org.asciidoctor.jvm.pdf", version.ref = "asciidoctor" }
-lombok = { id = "io.freefair.lombok", version = "6.5.1" }
-spotless = { id = "com.diffplug.spotless", version = "6.19.0" }
+#asciidoctor-convert = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }
+#asciidoctor-gems = { id = "org.asciidoctor.jvm.gems", version.ref = "asciidoctor" }
+#asciidoctor-pdf = { id = "org.asciidoctor.jvm.pdf", version.ref = "asciidoctor" }
+lombok = { id = "io.freefair.lombok", version = "8.4" }
+spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 
 [bundles]
 spock = ["spock", "groovy", "hamcrest", "bytebuddy", "objenesis"]

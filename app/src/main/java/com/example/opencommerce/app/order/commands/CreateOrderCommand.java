@@ -1,9 +1,9 @@
 package com.example.opencommerce.app.order.commands;
 
 import com.example.opencommerce.app.order.query.CardDto;
+import jakarta.json.bind.annotation.JsonbCreator;
+import jakarta.json.bind.annotation.JsonbProperty;
 
-import javax.json.bind.annotation.JsonbCreator;
-import javax.json.bind.annotation.JsonbProperty;
 import java.util.UUID;
 
 public record CreateOrderCommand(String paymentMethod, UUID addressId, UUID userId, CardDto card, String cardId) {

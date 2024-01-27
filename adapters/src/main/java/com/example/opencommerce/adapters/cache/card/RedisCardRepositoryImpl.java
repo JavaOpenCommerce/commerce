@@ -3,9 +3,9 @@ package com.example.opencommerce.adapters.cache.card;
 import io.quarkus.redis.datasource.RedisDataSource;
 import io.quarkus.redis.datasource.keys.KeyCommands;
 import io.quarkus.redis.datasource.list.ListCommands;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.extern.log4j.Log4j2;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.Collections;
 import java.util.List;
 

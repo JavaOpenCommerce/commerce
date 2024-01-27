@@ -3,9 +3,8 @@ package com.example.opencommerce.infra.catalog;
 import com.example.opencommerce.app.catalog.query.ItemFamilyQueryRepository;
 import com.example.opencommerce.app.catalog.query.ItemQueryFacade;
 import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 class ItemConfiguration {
 

@@ -5,8 +5,8 @@ import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.pricing.ItemPrice;
 import com.example.opencommerce.domain.pricing.PriceEventStore;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

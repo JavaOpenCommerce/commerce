@@ -2,8 +2,8 @@ package com.example.opencommerce.adapters.database.order.sql;
 
 import com.example.opencommerce.app.order.query.OrderDto;
 import com.example.opencommerce.app.order.query.OrderQueryRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.UUID;
 
 @ApplicationScoped

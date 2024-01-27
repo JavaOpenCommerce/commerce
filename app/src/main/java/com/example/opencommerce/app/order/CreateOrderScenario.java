@@ -4,10 +4,16 @@ import com.example.opencommerce.app.order.commands.CreateOrderCommand;
 import com.example.opencommerce.app.order.query.CardDto;
 import com.example.opencommerce.app.warehouse.ReserveItemScenario;
 import com.example.opencommerce.domain.OrderId;
-import com.example.opencommerce.domain.order.*;
+import com.example.opencommerce.domain.order.Card;
+import com.example.opencommerce.domain.order.CardItem;
+import com.example.opencommerce.domain.order.CardRepository;
+import com.example.opencommerce.domain.order.Order;
+import com.example.opencommerce.domain.order.OrderPrincipal;
+import com.example.opencommerce.domain.order.OrderRepository;
+import com.example.opencommerce.domain.order.OrderSnapshot;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped

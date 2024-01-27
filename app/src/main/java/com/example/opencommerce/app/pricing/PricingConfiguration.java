@@ -1,9 +1,9 @@
 package com.example.opencommerce.app.pricing;
 
 import com.example.opencommerce.domain.pricing.PriceEventStore;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 
 class PricingConfiguration {
 

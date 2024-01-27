@@ -1,7 +1,8 @@
 package com.example.opencommerce.statics;
 
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+
 import java.lang.reflect.Type;
 import java.util.Objects;
 

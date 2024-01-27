@@ -2,15 +2,25 @@ package com.example.opencommerce.infra.catalog;
 
 import com.example.opencommerce.app.PageDto;
 import com.example.opencommerce.app.PageDto.CreatePageCommand;
-import com.example.opencommerce.app.catalog.query.*;
+import com.example.opencommerce.app.catalog.query.FullItemDto;
+import com.example.opencommerce.app.catalog.query.ItemDto;
+import com.example.opencommerce.app.catalog.query.ItemFamilyMemberDto;
+import com.example.opencommerce.app.catalog.query.ItemFamilyQueryRepository;
+import com.example.opencommerce.app.catalog.query.ItemQueryFacade;
+import com.example.opencommerce.app.catalog.query.SearchRequest;
 import com.example.opencommerce.app.pricing.query.PriceDto;
 import com.example.opencommerce.app.pricing.query.PriceQueryRepository;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.infra.catalog.views.BaseItemView;
 import com.example.opencommerce.infra.catalog.views.FullItemView;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
 

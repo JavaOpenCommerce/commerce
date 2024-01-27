@@ -1,9 +1,8 @@
 package com.example.opencommerce.app.warehouse;
 
 import com.example.opencommerce.domain.warehouse.WarehouseItemRepository;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
 class WarehouseConfiguration {
 

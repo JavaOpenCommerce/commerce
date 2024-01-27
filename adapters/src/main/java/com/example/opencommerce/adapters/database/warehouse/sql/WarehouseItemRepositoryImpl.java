@@ -3,9 +3,9 @@ package com.example.opencommerce.adapters.database.warehouse.sql;
 import com.example.opencommerce.domain.ItemId;
 import com.example.opencommerce.domain.warehouse.ItemStock;
 import com.example.opencommerce.domain.warehouse.WarehouseItemRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 
 @ApplicationScoped
 class WarehouseItemRepositoryImpl implements WarehouseItemRepository {

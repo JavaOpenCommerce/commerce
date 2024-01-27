@@ -1,9 +1,10 @@
 package com.example.opencommerce.adapters.database.catalog.sql;
 
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+
 import java.util.Optional;
 
 @ApplicationScoped

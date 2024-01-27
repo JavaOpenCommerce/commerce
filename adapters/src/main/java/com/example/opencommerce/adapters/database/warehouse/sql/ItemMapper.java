@@ -7,8 +7,8 @@ import com.example.opencommerce.domain.OrderId;
 import com.example.opencommerce.domain.warehouse.ItemReservation;
 import com.example.opencommerce.domain.warehouse.ItemReservationId;
 import com.example.opencommerce.domain.warehouse.ItemStock;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
 import java.util.stream.Collectors;
 

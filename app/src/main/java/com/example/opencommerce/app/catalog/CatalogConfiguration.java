@@ -5,9 +5,9 @@ import com.example.opencommerce.app.catalog.query.ItemQueryFacade;
 import com.example.opencommerce.app.catalog.query.ItemQueryRepository;
 import com.example.opencommerce.app.catalog.query.ItemSearchService;
 import com.example.opencommerce.domain.catalog.CatalogRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
 
 class CatalogConfiguration {
 

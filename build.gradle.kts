@@ -1,4 +1,4 @@
-import org.asciidoctor.gradle.jvm.AsciidoctorTask
+//import org.asciidoctor.gradle.jvm.AsciidoctorTask
 import java.nio.charset.StandardCharsets
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -7,9 +7,9 @@ plugins {
     idea
     `java-library`
     alias(libs.plugins.lombok)
-    alias(libs.plugins.asciidoctor.convert)
-    alias(libs.plugins.asciidoctor.gems)
-    alias(libs.plugins.asciidoctor.pdf)
+//    alias(libs.plugins.asciidoctor.convert)
+//    alias(libs.plugins.asciidoctor.gems)
+//    alias(libs.plugins.asciidoctor.pdf)
     alias(libs.plugins.spotless)
 }
 
@@ -52,41 +52,41 @@ allprojects {
     }
 }
 
-
-tasks {
-    withType<AsciidoctorTask> {
-        sourceDir {
-            setBaseDir(file("docs"))
-        }
-        setOutputDir(file("build/docs"))
-        baseDirFollowsSourceFile()
-
-        attributes(
-                mapOf(
-                        "build-gradle" to file("build.gradle"),
-                        "endpoint-url" to "http://example.org",
-                        "source-highlighter" to "coderay",
-                        "coderay-css" to "style",
-                        "imagesdir" to "images",
-                        "toc" to "left",
-                        "icons" to "font",
-                        "setanchors" to "",
-                        "idprefix" to "",
-                        "idseparator" to "-",
-                        "docinfo" to "shared"
-                )
-        )
-
-        dependsOn("asciidoctorj")
-    }
-}
-
-asciidoctorj {
-    modules {
-        diagram.use()
-        diagram.setVersion("1.5.16")
-    }
-}
+// ascii docs, gems is using snakeyaml org.yaml:snakeyaml:1.23. For security reasons it's commented out for now.
+//tasks {
+//    withType<AsciidoctorTask> {
+//        sourceDir {
+//            setBaseDir(file("docs"))
+//        }
+//        setOutputDir(file("build/docs"))
+//        baseDirFollowsSourceFile()
+//
+//        attributes(
+//                mapOf(
+//                        "build-gradle" to file("build.gradle"),
+//                        "endpoint-url" to "http://example.org",
+//                        "source-highlighter" to "coderay",
+//                        "coderay-css" to "style",
+//                        "imagesdir" to "images",
+//                        "toc" to "left",
+//                        "icons" to "font",
+//                        "setanchors" to "",
+//                        "idprefix" to "",
+//                        "idseparator" to "-",
+//                        "docinfo" to "shared"
+//                )
+//        )
+//
+//        dependsOn("asciidoctorj")
+//    }
+//}
+//
+//asciidoctorj {
+//    modules {
+//        diagram.use()
+//        diagram.setVersion("1.5.16")
+//    }
+//}
 /**
  * OpenJDK 9/10 Mac issue:
  * Caused by: java.lang.UnsatisfiedLinkError: /path/to/openjdk10/lib/libfontmanager.dylib: dlopen(/path/to/openjdk10/lib/libfontmanager.dylib, 1): Library not loaded: /Users/jenkins/workspace/openjdk10_build_x86-64_macos/openjdk/installedfreetype/lib/libfreetype.6.dylib
