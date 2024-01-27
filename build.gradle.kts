@@ -31,10 +31,10 @@ allprojects {
     version = "0.0.5-SNAPSHOT"
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion))
+            languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_21.majorVersion))
         }
     }
     tasks.withType<JavaCompile> {

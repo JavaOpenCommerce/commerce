@@ -34,10 +34,6 @@ dependencies {
     implementation(libs.log4j.core)
 
     testImplementation("io.quarkus:quarkus-junit5")
-    testImplementation("io.rest-assured:rest-assured") {
-        exclude("org.codehaus.groovy")
-    }
-    testImplementation(libs.bundles.spock)
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
